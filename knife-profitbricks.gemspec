@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Chef Knife plugin for ProfitBricks platform}
   spec.description   = %q{Official Chef Knife plugin for ProfitBricks platform using REST API}
   spec.homepage      = "https://github.com/ionos-cloud/knife-ionos-cloud"
-  spec.license       = "Nonstandard"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
