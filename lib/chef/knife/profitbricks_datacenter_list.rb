@@ -18,13 +18,13 @@ class Chef
           ui.color('Version', :bold)
         ]
 
-        data_center_api = Ionoscloud::DataCenterApi.new(api_client)
+        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 
         opts = default_opts.update({
           :depth => 1,
         })
 
-        data_center_api.datacenters_get(opts).items.each do |datacenter|
+        datacenter_api.datacenters_get(opts).items.each do |datacenter|
           datacenter_list << datacenter.id
           datacenter_list << datacenter.properties.name
           datacenter_list << (datacenter.properties.description == nil ? '' : datacenter.properties.description)

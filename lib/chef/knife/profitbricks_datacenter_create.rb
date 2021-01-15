@@ -11,19 +11,16 @@ class Chef
              short: '-n NAME',
              long: '--name NAME',
              description: 'Name of the data center',
-             proc: proc { |name| Chef::Config[:knife][:name] = name }
 
       option :description,
              short: '-D DESCRIPTION',
              long: '--description DESCRIPTION',
              description: 'Description of the data center',
-             proc: proc { |description| Chef::Config[:knife][:description] = description }
 
       option :location,
              short: '-l LOCATION',
              long: '--location LOCATION',
              description: 'Location of the data center',
-             proc: proc { |location| Chef::Config[:knife][:location] = location }
 
       def run
         $stdout.sync = true
@@ -32,14 +29,14 @@ class Chef
 
         print "#{ui.color('Creating data center...', :magenta)}"
 
-        data_center_api = Ionoscloud::DataCenterApi.new(api_client)
+        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
         
 
-        datacenter, _, headers  = data_center_api.datacenters_post_with_http_info({
+        datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
           'properties' => {
-            'name' => Chef::Config[:knife][:name],
-            'description' => Chef::Config[:knife][:description],
-            'location' => Chef::Config[:knife][:location]
+            'name' => config[:name],
+            'description' => config[:description],
+            'location' => config[:location]
           }
         }, default_opts)
 
