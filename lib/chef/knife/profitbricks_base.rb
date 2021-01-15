@@ -7,7 +7,7 @@ class Chef
       def self.included(includer)
         includer.class_eval do
           deps do
-            require 'profitbricks'
+            require 'ionoscloud'
           end
 
           option :profitbricks_username,
