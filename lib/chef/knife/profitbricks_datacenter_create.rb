@@ -10,17 +10,17 @@ class Chef
       option :name,
              short: '-n NAME',
              long: '--name NAME',
-             description: 'Name of the data center',
+             description: 'Name of the data center'
 
       option :description,
              short: '-D DESCRIPTION',
              long: '--description DESCRIPTION',
-             description: 'Description of the data center',
+             description: 'Description of the data center'
 
       option :location,
              short: '-l LOCATION',
              long: '--location LOCATION',
-             description: 'Location of the data center',
+             description: 'Location of the data center'
 
       def run
         $stdout.sync = true
@@ -41,16 +41,9 @@ class Chef
         }, default_opts)
 
         request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
-        # puts "\n"
-        # puts request_id
 
-        # dot = ui.color('.', :magenta)
-        api_client.wait_for_completion(request_id)
-        # print dot; ready?
-
-        # datacenter.wait_for { print dot; ready? }
-
-        # print dot
+        dot = ui.color('.', :magenta)
+        api_client.wait_for { print dot; is_done? request_id }
 
         @dcid = datacenter.id
         puts "\n"
