@@ -10,8 +10,7 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the datacenter containing the server',
-             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
+             description: 'The ID of the datacenter containing the server'
 
       def run
         $stdout.sync = true
@@ -25,17 +24,22 @@ class Chef
           ui.color('Boot Volume', :bold),
           ui.color('Boot CDROM', :bold)
         ]
-        connection
 
-        ProfitBricks::Server.list(Chef::Config[:knife][:datacenter_id]).each do |server|
-          server_list << server.id
-          server_list << server.properties['name']
-          server_list << server.properties['cores'].to_s
-          server_list << server.properties['ram'].to_s
-          server_list << server.properties['availabilityZone']
-          server_list << server.properties['vmState']
-          server_list << (server.properties['bootVolume'] == nil ? '' : server.properties['bootVolume']['id'])
-          server_list << (server.properties['bootCdrom'] == nil ? '' : server.properties['bootCdrom']['id'])
+        server_api = Ionoscloud::ServerApi.new(api_client)
+
+        opts = default_opts.update({
+          :depth => 1,
+        })
+
+        server_api.datacenters_servers_get(config[:datacenter_id], opts).items.each do |server|
+            server_list << server.id
+            server_list << server.properties.name
+            server_list << server.properties.cores.to_s
+            server_list << server.properties.ram.to_s
+            server_list << server.properties.availability_zone
+            server_list << server.properties.vm_state
+            server_list << (server.properties.boot_volume == nil ? '' : server.properties.boot_volume.id)
+            server_list << (server.properties.boot_cdrom == nil ? '' : server.properties.boot_cdrom.id)
         end
 
         puts ui.list(server_list, :uneven_columns_across, 8)
