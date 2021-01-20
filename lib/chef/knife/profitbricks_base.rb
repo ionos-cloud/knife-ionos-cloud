@@ -61,7 +61,7 @@ class Chef
         missing_params = required_params.select do |param|
            params[param].nil?
          end
-        if missing_params
+        if missing_params.any?
           ui.error "Missing required parameters #{missing_params}"
           exit(1)
         end
