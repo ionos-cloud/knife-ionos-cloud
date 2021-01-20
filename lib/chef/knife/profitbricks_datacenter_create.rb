@@ -25,7 +25,7 @@ class Chef
       def run
         $stdout.sync = true
 
-        validate_required_params(%i(name location), Chef::Config[:knife])
+        validate_required_params(%i(name location), config)
 
         print "#{ui.color('Creating data center...', :magenta)}"
 
