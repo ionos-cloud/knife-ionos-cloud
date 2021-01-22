@@ -20,6 +20,7 @@ class Chef
       def run
         validate_required_params(%i(datacenter_id server_id), config)
         server_api = Ionoscloud::ServerApi.new(api_client)
+
         @name_args.each do |volume_id|
           begin
             volume = server_api.datacenters_servers_volumes_find_by_id(
