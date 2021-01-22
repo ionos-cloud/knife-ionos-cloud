@@ -113,9 +113,9 @@ class Chef
 
         volume_api = Ionoscloud::VolumeApi.new(api_client)
 
-        volume, _, headers = volume_api.datacenters_volumes_post_with_htpp_info(
+        volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
           config[:datacenter_id],
-          { 'properties' : params.compact },
+          { 'properties' => params.compact },
           default_opts,
         )
 
@@ -124,7 +124,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for(300) { print dot; is_done? request_id }
 
-        volume = volume_api.datacenters_volumes_get(config[:datacenter_id], volume.id, default_opts)
+        volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id, default_opts)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{volume.id}"
