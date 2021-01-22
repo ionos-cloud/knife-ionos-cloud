@@ -67,9 +67,6 @@ class Chef
         $stdout.sync = true
         validate_required_params(%i(datacenter_id name type size), config)
 
-        puts config[:image]
-        puts config[:image]
-
         if !config[:image] && !config[:imagealias]
           ui.error("Either '--image' or '--image-alias' parameter must be provided")
           exit(1)
