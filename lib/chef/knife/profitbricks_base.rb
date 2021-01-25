@@ -78,8 +78,17 @@ class Chef
         Ionoscloud::ApiClient.new(api_config)
       end
 
+      def get_request_id headers
+        headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
+      end
+
       def is_done? request_id
-        Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id).metadata.status == 'DONE'
+        response = Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id)
+        if response.metadata.status == 'FAILED'
+          ui.error "Request #{request_id} failed\n" + response.metadata.message
+          exit(1)
+        end
+        response.metadata.status == 'DONE'
       end
     end
   end

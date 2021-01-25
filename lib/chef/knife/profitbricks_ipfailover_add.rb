@@ -2,7 +2,7 @@ require 'chef/knife/profitbricks_base'
 
 class Chef
   class Knife
-    class ProfitbricksFailoverAdd < Knife
+    class ProfitbricksIpfailoverAdd < Knife
       include Knife::ProfitbricksBase
 
       banner 'knife profitbricks ipfailover add (options)'
@@ -10,49 +10,51 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center',
-             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
+             description: 'Name of the data center'
 
       option :lan_id,
              short: '-l LAN_ID',
              long: '--lan-id LAN_ID',
              description: 'Lan ID'
+
       option :ip,
-             short: '-i',
-             long: '--ip',
+             short: '-i IP',
+             long: '--ip IP',
              description: 'IP to be added to IP failover group'
 
       option :nic_id,
-             short: '-n',
-             long: '--nic-id',
+             short: '-n NIC_ID',
+             long: '--nic-id NIC_ID',
              description: 'NIC to be added to IP failover group'
 
       def run
         $stdout.sync = true
-        validate_required_params(%i[datacenter_id lan_id ip nic_id], Chef::Config[:knife])
+        validate_required_params(%i[datacenter_id lan_id ip nic_id], config)
 
-        connection
+        lan_api = Ionoscloud::LanApi.new(api_client)
 
-        lan = ProfitBricks::LAN.get(Chef::Config[:knife][:datacenter_id], Chef::Config[:knife][:lan_id])
+        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
-        failover_ips = lan.properties[:ipFailover]
-        failover_ips ||= []
-        ip_failover = {}
-        ip_failover['ip'] = Chef::Config[:knife][:ip]
-        ip_failover['nicUuid'] = Chef::Config[:knife][:nic_id]
+        failover_ips = lan.properties.ip_failover || []
+        failover_ips.push({
+          ip: config[:ip],
+          nicUuid: config[:nic_id],
+        })
 
-        failover_ips.push(ip_failover)
+        changes = Ionoscloud::LanProperties.new({ ip_failover: failover_ips })
 
-        lan.update(ipFailover: failover_ips)
-        lan.wait_for { ready? }
-        lan.reload
+        _, _, headers = lan_api.datacenters_lans_patch_with_http_info(config[:datacenter_id], config[:lan_id], changes)
+
+        dot = ui.color('.', :magenta)
+        api_client.wait_for { print dot; is_done? get_request_id headers }
+
+        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties['name']}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties['public']}"
-        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties['ipFailover']}"
-
+        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
+        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
+        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties.ip_failover}"
         puts 'done'
       end
     end
