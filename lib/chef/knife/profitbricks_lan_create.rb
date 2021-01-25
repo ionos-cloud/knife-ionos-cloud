@@ -10,8 +10,7 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center',
-             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
+             description: 'Name of the data center'
 
       option :name,
              short: '-n NAME',
@@ -29,25 +28,33 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id), Chef::Config[:knife])
+        validate_required_params(%i(datacenter_id), config)
 
         print "#{ui.color('Creating LAN...', :magenta)}"
 
-        connection
-        lan = ProfitBricks::LAN.create(
-          Chef::Config[:knife][:datacenter_id],
-          name: Chef::Config[:knife][:name],
-          public: Chef::Config[:knife][:public]
+        lan_api = Ionoscloud::LanApi.new(api_client)
+
+        lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
+          config[:datacenter_id], 
+          {
+            properties: {
+              name: config[:name], 
+              public: config[:public],
+            }
+          },
         )
 
+        request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
+
         dot = ui.color('.', :magenta)
-        lan.wait_for { print dot; ready? }
-        lan.reload
+        api_client.wait_for { print dot; is_done? request_id }
+
+        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties['name']}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties['public']}"
+        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
+        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
 
         puts 'done'
       end

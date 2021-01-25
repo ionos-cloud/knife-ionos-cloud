@@ -32,10 +32,10 @@ class Chef
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 
         datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
-          'properties' => {
-            'name' => config[:name],
-            'description' => config[:description],
-            'location' => config[:location],
+          properties: {
+            name: config[:name],
+            description: config[:description],
+            location: config[:location],
           }.compact,
         })
 
