@@ -72,7 +72,7 @@ class Chef
         
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],
-          { 'properties' => params.compact },
+          { properties: params.compact },
         )
 
         request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
