@@ -17,7 +17,7 @@ class Chef
 
         @name_args.each do |server_id|
           begin
-            server_api.datacenters_servers_reboot_post(config[:datacenter_id], server_id, default_opts)
+            server_api.datacenters_servers_reboot_post(config[:datacenter_id], server_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Server ID #{server_id} not found. Skipping.")

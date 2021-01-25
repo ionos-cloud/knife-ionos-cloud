@@ -37,7 +37,7 @@ class Chef
             'description' => config[:description],
             'location' => config[:location],
           }.compact,
-        }, default_opts)
+        })
 
         request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
 

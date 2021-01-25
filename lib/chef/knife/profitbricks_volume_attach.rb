@@ -27,7 +27,6 @@ class Chef
               config[:datacenter_id],
               config[:server_id],
               {'id' => volume_id},
-              default_opts,
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404

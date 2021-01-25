@@ -73,7 +73,6 @@ class Chef
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],
           { 'properties' => params.compact },
-          default_opts,
         )
 
         request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
@@ -81,7 +80,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? request_id }
 
-        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, default_opts)
+        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"

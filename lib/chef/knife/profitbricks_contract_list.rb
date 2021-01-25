@@ -9,7 +9,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        contract = Ionoscloud::ContractApi.new(api_client).contracts_get(default_opts)
+        contract = Ionoscloud::ContractApi.new(api_client).contracts_get()
 
         puts "#{ui.color('Contract Type', :cyan)}: #{contract.type}"
         puts "#{ui.color('Contract Number', :cyan)}: #{contract.properties.contract_number}"

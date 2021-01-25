@@ -27,7 +27,6 @@ class Chef
               config[:datacenter_id],
               config[:server_id],
               volume_id,
-              default_opts,
             )          
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
@@ -51,7 +50,6 @@ class Chef
             config[:datacenter_id],
             config[:server_id],
             volume.id,
-            default_opts,
           )
 
           ui.msg("Detaching volume #{volume_id} from server")

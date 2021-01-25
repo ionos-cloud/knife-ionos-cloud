@@ -20,7 +20,6 @@ class Chef
             volume = volume_api.datacenters_volumes_find_by_id(
               config[:datacenter_id], 
               volume_id,
-              default_opts,
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
@@ -43,7 +42,6 @@ class Chef
           volume_api.datacenters_volumes_delete(
             config[:datacenter_id], 
             volume_id,
-            default_opts,
           )
           ui.warn("Deleted volume #{volume.id}")
         end

@@ -68,7 +68,6 @@ class Chef
           config[:datacenter_id],
           config[:server_id],
           { 'properties' => params.compact },
-          default_opts,
         )
 
         request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
@@ -80,7 +79,6 @@ class Chef
           config[:datacenter_id],
           config[:server_id],
           nic.id,
-          default_opts,
         )
 
         puts "\n"

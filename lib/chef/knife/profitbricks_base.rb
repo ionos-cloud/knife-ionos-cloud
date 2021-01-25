@@ -78,12 +78,8 @@ class Chef
         Ionoscloud::ApiClient.new(api_config)
       end
 
-      def default_opts
-        {:debug_auth_names => ['Basic Authentication']}
-      end
-
       def is_done? request_id
-        Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id, default_opts).metadata.status == 'DONE'
+        Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id).metadata.status == 'DONE'
       end
     end
   end

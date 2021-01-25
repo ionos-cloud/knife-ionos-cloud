@@ -13,7 +13,7 @@ class Chef
 
         @name_args.each do |datacenter_id|
           begin
-            datacenter = datacenter_api.datacenters_find_by_id(datacenter_id, default_opts)
+            datacenter = datacenter_api.datacenters_find_by_id(datacenter_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Data center ID #{datacenter_id} not found. Skipping.")
@@ -34,7 +34,7 @@ class Chef
             next
           end
 
-          datacenter_api.datacenters_delete(datacenter_id, default_opts)
+          datacenter_api.datacenters_delete(datacenter_id)
           ui.warn("Deleted data center #{datacenter.id}")
         end
       end

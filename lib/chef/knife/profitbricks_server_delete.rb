@@ -17,7 +17,7 @@ class Chef
 
         @name_args.each do |server_id|
           begin
-            server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server_id, default_opts)
+            server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Server ID #{server_id} not found. Skipping.")
@@ -36,7 +36,7 @@ class Chef
             next
           end
 
-          server_api.datacenters_servers_delete(config[:datacenter_id], server_id, default_opts)
+          server_api.datacenters_servers_delete(config[:datacenter_id], server_id)
           ui.warn("Deleted server #{server.id}")
         end
       end
