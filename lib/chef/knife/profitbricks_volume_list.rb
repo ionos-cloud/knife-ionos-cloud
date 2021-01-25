@@ -30,9 +30,7 @@ class Chef
           ui.color('Device Number', :bold)
         ]
 
-        opts = {
-          :depth => 1,
-        }
+        opts = { depth: 1 }
 
         if config[:server_id]
           server_api = Ionoscloud::ServerApi.new(api_client)

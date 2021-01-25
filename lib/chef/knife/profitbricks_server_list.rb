@@ -27,7 +27,7 @@ class Chef
 
         server_api = Ionoscloud::ServerApi.new(api_client)
 
-        server_api.datacenters_servers_get(config[:datacenter_id], {:depth => 1}).items.each do |server|
+        server_api.datacenters_servers_get(config[:datacenter_id], {depth: 1}).items.each do |server|
             server_list << server.id
             server_list << server.properties.name
             server_list << server.properties.cores.to_s

@@ -75,7 +75,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? request_id }
 
-        nic ic_api.datacenters_servers_nics_find_by_id(
+        nic = nic_api.datacenters_servers_nics_find_by_id(
           config[:datacenter_id],
           config[:server_id],
           nic.id,
