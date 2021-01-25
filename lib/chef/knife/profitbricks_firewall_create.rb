@@ -77,10 +77,8 @@ class Chef
         $stdout.sync = true
         validate_required_params(%i(datacenter_id server_id nic_id) , config)
 
-
         print "#{ui.color('Creating firewall...', :magenta)}"
         
-
         params = {
           name: config[:name],
           protocol: config[:protocol],
@@ -90,7 +88,7 @@ class Chef
           portRangeStart: config[:portrangestart],
           portRangeEnd: config[:portrangeend],
           icmpType: config[:icmptype],
-          icmpCode: config[:icmpcode]
+          icmpCode: config[:icmpcode],
         }
 
         nic_api = Ionoscloud::NicApi.new(api_client)
@@ -99,18 +97,13 @@ class Chef
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],
-          params.compact,
+          { properties: params.compact },
         )
-        # connection
-        # firewall = ProfitBricks::Firewall.create(
-        #   config[:datacenter_id],
-        #   config[:server_id],
-        #   config[:nic_id],
-        #   params.compact
-        # )
 
-        # dot = ui.color('.', :magenta)
-        # firewall.wait_for { print dot; ready? }
+        request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
+
+        dot = ui.color('.', :magenta)
+        api_client.wait_for { print dot; is_done? request_id }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{firewall.id}"
