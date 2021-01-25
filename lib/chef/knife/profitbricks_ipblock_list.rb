@@ -14,12 +14,12 @@ class Chef
           ui.color('Location', :bold),
           ui.color('IP Addresses', :bold),
         ]
-        connection
+        ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
 
-        ProfitBricks::IPBlock.list.each do |ipblock|
+        ipblock_api.ipblocks_get({depth: 1}).items.each do |ipblock|
           ipblock_list << ipblock.id
-          ipblock_list << ipblock.properties['location']
-          ipblock_list << ipblock.properties['ips'].join(", ").to_s
+          ipblock_list << ipblock.properties.location
+          ipblock_list << ipblock.properties.ips.join(", ").to_s
         end
 
         puts ui.list(ipblock_list, :uneven_columns_across, 3)

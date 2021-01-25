@@ -19,23 +19,23 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(size location), Chef::Config[:knife])
+        validate_required_params(%i(size location), config)
 
         print "#{ui.color('Allocating IP block...', :magenta)}"
 
-        connection
-        ipblock = ProfitBricks::IPBlock.create(
-          location: Chef::Config[:knife][:location],
-          size: Chef::Config[:knife][:size]
-        )
+        ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
+
+        ipblock, _, headers = ipblock_api.ipblocks_post_with_http_info({properties: {location: config[:location], size: config[:size]}})
+
+        request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
 
         dot = ui.color('.', :magenta)
-        ipblock.wait_for { print dot; ready? }
+        api_client.wait_for { print dot; is_done? request_id }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{ipblock.id}"
-        puts "#{ui.color('Location', :cyan)}: #{ipblock.properties['location']}"
-        puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties['ips']}"
+        puts "#{ui.color('Location', :cyan)}: #{ipblock.properties.location}"
+        puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties.ips}"
         @ipid = ipblock.id
         puts 'done'
       end
