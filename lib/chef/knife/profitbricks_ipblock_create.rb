@@ -27,10 +27,8 @@ class Chef
 
         ipblock, _, headers = ipblock_api.ipblocks_post_with_http_info({properties: {location: config[:location], size: config[:size]}})
 
-        request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
-
         dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? request_id }
+        api_client.wait_for { print dot; is_done? get_request_id headers }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{ipblock.id}"

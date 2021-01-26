@@ -115,10 +115,8 @@ class Chef
           { properties: params.compact },
         )
 
-        request_id = headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
-
         dot = ui.color('.', :magenta)
-        api_client.wait_for(300) { print dot; is_done? request_id }
+        api_client.wait_for(300) { print dot; is_done? get_request_id headers }
 
         volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id)
 
