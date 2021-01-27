@@ -73,7 +73,7 @@ class Chef
         api_config.username = config[:profitbricks_username]
         api_config.password = config[:profitbricks_password]
 
-        api_config.debugging= config[:profitbricks_debug] || false
+        api_config.debugging = config[:profitbricks_debug] || false
 
         Ionoscloud::ApiClient.new(api_config)
       end

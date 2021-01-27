@@ -7,8 +7,7 @@ RSpec.configure do |config|
     Chef::Config.reset
     {
       profitbricks_username: ENV['PROFITBRICKS_USERNAME'],
-      profitbricks_password: ENV['PROFITBRICKS_PASSWORD'],
-      profitbricks_url: ENV['PROFITBRICKS_API_URL']
+      profitbricks_password: ENV['PROFITBRICKS_PASSWORD']
     }.each do |key, value|
       Chef::Config[:knife][key] = value
     end
