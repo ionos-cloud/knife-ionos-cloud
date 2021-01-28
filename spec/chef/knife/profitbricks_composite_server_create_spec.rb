@@ -39,54 +39,78 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
     @dcid = datacenter.id
     allow(subject).to receive(:puts)
 
+    @server_name = 'knife test'
+    @availability_zone = 'AUTO'
+    @ram = '1024'
+    @cores = '1'
+    @cpufamily = 'INTEL_SKYLAKE'
+    @volume_type = 'HDD'
+    @volume_size = 4
+    @dhpc = true
+    @lan_id = 1
+
     {
       profitbricks_username: ENV['IONOS_USERNAME'],
       profitbricks_password: ENV['IONOS_PASSWORD'],
-      name: 'knife test',
-      cores: '1',
-      ram: '1024',
-      size: 4,
-      dhcp: true,
-      lan: 1,
+      name: @server_name,
+      cores: @cores,
+      ram: @ram,
+      size: @volume_size,
+      dhcp: @dhpc,
+      lan: @lan_id,
       datacenter_id: @dcid,
       imagealias: 'ubuntu:latest',
-      type: 'HDD',
+      type: @volume_type,
       imagepassword: 'K3tTj8G14a3EgKyNeeiY',
-      cpufamily: 'INTEL_SKYLAKE',
-      availabilityzone: 'AUTO',
+      cpufamily: @cpufamily,
+      availabilityzone: @availability_zone,
     }.each do |key, value|
       subject.config[key] = value
     end
   end
 
   after :each do
-    # datacenter_api.datacenters_delete(@dcid)
+    datacenter_api.datacenters_delete(@dcid)
   end
 
   describe '#run' do
-    it 'should output the server name, cores, cpu family, ram and availability zone' do
-      expect(subject).to receive(:puts).with('Name: knife test')
-      expect(subject).to receive(:puts).with('Cores: 1')
-      expect(subject).to receive(:puts).with('CPU Family: INTEL_SKYLAKE')
-      expect(subject).to receive(:puts).with('Ram: 1024')
-      expect(subject).to receive(:puts).with('Availability Zone: AUTO')
+    it 'should output the server name, cores, cpu family, ram and availability zone and create the composite server'  do
+
+      expect(subject).to receive(:puts).with("Name: #{@server_name}")
+      expect(subject).to receive(:puts).with("Cores: #{@cores}")
+      expect(subject).to receive(:puts).with("CPU Family: #{@cpufamily}")
+      expect(subject).to receive(:puts).with("Ram: #{@ram}")
+      expect(subject).to receive(:puts).with("Availability Zone: #{@availability_zone}")
+
       subject.run
-    end
 
-    it 'should create the composite server' do
-      servers = Ionoscloud::ServerApi.new.datacenters_servers_get(@dcid, {depth: 1}).items
+      Ionoscloud::ServerApi.new.datacenters_servers_get(@dcid, {depth: 3}).items.each do |server|
+        expect(server.properties.name).to eq(@server_name)
+        expect(server.properties.cores.to_s).to eq(@cores)
+        expect(server.properties.ram.to_s).to eq(@ram)
+        expect(server.properties.availability_zone).to eq(@availability_zone)
+        expect(server.properties.vm_state).to eq('RUNNING')
+        expect(server.properties.boot_volume.id).to be_instance_of(String)
+        expect(server.properties.boot_cdrom).to be_nil
+        expect(server.metadata.state).to eq('AVAILABLE')
+        expect(server.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(server.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
 
-      puts @dcid
+        expect(server.entities.cdroms.items).to be_empty
 
-      servers.each do |server|
-        puts server.id
-        puts server.properties.name
-        puts server.properties.cores.to_s
-        puts server.properties.ram.to_s
-        puts server.properties.availability_zone
-        puts server.properties.vm_state
-        puts (server.properties.boot_volume == nil ? '' : server.properties.boot_volume.id)
-        puts (server.properties.boot_cdrom == nil ? '' : server.properties.boot_cdrom.id)
+        expect(server.entities.volumes.items).not_to be_empty
+        expect(server.entities.volumes.items.first.properties.type).to eq(@volume_type)
+        expect(server.entities.volumes.items.first.properties.size.to_s).to eq('%.1f' % @volume_size)
+        expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
+        expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+
+        expect(server.entities.nics.items).not_to be_empty
+        expect(server.entities.nics.items.first.properties.dhcp).to eq(@dhpc)
+        expect(server.entities.nics.items.first.properties.lan).to eq(@lan_id)
+        expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
+        expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
       end
     end
   end
