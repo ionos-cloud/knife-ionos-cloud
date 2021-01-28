@@ -1,4 +1,3 @@
-require 'chef/knife/profitbricks_base'
 require 'spec_helper'
 require 'profitbricks_composite_server_create'
 
