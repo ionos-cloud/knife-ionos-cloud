@@ -6,28 +6,13 @@ Chef::Knife::ProfitbricksCompositeServerCreate.load_deps
 describe Chef::Knife::ProfitbricksCompositeServerCreate do
   subject { Chef::Knife::ProfitbricksCompositeServerCreate.new }
 
-  Ionoscloud.configure do |config|
-    config.username = ENV['IONOS_USERNAME']
-    config.password = ENV['IONOS_PASSWORD']
-  end
-
-  def get_request_id headers
-    headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
-  end
-
-  def is_done? request_id
-    response = Ionoscloud::RequestApi.new.requests_status_get(request_id)
-    if response.metadata.status == 'FAILED'
-      ui.error "Request #{request_id} failed\n" + response.metadata.message
-      exit(1)
-    end
-    response.metadata.status == 'DONE'
-  end
-
-  datacenter_api = Ionoscloud::DataCenterApi.new
-
   before :each do
-    datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
+    end
+
+    datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
       properties: {
         name: 'knife test',
         description: 'knife test datacenter',
@@ -35,9 +20,8 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       },
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-    @dcid = datacenter.id
-    allow(subject).to receive(:puts)
 
+    @dcid = datacenter.id
     @server_name = 'knife test'
     @availability_zone = 'AUTO'
     @ram = '1024'
@@ -66,10 +50,11 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
     }.each do |key, value|
       subject.config[key] = value
     end
+    allow(subject).to receive(:puts)
   end
 
   after :each do
-    datacenter_api.datacenters_delete(@dcid)
+    Ionoscloud::DataCenterApi.new.datacenters_delete(@dcid)
   end
 
   describe '#run' do
