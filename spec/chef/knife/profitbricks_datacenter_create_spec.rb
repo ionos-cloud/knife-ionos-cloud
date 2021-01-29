@@ -30,22 +30,22 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
 
   after :each do
     dcid = subject.instance_variable_get :@dcid
-    datacenter = Ionoscloud::DataCenterApi.new.datacenters_delete(dcid)
+    @datacenter = Ionoscloud::DataCenterApi.new.datacenters_delete(dcid)
   end
 
   describe '#run' do
     it 'should create a data center' do
-      expect(subject).to receive(:puts).with(match('ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b'))
-      expect(subject).to receive(:puts).with(match("Name: #{@datacenter_name}"))
-      expect(subject).to receive(:puts).with(match("Description: #{@description}"))
-      expect(subject).to receive(:puts).with(match("Location: #{@location}"))
+      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
+      expect(subject).to receive(:puts).with("Name: #{@datacenter_name}")
+      expect(subject).to receive(:puts).with("Description: #{@description}")
+      expect(subject).to receive(:puts).with("Location: #{@location}")
 
       subject.run
 
-      datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(subject.instance_variable_get :@dcid)
-      expect(datacenter.properties.name).to eq(@datacenter_name)
-      expect(datacenter.properties.description).to eq(@description)
-      expect(datacenter.properties.location).to eq(@location)
+      created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(subject.instance_variable_get :@dcid)
+      expect(created_datacenter.properties.name).to eq(@datacenter_name)
+      expect(created_datacenter.properties.description).to eq(@description)
+      expect(created_datacenter.properties.location).to eq(@location)
     end
   end
 end
