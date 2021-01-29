@@ -4,71 +4,100 @@ require 'profitbricks_firewall_create'
 Chef::Knife::ProfitbricksFirewallCreate.load_deps
 
 describe Chef::Knife::ProfitbricksFirewallCreate do
+  subject { Chef::Knife::ProfitbricksFirewallCreate.new }
+
   before :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
     end
-    @dcid = ''
 
-    datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                 description: 'Chef test datacenter',
-                                                 location: 'us/las')
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    datacenter.wait_for { ready? }
-    @dcid = datacenter.id
+    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          name: 'Chef test Server',
+          ram: 1024,
+          cores: 1,
+          availabilityZone: 'ZONE_1',
+          cpuFamily: 'INTEL_SKYLAKE',
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @server = ProfitBricks::Server.create(datacenter.id, name: 'Chef Test',
-                                                         ram: 1024,
-                                                         cores: 1,
-                                                         availabilityZone: 'ZONE_1',
-                                                         cpuFamily: 'INTEL_XEON')
-    @server.wait_for { ready? }
+    @nic, _, headers  = Ionoscloud::NicApi.new.datacenters_servers_nics_post_with_http_info(
+      @datacenter.id,
+      @server.id,
+      {
+        properties: {
+          name: 'Chef Test',
+          dhcp: true,
+          lan: 1,
+          firewallActive: true,
+          nat: false,
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @nic = ProfitBricks::NIC.create(datacenter.id, @server.id, name: 'Chef Test',
-                                                               dhcp: true,
-                                                               lan: 1,
-                                                               firewallActive: true,
-                                                               nat: false)
-    @nic.wait_for { ready? }
+    @firewall_name = 'Chef test Firewall'
+    @firewall_protocol = 'TCP'
+    @firewall_range_start = '22'
+    @firewall_range_end = '22'
 
+    {
+      profitbricks_username: ENV['IONOS_USERNAME'],
+      profitbricks_password: ENV['IONOS_PASSWORD'],
+      datacenter_id: @datacenter.id,
+      server_id: @server.id,
+      nic_id: @nic.id,
+      name: @firewall_name,
+      protocol: @firewall_protocol,
+      portrangestart: @firewall_range_start,
+      portrangeend: @firewall_range_end,
+    }.each do |key, value|
+      subject.config[key] = value
+    end
     allow(subject).to receive(:puts)
   end
 
   after :each do
-    datacenter = ProfitBricks::Datacenter.get(@dcid)
-    datacenter.delete
-    datacenter.wait_for { ready? }
+    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
   end
 
   describe '#run' do
     it 'should output the column headers' do
-      {
-        datacenter_id: @dcid,
-        server_id: @server.id,
-        nic_id: @nic.id,
-        name: 'Chef test',
-        protocol: 'TCP',
-        portrangestart: '22',
-        portrangeend: 22
-      }.each do |key, value|
-        Chef::Config[:knife][key] = value
-      end
-
-      expect(subject).to receive(:puts).with('Name: Chef test')
-      expect(subject).to receive(:puts).with('Protocol: TCP')
+      expect(subject).to receive(:puts).with("Name: #{@firewall_name}")
+      expect(subject).to receive(:puts).with("Protocol: #{@firewall_protocol}")
       expect(subject).to receive(:puts).with('Source MAC: ')
       expect(subject).to receive(:puts).with('Source IP: ')
       expect(subject).to receive(:puts).with('Target IP: ')
-      expect(subject).to receive(:puts).with('Port Range Start: 22')
-      expect(subject).to receive(:puts).with('Port Range End: 22')
+      expect(subject).to receive(:puts).with("Port Range Start: #{@firewall_range_start}")
+      expect(subject).to receive(:puts).with("Port Range End: #{@firewall_range_end}")
       expect(subject).to receive(:puts).with('ICMP Type: ')
       expect(subject).to receive(:puts).with('ICMP Code: ')
 
       subject.run
+
+      firewall = Ionoscloud::NicApi.new.datacenters_servers_nics_firewallrules_get(@datacenter.id, @server.id, @nic.id, {depth: 1}).items.first
+      expect(firewall.properties.name).to eq(@firewall_name)
+      expect(firewall.properties.protocol).to eq(@firewall_protocol)
+      expect(firewall.properties.port_range_start.to_s).to eq(@firewall_range_start)
+      expect(firewall.properties.port_range_end.to_s).to eq(@firewall_range_end)
+      expect(firewall.metadata.state).to eq('AVAILABLE')
+      expect(firewall.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(firewall.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
     end
   end
 end

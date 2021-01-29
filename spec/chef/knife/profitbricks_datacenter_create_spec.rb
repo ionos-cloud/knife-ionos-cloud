@@ -46,6 +46,9 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
       expect(created_datacenter.properties.name).to eq(@datacenter_name)
       expect(created_datacenter.properties.description).to eq(@description)
       expect(created_datacenter.properties.location).to eq(@location)
+      expect(created_datacenter.metadata.state).to eq('AVAILABLE')
+      expect(created_datacenter.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(created_datacenter.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
     end
   end
 end
