@@ -7,51 +7,56 @@ describe Chef::Knife::ProfitbricksLanDelete do
   subject { Chef::Knife::ProfitbricksLanDelete.new }
 
   before :each do
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
+    end
+
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+
+    @lan, _, headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          name: 'Chef test Lan',
+          public: true,
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+
+    subject.name_args = [@lan.id]
     {
-      name: 'Chef Test',
-      public: 'true'
+      profitbricks_username: ENV['IONOS_USERNAME'],
+      profitbricks_password: ENV['IONOS_PASSWORD'],
+      datacenter_id: @datacenter.id,
     }.each do |key, value|
-      Chef::Config[:knife][key] = value
+      subject.config[key] = value
     end
 
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
-
-    @lan = ProfitBricks::LAN.create(@datacenter.id, name: 'Chef Test',
-                                                    public: 'true')
-    @lan.wait_for { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
     subject.config[:yes] = true
 
+    allow(subject).to receive(:confirm)
     allow(subject).to receive(:puts)
   end
 
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter.delete
-    @datacenter.wait_for { ready? }
+    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
   end
 
   describe '#run' do
     it 'should delete a lan' do
+      expect(subject).to receive(:puts).with("ID: #{@lan.id}")
+      expect(subject).to receive(:puts).with("Name: #{@lan.properties.name}")
+      expect(subject).to receive(:puts).with("Public: #{@lan.properties.public}")
+
       subject.run
     end
   end

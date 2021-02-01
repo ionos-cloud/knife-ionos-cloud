@@ -4,34 +4,49 @@ require 'profitbricks_lan_list'
 Chef::Knife::ProfitbricksLanList.load_deps
 
 describe Chef::Knife::ProfitbricksLanList do
-  let(:lan_list) { Chef::Knife::ProfitbricksLanList.new }
+  subject { Chef::Knife::ProfitbricksLanList.new }
 
   before :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
     end
 
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @lan = ProfitBricks::LAN.create(@datacenter.id, name: 'Chef Test',
-                                                    public: 'true')
-    @lan.wait_for { ready? }
+    @lan, _, headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          name: 'Chef test Lan',
+          public: true,
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    allow(lan_list).to receive(:puts)
+    {
+      profitbricks_username: ENV['IONOS_USERNAME'],
+      profitbricks_password: ENV['IONOS_PASSWORD'],
+      datacenter_id: @datacenter.id,
+    }.each do |key, value|
+      subject.config[key] = value
+    end
+    allow(subject).to receive(:puts)
   end
 
   describe '#run' do
-    it 'should output the column headers' do
-      expect(lan_list).to receive(:puts).with(/^ID\s+Name\s+Public\s*$/)
-      lan_list.run
+    it 'should output the column headers and the lan' do
+      expect(subject).to receive(:puts).with(
+        /^ID\s+Name\s+Public\s*$\n#{@lan.id}\s+#{@lan.properties.name}\s+#{@lan.properties.public}\s*$/,
+      )
+      subject.run
     end
   end
 end

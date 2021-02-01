@@ -7,7 +7,6 @@ describe Chef::Knife::ProfitbricksLanCreate do
   subject { Chef::Knife::ProfitbricksLanCreate.new }
 
   before :each do
-
     Ionoscloud.configure do |config|
       config.username = ENV['IONOS_USERNAME']
       config.password = ENV['IONOS_PASSWORD']
