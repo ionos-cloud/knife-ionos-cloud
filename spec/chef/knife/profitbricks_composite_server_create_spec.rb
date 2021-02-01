@@ -12,7 +12,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       config.password = ENV['IONOS_PASSWORD']
     end
 
-    datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
       properties: {
         name: 'knife test',
         description: 'knife test datacenter',
@@ -21,7 +21,6 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @dcid = datacenter.id
     @server_name = 'knife test'
     @availability_zone = 'AUTO'
     @ram = '1024'
@@ -41,7 +40,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       size: @volume_size,
       dhcp: @dhpc,
       lan: @lan_id,
-      datacenter_id: @dcid,
+      datacenter_id: @datacenter.id,
       imagealias: 'ubuntu:latest',
       type: @volume_type,
       imagepassword: 'K3tTj8G14a3EgKyNeeiY',
@@ -54,7 +53,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
   end
 
   after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete(@dcid)
+    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
   end
 
   describe '#run' do
@@ -68,33 +67,34 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
 
       subject.run
 
-      Ionoscloud::ServerApi.new.datacenters_servers_get(@dcid, {depth: 3}).items.each do |server|
-        expect(server.properties.name).to eq(@server_name)
-        expect(server.properties.cores.to_s).to eq(@cores)
-        expect(server.properties.ram.to_s).to eq(@ram)
-        expect(server.properties.availability_zone).to eq(@availability_zone)
-        expect(server.properties.vm_state).to eq('RUNNING')
-        expect(server.properties.boot_volume.id).to be_instance_of(String)
-        expect(server.properties.boot_cdrom).to be_nil
-        expect(server.metadata.state).to eq('AVAILABLE')
-        expect(server.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-        expect(server.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      server = Ionoscloud::ServerApi.new.datacenters_servers_get(@datacenter.id, {depth: 3}).items.first
 
-        expect(server.entities.cdroms.items).to be_empty
+      expect(server.properties.name).to eq(@server_name)
+      expect(server.properties.cores.to_s).to eq(@cores)
+      expect(server.properties.ram.to_s).to eq(@ram)
+      expect(server.properties.availability_zone).to eq(@availability_zone)
+      expect(server.properties.vm_state).to eq('RUNNING')
+      expect(server.properties.boot_volume.id).to be_instance_of(String)
+      expect(server.properties.boot_cdrom).to be_nil
+      expect(server.metadata.state).to eq('AVAILABLE')
+      expect(server.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(server.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
 
-        expect(server.entities.volumes.items).not_to be_empty
-        expect(server.entities.volumes.items.first.properties.type).to eq(@volume_type)
-        expect(server.entities.volumes.items.first.properties.size.to_s).to eq('%.1f' % @volume_size)
-        expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
-        expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-        expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      expect(server.entities.cdroms.items).to be_empty
 
-        expect(server.entities.nics.items).not_to be_empty
-        expect(server.entities.nics.items.first.properties.dhcp).to eq(@dhpc)
-        expect(server.entities.nics.items.first.properties.lan).to eq(@lan_id)
-        expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
-        expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-        expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      expect(server.entities.volumes.items).not_to be_empty
+      expect(server.entities.volumes.items.first.properties.type).to eq(@volume_type)
+      expect(server.entities.volumes.items.first.properties.size.to_s).to eq('%.1f' % @volume_size)
+      expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
+      expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+
+      expect(server.entities.nics.items).not_to be_empty
+      expect(server.entities.nics.items.first.properties.dhcp).to eq(@dhpc)
+      expect(server.entities.nics.items.first.properties.lan).to eq(@lan_id)
+      expect(server.entities.volumes.items.first.metadata.state).to eq('AVAILABLE')
+      expect(server.entities.volumes.items.first.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(server.entities.volumes.items.first.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
       end
     end
   end
