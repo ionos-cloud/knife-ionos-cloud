@@ -41,6 +41,10 @@ describe Chef::Knife::ProfitbricksLanList do
     allow(subject).to receive(:puts)
   end
 
+  after :each do
+    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+  end
+
   describe '#run' do
     it 'should output the column headers and the lan' do
       expect(subject).to receive(:puts).with(

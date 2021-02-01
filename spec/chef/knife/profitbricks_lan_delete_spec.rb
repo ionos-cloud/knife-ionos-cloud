@@ -48,7 +48,6 @@ describe Chef::Knife::ProfitbricksLanDelete do
 
   after :each do
     _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
   end
 
   describe '#run' do
