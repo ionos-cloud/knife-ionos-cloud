@@ -12,15 +12,11 @@ describe Chef::Knife::ProfitbricksDatacenterList do
       config.password = ENV['IONOS_PASSWORD']
     end
 
-    @datacenter_name = 'Chef test'
-    @description = 'Chef test datacenter'
-    @location = 'us/las'
-
     @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
       properties: {
-        name: @datacenter_name,
-        description: @description,
-        location: @location,
+        name: 'Chef test',
+        description: 'Chef test datacenter',
+        location: 'us/las',
       },
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
@@ -41,7 +37,7 @@ describe Chef::Knife::ProfitbricksDatacenterList do
   describe '#run' do
     it 'should output the column headers and the datacenter' do
       expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Description\s+Location\s+Version\s*$\n#{@datacenter.id}\s+#{@datacenter_name}\s+#{@description}\s+#{@location}\s+1\s*$/,
+        /^ID\s+Name\s+Description\s+Location\s+Version\s*$\n#{@datacenter.id}\s+#{@datacenter.properties.name}\s+#{@datacenter.properties.description}\s+#{@datacenter.properties.location}\s+1\s*$/,
       )
       subject.run
     end

@@ -7,62 +7,82 @@ describe Chef::Knife::ProfitbricksNicDelete do
   subject { Chef::Knife::ProfitbricksNicDelete.new }
 
   before :each do
-    subject.config[:yes] = true
-    allow(subject).to receive(:puts)
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
     end
 
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
+    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          name: 'Chef test Server',
+          ram: 1024,
+          cores: 1,
+          availabilityZone: 'ZONE_1',
+          cpuFamily: 'INTEL_SKYLAKE',
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @lan = ProfitBricks::LAN.create(@datacenter.id, name: 'Chef Test',
-                                                    public: 'true')
-    @lan.wait_for { ready? }
+    @nic, _, headers  = Ionoscloud::NicApi.new.datacenters_servers_nics_post_with_http_info(
+      @datacenter.id,
+      @server.id,
+      {
+        properties: {
+          name: 'Chef Test',
+          dhcp: true,
+          lan: 1,
+          firewallActive: true,
+          nat: false,
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @server = ProfitBricks::Server.create(@datacenter.id, name: 'Chef Test',
-                                                          ram: 1024,
-                                                          cores: 1,
-                                                          availabilityZone: 'ZONE_1',
-                                                          cpuFamily: 'INTEL_XEON')
-    @server.wait_for { ready? }
+    @nic = Ionoscloud::NicApi.new.datacenters_servers_nics_find_by_id(
+      @datacenter.id, @server.id, @nic.id,
+    )
 
-    @nic = ProfitBricks::NIC.create(@datacenter.id, @server.id, lan: @lan.id)
-    @nic.wait_for { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    Chef::Config[:knife][:server_id] = @server.id
     subject.name_args = [@nic.id]
+    {
+      profitbricks_username: ENV['IONOS_USERNAME'],
+      profitbricks_password: ENV['IONOS_PASSWORD'],
+      datacenter_id: @datacenter.id,
+      server_id: @server.id,
+    }.each do |key, value|
+      subject.config[key] = value
+    end
+
+    subject.config[:yes] = true
+    allow(subject).to receive(:confirm)
+    allow(subject).to receive(:puts)
   end
 
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter.delete
-    @datacenter.wait_for { ready? }
+    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
   end
 
   describe '#run' do
     it 'should delete a nic' do
+      expect(subject).to receive(:puts).with("ID: #{@nic.id}")
+      expect(subject).to receive(:puts).with("Name: #{@nic.properties.name}")
+      expect(subject).to receive(:puts).with("IPs: #{@nic.properties.ips}")
+      expect(subject).to receive(:puts).with("DHCP: #{@nic.properties.dhcp}")
+      expect(subject).to receive(:puts).with("LAN: #{@nic.properties.lan}")
+      expect(subject).to receive(:puts).with("NAT: #{@nic.properties.nat}")
+
       subject.run
     end
   end

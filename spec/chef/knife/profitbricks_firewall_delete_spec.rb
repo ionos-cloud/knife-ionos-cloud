@@ -90,7 +90,6 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
 
   describe '#run' do
     it 'should delete a firewall rule' do
-
       expect(subject).to receive(:puts).with("ID: #{@firewall.id}")
       expect(subject).to receive(:puts).with("Name: #{@firewall.properties.name}")
       expect(subject).to receive(:puts).with("Protocol: #{@firewall.properties.protocol}")
