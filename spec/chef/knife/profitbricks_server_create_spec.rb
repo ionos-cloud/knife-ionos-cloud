@@ -21,16 +21,6 @@ describe Chef::Knife::ProfitbricksServerCreate do
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @lan, _, headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Lan',
-          public: true,
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
