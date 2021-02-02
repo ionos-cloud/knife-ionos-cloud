@@ -22,6 +22,7 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
+    allow(subject.ui).to receive(:warn)
     allow(subject.ui).to receive(:confirm)
   end
 

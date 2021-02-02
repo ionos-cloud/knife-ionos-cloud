@@ -32,11 +32,12 @@ describe Chef::Knife::ProfitbricksLanDelete do
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:confirm)
+    allow(subject.ui).to receive(:warn)
     allow(subject).to receive(:puts)
   end
 
   after :each do
-    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
   end
 
   describe '#run' do

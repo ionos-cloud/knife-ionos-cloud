@@ -36,7 +36,7 @@ describe Chef::Knife::ProfitbricksServerCreate do
   end
 
   after :each do
-    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
   end
 
   describe '#run' do

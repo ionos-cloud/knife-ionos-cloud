@@ -67,11 +67,12 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
 
 
     allow(subject).to receive(:puts)
+    allow(subject.ui).to receive(:warn)
     allow(subject.ui).to receive(:confirm)
   end
 
   after :each do
-    _, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
   end
 
   describe '#run' do
