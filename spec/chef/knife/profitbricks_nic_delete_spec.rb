@@ -53,18 +53,6 @@ describe Chef::Knife::ProfitbricksNicDelete do
     @nic = Ionoscloud::NicApi.new.datacenters_servers_nics_find_by_id(
       @datacenter.id, @server.id, @nic.id,
     )
-
-    subject.name_args = [@nic.id]
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-      datacenter_id: @datacenter.id,
-      server_id: @server.id,
-    }.each do |key, value|
-      subject.config[key] = value
-    end
-
-    subject.config[:yes] = true
     allow(subject).to receive(:confirm)
     allow(subject).to receive(:puts)
   end
@@ -75,6 +63,18 @@ describe Chef::Knife::ProfitbricksNicDelete do
 
   describe '#run' do
     it 'should delete a nic' do
+      subject.name_args = [@nic.id]
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+  
+      subject.config[:yes] = true
+
       expect(subject).to receive(:puts).with("ID: #{@nic.id}")
       expect(subject).to receive(:puts).with("Name: #{@nic.properties.name}")
       expect(subject).to receive(:puts).with("IPs: #{@nic.properties.ips}")

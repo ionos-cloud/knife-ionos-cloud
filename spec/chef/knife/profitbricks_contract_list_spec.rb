@@ -6,18 +6,16 @@ Chef::Knife::ProfitbricksContractList.load_deps
 describe Chef::Knife::ProfitbricksContractList do
   subject { Chef::Knife::ProfitbricksContractList.new }
 
-  before :each do
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-    }.each do |key, value|
-      subject.config[key] = value
-    end
-    allow(subject).to receive(:puts)
-  end
-
   describe '#run' do
-    it 'should output the column headers' do
+    it 'should output the column headers and some values' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+      allow(subject).to receive(:puts)
+
       expect(subject).to receive(:puts).with(match('Contract Type: contract'))
       expect(subject).to receive(:puts).with(match('Contract Number: \d+'))
       expect(subject).to receive(:puts).with(match('Status: BILLABLE'))

@@ -12,38 +12,41 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
       config.password = ENV['IONOS_PASSWORD']
     end
 
-    @datacenter_name = 'Chef test'
-    @description = 'Chef test datacenter'
-    @location = 'us/las'
-
     @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
       properties: {
-        name: @datacenter_name,
-        description: @description,
-        location: @location,
+        name: 'Chef test',
+        description: 'Chef test datacenter',
+        location:'us/las',
       },
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:confirm)
+  end
 
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-    }.each do |key, value|
-      subject.config[key] = value
+  after :each do
+    begin
+      Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
+    rescue Exception
     end
-
-    subject.config[:yes] = true
-    subject.name_args = [@datacenter.id]
   end
 
   describe '#run' do
-    it 'should delete a data center' do
-      expect(subject).to receive(:puts).with("Name: #{@datacenter_name}")
-      expect(subject).to receive(:puts).with("Description: #{@description}")
-      expect(subject).to receive(:puts).with("Location: #{@location}")
+    it 'should delete a data center when yes' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+  
+      subject.config[:yes] = true
+      subject.name_args = [@datacenter.id]
+
+      expect(subject).to receive(:puts).with("Name: #{@datacenter.properties.name}")
+      expect(subject).to receive(:puts).with("Description: #{@datacenter.properties.description}")
+      expect(subject).to receive(:puts).with("Location: #{@datacenter.properties.location}")
       subject.run
 
       sleep(1)

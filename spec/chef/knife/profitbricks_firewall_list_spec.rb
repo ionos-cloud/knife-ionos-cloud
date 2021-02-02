@@ -65,16 +65,6 @@ describe Chef::Knife::ProfitbricksFirewallList do
     )
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-      datacenter_id: @datacenter.id,
-      server_id: @server.id,
-      nic_id: @nic.id,
-    }.each do |key, value|
-      subject.config[key] = value
-    end
-
     allow(subject).to receive(:puts)
   end
 
@@ -84,6 +74,16 @@ describe Chef::Knife::ProfitbricksFirewallList do
 
   describe '#run' do
     it 'should output the column headers' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+        nic_id: @nic.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
       expect(subject).to receive(:puts).with(
         %r{(ID\s+Name\s+Protocol\s+Source MAC\s+Source IP\s+Target IP\s+Port Range Start\s+Port Range End\s+ICMP Type\s+ICMP CODE*$\n#{@firewall.id}\s+#{@firewall.properties.name}\s+#{@firewall.properties.protocol}\s+#{@firewall.properties.source_mac}\s+#{@firewall.properties.source_ip}\s+#{@firewall.properties.target_ip}\s+#{@firewall.properties.port_range_start}\s+#{@firewall.properties.port_range_end}\s+#{@firewall.properties.icmp_type}\s+#{@firewall.properties.icmp_code}\s*$)}
       )

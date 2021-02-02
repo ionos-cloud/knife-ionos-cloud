@@ -65,22 +65,9 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
     )
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    subject.name_args = [@firewall.id]
-
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-      datacenter_id: @datacenter.id,
-      server_id: @server.id,
-      nic_id: @nic.id
-    }.each do |key, value|
-      subject.config[key] = value
-    end
 
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:confirm)
-
-    subject.config[:yes] = true
   end
 
   after :each do
@@ -88,7 +75,21 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
   end
 
   describe '#run' do
-    it 'should delete a firewall rule' do
+    it 'should delete a firewall rule when yes' do
+      subject.name_args = [@firewall.id]
+
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+        nic_id: @nic.id
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      subject.config[:yes] = true
+
       expect(subject).to receive(:puts).with("ID: #{@firewall.id}")
       expect(subject).to receive(:puts).with("Name: #{@firewall.properties.name}")
       expect(subject).to receive(:puts).with("Protocol: #{@firewall.properties.protocol}")

@@ -31,17 +31,6 @@ describe Chef::Knife::ProfitbricksLanDelete do
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    subject.name_args = [@lan.id]
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-      datacenter_id: @datacenter.id,
-    }.each do |key, value|
-      subject.config[key] = value
-    end
-
-    subject.config[:yes] = true
-
     allow(subject).to receive(:confirm)
     allow(subject).to receive(:puts)
   end
@@ -52,6 +41,17 @@ describe Chef::Knife::ProfitbricksLanDelete do
 
   describe '#run' do
     it 'should delete a lan' do
+      subject.name_args = [@lan.id]
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+  
+      subject.config[:yes] = true
+
       expect(subject).to receive(:puts).with("ID: #{@lan.id}")
       expect(subject).to receive(:puts).with("Name: #{@lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{@lan.properties.public}")

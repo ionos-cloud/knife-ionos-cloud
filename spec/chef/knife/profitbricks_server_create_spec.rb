@@ -32,6 +32,7 @@ describe Chef::Knife::ProfitbricksServerCreate do
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   after :each do

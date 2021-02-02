@@ -54,15 +54,6 @@ describe Chef::Knife::ProfitbricksNicList do
     @nic = Ionoscloud::NicApi.new.datacenters_servers_nics_find_by_id(
       @datacenter.id, @server.id, @nic.id,
     )
-
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-      datacenter_id: @datacenter.id,
-      server_id: @server.id,
-    }.each do |key, value|
-      subject.config[key] = value
-    end
     allow(subject).to receive(:puts)
   end
 
@@ -72,6 +63,15 @@ describe Chef::Knife::ProfitbricksNicList do
 
   describe '#run' do
     it 'should output the column headers and the nic' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
       expect(subject).to receive(:puts).with(
         %r{(ID\s+Name\s+IPs\s+DHCP\s+NAT\s+LAN\s*$\n#{@nic.id}\s+#{@nic.properties.name}\s+\[\"#{@nic.properties.ips.first.to_s}\"\]\s+#{@nic.properties.dhcp}\s+#{@nic.properties.nat}\s+#{@nic.properties.lan}\s*$)}
       )

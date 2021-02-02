@@ -21,12 +21,6 @@ describe Chef::Knife::ProfitbricksDatacenterList do
     })
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    {
-      profitbricks_username: ENV['IONOS_USERNAME'],
-      profitbricks_password: ENV['IONOS_PASSWORD'],
-    }.each do |key, value|
-      subject.config[key] = value
-    end
     allow(subject).to receive(:puts)
   end
 
@@ -36,6 +30,13 @@ describe Chef::Knife::ProfitbricksDatacenterList do
 
   describe '#run' do
     it 'should output the column headers and the datacenter' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
       expect(subject).to receive(:puts).with(
         /^ID\s+Name\s+Description\s+Location\s+Version\s*$\n#{@datacenter.id}\s+#{@datacenter.properties.name}\s+#{@datacenter.properties.description}\s+#{@datacenter.properties.location}\s+1\s*$/,
       )
