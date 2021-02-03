@@ -16,7 +16,7 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
   end
 
   after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter_id)
+    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter_id) unless @datacenter_id.nil?
   end
 
   describe '#run' do
@@ -44,14 +44,16 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
 
       subject.run
 
-      created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter_id)
-
-      expect(created_datacenter.properties.name).to eq(datacenter_name)
-      expect(created_datacenter.properties.description).to eq(description)
-      expect(created_datacenter.properties.location).to eq(location)
-      expect(created_datacenter.metadata.state).to eq('AVAILABLE')
-      expect(created_datacenter.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-      expect(created_datacenter.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      if @datacenter_id
+        created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter_id)
+        
+        expect(created_datacenter.properties.name).to eq(datacenter_name)
+        expect(created_datacenter.properties.description).to eq(description)
+        expect(created_datacenter.properties.location).to eq(location)
+        expect(created_datacenter.metadata.state).to eq('AVAILABLE')
+        expect(created_datacenter.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(created_datacenter.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      end
     end
   end
 end

@@ -16,7 +16,7 @@ describe Chef::Knife::ProfitbricksIpblockCreate do
   end
 
   after :each do
-    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock_id)
+    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock_id) unless @ipblock_id.nil?
   end
 
   describe '#run' do
@@ -42,15 +42,17 @@ describe Chef::Knife::ProfitbricksIpblockCreate do
       
       subject.run
 
-      ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ipblock_id)
+      if @ipblock_id
+        ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ipblock_id)
 
-      expect(ip_block.properties.size).to eq(size)
-      expect(ip_block.properties.location).to eq(location)
-      expect(ip_block.properties.ips.length).to eq(size)
+        expect(ip_block.properties.size).to eq(size)
+        expect(ip_block.properties.location).to eq(location)
+        expect(ip_block.properties.ips.length).to eq(size)
 
-      expect(ip_block.metadata.state).to eq('AVAILABLE')
-      expect(ip_block.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-      expect(ip_block.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+        expect(ip_block.metadata.state).to eq('AVAILABLE')
+        expect(ip_block.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(ip_block.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      end
     end
   end
 end
