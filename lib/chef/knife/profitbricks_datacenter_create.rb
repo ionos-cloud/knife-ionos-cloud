@@ -42,7 +42,6 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        @dcid = datacenter.id
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{datacenter.id}"
         puts "#{ui.color('Name', :cyan)}: #{datacenter.properties.name}"

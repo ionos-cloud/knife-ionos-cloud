@@ -16,7 +16,7 @@ describe Chef::Knife::ProfitbricksIpblockCreate do
   end
 
   after :each do
-    Ionoscloud::IPBlocksApi.new.ipblocks_delete(subject.instance_variable_get :@ipid)
+    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock_id)
   end
 
   describe '#run' do
@@ -32,18 +32,25 @@ describe Chef::Knife::ProfitbricksIpblockCreate do
         subject.config[key] = value
       end
 
-      expect(subject).to receive(:puts).with('done')
+      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
+        @ipblock_id = argument.split(' ').last
+      end
+      expect(subject).to receive(:puts).with("Location: #{location}")
+
+      block = /\d{,2}|1\d{2}|2[0-4]\d|25[0-5]/
+      expect(subject).to receive(:puts).with(/\A^IP Addresses: \["#{block}\.#{block}\.#{block}\.#{block}"\]\z/)
+      
       subject.run
 
-    ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(subject.instance_variable_get :@ipid)
+      ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ipblock_id)
 
-    expect(ip_block.properties.size).to eq(size)
-    expect(ip_block.properties.location).to eq(location)
-    expect(ip_block.properties.ips.length).to eq(size)
+      expect(ip_block.properties.size).to eq(size)
+      expect(ip_block.properties.location).to eq(location)
+      expect(ip_block.properties.ips.length).to eq(size)
 
-    expect(ip_block.metadata.state).to eq('AVAILABLE')
-    expect(ip_block.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-    expect(ip_block.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      expect(ip_block.metadata.state).to eq('AVAILABLE')
+      expect(ip_block.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(ip_block.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
     end
   end
 end

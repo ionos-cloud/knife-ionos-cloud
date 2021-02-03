@@ -30,8 +30,6 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        @ipid = ipblock.id
-
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{ipblock.id}"
         puts "#{ui.color('Location', :cyan)}: #{ipblock.properties.location}"

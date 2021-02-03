@@ -16,7 +16,7 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
   end
 
   after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete(subject.instance_variable_get :@dcid)
+    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter_id)
   end
 
   describe '#run' do
@@ -35,14 +35,17 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
         subject.config[key] = value
       end
 
-      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
+      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
+        @datacenter_id = argument.split(' ').last
+      end
       expect(subject).to receive(:puts).with("Name: #{datacenter_name}")
       expect(subject).to receive(:puts).with("Description: #{description}")
       expect(subject).to receive(:puts).with("Location: #{location}")
 
       subject.run
 
-      created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(subject.instance_variable_get :@dcid)
+      created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter_id)
+
       expect(created_datacenter.properties.name).to eq(datacenter_name)
       expect(created_datacenter.properties.description).to eq(description)
       expect(created_datacenter.properties.location).to eq(location)
