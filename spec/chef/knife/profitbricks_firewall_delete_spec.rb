@@ -68,7 +68,7 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
 
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:warn)
-    allow(subject.ui).to receive(:confirm)
+    allow(subject).to receive(:confirm)
   end
 
   after :each do
