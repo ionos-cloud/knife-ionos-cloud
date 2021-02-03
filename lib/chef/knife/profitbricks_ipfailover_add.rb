@@ -50,11 +50,13 @@ class Chef
 
         lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
+        ip_failovers = lan.properties.ip_failover.map { |el| el.to_hash }
+
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
         puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
         puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties.ip_failover}"
+        puts "#{ui.color('IP Failover', :cyan)}: #{ip_failovers}"
         puts 'done'
       end
     end

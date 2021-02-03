@@ -21,7 +21,6 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
         },
       },
     )
-
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
