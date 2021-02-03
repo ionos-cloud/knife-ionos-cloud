@@ -7,53 +7,50 @@ describe Chef::Knife::ProfitbricksVolumeList do
   subject { Chef::Knife::ProfitbricksVolumeList.new }
 
   before :each do
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
     end
 
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
+    @volume, _, volume_headers = Ionoscloud::VolumeApi.new.datacenters_volumes_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          size: 4,
+          type: 'HDD',
+          availabilityZone: 'ZONE_3',
+          imageAlias: 'ubuntu:latest',
+          imagePassword: 'K3tTj8G14a3EgKyNeeiY',
+          name: 'Test Volume'
+        },
+      },
+    )
 
-    location = 'us/las'
-    image_name = 'ubuntu'
-    image_type = 'HDD'
+    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          name: 'Chef test Server',
+          ram: 1024,
+          cores: 1,
+          availabilityZone: 'ZONE_1',
+          cpuFamily: 'INTEL_SKYLAKE',
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id volume_headers }
 
-    image = get_image(image_name, image_type, location)
-
-    @volume = ProfitBricks::Volume.create(@datacenter.id, size: 2,
-                                                          type: 'HDD',
-                                                          availabilityZone: 'ZONE_3',
-                                                          image: image.id,
-                                                          imagePassword: 'aoiaio00q235',
-                                                          bus: 'VIRTIO')
-
-    @volume.wait_for(300) { ready? }
-
-    @server = ProfitBricks::Server.create(@datacenter.id, name: 'Chef Test',
-                                                          ram: 1024,
-                                                          cores: 1,
-                                                          availabilityZone: 'ZONE_1',
-                                                          cpuFamily: 'INTEL_XEON')
-    @server.wait_for { ready? }
-
-    @volume.attach(@server.id)
-    @volume.wait_for(300) { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    Chef::Config[:knife][:server_id] = @server.id
+    @volume = Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(@datacenter.id, @volume.id)
 
     allow(subject).to receive(:puts)
   end
@@ -64,7 +61,32 @@ describe Chef::Knife::ProfitbricksVolumeList do
 
   describe '#run' do
     it 'should list volumes' do
-      expect(subject).to receive(:puts).with(/^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*$/)
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      expect(subject).to receive(:puts).with(
+        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*$\n#{@volume.id}\s+#{@volume.properties.name}\s+#{@volume.properties.size}\s+#{@volume.properties.bus}\s+#{@volume.properties.image}\s+#{@volume.properties.type}\s+#{@volume.properties.availability_zone}\s+#{@volume.properties.device_number.to_s}\s*$/,
+      )
+      subject.run
+    end
+    it 'should print only headers if there are no volumes' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      expect(subject).to receive(:puts).with(
+        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*\n$/,
+      )
       subject.run
     end
   end

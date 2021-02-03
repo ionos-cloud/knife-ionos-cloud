@@ -7,46 +7,38 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
   subject { Chef::Knife::ProfitbricksVolumeDelete.new }
 
   before :each do
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
+    Ionoscloud.configure do |config|
+      config.username = ENV['IONOS_USERNAME']
+      config.password = ENV['IONOS_PASSWORD']
     end
 
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
+    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
+      properties: {
+        name: 'Chef test Datacenter',
+        description: 'Chef test datacenter',
+        location: 'de/fra',
+      },
+    })
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
-
-    location = 'us/las'
-    image_name = 'ubuntu'
-    image_type = 'HDD'
-
-    image = get_image(image_name, image_type, location)
-
-    @volume = ProfitBricks::Volume.create(@datacenter.id, size: 2,
-                                                          type: 'HDD',
-                                                          availabilityZone: 'ZONE_3',
-                                                          image: image.id,
-                                                          imagePassword: 'aoiaio00q235',
-                                                          bus: 'VIRTIO')
-
-    @volume.wait_for(300) { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    subject.name_args = [@volume.id]
+    @volume, _, headers = Ionoscloud::VolumeApi.new.datacenters_volumes_post_with_http_info(
+      @datacenter.id,
+      {
+        properties: {
+          size: 4,
+          type: 'HDD',
+          availabilityZone: 'ZONE_3',
+          imageAlias: 'ubuntu:latest',
+          imagePassword: 'K3tTj8G14a3EgKyNeeiY',
+          name: 'Test Volume'
+        },
+      },
+    )
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
-    subject.config[:yes] = true
+    allow(subject.ui).to receive(:warn)
+    allow(subject.ui).to receive(:confirm)
   end
 
   after :each do
@@ -55,6 +47,21 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
 
   describe '#run' do
     it 'should delete a volume' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+      subject.config[:yes] = true
+      subject.name_args = [@volume.id]
+
+      expect(subject).to receive(:puts).with("ID: #{@volume.id}")
+      expect(subject).to receive(:puts).with("Name: #{@volume.properties.name}")
+      expect(subject).to receive(:puts).with("Size: #{@volume.properties.size}")
+      expect(subject).to receive(:puts).with("Image: #{@volume.properties.image}")
+
       subject.run
     end
   end

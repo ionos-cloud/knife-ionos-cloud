@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'profitbricks_ipfailover_add'
 
-Chef::Knife::ProfitbricksFailoverAdd.load_deps
+Chef::Knife::ProfitbricksIpfailoverAdd.load_deps
 
-describe Chef::Knife::ProfitbricksFailoverAdd do
-  subject { Chef::Knife::ProfitbricksFailoverAdd.new }
+describe Chef::Knife::ProfitbricksIpfailoverAdd do
+  subject { Chef::Knife::ProfitbricksIpfailoverAdd.new }
 
   before :each do
     {

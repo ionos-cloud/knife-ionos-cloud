@@ -57,7 +57,7 @@ describe Chef::Knife::ProfitbricksVolumeCreate do
       expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
       expect(subject).to receive(:puts).with("Name: #{name}")
       expect(subject).to receive(:puts).with("Size: #{'%.1f' % size}")
-      expect(subject).to receive(:puts).with("Bus: ")
+      expect(subject).to receive(:puts).with('Bus: ')
       expect(subject).to receive(:puts).with(/^Image: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
       expect(subject).to receive(:puts).with("Type: #{type}")
       expect(subject).to receive(:puts).with("Licence Type: #{licence_type}")
@@ -65,7 +65,16 @@ describe Chef::Knife::ProfitbricksVolumeCreate do
 
       subject.run
 
-      puts = Ionoscloud::VolumeApi.new.datacenters_volumes_get(@datacenter.id).items.first
+      volume = Ionoscloud::VolumeApi.new.datacenters_volumes_get(@datacenter.id, {depth: 1}).items.first
+
+      expect(volume.properties.name).to eq(name)
+      expect(volume.properties.type).to eq(type)
+      expect(volume.properties.size.to_s).to eq('%.1f' % size)
+      expect(volume.properties.licence_type).to eq(licence_type)
+      expect(volume.properties.availability_zone).to eq(volume_availability_zone)
+      expect(volume.metadata.state).to eq('AVAILABLE')
+      expect(volume.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(volume.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
     end
   end
 end
