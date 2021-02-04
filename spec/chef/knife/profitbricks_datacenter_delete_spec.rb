@@ -66,8 +66,8 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
 
       request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
 
-      expect(request.metadata.status).to eq('QUEUED')
-      expect(request.metadata.message).to eq('Request has been queued')
+      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
+      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
       expect(request.metadata.targets.length).to eq(1)
       expect(request.metadata.targets.first.target.type).to eq('datacenter')
       expect(request.metadata.targets.first.target.id).to eq(@datacenter.id)
@@ -86,12 +86,15 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
       }.each do |key, value|
         subject.config[key] = value
       end
-      datacenter_id = 123
-  
-      subject.config[:yes] = false
-      subject.name_args = [datacenter_id]
+      datacenter_ids = [123,]
+      subject.name_args = datacenter_ids
+      
+      expect(subject.ui).not_to receive(:warn)
+      datacenter_ids.each {
+        |datacenter_id|
+        expect(subject.ui).to receive(:error).with("Data center ID #{datacenter_id} not found. Skipping.")
+      }
 
-      expect(subject.ui).to receive(:error).with("Data center ID #{datacenter_id} not found. Skipping.")
       subject.run
     end
   end

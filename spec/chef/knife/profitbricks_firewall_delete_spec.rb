@@ -65,7 +65,6 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
     )
     Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
-
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:warn)
     allow(subject).to receive(:confirm)
@@ -89,7 +88,11 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
         subject.config[key] = value
       end
 
-      subject.config[:yes] = true
+      allow(subject.ui).to receive(:warn).with(
+        /Deleted firewall rule #{@firewall.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
+      ) do |arg|
+        @request_id = arg.split('Request ID: ').last
+      end
 
       expect(subject).to receive(:puts).with("ID: #{@firewall.id}")
       expect(subject).to receive(:puts).with("Name: #{@firewall.properties.name}")
@@ -98,6 +101,29 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
       expect(subject).to receive(:puts).with("Port Range End: #{@firewall.properties.port_range_end}")
 
       subject.run
+
+      raise Exception('No Request ID found.') unless @request_id
+
+      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
+
+      expect(request.metadata.status).to eq('QUEUED')
+      expect(request.metadata.message).to eq('Request has been queued')
+      expect(request.metadata.targets.length).to eq(1)
+      expect(request.metadata.targets.first.target.type).to eq('firewall-rule')
+      expect(request.metadata.targets.first.target.id).to eq(@firewall.id)
+
+      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
+      
+      expect {
+        Ionoscloud::NicApi.new.datacenters_servers_nics_firewallrules_find_by_id(
+          @datacenter.id,
+          @server.id,
+          @nic.id,
+          @firewall.id,
+        )
+      }.to raise_error(Ionoscloud::ApiError) do |error|
+        expect(error.code).to eq(404)
+      end
     end
   end
 end
