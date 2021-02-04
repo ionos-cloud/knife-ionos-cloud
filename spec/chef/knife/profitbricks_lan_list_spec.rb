@@ -7,29 +7,8 @@ describe Chef::Knife::ProfitbricksLanList do
   subject { Chef::Knife::ProfitbricksLanList.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @lan, _, headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Lan',
-          public: true,
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    @datacenter = create_test_datacenter()
+    @lan = create_test_lan(@datacenter)
   end
 
   after :each do

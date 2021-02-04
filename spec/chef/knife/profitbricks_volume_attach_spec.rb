@@ -7,50 +7,8 @@ describe Chef::Knife::ProfitbricksVolumeAttach do
   subject { Chef::Knife::ProfitbricksVolumeAttach.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @volume, _, volume_headers = Ionoscloud::VolumeApi.new.datacenters_volumes_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          size: 4,
-          type: 'HDD',
-          availabilityZone: 'ZONE_3',
-          imageAlias: 'ubuntu:latest',
-          imagePassword: 'K3tTj8G14a3EgKyNeeiY',
-          name: 'Test Volume'
-        },
-      },
-    )
-
-    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Server',
-          ram: 1024,
-          cores: 1,
-          availabilityZone: 'ZONE_1',
-          cpuFamily: 'INTEL_SKYLAKE',
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id volume_headers }
-
-    @volume = Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(@datacenter.id, @volume.id)
+    @datacenter = create_test_datacenter()
+    @server = create_test_server(@datacenter)
 
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:msg)
@@ -62,6 +20,8 @@ describe Chef::Knife::ProfitbricksVolumeAttach do
 
   describe '#run' do
     it 'should attach a volume' do
+      @volume = create_test_volume(@datacenter)
+      subject.name_args = [@volume.id]
       {
         profitbricks_username: ENV['IONOS_USERNAME'],
         profitbricks_password: ENV['IONOS_PASSWORD'],
@@ -70,7 +30,6 @@ describe Chef::Knife::ProfitbricksVolumeAttach do
       }.each do |key, value|
         subject.config[key] = value
       end
-      subject.name_args = [@volume.id]
 
       expect(subject.ui).to receive(:msg).with(
         /Volume #{@volume.id} attached to server. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,

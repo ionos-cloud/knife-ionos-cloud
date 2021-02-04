@@ -6,15 +6,6 @@ Chef::Knife::ProfitbricksDatacenterCreate.load_deps
 describe Chef::Knife::ProfitbricksDatacenterCreate do
   subject { Chef::Knife::ProfitbricksDatacenterCreate.new }
 
-  before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:print)
-  end
-
   after :each do
     Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter_id) unless @datacenter_id.nil?
   end
@@ -34,6 +25,9 @@ describe Chef::Knife::ProfitbricksDatacenterCreate do
       }.each do |key, value|
         subject.config[key] = value
       end
+
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
         @datacenter_id = argument.split(' ').last

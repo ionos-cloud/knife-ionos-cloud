@@ -7,33 +7,7 @@ describe Chef::Knife::ProfitbricksServerStart do
   subject { Chef::Knife::ProfitbricksServerStart.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Server',
-          ram: 1024,
-          cores: 1,
-          availabilityZone: 'ZONE_1',
-          cpuFamily: 'INTEL_SKYLAKE',
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    @datacenter = create_test_datacenter()
 
     allow(subject).to receive(:puts)
   end
@@ -44,6 +18,7 @@ describe Chef::Knife::ProfitbricksServerStart do
 
   describe '#run' do
     it 'should output that the server is starting when correct ID' do
+      @server = create_test_server(@datacenter)
       _, _, headers = Ionoscloud::ServerApi.new.datacenters_servers_stop_post_with_http_info(@datacenter.id, @server.id)
       Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 

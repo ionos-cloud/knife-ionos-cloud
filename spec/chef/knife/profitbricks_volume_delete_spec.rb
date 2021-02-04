@@ -7,34 +7,7 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
   subject { Chef::Knife::ProfitbricksVolumeDelete.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @volume, _, headers = Ionoscloud::VolumeApi.new.datacenters_volumes_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          size: 4,
-          type: 'HDD',
-          availabilityZone: 'ZONE_3',
-          imageAlias: 'ubuntu:latest',
-          imagePassword: 'K3tTj8G14a3EgKyNeeiY',
-          name: 'Test Volume'
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    @datacenter = create_test_datacenter()
 
     allow(subject).to receive(:puts)
     allow(subject.ui).to receive(:warn)
@@ -47,6 +20,9 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
 
   describe '#run' do
     it 'should delete a volume' do
+      @volume = create_test_volume(@datacenter)
+      subject.name_args = [@volume.id]
+
       {
         profitbricks_username: ENV['IONOS_USERNAME'],
         profitbricks_password: ENV['IONOS_PASSWORD'],
@@ -54,7 +30,6 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
       }.each do |key, value|
         subject.config[key] = value
       end
-      subject.name_args = [@volume.id]
 
       expect(subject.ui).to receive(:warn).with(
         /Deleted Volume #{@volume.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,

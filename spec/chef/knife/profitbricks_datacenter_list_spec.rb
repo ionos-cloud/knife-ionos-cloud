@@ -7,19 +7,7 @@ describe Chef::Knife::ProfitbricksDatacenterList do
   subject { Chef::Knife::ProfitbricksDatacenterList.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test',
-        description: 'Chef test datacenter',
-        location: 'us/las',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    @datacenter = create_test_datacenter()
 
     allow(subject).to receive(:puts)
   end

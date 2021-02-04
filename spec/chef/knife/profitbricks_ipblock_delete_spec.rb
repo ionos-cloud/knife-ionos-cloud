@@ -7,22 +7,6 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
   subject { Chef::Knife::ProfitbricksIpblockDelete.new }
 
   before :each do
-
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @ip_block, _, headers = Ionoscloud::IPBlocksApi.new.ipblocks_post_with_http_info(
-      {
-        properties: {
-          location: 'de/fra',
-          size: 1,
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
     allow(subject).to receive(:puts)
     allow(subject).to receive(:confirm)
     allow(subject.ui).to receive(:warn)
@@ -37,6 +21,8 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
 
   describe '#run' do
     it 'should release the ip block' do
+      @ip_block = create_test_ipblock()
+  
       {
         profitbricks_username: ENV['IONOS_USERNAME'],
         profitbricks_password: ENV['IONOS_PASSWORD'],

@@ -6,15 +6,6 @@ Chef::Knife::ProfitbricksIpblockCreate.load_deps
 describe Chef::Knife::ProfitbricksIpblockCreate do
   subject { Chef::Knife::ProfitbricksIpblockCreate.new }
 
-  before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:print)
-  end
-
   after :each do
     Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock_id) unless @ipblock_id.nil?
   end
@@ -31,6 +22,9 @@ describe Chef::Knife::ProfitbricksIpblockCreate do
       }.each do |key, value|
         subject.config[key] = value
       end
+
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
         @ipblock_id = argument.split(' ').last

@@ -6,30 +6,6 @@ Chef::Knife::ProfitbricksDatacenterDelete.load_deps
 describe Chef::Knife::ProfitbricksDatacenterDelete do
   subject { Chef::Knife::ProfitbricksDatacenterDelete.new }
 
-  before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test',
-        description: 'Chef test datacenter',
-        location:'us/las',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter.id)
-
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    allow(subject).to receive(:puts)
-    allow(subject.ui).to receive(:warn)
-    allow(subject).to receive(:confirm)
-  end
-
   after :each do
     begin
       Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
@@ -39,6 +15,8 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
 
   describe '#run' do
     it 'should delete a data center when yes' do
+      @datacenter = create_test_datacenter()
+
       {
         profitbricks_username: ENV['IONOS_USERNAME'],
         profitbricks_password: ENV['IONOS_PASSWORD'],
@@ -47,6 +25,10 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
       end
   
       subject.name_args = [@datacenter.id]
+
+      allow(subject).to receive(:puts)
+      allow(subject.ui).to receive(:warn)
+      allow(subject).to receive(:confirm)
 
       expect(subject.ui).to receive(:warn).with(
         /Deleted Data center #{@datacenter.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,

@@ -7,53 +7,10 @@ describe Chef::Knife::ProfitbricksNicList do
   subject { Chef::Knife::ProfitbricksNicList.new }
 
   before :each do
-    
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
+    @datacenter = create_test_datacenter()
+    @server = create_test_server(@datacenter)
+    @nic = create_test_nic(@datacenter, @server)
 
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Server',
-          ram: 1024,
-          cores: 1,
-          availabilityZone: 'ZONE_1',
-          cpuFamily: 'INTEL_SKYLAKE',
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @nic, _, headers  = Ionoscloud::NicApi.new.datacenters_servers_nics_post_with_http_info(
-      @datacenter.id,
-      @server.id,
-      {
-        properties: {
-          name: 'Chef Test',
-          dhcp: true,
-          lan: 1,
-          firewallActive: true,
-          nat: false,
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @nic = Ionoscloud::NicApi.new.datacenters_servers_nics_find_by_id(
-      @datacenter.id, @server.id, @nic.id,
-    )
     allow(subject).to receive(:puts)
   end
 

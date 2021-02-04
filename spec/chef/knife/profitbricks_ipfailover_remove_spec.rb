@@ -7,70 +7,11 @@ describe Chef::Knife::ProfitbricksIpfailoverRemove do
   subject { Chef::Knife::ProfitbricksIpfailoverRemove.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'Chef test Datacenter',
-        description: 'Chef test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    @server, _, server_headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Server',
-          ram: 1024,
-          cores: 1,
-          availabilityZone: 'ZONE_1',
-          cpuFamily: 'INTEL_SKYLAKE',
-        },
-      },
-    )
-
-    @ip_block, _, ip_block_headers = Ionoscloud::IPBlocksApi.new.ipblocks_post_with_http_info(
-      {
-        properties: {
-          location: 'de/fra',
-          size: 1,
-        },
-      },
-    )
-
-    @lan, _, lan_headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
-      @datacenter.id,
-      {
-        properties: {
-          name: 'Chef test Lan',
-          public: true,
-      },
-    })
-
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id lan_headers }
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id ip_block_headers }
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id server_headers }
-
-    @nic, _, headers  = Ionoscloud::NicApi.new.datacenters_servers_nics_post_with_http_info(
-      @datacenter.id,
-      @server.id,
-      {
-        properties: {
-          name: 'Chef Test',
-          dhcp: true,
-          lan: @lan.id,
-          firewallActive: true,
-          nat: false,
-          ips: [@ip_block.properties.ips.first]
-        },
-      },
-    )
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    @datacenter = create_test_datacenter()
+    @ip_block = create_test_ipblock()
+    @server = create_test_server(@datacenter)
+    @lan = create_test_lan(@datacenter)
+    @nic = create_test_nic(@datacenter, @server, { lan: @lan.id, ips: [@ip_block.properties.ips.first] })
 
     failover_ips = [{
       ip: @ip_block.properties.ips.first,

@@ -7,22 +7,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
   subject { Chef::Knife::ProfitbricksCompositeServerCreate.new }
 
   before :each do
-    Ionoscloud.configure do |config|
-      config.username = ENV['IONOS_USERNAME']
-      config.password = ENV['IONOS_PASSWORD']
-    end
-
-    @datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
-      properties: {
-        name: 'knife test',
-        description: 'knife test datacenter',
-        location: 'de/fra',
-      },
-    })
-    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:print)
+    @datacenter = create_test_datacenter()
   end
 
   after :each do
@@ -40,7 +25,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       volume_size = 4
       dhpc = true
       lan_id = 1
-  
+
       {
         profitbricks_username: ENV['IONOS_USERNAME'],
         profitbricks_password: ENV['IONOS_PASSWORD'],
@@ -59,6 +44,9 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       }.each do |key, value|
         subject.config[key] = value
       end
+
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
       expect(subject).to receive(:puts).with("Name: #{server_name}")
