@@ -89,7 +89,7 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
       end
 
       allow(subject.ui).to receive(:warn).with(
-        /Deleted firewall rule #{@firewall.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
+        /Deleted Firewall rule #{@firewall.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
       ) do |arg|
         @request_id = arg.split('Request ID: ').last
       end
@@ -106,8 +106,8 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
 
       request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
 
-      expect(request.metadata.status).to eq('QUEUED')
-      expect(request.metadata.message).to eq('Request has been queued')
+      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
+      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
       expect(request.metadata.targets.length).to eq(1)
       expect(request.metadata.targets.first.target.type).to eq('firewall-rule')
       expect(request.metadata.targets.first.target.id).to eq(@firewall.id)
@@ -124,6 +124,27 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
       }.to raise_error(Ionoscloud::ApiError) do |error|
         expect(error.code).to eq(404)
       end
+    end
+
+    it 'should print a message when wrong ID' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        server_id: @server.id,
+        nic_id: @nic.id
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+      firewall_rules = [123,]  
+      subject.name_args = firewall_rules
+
+      expect(subject.ui).not_to receive(:warn)
+      firewall_rules.each {
+        |firewall_rule|
+        expect(subject.ui).to receive(:error).with("Firewall rule ID #{firewall_rule} not found. Skipping.")
+      }
+      subject.run
     end
   end
 end
