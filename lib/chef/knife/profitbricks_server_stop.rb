@@ -17,13 +17,13 @@ class Chef
 
         @name_args.each do |server_id|
           begin
-            server_api.datacenters_servers_stop_post(config[:datacenter_id], server_id)
+            _, _, headers = server_api.datacenters_servers_stop_post_with_http_info(config[:datacenter_id], server_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Server ID #{server_id} not found. Skipping.")
             next
           end
-          ui.warn("Server #{server_id} is stopping")
+          ui.warn("Server #{server_id} is stopping. Request ID: #{get_request_id headers}")
         end
       end
     end

@@ -39,11 +39,11 @@ class Chef
             next
           end
 
-          volume_api.datacenters_volumes_delete(
+          _, _, headers = volume_api.datacenters_volumes_delete_with_http_info(
             config[:datacenter_id], 
             volume_id,
           )
-          ui.warn("Deleted volume #{volume.id}")
+          ui.warn("Deleted volume #{volume.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

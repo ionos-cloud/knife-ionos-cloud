@@ -23,17 +23,17 @@ class Chef
 
         @name_args.each do |volume_id|
           begin
-            server_api.datacenters_servers_volumes_post(
+            _, _, headers = server_api.datacenters_servers_volumes_post_with_http_info(
               config[:datacenter_id],
               config[:server_id],
-              {id: volume_id},
+              { id: volume_id },
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Volume ID #{volume_id} not found. Skipping.")
             next
           end
-          ui.msg("Volume #{volume_id} attached to server")
+          ui.msg("Volume #{volume_id} attached to server. Request ID: #{get_request_id headers}")
         end
       end
     end

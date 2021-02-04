@@ -46,13 +46,13 @@ class Chef
             next
           end
 
-          server_api.datacenters_servers_volumes_delete(
+          _, _, headers = server_api.datacenters_servers_volumes_delete_with_http_info(
             config[:datacenter_id],
             config[:server_id],
             volume.id,
           )
 
-          ui.msg("Detaching volume #{volume_id} from server")
+          ui.msg("Detaching volume #{volume_id} from server. Request ID: #{get_request_id headers}")
         end
       end
     end

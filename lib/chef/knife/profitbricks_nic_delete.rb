@@ -44,8 +44,8 @@ class Chef
             next
           end
 
-          nic_api.datacenters_servers_nics_delete(config[:datacenter_id], config[:server_id], nic.id)
-          ui.warn("Deleted nic #{nic.id}")
+          _, _, headers = nic_api.datacenters_servers_nics_delete_with_http_info(config[:datacenter_id], config[:server_id], nic.id)
+          ui.warn("Deleted nic #{nic.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

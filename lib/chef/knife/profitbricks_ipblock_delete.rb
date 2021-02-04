@@ -28,8 +28,8 @@ class Chef
             next
           end
 
-          ipblock_api.ipblocks_delete(ipblock_id)
-          ui.warn("Released IP block #{ipblock.id}")
+          _, _, headers = ipblock_api.ipblocks_delete_with_http_info(ipblock_id)
+          ui.warn("Released IP block #{ipblock.id}. Request ID: #{get_request_id headers}")
         end
       end
     end
