@@ -10,8 +10,7 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the virtual datacenter',
-             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
+             description: 'Name of the virtual datacenter'
 
       option :name,
              short: '-n NAME',
@@ -27,7 +26,7 @@ class Chef
              short: '-f CPU_FAMILY',
              long: '--cpu-family CPU_FAMILY',
              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-             default: 'AMD_OPTERON'
+             default: 'INTEL_SKYLAKE'
 
       option :ram,
              short: '-r RAM',
@@ -50,44 +49,46 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id name cores ram), Chef::Config[:knife])
+        validate_required_params(%i(datacenter_id name cores ram), config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {
-          name: Chef::Config[:knife][:name],
-          cores: Chef::Config[:knife][:cores],
-          cpuFamily: Chef::Config[:knife][:cpufamily],
-          ram: Chef::Config[:knife][:ram],
-          availabilityZone: Chef::Config[:knife][:availabilityzone]
+          name: config[:name],
+          cores: config[:cores],
+          cpuFamily: config[:cpufamily],
+          ram: config[:ram],
+          availabilityZone: config[:availabilityzone]
         }
 
-        if Chef::Config[:knife][:bootcdrom]
-          params[:bootCdrom] = { id: Chef::Config[:knife][:bootcdrom] }
+        if config[:bootcdrom]
+          params[:bootCdrom] = { id: config[:bootcdrom] }
         end
 
-        if Chef::Config[:knife][:bootvolume]
-          params[:bootVolume] = { id: Chef::Config[:knife][:bootvolume] }
+        if config[:bootvolume]
+          params[:bootVolume] = { id: config[:bootvolume] }
         end
 
-        connection
-        server = ProfitBricks::Server.create(
-          Chef::Config[:knife][:datacenter_id],
-          params.compact
+        server_api = Ionoscloud::ServerApi.new(api_client)
+        
+        server, _, headers = server_api.datacenters_servers_post_with_http_info(
+          config[:datacenter_id],
+          { properties: params.compact },
         )
 
         dot = ui.color('.', :magenta)
-        server.wait_for { print dot; ready? }
-        server.reload
+        api_client.wait_for { print dot; is_done? get_request_id headers }
+
+        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"
-        puts "#{ui.color('Name', :cyan)}: #{server.properties['name']}"
-        puts "#{ui.color('Cores', :cyan)}: #{server.properties['cores']}"
-        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties['cpuFamily']}"
-        puts "#{ui.color('Ram', :cyan)}: #{server.properties['ram']}"
-        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties['availabilityZone']}"
-        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties['bootVolume']}"
-        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties['bootCdrom']}"
+        puts "#{ui.color('Name', :cyan)}: #{server.properties.name}"
+        puts "#{ui.color('Cores', :cyan)}: #{server.properties.cores}"
+        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
+        puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
+        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
+        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume}"
+        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom}"
 
         puts 'done'
       end

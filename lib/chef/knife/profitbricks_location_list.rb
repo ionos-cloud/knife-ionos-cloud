@@ -13,10 +13,11 @@ class Chef
           ui.color('ID', :bold),
           ui.color('Name', :bold)
         ]
-        connection
-        ProfitBricks::Location.list.each do |location|
+        location_api = Ionoscloud::LocationApi.new(api_client)
+
+        location_api.locations_get({depth: 1}).items.each do |location|
           location_list << location.id
-          location_list << location.properties['name']
+          location_list << location.properties.name
         end
 
         puts ui.list(location_list, :uneven_columns_across, 2)

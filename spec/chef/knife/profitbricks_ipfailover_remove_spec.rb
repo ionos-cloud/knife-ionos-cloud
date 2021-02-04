@@ -1,85 +1,61 @@
 require 'spec_helper'
 require 'profitbricks_ipfailover_remove'
 
-Chef::Knife::ProfitbricksFailoverRemove.load_deps
+Chef::Knife::ProfitbricksIpfailoverRemove.load_deps
 
-describe Chef::Knife::ProfitbricksFailoverRemove do
-  subject { Chef::Knife::ProfitbricksFailoverRemove.new }
+describe Chef::Knife::ProfitbricksIpfailoverRemove do
+  subject { Chef::Knife::ProfitbricksIpfailoverRemove.new }
 
   before :each do
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
-    end
+    @datacenter = create_test_datacenter()
+    @ip_block = create_test_ipblock()
+    @server = create_test_server(@datacenter)
+    @lan = create_test_lan(@datacenter)
+    @nic = create_test_nic(@datacenter, @server, { lan: @lan.id, ips: [@ip_block.properties.ips.first] })
 
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
+    failover_ips = [{
+      ip: @ip_block.properties.ips.first,
+      nicUuid: @nic.id,
+    }]
 
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
+    changes = Ionoscloud::LanProperties.new({ ip_failover: failover_ips })
 
-    @server = ProfitBricks::Server.create(@datacenter.id, name: 'Chef Test',
-                                                          ram: 1024,
-                                                          cores: 1,
-                                                          availabilityZone: 'ZONE_1',
-                                                          cpuFamily: 'INTEL_XEON')
-    @server.wait_for { ready? }
-
-    @lan = ProfitBricks::LAN.create(@datacenter.id, name: 'Chef Test',
-                                                    public: 'true')
-    @lan.wait_for { ready? }
-
-    @nic = ProfitBricks::NIC.create(@datacenter.id, @server.id, lan: @lan.id)
-    @nic.wait_for { ready? }
-
-    @ip_block = ProfitBricks::IPBlock.reserve(location: 'us/las',
-                                              size: 1)
-    @ip_block.wait_for { ready? }
-    @nic.update(ips: [@ip_block.properties['ips'][0]])
-    @nic.wait_for { ready? }
-    ip_failover = {}
-    ip_failover['ip'] = @ip_block.properties['ips'][0]
-    ip_failover['nicUuid'] = @nic.id
-
-    @lan.update(ipFailover: [ip_failover])
-    @lan.wait_for { ready? }
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    Chef::Config[:knife][:lan_id] = @lan.id
-    Chef::Config[:knife][:ip] = @ip_block.properties['ips'][0]
-    Chef::Config[:knife][:nic_id] = @nic.id
+    _, _, headers = Ionoscloud::LanApi.new.datacenters_lans_patch_with_http_info(@datacenter.id, @lan.id, changes)
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
 
     allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter.delete
-    @datacenter.wait_for { ready? }
-    @ip_block.release
-    @ip_block.wait_for { ready? }
+    _, _, headers = Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ip_block.id)
   end
 
   describe '#run' do
     it 'should renive ip failover' do
-      expect(subject).to receive(:puts).with('Name: Chef Test')
-      expect(subject).to receive(:puts).with('Public: true')
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+        nic_id: @nic.id,
+        lan_id: @lan.id,
+        ip: @ip_block.properties.ips.first
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      expect(subject).to receive(:puts).with("ID: #{@lan.id}")
+      expect(subject).to receive(:puts).with("Name: #{@lan.properties.name}")
+      expect(subject).to receive(:puts).with("Public: #{@lan.properties.public}")
+      expect(subject).to receive(:puts).with("IP Failover: #{[]}")
+
+      expect(Ionoscloud::LanApi.new.datacenters_lans_find_by_id(@datacenter.id, @lan.id).properties.ip_failover.length).to eq(1)
+      
       subject.run
+
+      expect(Ionoscloud::LanApi.new.datacenters_lans_find_by_id(@datacenter.id, @lan.id).properties.ip_failover.length).to eq(0)
     end
   end
 end

@@ -10,8 +10,7 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'ID of the data center',
-             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
+             description: 'ID of the data center'
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -76,45 +75,45 @@ class Chef
 
       def run
         $stdout.sync = true
-
-        validate_required_params(%i(datacenter_id server_id nic_id protocol) , Chef::Config[:knife])
+        validate_required_params(%i(datacenter_id server_id nic_id) , config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
-
+        
         params = {
-          name: Chef::Config[:knife][:name],
-          protocol: Chef::Config[:knife][:protocol],
-          sourceMac: Chef::Config[:knife][:sourcemac],
-          sourceIp: Chef::Config[:knife][:sourceip],
-          targetIp: Chef::Config[:knife][:targetip],
-          portRangeStart: Chef::Config[:knife][:portrangestart],
-          portRangeEnd: Chef::Config[:knife][:portrangeend],
-          icmpType: Chef::Config[:knife][:icmptype],
-          icmpCode: Chef::Config[:knife][:icmpcode]
+          name: config[:name],
+          protocol: config[:protocol],
+          sourceMac: config[:sourcemac],
+          sourceIp: config[:sourceip],
+          targetIp: config[:targetip],
+          portRangeStart: config[:portrangestart],
+          portRangeEnd: config[:portrangeend],
+          icmpType: config[:icmptype],
+          icmpCode: config[:icmpcode],
         }
 
-        connection
-        firewall = ProfitBricks::Firewall.create(
-          Chef::Config[:knife][:datacenter_id],
-          Chef::Config[:knife][:server_id],
-          Chef::Config[:knife][:nic_id],
-          params.compact
+        nic_api = Ionoscloud::NicApi.new(api_client)
+
+        firewall, _, headers = nic_api.datacenters_servers_nics_firewallrules_post_with_http_info(
+          config[:datacenter_id],
+          config[:server_id],
+          config[:nic_id],
+          { properties: params.compact },
         )
 
         dot = ui.color('.', :magenta)
-        firewall.wait_for { print dot; ready? }
+        api_client.wait_for { print dot; is_done? get_request_id headers }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{firewall.id}"
-        puts "#{ui.color('Name', :cyan)}: #{firewall.properties['name']}"
-        puts "#{ui.color('Protocol', :cyan)}: #{firewall.properties['protocol']}"
-        puts "#{ui.color('Source MAC', :cyan)}: #{firewall.properties['sourceMac']}"
-        puts "#{ui.color('Source IP', :cyan)}: #{firewall.properties['sourceIp']}"
-        puts "#{ui.color('Target IP', :cyan)}: #{firewall.properties['targetIp']}"
-        puts "#{ui.color('Port Range Start', :cyan)}: #{firewall.properties['portRangeStart']}"
-        puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties['portRangeEnd']}"
-        puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties['icmpType']}"
-        puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties['icmpCode']}"
+        puts "#{ui.color('Name', :cyan)}: #{firewall.properties.name}"
+        puts "#{ui.color('Protocol', :cyan)}: #{firewall.properties.protocol}"
+        puts "#{ui.color('Source MAC', :cyan)}: #{firewall.properties.source_mac}"
+        puts "#{ui.color('Source IP', :cyan)}: #{firewall.properties.source_ip}"
+        puts "#{ui.color('Target IP', :cyan)}: #{firewall.properties.target_ip}"
+        puts "#{ui.color('Port Range Start', :cyan)}: #{firewall.properties.port_range_start}"
+        puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties.port_range_end}"
+        puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties.icmp_type}"
+        puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties.icmp_code}"
         puts 'done'
       end
     end

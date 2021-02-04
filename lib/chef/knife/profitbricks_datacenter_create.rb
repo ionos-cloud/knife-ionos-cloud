@@ -10,8 +10,7 @@ class Chef
       option :name,
              short: '-n NAME',
              long: '--name NAME',
-             description: 'Name of the data center',
-             proc: proc { |name| Chef::Config[:knife][:name] = name }
+             description: 'Name of the data center'
 
       option :description,
              short: '-D DESCRIPTION',
@@ -21,32 +20,33 @@ class Chef
       option :location,
              short: '-l LOCATION',
              long: '--location LOCATION',
-             description: 'Location of the data center',
-             proc: proc { |location| Chef::Config[:knife][:location] = location }#,
+             description: 'Location of the data center'
 
       def run
         $stdout.sync = true
 
-        validate_required_params(%i(name location), Chef::Config[:knife])
+        validate_required_params(%i(name location), config)
 
         print "#{ui.color('Creating data center...', :magenta)}"
 
-        connection
-        datacenter = ProfitBricks::Datacenter.create(
-          name: Chef::Config[:knife][:name],
-          description: Chef::Config[:knife][:description],
-          location: Chef::Config[:knife][:location]
-        )
+        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
+
+        datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
+          properties: {
+            name: config[:name],
+            description: config[:description],
+            location: config[:location],
+          }.compact,
+        })
 
         dot = ui.color('.', :magenta)
-        datacenter.wait_for { print dot; ready? }
+        api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        @dcid = datacenter.id
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{datacenter.id}"
-        puts "#{ui.color('Name', :cyan)}: #{datacenter.properties['name']}"
-        puts "#{ui.color('Description', :cyan)}: #{datacenter.properties['description']}"
-        puts "#{ui.color('Location', :cyan)}: #{datacenter.properties['location']}"
+        puts "#{ui.color('Name', :cyan)}: #{datacenter.properties.name}"
+        puts "#{ui.color('Description', :cyan)}: #{datacenter.properties.description}"
+        puts "#{ui.color('Location', :cyan)}: #{datacenter.properties.location}"
         puts 'done'
       end
     end

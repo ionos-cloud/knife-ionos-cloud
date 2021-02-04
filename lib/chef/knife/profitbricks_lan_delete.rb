@@ -14,23 +14,28 @@ class Chef
              proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       def run
-        connection
+        lan_api = Ionoscloud::LanApi.new(api_client)
         @name_args.each do |lan_id|
           begin
-            lan = ProfitBricks::LAN.get(config[:datacenter_id], lan_id)
-          rescue Excon::Errors::NotFound
+            lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan_id)
+          rescue Ionoscloud::ApiError => err
+            raise err unless err.code == 404
             ui.error("Lan ID #{lan_id} not found. Skipping.")
             next
           end
 
           msg_pair('ID', lan.id)
-          msg_pair('Name', lan.properties['name'])
-          msg_pair('Public', lan.properties['public'].to_s)
+          msg_pair('Name', lan.properties.name)
+          msg_pair('Public', lan.properties.public.to_s)
 
-          confirm('Do you really want to delete this LAN')
+          begin
+            confirm('Do you really want to delete this LAN')
+          rescue SystemExit => exc
+            next
+          end
 
-          lan.delete
-          ui.warn("Deleted LAN #{lan.id}")
+          _, _, headers = lan_api.datacenters_lans_delete_with_http_info(config[:datacenter_id], lan.id)
+          ui.warn("Deleted Lan #{lan.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

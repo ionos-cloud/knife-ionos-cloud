@@ -6,39 +6,48 @@ Chef::Knife::ProfitbricksDatacenterCreate.load_deps
 describe Chef::Knife::ProfitbricksDatacenterCreate do
   subject { Chef::Knife::ProfitbricksDatacenterCreate.new }
 
-  before :each do
-    {
-      name: 'Chef test',
-      description: 'Chef test datacenter',
-      location: 'us/las'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
-    end
-
-    allow(subject).to receive(:puts)
-  end
-
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    dcid = subject.instance_variable_get :@dcid
-    datacenter = ProfitBricks::Datacenter.get(dcid)
-    datacenter.delete
-    datacenter.wait_for { ready? }
+    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter_id) unless @datacenter_id.nil?
   end
 
   describe '#run' do
     it 'should create a data center' do
-      expect(subject).to receive(:puts).with('Name: Chef test')
-      expect(subject).to receive(:puts).with('Description: Chef test datacenter')
-      expect(subject).to receive(:puts).with('Location: us/las')
+      datacenter_name = 'Chef test'
+      description = 'Chef test datacenter'
+      location = 'us/las'
+
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        name: datacenter_name,
+        description: description,
+        location: location
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+
+      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
+        @datacenter_id = argument.split(' ').last
+      end
+      expect(subject).to receive(:puts).with("Name: #{datacenter_name}")
+      expect(subject).to receive(:puts).with("Description: #{description}")
+      expect(subject).to receive(:puts).with("Location: #{location}")
+
       subject.run
+
+      if @datacenter_id
+        created_datacenter = Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter_id)
+        
+        expect(created_datacenter.properties.name).to eq(datacenter_name)
+        expect(created_datacenter.properties.description).to eq(description)
+        expect(created_datacenter.properties.location).to eq(location)
+        expect(created_datacenter.metadata.state).to eq('AVAILABLE')
+        expect(created_datacenter.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+        expect(created_datacenter.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+      end
     end
   end
 end

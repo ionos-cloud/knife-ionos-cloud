@@ -7,63 +7,81 @@ describe Chef::Knife::ProfitbricksVolumeDelete do
   subject { Chef::Knife::ProfitbricksVolumeDelete.new }
 
   before :each do
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
-    end
-
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
-
-    location = 'us/las'
-    image_name = 'ubuntu'
-    image_type = 'HDD'
-
-    image = get_image(image_name, image_type, location)
-
-    @volume = ProfitBricks::Volume.create(@datacenter.id, size: 2,
-                                                          type: 'HDD',
-                                                          availabilityZone: 'ZONE_3',
-                                                          image: image.id,
-                                                          imagePassword: 'aoiaio00q235',
-                                                          bus: 'VIRTIO')
-
-    @volume.wait_for(300) { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
-    subject.name_args = [@volume.id]
+    @datacenter = create_test_datacenter()
 
     allow(subject).to receive(:puts)
-    subject.config[:yes] = true
+    allow(subject.ui).to receive(:warn)
+    allow(subject).to receive(:confirm)
   end
 
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter.delete
-    @datacenter.wait_for { ready? }
+    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
   end
 
   describe '#run' do
     it 'should delete a volume' do
+      @volume = create_test_volume(@datacenter)
+      subject.name_args = [@volume.id]
+
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      expect(subject.ui).to receive(:warn).with(
+        /Deleted Volume #{@volume.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
+      ) do |arg|
+        @request_id = arg.split('Request ID: ').last
+      end
+
+      expect(subject).to receive(:puts).with("ID: #{@volume.id}")
+      expect(subject).to receive(:puts).with("Name: #{@volume.properties.name}")
+      expect(subject).to receive(:puts).with("Size: #{@volume.properties.size}")
+      expect(subject).to receive(:puts).with("Image: #{@volume.properties.image}")
+
+      subject.run
+
+      raise Exception.new 'No Request ID found.' unless @request_id
+
+      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
+
+      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
+      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
+      expect(request.metadata.targets.length).to eq(1)
+      expect(request.metadata.targets.first.target.type).to eq('volume')
+      expect(request.metadata.targets.first.target.id).to eq(@volume.id)
+
+      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
+      
+      expect {
+        Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(
+          @datacenter.id,
+          @volume.id,
+        )
+      }.to raise_error(Ionoscloud::ApiError) do |error|
+        expect(error.code).to eq(404)
+      end
+    end
+
+    it 'should print a message when wrong ID' do
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+      wrong_volume_ids = [123,]  
+      subject.name_args = wrong_volume_ids
+
+      expect(subject.ui).not_to receive(:warn)
+      wrong_volume_ids.each {
+        |wrong_volume_id|
+        expect(subject.ui).to receive(:error).with("Volume ID #{wrong_volume_id} not found. Skipping.")
+      }
       subject.run
     end
   end

@@ -20,12 +20,12 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Public', :bold),
         ]
-        connection
+        lan_api = Ionoscloud::LanApi.new(api_client)
 
-        ProfitBricks::LAN.list(Chef::Config[:knife][:datacenter_id]).each do |lan|
+        lan_api.datacenters_lans_get(config[:datacenter_id], {depth: 1}).items.each do |lan|
           lan_list << lan.id
-          lan_list << lan.properties['name']
-          lan_list << lan.properties['public'].to_s
+          lan_list << lan.properties.name
+          lan_list << lan.properties.public.to_s
         end
 
         puts ui.list(lan_list, :uneven_columns_across, 3)

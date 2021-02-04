@@ -7,53 +7,43 @@ describe Chef::Knife::ProfitbricksLanCreate do
   subject { Chef::Knife::ProfitbricksLanCreate.new }
 
   before :each do
-    {
-      name: 'Chef Test',
-      public: 'true'
-    }.each do |key, value|
-      Chef::Config[:knife][key] = value
-    end
-
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
-                                                  description: 'Chef test datacenter',
-                                                  location: 'us/las')
-    @datacenter.wait_for { ready? }
-
-    @lan = ProfitBricks::LAN.create(@datacenter.id, name: 'Chef Test',
-                                                    public: 'true')
-    @lan.wait_for { ready? }
-
-    Chef::Config[:knife][:datacenter_id] = @datacenter.id
+    @datacenter = create_test_datacenter()
 
     allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   after :each do
-    ProfitBricks.configure do |config|
-      config.username = Chef::Config[:knife][:profitbricks_username]
-      config.password = Chef::Config[:knife][:profitbricks_password]
-      config.url = Chef::Config[:knife][:profitbricks_url]
-      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-      config.global_classes = false
-    end
-
-    @datacenter.delete
-    @datacenter.wait_for { ready? }
+    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
   end
 
   describe '#run' do
     it 'should create a lan' do
-      expect(subject).to receive(:puts).with('Name: Chef Test')
-      expect(subject).to receive(:puts).with('Public: true')
+      lan_name = 'Chef Test'
+      lan_public = true
+  
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+        name: lan_name,
+        public: lan_public,
+        datacenter_id: @datacenter.id,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      expect(subject).to receive(:puts).with(/^ID: ([0-9]*)$/)
+      expect(subject).to receive(:puts).with("Name: #{lan_name}")
+      expect(subject).to receive(:puts).with("Public: #{lan_public}")
       subject.run
+
+      lan = Ionoscloud::LanApi.new.datacenters_lans_get(@datacenter.id, {depth: 1}).items.first
+
+      expect(lan.properties.name).to eq(lan_name)
+      expect(lan.properties.public).to eq(lan_public)
+      expect(lan.metadata.state).to eq('AVAILABLE')
+      expect(lan.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
+      expect(lan.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
     end
   end
 end

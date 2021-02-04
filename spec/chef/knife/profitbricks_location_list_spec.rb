@@ -4,20 +4,17 @@ require 'profitbricks_location_list'
 Chef::Knife::ProfitbricksLocationList.load_deps
 
 describe Chef::Knife::ProfitbricksLocationList do
-  before :each do
-    subject { Chef::Knife::ProfitbricksLocationList.new }
-
-    allow(subject).to receive(:puts)
-  end
-
   describe '#run' do
     it 'should output the column headers' do
-      expect(subject).to receive(:puts).with("ID      Name     \nde/fkb  karlsruhe\nde/fra  frankfurt\nus/las  lasvegas \nus/ewr  newark   \n")
-      subject.run
-    end
+      {
+        profitbricks_username: ENV['IONOS_USERNAME'],
+        profitbricks_password: ENV['IONOS_PASSWORD'],
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+      allow(subject).to receive(:puts)
 
-    it 'should output the data center locations' do
-      expect(subject).to receive(:puts).with(/(?:us\/las)/)
+      expect(subject).to receive(:puts).with(/ID\s+Name/)
       subject.run
     end
   end
