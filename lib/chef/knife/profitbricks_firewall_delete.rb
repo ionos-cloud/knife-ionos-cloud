@@ -33,7 +33,7 @@ class Chef
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
-            ui.error("Firewall ID #{firewall_id} not found. Skipping.")
+            ui.error("Firewall rule ID #{firewall_id} not found. Skipping.")
             next
           end
 
@@ -57,7 +57,7 @@ class Chef
           _, _, headers = nic_api.datacenters_servers_nics_firewallrules_delete_with_http_info(
             config[:datacenter_id], config[:server_id], config[:nic_id], firewall_id,
           )
-          ui.warn("Deleted firewall rule #{firewall.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Firewall rule #{firewall.id}. Request ID: #{get_request_id headers}")
         end
       end
     end
