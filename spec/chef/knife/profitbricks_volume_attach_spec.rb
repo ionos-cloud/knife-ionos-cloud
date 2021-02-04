@@ -70,13 +70,33 @@ describe Chef::Knife::ProfitbricksVolumeAttach do
       }.each do |key, value|
         subject.config[key] = value
       end
-
       subject.name_args = [@volume.id]
-      expect(subject.ui).to receive(:msg).with("Volume #{@volume.id} attached to server")
+
+      expect(subject.ui).to receive(:msg).with(
+        /Volume #{@volume.id} attached to server. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
+      ) do |arg|
+        @request_id = arg.split('Request ID: ').last
+      end
 
       subject.run
 
-      # expect(Ionoscloud::ServerApi.new.datacenters_servers_volumes_get(@datacenter.id, @server.id, {depth: 1}).items.first).not_to eq(nil)
+      raise Exception.new 'No Request ID found.' unless @request_id
+
+      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
+
+      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
+      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
+      expect(request.metadata.targets.length).to eq(1)
+      expect(request.metadata.targets.first.target.type).to eq('volume')
+      expect(request.metadata.targets.first.target.id).to eq(@volume.id)
+
+      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
+      
+      volume = Ionoscloud::ServerApi.new.datacenters_servers_volumes_find_by_id(
+        @datacenter.id, @server.id, @volume.id,
+      )
+
+      expect(volume.properties.bus).to eq('VIRTIO')
     end
   end
 end

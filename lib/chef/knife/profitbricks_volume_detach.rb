@@ -52,7 +52,7 @@ class Chef
             volume.id,
           )
 
-          ui.msg("Detaching volume #{volume_id} from server. Request ID: #{get_request_id headers}")
+          ui.msg("Detaching Volume #{volume_id} from server. Request ID: #{get_request_id headers}")
         end
       end
     end
