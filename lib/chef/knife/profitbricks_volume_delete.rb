@@ -43,7 +43,7 @@ class Chef
             config[:datacenter_id], 
             volume_id,
           )
-          ui.warn("Deleted volume #{volume.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Volume #{volume.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

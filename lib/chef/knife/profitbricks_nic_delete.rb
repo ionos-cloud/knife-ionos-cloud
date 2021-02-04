@@ -27,7 +27,7 @@ class Chef
             nic = nic_api.datacenters_servers_nics_find_by_id(config[:datacenter_id], config[:server_id], nic_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
-            ui.error("NIC ID #{nic_id} not found. Skipping.")
+            ui.error("Nic ID #{nic_id} not found. Skipping.")
             next
           end
 
@@ -45,7 +45,7 @@ class Chef
           end
 
           _, _, headers = nic_api.datacenters_servers_nics_delete_with_http_info(config[:datacenter_id], config[:server_id], nic.id)
-          ui.warn("Deleted nic #{nic.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Nic #{nic.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

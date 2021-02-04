@@ -37,7 +37,7 @@ class Chef
           end
 
           _, _, headers = server_api.datacenters_servers_delete_with_http_info(config[:datacenter_id], server_id)
-          ui.warn("Deleted server #{server.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Server #{server.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

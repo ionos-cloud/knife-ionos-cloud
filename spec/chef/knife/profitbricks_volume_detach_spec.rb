@@ -75,7 +75,6 @@ describe Chef::Knife::ProfitbricksVolumeDetach do
       }.each do |key, value|
         subject.config[key] = value
       end
-      subject.config[:yes] = true
       subject.name_args = [@volume.id]
 
       expect(subject).to receive(:puts).with("ID: #{@volume.id}")

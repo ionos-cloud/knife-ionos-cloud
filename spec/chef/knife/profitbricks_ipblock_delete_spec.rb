@@ -45,7 +45,7 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
       end
       subject.name_args = [@ip_block.id]
 
-      allow(subject.ui).to receive(:warn).with(
+      expect(subject.ui).to receive(:warn).with(
         /Released IP block #{@ip_block.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
       ) do |arg|
         @request_id = arg.split('Request ID: ').last
@@ -57,7 +57,7 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
 
       subject.run
 
-      raise Exception('No Request ID found.') unless @request_id
+      raise Exception.new 'No Request ID found.' unless @request_id
 
       request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
 
@@ -81,13 +81,13 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
       }.each do |key, value|
         subject.config[key] = value
       end
-      ip_blocks = [123,]
-      subject.name_args = ip_blocks
+      wrong_ipblock_ids = [123,]
+      subject.name_args = wrong_ipblock_ids
 
       expect(subject.ui).not_to receive(:warn)
-      ip_blocks.each {
-        |ip_block|
-        expect(subject.ui).to receive(:error).with("IP block ID #{ip_block} not found. Skipping.")
+      wrong_ipblock_ids.each {
+        |wrong_ipblock_id|
+        expect(subject.ui).to receive(:error).with("IP block ID #{wrong_ipblock_id} not found. Skipping.")
       }
       subject.run
     end

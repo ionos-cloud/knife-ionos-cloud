@@ -35,7 +35,7 @@ class Chef
           end
 
           _, _, headers = datacenter_api.datacenters_delete_with_http_info(datacenter_id)
-          ui.warn("Deleted data center #{datacenter.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Data center #{datacenter.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

@@ -35,7 +35,7 @@ class Chef
           end
 
           _, _, headers = lan_api.datacenters_lans_delete_with_http_info(config[:datacenter_id], lan.id)
-          ui.warn("Deleted LAN #{lan.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Lan #{lan.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

@@ -88,7 +88,7 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
         subject.config[key] = value
       end
 
-      allow(subject.ui).to receive(:warn).with(
+      expect(subject.ui).to receive(:warn).with(
         /Deleted Firewall rule #{@firewall.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
       ) do |arg|
         @request_id = arg.split('Request ID: ').last
@@ -102,7 +102,7 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
 
       subject.run
 
-      raise Exception('No Request ID found.') unless @request_id
+      raise Exception.new 'No Request ID found.' unless @request_id
 
       request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
 
@@ -136,13 +136,13 @@ describe Chef::Knife::ProfitbricksFirewallDelete do
       }.each do |key, value|
         subject.config[key] = value
       end
-      firewall_rules = [123,]  
-      subject.name_args = firewall_rules
+      wrong_firewall_rule_ids = [123,]  
+      subject.name_args = wrong_firewall_rule_ids
 
       expect(subject.ui).not_to receive(:warn)
-      firewall_rules.each {
-        |firewall_rule|
-        expect(subject.ui).to receive(:error).with("Firewall rule ID #{firewall_rule} not found. Skipping.")
+      wrong_firewall_rule_ids.each {
+        |wrong_firewall_rule_id|
+        expect(subject.ui).to receive(:error).with("Firewall rule ID #{wrong_firewall_rule_id} not found. Skipping.")
       }
       subject.run
     end
