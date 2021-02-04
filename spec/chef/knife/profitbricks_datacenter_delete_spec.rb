@@ -46,7 +46,6 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
         subject.config[key] = value
       end
   
-      subject.config[:yes] = true
       subject.name_args = [@datacenter.id]
 
       allow(subject.ui).to receive(:warn).with(
@@ -75,7 +74,7 @@ describe Chef::Knife::ProfitbricksDatacenterDelete do
 
       Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
       
-      expect{ Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter.id) }.to raise_error(Ionoscloud::ApiError) do |error|
+      expect { Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter.id) }.to raise_error(Ionoscloud::ApiError) do |error|
         expect(error.code).to eq(404)
       end
     end
