@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+             description: 'Name of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -47,45 +48,39 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id server_id lan), config)
+        validate_required_params(%i(datacenter_id server_id lan), Chef::Config[:knife])
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
         params = {
-          name: config[:name],
-          ips: config[:ips],
-          dhcp: config[:dhcp],
-          lan: config[:lan],
+          name: Chef::Config[:knife][:name],
+          ips: Chef::Config[:knife][:ips],
+          dhcp: Chef::Config[:knife][:dhcp],
+          lan: Chef::Config[:knife][:lan]
         }
 
-        if config[:nat]
-          params[:nat] = config[:nat]
+        if Chef::Config[:knife][:nat]
+          params[:nat] = Chef::Config[:knife][:nat]
         end
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
-
-        nic, _, headers = nic_api.datacenters_servers_nics_post_with_http_info(
-          config[:datacenter_id],
-          config[:server_id],
-          { properties: params.compact },
+        connection
+        nic = ProfitBricks::NIC.create(
+          Chef::Config[:knife][:datacenter_id],
+          Chef::Config[:knife][:server_id],
+          params.compact
         )
 
         dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
-
-        nic = nic_api.datacenters_servers_nics_find_by_id(
-          config[:datacenter_id],
-          config[:server_id],
-          nic.id,
-        )
+        nic.wait_for { print dot; ready? }
+        nic.reload
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{nic.id}"
-        puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
-        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips}"
-        puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
-        puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
-        puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"
+        puts "#{ui.color('Name', :cyan)}: #{nic.properties['name']}"
+        puts "#{ui.color('IPs', :cyan)}: #{nic.properties['ips']}"
+        puts "#{ui.color('DHCP', :cyan)}: #{nic.properties['dhcp']}"
+        puts "#{ui.color('LAN', :cyan)}: #{nic.properties['lan']}"
+        puts "#{ui.color('NAT', :cyan)}: #{nic.properties['nat']}"
 
         puts 'done'
       end

@@ -10,20 +10,21 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'ID of the data center'
+             description: 'ID of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       def run
-        server_api = Ionoscloud::ServerApi.new(api_client)
-
+        connection
         @name_args.each do |server_id|
           begin
-            _, _, headers = server_api.datacenters_servers_stop_post_with_http_info(config[:datacenter_id], server_id)
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
+            server = ProfitBricks::Server.get(Chef::Config[:knife][:datacenter_id], server_id)
+          rescue Excon::Errors::NotFound
             ui.error("Server ID #{server_id} not found. Skipping.")
             next
           end
-          ui.warn("Server #{server_id} is stopping. Request ID: #{get_request_id headers}")
+
+          server.stop
+          ui.warn("Server #{server.id} is stopping")
         end
       end
     end

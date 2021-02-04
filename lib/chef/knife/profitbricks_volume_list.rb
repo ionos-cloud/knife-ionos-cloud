@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the virtul data center containing the volume'
+             description: 'The ID of the virtul data center containing the volume',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -30,35 +31,29 @@ class Chef
           ui.color('Device Number', :bold)
         ]
 
-        opts = { depth: 1 }
-
-        if config[:server_id]
-          server_api = Ionoscloud::ServerApi.new(api_client)
-          volumes = server_api.datacenters_servers_volumes_get(config[:datacenter_id], config[:server_id], opts)
-
-          volumes.items.each do |volume|
+        connection
+        if defined?(Chef::Config[:knife][:server_id])
+          server = ProfitBricks::Server.get(Chef::Config[:knife][:datacenter_id], Chef::Config[:knife][:server_id])
+          server.list_volumes.each do |volume|
             volume_list << volume.id
-            volume_list << volume.properties.name
-            volume_list << volume.properties.size.to_s
-            volume_list << volume.properties.bus
-            volume_list << volume.properties.image
-            volume_list << volume.properties.type
-            volume_list << volume.properties.availability_zone
-            volume_list << volume.properties.device_number.to_s
+            volume_list << volume.properties['name']
+            volume_list << volume.properties['size'].to_s
+            volume_list << volume.properties['bus']
+            volume_list << volume.properties['image']
+            volume_list << volume.properties['type']
+            volume_list << volume.properties['availabilityZone']
+            volume_list << volume.properties['deviceNumber'].to_s
           end
         else
-          volume_api = Ionoscloud::VolumeApi.new(api_client)
-          volumes = volume_api.datacenters_volumes_get(config[:datacenter_id], opts)
-
-          volumes.items.each do |volume|
+          ProfitBricks::Volume.list(Chef::Config[:knife][:datacenter_id]).each do |volume|
             volume_list << volume.id
-            volume_list << volume.properties.name
-            volume_list << volume.properties.size.to_s
-            volume_list << volume.properties.bus
-            volume_list << volume.properties.image
-            volume_list << volume.properties.type
-            volume_list << volume.properties.availability_zone
-            volume_list << volume.properties.device_number.to_s
+            volume_list << volume.properties['name']
+            volume_list << volume.properties['size'].to_s
+            volume_list << volume.properties['bus']
+            volume_list << volume.properties['image']
+            volume_list << volume.properties['type']
+            volume_list << volume.properties['availabilityZone']
+            volume_list << volume.properties['deviceNumber'].to_s
           end
         end
 

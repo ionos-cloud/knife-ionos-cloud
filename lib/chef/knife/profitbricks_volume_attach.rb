@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+             description: 'The ID of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -18,22 +19,19 @@ class Chef
              description: 'The ID of the server'
 
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
-        server_api = Ionoscloud::ServerApi.new(api_client)
+        validate_required_params(%i(datacenter_id server_id), Chef::Config[:knife])
 
+        connection
         @name_args.each do |volume_id|
-          begin
-            _, _, headers = server_api.datacenters_servers_volumes_post_with_http_info(
-              config[:datacenter_id],
-              config[:server_id],
-              { id: volume_id },
-            )
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
+          volume = ProfitBricks::Volume.get(Chef::Config[:knife][:datacenter_id], nil, volume_id)
+
+          if volume.nil?
             ui.error("Volume ID #{volume_id} not found. Skipping.")
             next
           end
-          ui.msg("Volume #{volume_id} attached to server. Request ID: #{get_request_id headers}")
+
+          volume.attach(Chef::Config[:knife][:server_id])
+          ui.msg("Volume #{volume_id} attached to server")
         end
       end
     end

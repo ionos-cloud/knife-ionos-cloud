@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the virtual datacenter'
+             description: 'Name of the virtual datacenter',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :name,
              short: '-n NAME',
@@ -26,7 +27,7 @@ class Chef
              short: '-f CPU_FAMILY',
              long: '--cpu-family CPU_FAMILY',
              description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)',
-             default: 'INTEL_SKYLAKE'
+             default: 'AMD_OPTERON'
 
       option :ram,
              short: '-r RAM',
@@ -117,90 +118,84 @@ class Chef
       def run
         $stdout.sync = true
 
-        validate_required_params(%i[datacenter_id name cores ram size type dhcp lan], config)
+        validate_required_params(%i[datacenter_id name cores ram size type dhcp lan], Chef::Config[:knife])
 
-        if !config[:image] && !config[:imagealias]
+        if !Chef::Config[:knife][:image] && !Chef::Config[:knife][:imagealias]
           ui.error("Either '--image' or '--image-alias' parameter must be provided")
           exit(1)
         end
 
-        if !config[:sshkeys] && !config[:imagepassword]
+        if !Chef::Config[:knife][:sshkeys] && !Chef::Config[:knife][:imagepassword]
           ui.error("Either '--image-password' or '--ssh-keys' parameter must be provided")
           exit(1)
         end
 
         print ui.color('Creating composite server...', :magenta).to_s
         volume_params = {
-          name: config[:volumename],
-          size: config[:size],
-          bus: config[:bus] || 'VIRTIO',
-          image: config[:image],
-          type: config[:type],
-          licenceType: config[:licencetype],
+          name: Chef::Config[:knife][:volumename],
+          size: Chef::Config[:knife][:size],
+          bus: Chef::Config[:knife][:bus] || 'VIRTIO',
+          image: Chef::Config[:knife][:image],
+          type: Chef::Config[:knife][:type],
+          licenceType: Chef::Config[:knife][:licencetype]
         }
 
-        if config[:image]
-          volume_params['image'] = config[:image]
+        if Chef::Config[:knife][:image]
+          volume_params['image'] = Chef::Config[:knife][:image]
         end
 
-        if config[:imagealias]
-          volume_params['imageAlias'] = config[:imagealias]
+        if Chef::Config[:knife][:imagealias]
+          volume_params['imageAlias'] = Chef::Config[:knife][:imagealias]
         end
 
-        if config[:sshkeys]
-          volume_params[:sshKeys] = config[:sshkeys]
+        if Chef::Config[:knife][:sshkeys]
+          volume_params[:sshKeys] = Chef::Config[:knife][:sshkeys]
         end
 
-        if config[:imagepassword]
-          volume_params[:imagePassword] = config[:imagepassword]
+        if Chef::Config[:knife][:imagepassword]
+          volume_params[:imagePassword] = Chef::Config[:knife][:imagepassword]
         end
 
         if config[:volume_availability_zone]
-          volume_params[:availabilityZone] = config[:volume_availability_zone]
+          volume_params[:availabilityZone] = Chef::Config[:knife][:volume_availability_zone]
         end
 
         nic_params = {
-          name: config[:nicname],
-          ips: config[:ips],
-          dhcp: config[:dhcp],
-          lan: config[:lan],
+          name: Chef::Config[:knife][:nicname],
+          ips: Chef::Config[:knife][:ips],
+          dhcp: Chef::Config[:knife][:dhcp],
+          lan: Chef::Config[:knife][:lan]
         }
 
-        nic_params[:nat] = config[:nat] if config[:nat]
+        nic_params[:nat] = Chef::Config[:knife][:nat] if config[:nat]
 
         params = {
-          name: config[:name],
-          cores: config[:cores],
-          cpuFamily: config[:cpufamily],
-          ram: config[:ram],
-          availabilityZone: config[:availabilityzone],
+          name: Chef::Config[:knife][:name],
+          cores: Chef::Config[:knife][:cores],
+          cpuFamily: Chef::Config[:knife][:cpufamily],
+          ram: Chef::Config[:knife][:ram],
+          availabilityZone: Chef::Config[:knife][:availabilityzone],
+          volumes: [volume_params],
+          nics: [nic_params]
         }
 
-        entities = { 
-          volumes: {
-             items: [{ properties: volume_params }],
-          },
-          nics: {
-            items: [{ properties: nic_params }],
-          },
-        }
+        connection
 
-        server_api = Ionoscloud::ServerApi.new(api_client)
-
-        server, _, headers = server_api.datacenters_servers_post_with_http_info(
-          config[:datacenter_id], { properties: params.compact, entities: entities.compact},
+        server = ProfitBricks::Server.create(
+          Chef::Config[:knife][:datacenter_id],
+          params.compact
         )
 
         dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+        server.wait_for(300) { print dot; ready? }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"
-        puts "#{ui.color('Name', :cyan)}: #{server.properties.name}"
-        puts "#{ui.color('Cores', :cyan)}: #{server.properties.cores}"
-        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
-        puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
-        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
+        puts "#{ui.color('Name', :cyan)}: #{server.properties['name']}"
+        puts "#{ui.color('Cores', :cyan)}: #{server.properties['cores']}"
+        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties['cpuFamily']}"
+        puts "#{ui.color('Ram', :cyan)}: #{server.properties['ram']}"
+        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties['availabilityZone']}"
 
         puts 'done'
       end

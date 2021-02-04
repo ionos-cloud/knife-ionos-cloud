@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+             description: 'Name of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :name,
              short: '-n NAME',
@@ -65,14 +66,14 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id name type size), config)
+        validate_required_params(%i(datacenter_id name type size), Chef::Config[:knife])
 
-        if !config[:image] && !config[:imagealias]
+        if !Chef::Config[:knife][:image] && !Chef::Config[:knife][:imagealias]
           ui.error("Either '--image' or '--image-alias' parameter must be provided")
           exit(1)
         end
 
-        if !config[:sshkeys] && !config[:imagepassword]
+        if !Chef::Config[:knife][:sshkeys] && !Chef::Config[:knife][:imagepassword]
           ui.error("Either '--image-password' or '--ssh-keys' parameter must be provided")
           exit(1)
         end
@@ -80,55 +81,52 @@ class Chef
         print "#{ui.color('Creating volume...', :magenta)}"
 
         params = {
-          name: config[:name],
-          size: config[:size],
-          bus: config[:bus] || 'VIRTIO',
-          type: config[:type],
-          licenceType: config[:licencetype],
+          name: Chef::Config[:knife][:name],
+          size: Chef::Config[:knife][:size],
+          bus: Chef::Config[:knife][:bus] || 'VIRTIO',
+          type: Chef::Config[:knife][:type],
+          licenceType: Chef::Config[:knife][:licencetype],
         }
 
-        if config[:image]
-          params[:image] = config[:image]
+        if Chef::Config[:knife][:image]
+          params[:image] = Chef::Config[:knife][:image]
         end
 
-        if config[:imagealias]
-          params[:imageAlias] = config[:imagealias]
+        if Chef::Config[:knife][:imagealias]
+          params[:imageAlias] = Chef::Config[:knife][:imagealias]
         end
 
-        if config[:sshkeys]
-          params[:sshKeys] = config[:sshkeys]
+        if Chef::Config[:knife][:sshkeys]
+          params[:sshKeys] = Chef::Config[:knife][:sshkeys]
         end
 
-        if config[:imagepassword]
-          params[:imagePassword] = config[:imagepassword]
+        if Chef::Config[:knife][:imagepassword]
+          params[:imagePassword] = Chef::Config[:knife][:imagepassword]
         end
 
-        if config[:volume_availability_zone]
-          params[:availabilityZone] = config[:volume_availability_zone]
+        if Chef::Config[:knife][:volume_availability_zone]
+          params[:availabilityZone] = Chef::Config[:knife][:volume_availability_zone]
         end
 
-
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
-
-        volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
-          config[:datacenter_id],
-          { properties: params.compact },
+        connection
+        volume = ProfitBricks::Volume.create(
+          Chef::Config[:knife][:datacenter_id],
+          params.compact
         )
 
         dot = ui.color('.', :magenta)
-        api_client.wait_for(300) { print dot; is_done? get_request_id headers }
-
-        volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id)
+        volume.wait_for(300) { print dot; ready? }
+        volume.reload
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{volume.id}"
-        puts "#{ui.color('Name', :cyan)}: #{volume.properties.name}"
-        puts "#{ui.color('Size', :cyan)}: #{volume.properties.size}"
-        puts "#{ui.color('Bus', :cyan)}: #{volume.properties.bus}"
-        puts "#{ui.color('Image', :cyan)}: #{volume.properties.image}"
-        puts "#{ui.color('Type', :cyan)}: #{volume.properties.type}"
-        puts "#{ui.color('Licence Type', :cyan)}: #{volume.properties.licence_type}"
-        puts "#{ui.color('Zone', :cyan)}: #{volume.properties.availability_zone}"
+        puts "#{ui.color('Name', :cyan)}: #{volume.properties['name']}"
+        puts "#{ui.color('Size', :cyan)}: #{volume.properties['size']}"
+        puts "#{ui.color('Bus', :cyan)}: #{volume.properties['bus']}"
+        puts "#{ui.color('Image', :cyan)}: #{volume.properties['image']}"
+        puts "#{ui.color('Type', :cyan)}: #{volume.properties['type']}"
+        puts "#{ui.color('Licence Type', :cyan)}: #{volume.properties['licenceType']}"
+        puts "#{ui.color('Zone', :cyan)}: #{volume.properties['availabilityZone']}"
         puts 'done'
       end
     end

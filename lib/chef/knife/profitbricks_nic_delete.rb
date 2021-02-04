@@ -19,33 +19,27 @@ class Chef
              description: 'The ID of the server assigned the NIC'
 
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
+        connection
+        validate_required_params(%i(datacenter_id server_id), Chef::Config[:knife])
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
         @name_args.each do |nic_id|
           begin
-            nic = nic_api.datacenters_servers_nics_find_by_id(config[:datacenter_id], config[:server_id], nic_id)
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
-            ui.error("Nic ID #{nic_id} not found. Skipping.")
+            nic = ProfitBricks::NIC.get(Chef::Config[:knife][:datacenter_id], Chef::Config[:knife][:server_id], nic_id)
+          rescue Excon::Errors::NotFound
+            ui.error("NIC ID #{nic_id} not found. Skipping.")
             next
           end
 
           msg_pair('ID', nic.id)
-          msg_pair('Name', nic.properties.name)
-          msg_pair('IPs', nic.properties.ips)
-          msg_pair('DHCP', nic.properties.dhcp)
-          msg_pair('LAN', nic.properties.lan)
-          msg_pair('NAT', nic.properties.nat)
+          msg_pair('Name', nic.properties['name'])
+          msg_pair('IPs', nic.properties['cores'])
+          msg_pair('DHCP', nic.properties['ram'])
+          msg_pair('LAN', nic.properties['availabilityZone'])
 
-          begin
-            confirm('Do you really want to delete this NIC')
-          rescue SystemExit => exc
-            next
-          end
+          confirm('Do you really want to delete this NIC')
 
-          _, _, headers = nic_api.datacenters_servers_nics_delete_with_http_info(config[:datacenter_id], config[:server_id], nic.id)
-          ui.warn("Deleted Nic #{nic.id}. Request ID: #{get_request_id headers}")
+          nic.delete
+          ui.warn("Deleted nic #{nic.id}")
         end
       end
     end

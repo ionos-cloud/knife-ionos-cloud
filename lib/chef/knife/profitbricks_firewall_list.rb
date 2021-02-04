@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'ID of the data center'
+             description: 'ID of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -25,7 +26,7 @@ class Chef
       def run
         $stdout.sync = true
 
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
+        validate_required_params(%i(datacenter_id server_id nic_id), Chef::Config[:knife])
 
         firewall_list = [
           ui.color('ID', :bold),
@@ -37,24 +38,21 @@ class Chef
           ui.color('Port Range Start', :bold),
           ui.color('Port Range End', :bold),
           ui.color('ICMP Type', :bold),
-          ui.color('ICMP CODE', :bold),
+          ui.color('ICMP CODE', :bold)
         ]
+        connection
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
-
-        nic_api.datacenters_servers_nics_firewallrules_get(
-          config[:datacenter_id], config[:server_id], config[:nic_id], {depth: 1}
-        ).items.each do |firewall|
+        ProfitBricks::Firewall.list(Chef::Config[:knife][:datacenter_id], Chef::Config[:knife][:server_id], Chef::Config[:knife][:nic_id]).each do |firewall|
           firewall_list << firewall.id
-          firewall_list << firewall.properties.name
-          firewall_list << firewall.properties.protocol.to_s
-          firewall_list << firewall.properties.source_mac.to_s
-          firewall_list << firewall.properties.source_ip.to_s
-          firewall_list << firewall.properties.target_ip.to_s
-          firewall_list << firewall.properties.port_range_start.to_s
-          firewall_list << firewall.properties.port_range_end.to_s
-          firewall_list << firewall.properties.icmp_type.to_s
-          firewall_list << firewall.properties.icmp_code.to_s
+          firewall_list << firewall.properties['name']
+          firewall_list << firewall.properties['protocol'].to_s
+          firewall_list << firewall.properties['sourceMac'].to_s
+          firewall_list << firewall.properties['sourceIp'].to_s
+          firewall_list << firewall.properties['targetIp'].to_s
+          firewall_list << firewall.properties['portRangeStart'].to_s
+          firewall_list << firewall.properties['portRangeEnd'].to_s
+          firewall_list << firewall.properties['icmpType'].to_s
+          firewall_list << firewall.properties['icmpCode'].to_s
         end
 
         puts ui.list(firewall_list, :uneven_columns_across, 10)

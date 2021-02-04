@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+             description: 'The ID of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -22,42 +23,34 @@ class Chef
              description: 'ID of the NIC'
 
       def run
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
-        
-        nic_api = Ionoscloud::NicApi.new(api_client)
-
+        validate_required_params(%i(datacenter_id server_id nic_id), Chef::Config[:knife])
+        connection
         @name_args.each do |firewall_id|
           begin
-            firewall = nic_api.datacenters_servers_nics_firewallrules_find_by_id(
-              config[:datacenter_id], config[:server_id], config[:nic_id], firewall_id,
-            )
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
-            ui.error("Firewall rule ID #{firewall_id} not found. Skipping.")
+            firewall = ProfitBricks::Firewall.get(Chef::Config[:knife][:datacenter_id],
+                                                  Chef::Config[:knife][:server_id],
+                                                  Chef::Config[:knife][:nic_id],
+                                                  firewall_id)
+          rescue Excon::Errors::NotFound
+            ui.error("Firewall ID #{firewall_id} not found. Skipping.")
             next
           end
 
           msg_pair('ID', firewall.id)
-          msg_pair('Name', firewall.properties.name)
-          msg_pair('Protocol', firewall.properties.protocol)
-          msg_pair('Source MAC', firewall.properties.source_mac)
-          msg_pair('Source IP', firewall.properties.source_ip)
-          msg_pair('Target IP', firewall.properties.target_ip)
-          msg_pair('Port Range Start', firewall.properties.port_range_start)
-          msg_pair('Port Range End', firewall.properties.port_range_end)
-          msg_pair('ICMP Type', firewall.properties.icmp_type)
-          msg_pair('ICMP Code', firewall.properties.icmp_code)
+          msg_pair('Name', firewall.properties['name'])
+          msg_pair('Protocol', firewall.properties['protocol'])
+          msg_pair('Source MAC', firewall.properties['sourceMac'])
+          msg_pair('Source IP', firewall.properties['sourceIp'])
+          msg_pair('Target IP', firewall.properties['targetIp'])
+          msg_pair('Port Range Start', firewall.properties['portRangeStart'])
+          msg_pair('Port Range End', firewall.properties['portRangeEnd'])
+          msg_pair('ICMP Type', firewall.properties['icmpType'])
+          msg_pair('ICMP Code', firewall.properties['icmpCode'])
 
-          begin
-            confirm('Do you really want to delete this firewall rule')
-          rescue SystemExit => exc
-            next
-          end
+          confirm('Do you really want to delete this firewall rule')
 
-          _, _, headers = nic_api.datacenters_servers_nics_firewallrules_delete_with_http_info(
-            config[:datacenter_id], config[:server_id], config[:nic_id], firewall_id,
-          )
-          ui.warn("Deleted Firewall rule #{firewall.id}. Request ID: #{get_request_id headers}")
+          firewall.delete
+          ui.warn("Deleted firewall rule #{firewall.id}")
         end
       end
     end

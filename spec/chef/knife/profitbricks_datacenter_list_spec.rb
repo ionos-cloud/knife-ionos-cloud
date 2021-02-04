@@ -4,31 +4,21 @@ require 'profitbricks_datacenter_list'
 Chef::Knife::ProfitbricksDatacenterList.load_deps
 
 describe Chef::Knife::ProfitbricksDatacenterList do
-  subject { Chef::Knife::ProfitbricksDatacenterList.new }
+  let(:datacenter_list) { Chef::Knife::ProfitbricksDatacenterList.new }
 
   before :each do
-    @datacenter = create_test_datacenter()
-
-    allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
+    allow(datacenter_list).to receive(:puts)
   end
 
   describe '#run' do
-    it 'should output the column headers and the datacenter' do
-      {
-        profitbricks_username: ENV['IONOS_USERNAME'],
-        profitbricks_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+    it 'should output the column headers' do
+      expect(datacenter_list).to receive(:puts).with(/^ID\s+Name\s+Description\s+Location\s+Version\s*$/)
+      datacenter_list.run
+    end
 
-      expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Description\s+Location\s+Version\s*$\n#{@datacenter.id}\s+#{@datacenter.properties.name}\s+#{@datacenter.properties.description}\s+#{@datacenter.properties.location}\s+1\s*$/,
-      )
-      subject.run
+    it 'should output the data center locations' do
+      expect(datacenter_list).to receive(:puts).with(/^ID\s+Name\s+Description\s+Location\s+Version\s*$/)
+      datacenter_list.run
     end
   end
 end

@@ -2,7 +2,7 @@ require 'chef/knife/profitbricks_base'
 
 class Chef
   class Knife
-    class ProfitbricksIpfailoverRemove < Knife
+    class ProfitbricksFailoverRemove < Knife
       include Knife::ProfitbricksBase
 
       banner 'knife profitbricks ipfailover remove (options)'
@@ -10,49 +10,49 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+             description: 'Name of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :lan_id,
              short: '-l LAN_ID',
              long: '--lan-id LAN_ID',
              description: 'Lan ID'
-
       option :ip,
-            short: '-i IP',
-            long: '--ip IP',
-            description: 'IP to be added to IP failover group'
+             short: '-i',
+             long: '--ip',
+             description: 'IP to be removed from IP failover group'
 
       option :nic_id,
-            short: '-n NIC_ID',
-            long: '--nic-id NIC_ID',
-            description: 'NIC to be added to IP failover group'
+             short: '-n',
+             long: '--nic-id',
+             description: 'NIC to be removed from IP failover group'
 
       def run
         $stdout.sync = true
-        validate_required_params(%i[datacenter_id lan_id ip nic_id], config)
+        validate_required_params(%i[datacenter_id lan_id ip nic_id], Chef::Config[:knife])
 
-        lan_api = Ionoscloud::LanApi.new(api_client)
+        connection
 
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
+        lan = ProfitBricks::LAN.get(Chef::Config[:knife][:datacenter_id], Chef::Config[:knife][:lan_id])
 
-        changes = Ionoscloud::LanProperties.new(
-          { ip_failover: lan.properties.ip_failover.select { |el| el.nic_uuid != config[:nic_id] && el.ip != config[:ip] } },
-        )
+        ipfailover = lan.properties['ipFailover']
 
-        _, _, headers = lan_api.datacenters_lans_patch_with_http_info(
-          config[:datacenter_id], config[:lan_id], changes,
-        )
+        ipfailover.each_with_index do |value, index|
+          if value['nicUuid'] == Chef::Config[:knife][:nic_id] && value['ip'] == Chef::Config[:knife][:ip]
+            ipfailover.delete_at(index)
+          end
+        end
 
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
-
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
+        lan.update(ipFailover: ipfailover)
+        lan.wait_for { ready? }
+        lan.reload
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties.ip_failover}"
+        puts "#{ui.color('Name', :cyan)}: #{lan.properties['name']}"
+        puts "#{ui.color('Public', :cyan)}: #{lan.properties['public']}"
+        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties['ipFailover']}"
+
         puts 'done'
       end
     end

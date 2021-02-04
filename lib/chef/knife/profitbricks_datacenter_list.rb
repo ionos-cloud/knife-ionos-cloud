@@ -1,5 +1,4 @@
 require 'chef/knife/profitbricks_base'
-require 'ionoscloud'
 
 class Chef
   class Knife
@@ -17,15 +16,13 @@ class Chef
           ui.color('Location', :bold),
           ui.color('Version', :bold)
         ]
-
-        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
-
-        datacenter_api.datacenters_get({depth: 1}).items.each do |datacenter|
+        connection
+        ProfitBricks::Datacenter.list.each do |datacenter|
           datacenter_list << datacenter.id
-          datacenter_list << datacenter.properties.name
-          datacenter_list << datacenter.properties.description || ''
-          datacenter_list << datacenter.properties.location
-          datacenter_list << datacenter.properties.version.to_s
+          datacenter_list << datacenter.properties['name']
+          datacenter_list << (datacenter.properties['description'] == nil ? '' : datacenter.properties['description'])
+          datacenter_list << datacenter.properties['location']
+          datacenter_list << datacenter.properties['version'].to_s
         end
 
         puts ui.list(datacenter_list, :uneven_columns_across, 5)

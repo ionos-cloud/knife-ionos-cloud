@@ -10,40 +10,29 @@ class Chef
       option :datacenter_id,
              short: '-D ID',
              long: '--datacenter-id ID',
-             description: 'Name of the data center'
+             description: 'Name of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       def run
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
-
+        connection
         @name_args.each do |volume_id|
           begin
-            volume = volume_api.datacenters_volumes_find_by_id(
-              config[:datacenter_id], 
-              volume_id,
-            )
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
+            volume = ProfitBricks::Volume.get(Chef::Config[:knife][:datacenter_id], volume_id)
+          rescue Excon::Errors::NotFound
             ui.error("Volume ID #{volume_id} not found. Skipping.")
             next
           end
 
           msg_pair('ID', volume.id)
-          msg_pair('Name', volume.properties.name)
-          msg_pair('Size', volume.properties.size)
-          msg_pair('Bus', volume.properties.bus)
-          msg_pair('Image', volume.properties.image)
+          msg_pair('Name', volume.properties['name'])
+          msg_pair('Size', volume.properties['size'])
+          msg_pair('Bus', volume.properties['bus'])
+          msg_pair('Image', volume.properties['image'])
 
-          begin
-            confirm('Do you really want to delete this volume')
-          rescue SystemExit => exc
-            next
-          end
+          confirm('Do you really want to delete this volume')
 
-          _, _, headers = volume_api.datacenters_volumes_delete_with_http_info(
-            config[:datacenter_id], 
-            volume_id,
-          )
-          ui.warn("Deleted Volume #{volume.id}. Request ID: #{get_request_id headers}")
+          volume.delete
+          ui.warn("Deleted volume #{volume.id}")
         end
       end
     end

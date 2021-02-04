@@ -7,78 +7,75 @@ describe Chef::Knife::ProfitbricksVolumeDetach do
   subject { Chef::Knife::ProfitbricksVolumeDetach.new }
 
   before :each do
-    @datacenter = create_test_datacenter()
-    @server = create_test_server(@datacenter)
+    {
+      name: 'Chef Test',
+      public: 'true'
+    }.each do |key, value|
+      Chef::Config[:knife][key] = value
+    end
+
+    ProfitBricks.configure do |config|
+      config.username = Chef::Config[:knife][:profitbricks_username]
+      config.password = Chef::Config[:knife][:profitbricks_password]
+      config.url = Chef::Config[:knife][:profitbricks_url]
+      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
+      config.global_classes = false
+    end
+
+    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
+                                                  description: 'Chef test datacenter',
+                                                  location: 'us/las')
+    @datacenter.wait_for { ready? }
+
+    @server = ProfitBricks::Server.create(@datacenter.id, name: 'Chef Test',
+                                                          ram: 1024,
+                                                          cores: 1,
+                                                          availabilityZone: 'ZONE_1',
+                                                          cpuFamily: 'INTEL_XEON')
+    @server.wait_for { ready? }
+
+    location = 'us/las'
+    image_name = 'ubuntu'
+    image_type = 'HDD'
+
+    image = get_image(image_name, image_type, location)
+
+    @volume = ProfitBricks::Volume.create(@datacenter.id, size: 2,
+                                                          type: 'HDD',
+                                                          availabilityZone: 'ZONE_3',
+                                                          image: image.id,
+                                                          imagePassword: 'aoiaio00q235',
+                                                          bus: 'VIRTIO')
+
+    @volume.wait_for(300) { ready? }
+
+    @volume.attach(@server.id)
+    @volume.wait_for(300) { ready? }
+
+    Chef::Config[:knife][:datacenter_id] = @datacenter.id
+    Chef::Config[:knife][:server_id] = @server.id
+    subject.name_args = [@volume.id]
 
     allow(subject).to receive(:puts)
-    allow(subject.ui).to receive(:msg)
-    allow(subject).to receive(:confirm)
+    subject.config[:yes] = true
   end
 
   after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    ProfitBricks.configure do |config|
+      config.username = Chef::Config[:knife][:profitbricks_username]
+      config.password = Chef::Config[:knife][:profitbricks_password]
+      config.url = Chef::Config[:knife][:profitbricks_url]
+      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
+      config.global_classes = false
+    end
+
+    @datacenter.delete
+    @datacenter.wait_for { ready? }
   end
 
   describe '#run' do
     it 'should detach a volume' do
-      @volume = create_test_volume(@datacenter)
-      _, _, headers = Ionoscloud::ServerApi.new.datacenters_servers_volumes_post_with_http_info(
-        @datacenter.id, @server.id, { id: @volume.id },
-      )
-      Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
-
-      @volume = Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(@datacenter.id, @volume.id)
-
-      subject.name_args = [@volume.id]
-      {
-        profitbricks_username: ENV['IONOS_USERNAME'],
-        profitbricks_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-
-      expect(subject.ui).to receive(:msg).with(
-        /Detaching Volume #{@volume.id} from server. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
-      ) do |arg|
-        @request_id = arg.split('Request ID: ').last
-      end
-
-      expect(subject).to receive(:puts).with("ID: #{@volume.id}")
-      expect(subject).to receive(:puts).with("Name: #{@volume.properties.name}")
-      expect(subject).to receive(:puts).with("Size: #{@volume.properties.size}")
-      expect(subject).to receive(:puts).with("Bus: #{@volume.properties.bus}")
-      expect(subject).to receive(:puts).with("Device Number: #{@volume.properties.device_number}")
-
       subject.run
-
-      raise Exception.new 'No Request ID found.' unless @request_id
-
-      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
-
-      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
-      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
-      expect(request.metadata.targets.length).to eq(1)
-      expect(request.metadata.targets.first.target.type).to eq('volume')
-      expect(request.metadata.targets.first.target.id).to eq(@volume.id)
-
-      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
-
-      expect {
-        Ionoscloud::ServerApi.new.datacenters_servers_volumes_find_by_id(
-          @datacenter.id, @server.id, @volume.id,
-        )
-      }.to raise_error(Ionoscloud::ApiError) do |error|
-        expect(error.code).to eq(404)
-      end
-      
-      volume = Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(
-        @datacenter.id,
-        @volume.id,
-      )
-
-      expect(volume.properties.bus).to be(nil)
     end
   end
 end

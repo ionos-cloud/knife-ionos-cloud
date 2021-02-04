@@ -10,7 +10,8 @@ class Chef
       option :datacenter_id,
              short: '-D DATACENTER_ID',
              long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+             description: 'The ID of the data center',
+             proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
       option :server_id,
              short: '-S SERVER_ID',
@@ -18,41 +19,26 @@ class Chef
              description: 'The ID of the server'
 
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
-        server_api = Ionoscloud::ServerApi.new(api_client)
-
+        connection
+        validate_required_params(%i(datacenter_id server_id), Chef::Config[:knife])
         @name_args.each do |volume_id|
           begin
-            volume = server_api.datacenters_servers_volumes_find_by_id(
-              config[:datacenter_id],
-              config[:server_id],
-              volume_id,
-            )          
-          rescue Ionoscloud::ApiError => err
-            raise err unless err.code == 404
+            volume = ProfitBricks::Volume.get(Chef::Config[:knife][:datacenter_id], nil, volume_id)
+          rescue Excon::Errors::NotFound
             ui.error("Volume ID #{volume_id} not found. Skipping.")
             next
           end
 
           msg_pair('ID', volume.id)
-          msg_pair('Name', volume.properties.name)
-          msg_pair('Size', volume.properties.size)
-          msg_pair('Bus', volume.properties.bus)
-          msg_pair('Device Number', volume.properties.device_number)
+          msg_pair('Name', volume.properties['name'])
+          msg_pair('Size', volume.properties['size'])
+          msg_pair('Bus', volume.properties['bus'])
+          msg_pair('Device Number', volume.properties['deviceNumber'])
 
-          begin
-            confirm('Do you really want to detach this volume')
-          rescue SystemExit => exc
-            next
-          end
+          confirm('Do you really want to detach this volume')
 
-          _, _, headers = server_api.datacenters_servers_volumes_delete_with_http_info(
-            config[:datacenter_id],
-            config[:server_id],
-            volume.id,
-          )
-
-          ui.msg("Detaching Volume #{volume_id} from server. Request ID: #{get_request_id headers}")
+          volume.detach(Chef::Config[:knife][:server_id])
+          ui.msg("Detaching volume #{volume_id} from server")
         end
       end
     end

@@ -7,46 +7,73 @@ describe Chef::Knife::ProfitbricksVolumeList do
   subject { Chef::Knife::ProfitbricksVolumeList.new }
 
   before :each do
-    @datacenter = create_test_datacenter()
-    @volume = create_test_volume(@datacenter)
+    {
+      name: 'Chef Test',
+      public: 'true'
+    }.each do |key, value|
+      Chef::Config[:knife][key] = value
+    end
+
+    ProfitBricks.configure do |config|
+      config.username = Chef::Config[:knife][:profitbricks_username]
+      config.password = Chef::Config[:knife][:profitbricks_password]
+      config.url = Chef::Config[:knife][:profitbricks_url]
+      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
+      config.global_classes = false
+    end
+
+    @datacenter = ProfitBricks::Datacenter.create(name: 'Chef test',
+                                                  description: 'Chef test datacenter',
+                                                  location: 'us/las')
+    @datacenter.wait_for { ready? }
+
+    location = 'us/las'
+    image_name = 'ubuntu'
+    image_type = 'HDD'
+
+    image = get_image(image_name, image_type, location)
+
+    @volume = ProfitBricks::Volume.create(@datacenter.id, size: 2,
+                                                          type: 'HDD',
+                                                          availabilityZone: 'ZONE_3',
+                                                          image: image.id,
+                                                          imagePassword: 'aoiaio00q235',
+                                                          bus: 'VIRTIO')
+
+    @volume.wait_for(300) { ready? }
+
+    @server = ProfitBricks::Server.create(@datacenter.id, name: 'Chef Test',
+                                                          ram: 1024,
+                                                          cores: 1,
+                                                          availabilityZone: 'ZONE_1',
+                                                          cpuFamily: 'INTEL_XEON')
+    @server.wait_for { ready? }
+
+    @volume.attach(@server.id)
+    @volume.wait_for(300) { ready? }
+
+    Chef::Config[:knife][:datacenter_id] = @datacenter.id
+    Chef::Config[:knife][:server_id] = @server.id
 
     allow(subject).to receive(:puts)
   end
 
   after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    ProfitBricks.configure do |config|
+      config.username = Chef::Config[:knife][:profitbricks_username]
+      config.password = Chef::Config[:knife][:profitbricks_password]
+      config.url = Chef::Config[:knife][:profitbricks_url]
+      config.debug = Chef::Config[:knife][:profitbricks_debug] || false
+      config.global_classes = false
+    end
+
+    @datacenter.delete
+    @datacenter.wait_for { ready? }
   end
 
   describe '#run' do
     it 'should list volumes' do
-      {
-        profitbricks_username: ENV['IONOS_USERNAME'],
-        profitbricks_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-
-      expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*$\n#{@volume.id}\s+#{@volume.properties.name}\s+#{@volume.properties.size}\s+#{@volume.properties.bus}\s+#{@volume.properties.image}\s+#{@volume.properties.type}\s+#{@volume.properties.availability_zone}\s+#{@volume.properties.device_number.to_s}\s*$/,
-      )
-      subject.run
-    end
-    it 'should print only headers if there are no volumes' do
-      @server = create_test_server(@datacenter)
-
-      {
-        profitbricks_username: ENV['IONOS_USERNAME'],
-        profitbricks_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-
-      expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*\n$/,
-      )
+      expect(subject).to receive(:puts).with(/^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*$/)
       subject.run
     end
   end

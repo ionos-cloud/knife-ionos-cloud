@@ -4,20 +4,16 @@ require 'profitbricks_image_list'
 Chef::Knife::ProfitbricksImageList.load_deps
 
 describe Chef::Knife::ProfitbricksImageList do
-  subject { Chef::Knife::ProfitbricksImageList.new }
+  let(:image_list) { Chef::Knife::ProfitbricksImageList.new }
+
+  before :each do
+    allow(image_list).to receive(:puts)
+  end
 
   describe '#run' do
     it 'should output the column headers' do
-      {
-        profitbricks_username: ENV['IONOS_USERNAME'],
-        profitbricks_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-      allow(subject).to receive(:puts)
-
-      expect(subject).to receive(:puts).with(/^ID\s+Name\s+Description\s+Location\s+Size\s+Public\s*$/)
-      subject.run
+      expect(image_list).to receive(:puts).with(/^ID\s+Name\s+Description\s+Location\s+Size\s+Public\s*$/)
+      image_list.run
     end
   end
 end

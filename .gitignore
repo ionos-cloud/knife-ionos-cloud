@@ -23,4 +23,3 @@ tmp
 *.a
 mkmf.log
 knife.rb
-reset.sh
