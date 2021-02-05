@@ -25,7 +25,7 @@ class Chef
 
         ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
 
-        ipblock, _, headers = ipblock_api.ipblocks_post_with_http_info({properties: {location: config[:location], size: config[:size]}})
+        ipblock, _, headers = ipblock_api.ipblocks_post_with_http_info({ properties: { location: config[:location], size: config[:size] } })
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }

@@ -55,7 +55,7 @@ describe Chef::Knife::ProfitbricksIpblockDelete do
 
       Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
       
-      expect{ Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ip_block.id) }.to raise_error(Ionoscloud::ApiError) do |error|
+      expect { Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ip_block.id) }.to raise_error(Ionoscloud::ApiError) do |error|
         expect(error.code).to eq(404)
       end
     end

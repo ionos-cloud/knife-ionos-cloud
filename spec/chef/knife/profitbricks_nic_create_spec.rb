@@ -46,7 +46,7 @@ describe Chef::Knife::ProfitbricksNicCreate do
 
       subject.run
 
-      nic = Ionoscloud::NicApi.new.datacenters_servers_nics_get(@datacenter.id, @server.id, {depth: 1}).items.first
+      nic = Ionoscloud::NicApi.new.datacenters_servers_nics_get(@datacenter.id, @server.id, { depth: 1 }).items.first
 
       expect(nic.properties.name).to eq(nic_name)
       expect(nic.properties.dhcp).to eq(nic_dhcp)

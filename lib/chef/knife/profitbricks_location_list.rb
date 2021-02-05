@@ -15,7 +15,7 @@ class Chef
         ]
         location_api = Ionoscloud::LocationApi.new(api_client)
 
-        location_api.locations_get({depth: 1}).items.each do |location|
+        location_api.locations_get({ depth: 1 }).items.each do |location|
           location_list << location.id
           location_list << location.properties.name
         end

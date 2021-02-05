@@ -27,34 +27,10 @@ class Chef
         end
       end
 
-      def connection
-        ProfitBricks.configure do |config|
-          config.username = Chef::Config[:knife][:profitbricks_username]
-          config.password = Chef::Config[:knife][:profitbricks_password]
-          config.url = Chef::Config[:knife][:profitbricks_url]
-          config.debug = Chef::Config[:knife][:profitbricks_debug] || false
-          config.global_classes = false
-          config.headers = Hash.new
-          config.headers['User-Agent'] = "Chef/#{::Chef::VERSION} knife-profitbricks/#{::Knife::ProfitBricks::VERSION}"
-        end
-      end
-
-
       def msg_pair(label, value, color = :cyan)
         if !value.nil? && !value.to_s.empty?
           puts "#{ui.color(label, color)}: #{value}"
         end
-      end
-
-      def get_image(image_name, image_type, image_location)
-        images = ProfitBricks::Image.list
-        min_image = nil
-        images.each do |image|
-          if image.properties['name'].downcase.include? image_name && image.properties['public'] == true && image.properties['imageType'] == image_type && image.properties['location'] == image_location
-            min_image = image
-          end
-        end
-        min_image
       end
 
       def validate_required_params(required_params, params)
@@ -78,11 +54,11 @@ class Chef
         Ionoscloud::ApiClient.new(api_config)
       end
 
-      def get_request_id headers
+      def get_request_id(headers)
         headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
       end
 
-      def is_done? request_id
+      def is_done?(request_id)
         response = Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id)
         if response.metadata.status == 'FAILED'
           ui.error "Request #{request_id} failed\n" + response.metadata.message

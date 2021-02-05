@@ -19,7 +19,7 @@ class Chef
         ]
         image_api = Ionoscloud::ImageApi.new(api_client)
 
-        image_api.images_get({depth: 1}).items.each do |image|
+        image_api.images_get({ depth: 1 }).items.each do |image|
           image_list << image.id
           image_list << image.properties.name
           image_list << image.properties.description

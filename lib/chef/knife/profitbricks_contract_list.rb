@@ -29,7 +29,6 @@ class Chef
         puts "#{ui.color('Reservable IPs', :cyan)}: #{contract.properties.resource_limits.reservable_ips}"
         puts "#{ui.color('Reservable IPs on contract', :cyan)}: #{contract.properties.resource_limits.reserved_ips_on_contract}"
         puts "#{ui.color('Reservable IPs in use', :cyan)}: #{contract.properties.resource_limits.reserved_ips_in_use}"
-
       end
     end
   end

@@ -57,7 +57,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
 
       subject.run
 
-      server = Ionoscloud::ServerApi.new.datacenters_servers_get(@datacenter.id, {depth: 3}).items.first
+      server = Ionoscloud::ServerApi.new.datacenters_servers_get(@datacenter.id, { depth: 3 }).items.first
 
       expect(server.properties.name).to eq(server_name)
       expect(server.properties.cores.to_s).to eq(server_cores)

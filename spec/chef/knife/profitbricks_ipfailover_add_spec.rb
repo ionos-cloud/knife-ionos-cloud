@@ -36,7 +36,7 @@ describe Chef::Knife::ProfitbricksIpfailoverAdd do
         subject.config[key] = value
       end
 
-      ip_failovers = [{ip: @ip_block.properties.ips.first, nicUuid: @nic.id }]
+      ip_failovers = [{ ip: @ip_block.properties.ips.first, nicUuid: @nic.id }]
 
       expect(subject).to receive(:puts).with("ID: #{@lan.id}")
       expect(subject).to receive(:puts).with("Name: #{@lan.properties.name}")

@@ -25,7 +25,7 @@ end
 #     min_image
 # end
 
-def create_test_datacenter(properties={})
+def create_test_datacenter(properties = {})
   datacenter, _, headers  = Ionoscloud::DataCenterApi.new.datacenters_post_with_http_info({
     properties: {
       name: properties[:name] || 'Chef test Datacenter',
@@ -38,13 +38,13 @@ def create_test_datacenter(properties={})
   Ionoscloud::DataCenterApi.new.datacenters_find_by_id(datacenter.id)
 end
 
-def create_test_server(datacenter, properties={})
+def create_test_server(datacenter, properties = {})
   server, _, headers  = Ionoscloud::ServerApi.new.datacenters_servers_post_with_http_info(
     datacenter.id,
     {
       properties: {
         name: properties[:name] || 'Chef test Server',
-        ram: properties[:ram]|| 1024,
+        ram: properties[:ram] || 1024,
         cores: properties[:cores] || 1,
         availabilityZone: properties[:availability_zone] || 'ZONE_1',
         cpuFamily: properties[:cpu_family] || 'INTEL_SKYLAKE',
@@ -56,7 +56,7 @@ def create_test_server(datacenter, properties={})
   Ionoscloud::ServerApi.new.datacenters_servers_find_by_id(datacenter.id, server.id)
 end
 
-def create_test_nic(datacenter, server, properties={})
+def create_test_nic(datacenter, server, properties = {})
   nic, _, headers  = Ionoscloud::NicApi.new.datacenters_servers_nics_post_with_http_info(
     @datacenter.id,
     @server.id,
@@ -76,7 +76,7 @@ def create_test_nic(datacenter, server, properties={})
   Ionoscloud::NicApi.new.datacenters_servers_nics_find_by_id(@datacenter.id, @server.id, nic.id)
 end
 
-def create_test_lan(datacenter, properties={})
+def create_test_lan(datacenter, properties = {})
   lan, _, headers  = Ionoscloud::LanApi.new.datacenters_lans_post_with_http_info(
     datacenter.id,
     {
@@ -90,7 +90,7 @@ def create_test_lan(datacenter, properties={})
   Ionoscloud::LanApi.new.datacenters_lans_find_by_id(datacenter.id, lan.id)
 end
 
-def create_test_firewall(datacenter, server, nic, properties={})
+def create_test_firewall(datacenter, server, nic, properties = {})
   firewall, _, headers = Ionoscloud::NicApi.new.datacenters_servers_nics_firewallrules_post_with_http_info(
     datacenter.id,
     server.id,
@@ -111,7 +111,7 @@ def create_test_firewall(datacenter, server, nic, properties={})
   )
 end
 
-def create_test_ipblock(properties={})
+def create_test_ipblock(properties = {})
   ip_block, _, headers = Ionoscloud::IPBlocksApi.new.ipblocks_post_with_http_info(
     {
       properties: {
@@ -125,7 +125,7 @@ def create_test_ipblock(properties={})
   Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(ip_block.id)
 end
 
-def create_test_volume(datacenter, properties={})
+def create_test_volume(datacenter, properties = {})
   volume, _, headers = Ionoscloud::VolumeApi.new.datacenters_volumes_post_with_http_info(
     datacenter.id,
     {
@@ -144,11 +144,11 @@ def create_test_volume(datacenter, properties={})
   Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(datacenter.id, volume.id)
 end
 
-def get_request_id headers
+def get_request_id(headers)
   headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
 end
 
-def is_done? request_id
+def is_done?(request_id)
   response = Ionoscloud::RequestApi.new.requests_status_get(request_id)
   if response.metadata.status == 'FAILED'
     ui.error "Request #{request_id} failed\n" + response.metadata.message

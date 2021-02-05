@@ -53,7 +53,7 @@ describe Chef::Knife::ProfitbricksVolumeCreate do
 
       subject.run
 
-      volume = Ionoscloud::VolumeApi.new.datacenters_volumes_get(@datacenter.id, {depth: 1}).items.first
+      volume = Ionoscloud::VolumeApi.new.datacenters_volumes_get(@datacenter.id, { depth: 1 }).items.first
 
       expect(volume.properties.name).to eq(name)
       expect(volume.properties.type).to eq(type)

@@ -27,15 +27,15 @@ class Chef
 
         server_api = Ionoscloud::ServerApi.new(api_client)
 
-        server_api.datacenters_servers_get(config[:datacenter_id], {depth: 1}).items.each do |server|
-            server_list << server.id
-            server_list << server.properties.name
-            server_list << server.properties.cores.to_s
-            server_list << server.properties.ram.to_s
-            server_list << server.properties.availability_zone
-            server_list << server.properties.vm_state
-            server_list << server.properties.boot_volume || ''
-            server_list << server.properties.boot_cdrom || ''
+        server_api.datacenters_servers_get(config[:datacenter_id], { depth: 1 }).items.each do |server|
+          server_list << server.id
+          server_list << server.properties.name
+          server_list << server.properties.cores.to_s
+          server_list << server.properties.ram.to_s
+          server_list << server.properties.availability_zone
+          server_list << server.properties.vm_state
+          server_list << server.properties.boot_volume || ''
+          server_list << server.properties.boot_cdrom || ''
         end
 
         puts ui.list(server_list, :uneven_columns_across, 8)

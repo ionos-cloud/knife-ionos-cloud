@@ -22,7 +22,7 @@ class Chef
         ]
         lan_api = Ionoscloud::LanApi.new(api_client)
 
-        lan_api.datacenters_lans_get(config[:datacenter_id], {depth: 1}).items.each do |lan|
+        lan_api.datacenters_lans_get(config[:datacenter_id], { depth: 1 }).items.each do |lan|
           lan_list << lan.id
           lan_list << lan.properties.name
           lan_list << lan.properties.public.to_s

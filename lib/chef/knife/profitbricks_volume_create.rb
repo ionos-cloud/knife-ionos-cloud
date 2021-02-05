@@ -32,9 +32,9 @@ class Chef
              long: '--image ID',
              description: 'The image or snapshot ID'
 
-       option :imagealias,
-              long: '--image-alias IMAGE_ALIAS',
-              description: '(required) The image alias'
+      option :imagealias,
+             long: '--image-alias IMAGE_ALIAS',
+             description: '(required) The image alias'
 
       option :imagepassword,
              short: '-P PASSWORD',

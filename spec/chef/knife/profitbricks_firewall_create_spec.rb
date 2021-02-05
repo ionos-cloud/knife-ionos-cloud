@@ -51,7 +51,7 @@ describe Chef::Knife::ProfitbricksFirewallCreate do
 
       subject.run
 
-      firewall = Ionoscloud::NicApi.new.datacenters_servers_nics_firewallrules_get(@datacenter.id, @server.id, @nic.id, {depth: 1}).items.first
+      firewall = Ionoscloud::NicApi.new.datacenters_servers_nics_firewallrules_get(@datacenter.id, @server.id, @nic.id, { depth: 1 }).items.first
       expect(firewall.properties.name).to eq(firewall_name)
       expect(firewall.properties.protocol).to eq(firewall_protocol)
       expect(firewall.properties.port_range_start.to_s).to eq(firewall_range_start)

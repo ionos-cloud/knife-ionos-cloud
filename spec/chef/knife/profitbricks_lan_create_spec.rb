@@ -37,7 +37,7 @@ describe Chef::Knife::ProfitbricksLanCreate do
       expect(subject).to receive(:puts).with("Public: #{lan_public}")
       subject.run
 
-      lan = Ionoscloud::LanApi.new.datacenters_lans_get(@datacenter.id, {depth: 1}).items.first
+      lan = Ionoscloud::LanApi.new.datacenters_lans_get(@datacenter.id, { depth: 1 }).items.first
 
       expect(lan.properties.name).to eq(lan_name)
       expect(lan.properties.public).to eq(lan_public)

@@ -188,7 +188,7 @@ class Chef
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
-          config[:datacenter_id], { properties: params.compact, entities: entities.compact},
+          config[:datacenter_id], { properties: params.compact, entities: entities.compact },
         )
 
         dot = ui.color('.', :magenta)

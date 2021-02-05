@@ -1,4 +1,5 @@
 # coding: utf-8
+
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'knife-profitbricks/version'
@@ -8,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = Knife::ProfitBricks::VERSION
   spec.authors       = ["Ethan Devenport"]
   spec.email         = ["ethand@stackpointcloud.com"]
-  spec.summary       = %q{Chef Knife plugin for ProfitBricks platform}
-  spec.description   = %q{Official Chef Knife plugin for ProfitBricks platform using REST API}
+  spec.summary       = 'Chef Knife plugin for ProfitBricks platform'
+  spec.description   = 'Official Chef Knife plugin for ProfitBricks platform using REST API'
   spec.homepage      = "https://github.com/ionos-cloud/knife-ionos-cloud"
   spec.license       = "Apache-2.0"
 

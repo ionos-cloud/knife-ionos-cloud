@@ -75,7 +75,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id server_id nic_id) , config)
+        validate_required_params(%i(datacenter_id server_id nic_id), config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
         
