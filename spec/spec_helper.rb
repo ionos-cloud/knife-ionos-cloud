@@ -131,10 +131,10 @@ def create_test_volume(datacenter, properties = {})
     {
       properties: {
         name: properties[:name] || 'Test Volume',
-        size: properties[:size] || 4,
+        size: properties[:size] || 2,
         type: properties[:type] || 'HDD',
-        availabilityZone: properties[:availability_zone] || 'ZONE_3',
-        imageAlias: properties[:image_alias] || 'ubuntu:latest',
+        availabilityZone: properties[:availability_zone] || 'AUTO',
+        imageAlias: properties[:image_alias] || 'debian:latest',
         imagePassword: properties[:image_password] || 'K3tTj8G14a3EgKyNeeiY',
       },
     },

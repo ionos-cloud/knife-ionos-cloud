@@ -28,7 +28,13 @@ describe Chef::Knife::ProfitbricksServerList do
       end
 
       expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Cores\s+RAM\s+Availability Zone\s+VM State\s+Boot Volume\s+Boot CDROM\s*$\n#{@server.id}\s+#{@server.properties.name}\s+#{@server.properties.cores}\s+#{@server.properties.ram}\s+#{@server.properties.availability_zone}\s+#{@server.properties.vm_state}\s+#{(@server.properties.boot_volume == nil ? '' : @server.properties.boot_volume.id)}\s+#{(@server.properties.boot_cdrom == nil ? '' : @server.properties.boot_cdrom.id)}\s*$/,
+        %r{
+          (^ID\s+Name\s+Cores\s+RAM\s+Availability\sZone\s+VM\sState\s+Boot\sVolume\s+Boot\sCDROM\s*$\n
+            #{@server.id}\s+#{@server.properties.name.gsub(' ', '\s')}\s+#{@server.properties.cores}\s+
+            #{@server.properties.ram}\s+#{@server.properties.availability_zone}\s+#{@server.properties.vm_state}
+            \s+#{(@server.properties.boot_volume == nil ? '' : @server.properties.boot_volume.id)}\s+
+            #{(@server.properties.boot_cdrom == nil ? '' : @server.properties.boot_cdrom.id)}\s*$)
+        }x
       )
       subject.run
     end

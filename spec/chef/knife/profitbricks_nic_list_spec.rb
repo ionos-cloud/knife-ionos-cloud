@@ -30,7 +30,11 @@ describe Chef::Knife::ProfitbricksNicList do
       end
 
       expect(subject).to receive(:puts).with(
-        %r{(ID\s+Name\s+IPs\s+DHCP\s+NAT\s+LAN\s*$\n#{@nic.id}\s+#{@nic.properties.name}\s+\[\"#{@nic.properties.ips.first.to_s}\"\]\s+#{@nic.properties.dhcp}\s+#{@nic.properties.nat}\s+#{@nic.properties.lan}\s*$)}
+        %r{
+          (^ID\s+Name\s+IPs\s+DHCP\s+NAT\s+LAN\s*$\n#{@nic.id}\s+
+            #{@nic.properties.name.gsub(' ', '\s')}\s+\[\"#{@nic.properties.ips.first.to_s}\"\]
+            \s+#{@nic.properties.dhcp}\s+#{@nic.properties.nat}\s+#{@nic.properties.lan}\s*$)
+        }x
       )
       subject.run
     end

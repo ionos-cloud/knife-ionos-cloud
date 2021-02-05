@@ -22,7 +22,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
       server_cores = '1'
       cpu_family = 'INTEL_SKYLAKE'
       volume_type = 'HDD'
-      volume_size = 4
+      volume_size = 2
       dhpc = true
       lan_id = 1
 
@@ -36,7 +36,7 @@ describe Chef::Knife::ProfitbricksCompositeServerCreate do
         dhcp: dhpc,
         lan: lan_id,
         datacenter_id: @datacenter.id,
-        imagealias: 'ubuntu:latest',
+        imagealias: 'debian:latest',
         type: volume_type,
         imagepassword: 'K3tTj8G14a3EgKyNeeiY',
         cpufamily: cpu_family,

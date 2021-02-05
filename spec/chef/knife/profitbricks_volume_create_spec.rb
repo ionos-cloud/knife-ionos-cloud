@@ -19,11 +19,11 @@ describe Chef::Knife::ProfitbricksVolumeCreate do
 
   describe '#run' do
     it 'should create a volume' do
-      image_alias = 'ubuntu:latest'
-      size = 4
+      image_alias = 'debian:latest'
+      size = 2
       name = 'Chef Test'
       type = 'HDD'
-      image_password = 'aheoizj4689'
+      image_password = 'K3tTj8G14a3EgKyNeeiY'
       volume_availability_zone = 'AUTO'
       licence_type = 'LINUX'
 

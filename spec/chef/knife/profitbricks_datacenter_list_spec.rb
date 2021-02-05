@@ -26,7 +26,12 @@ describe Chef::Knife::ProfitbricksDatacenterList do
       end
 
       expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Description\s+Location\s+Version\s*$\n#{@datacenter.id}\s+#{@datacenter.properties.name}\s+#{@datacenter.properties.description}\s+#{@datacenter.properties.location}\s+1\s*$/,
+        %r{
+          (^ID\s+Name\s+Description\s+Location\s+Version\s*$\n.*
+          #{@datacenter.id}\s+#{@datacenter.properties.name.gsub(' ', '\s')}\s+
+          #{@datacenter.properties.description.gsub(' ', '\s')}\s+
+          #{@datacenter.properties.location}\s+1\s*$)
+        }x
       )
       subject.run
     end

@@ -28,7 +28,12 @@ describe Chef::Knife::ProfitbricksVolumeList do
       end
 
       expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*$\n#{@volume.id}\s+#{@volume.properties.name}\s+#{@volume.properties.size}\s+#{@volume.properties.bus}\s+#{@volume.properties.image}\s+#{@volume.properties.type}\s+#{@volume.properties.availability_zone}\s+#{@volume.properties.device_number.to_s}\s*$/,
+        %r{
+          (^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device\sNumber\s*$\n
+            #{@volume.id}\s+#{@volume.properties.name.gsub(' ', '\s')}\s+#{@volume.properties.size}\s+
+            #{@volume.properties.bus}\s+#{@volume.properties.image}\s+#{@volume.properties.type}\s+
+            #{@volume.properties.availability_zone}\s+#{@volume.properties.device_number.to_s}\s*$)
+        }x,
       )
       subject.run
     end
