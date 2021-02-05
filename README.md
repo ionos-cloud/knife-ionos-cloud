@@ -1,4 +1,4 @@
-# ProfitBricks Chef Knife Plugin
+# Ionoscloud Chef Knife Plugin
 
 ## Table of Contents
 
@@ -38,7 +38,7 @@
 
 ## Concepts
 
-Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-profitbricks` plugin utilizes the ProfitBricks REST API to provision and manage various cloud resources on the ProfitBricks platform.
+Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-ionoscloud` plugin utilizes the Ionoscloud REST API to provision and manage various cloud resources on the Ionoscloud platform.
 
 ## Requirements
 
@@ -47,17 +47,17 @@ Chef is a popular configuration management tool that allows simplified configura
 
 ## Getting Started
 
-Before you begin you will need to have [signed-up](https://www.profitbricks.com/signup/) for a ProfitBricks account. The credentials you establish during sign-up will be used to authenticate against the [ProfitBricks Cloud API](https://devops.profitbricks.com/api/).
+Before you begin you will need to have [signed-up](https://www.ionos.com/enterprise-cloud/signup) for a Ionoscloud account. The credentials you establish during sign-up will be used to authenticate against the [Ionoscloud Cloud API](https://devops.ionos.com/api/).
 
 ## Installation
 
-The `knife-profitbricks` plugin can be installed as a gem:
+The `knife-ionoscloud` plugin can be installed as a gem:
 
-    $ gem install knife-profitbricks
+    $ gem install knife-ionoscloud
 
 Or the plugin can be installed by adding the following line to your application's Gemfile:
 
-    gem 'knife-profitbricks'
+    gem 'knife-ionoscloud'
 
 And then execute:
 
@@ -65,12 +65,12 @@ And then execute:
 
 ## Configuration
 
-The ProfitBricks account credentials can be added to the `knife.rb` configuration file.
+The Ionoscloud account credentials can be added to the `knife.rb` configuration file.
 
     knife[:ionoscloud_username] = 'username'
     knife[:ionoscloud_password] = 'password'
 
-If a virtual data center has already been created under the ProfitBricks account, then the data center UUID can be added to the `knife.rb` which reduces the need to include the `--datacenter-id [datacenter_id]` parameter for each action within the data center.
+If a virtual data center has already been created under the Ionoscloud account, then the data center UUID can be added to the `knife.rb` which reduces the need to include the `--datacenter-id [datacenter_id]` parameter for each action within the data center.
 
     knife[:datacenter_id] = 'f3f3b6fe-017d-43a3-b42a-a759144b2e99'
 
@@ -90,7 +90,7 @@ Now the parameters can be set as environment variables:
 
 ## List Data Centers
 
-ProfitBricks introduces the concept of virtual data centers. These are logically separated from one another and allow you to have a self-contained environment for all servers, volumes, networking, and other resources. The goal is to give you the same experience as you would have if you were running your own physical data center.
+Ionoscloud introduces the concept of virtual data centers. These are logically separated from one another and allow you to have a self-contained environment for all servers, volumes, networking, and other resources. The goal is to give you the same experience as you would have if you were running your own physical data center.
 
 A list of available data centers can be obtained with the following command.
 
@@ -98,7 +98,7 @@ A list of available data centers can be obtained with the following command.
 
 ## Create Data Center
 
-Unless you are planning to manage an existing ProfitBricks environment, the first step will typically involve choosing the location for a new virtual data center. A list of locations can be obtained with location command.
+Unless you are planning to manage an existing Ionoscloud environment, the first step will typically involve choosing the location for a new virtual data center. A list of locations can be obtained with location command.
 
     knife ionoscloud location list
 
@@ -108,7 +108,7 @@ Make a note of the desired location ID and now the data center can be created.
 
 ## Create Server
 
-One of the unique features of the ProfitBricks platform when compared with the other providers is that they allow you to define your own settings for cores, memory, and disk size without being tied to a particular size or flavor.
+One of the unique features of the Ionoscloud platform when compared with the other providers is that they allow you to define your own settings for cores, memory, and disk size without being tied to a particular size or flavor.
 
 Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth.*
 
@@ -124,7 +124,7 @@ The new server should appear when listing all servers under the specified data c
 
 ## List Images
 
-A list of disk and ISO images are available from ProfitBricks for immediate use. These can be easily reviewed and selected with the following command.
+A list of disk and ISO images are available from Ionoscloud for immediate use. These can be easily reviewed and selected with the following command.
 
     knife ionoscloud image list
 
@@ -132,7 +132,7 @@ Make sure the image you use is in the same location as the virtual data center.
 
 ## Create Volume
 
-ProfitBricks allows for the creation of multiple storage volumes that can be attached and detached as needed. It is useful to attach an image when creating a storage volume. The storage size is in gigabytes (GB).
+Ionoscloud allows for the creation of multiple storage volumes that can be attached and detached as needed. It is useful to attach an image when creating a storage volume. The storage size is in gigabytes (GB).
 
     knife ionoscloud volume create --datacenter-id ade28808-9253-4d4e-9f5d-f1f7f1038fb1 --name "OS Volume" --size 20 --type HDD --image c4263e0f-e75e-11e4-91fd-8fa3eaae9f6b --ssh-keys "ssh-rsa AAAAB3NzaC1..."
 
@@ -148,7 +148,7 @@ You can also list all volumes attached to a specific server.
 
 ## Attach and Detach Volume
 
-ProfitBricks allows for the creation of multiple storage volumes. You can detach and reattach these on the fly. This allows for various scenarios such as re-attaching a failed OS disk to another server for possible recovery or moving a volume to another location and bringing it online.
+Ionoscloud allows for the creation of multiple storage volumes. You can detach and reattach these on the fly. This allows for various scenarios such as re-attaching a failed OS disk to another server for possible recovery or moving a volume to another location and bringing it online.
 
 The following illustrates how you would attach a volume with a UUID of 9b45f734-01ec-46ca-b163-d06c5a9d707f to a server:
 
@@ -172,7 +172,7 @@ A pubic LAN must be created within a data center.
 
 ## Create NIC
 
-The ProfitBricks platform supports adding multiple NICs to a server. These NICs can be used to create different, segmented networks on the platform.
+The Ionoscloud platform supports adding multiple NICs to a server. These NICs can be used to create different, segmented networks on the platform.
 
 The example below shows you how to add a second NIC to an existing server and LAN:
 
@@ -204,7 +204,7 @@ List available physical locations where resources can reside.
 
 ### List Data Centers
 
-List all available data centers under the ProfitBricks account.
+List all available data centers under the Ionoscloud account.
 
     knife ionoscloud datacenter list
 
@@ -404,9 +404,9 @@ Lists information about available contract resources
 
 ## Support
 
-Please report any issues through the [project repository on GitHub](https://github.com/profitbricks/knife-profitbricks).
+Please report any issues through the [project repository on GitHub](https://github.com/ionos-cloud/knife-ionos-cloud).
 
-Questions and discussions can be directed to [ProfitBricks DevOps Central](https://devops.profitbricks.com/) site.
+Questions and discussions can be directed to [Ionoscloud DevOps Central](https://devops.ionos.com/) site.
 
 ## Testing
 
@@ -414,7 +414,7 @@ Questions and discussions can be directed to [ProfitBricks DevOps Central](https
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/knife-profitbricks/fork ).
+1. Fork it ( https://github.com/[my-github-username]/knife-ionos-cloud/fork ).
 2. Create your feature branch (`git checkout -b my-new-feature`).
 3. Commit your changes (`git commit -am 'Add some feature'`).
 4. Push to the branch (`git push origin my-new-feature`).
