@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksVolumeCreate < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks volume create (options)'
+      banner 'knife ionoscloud volume create (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

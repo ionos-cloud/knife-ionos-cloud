@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksVolumeDelete < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks volume delete SERVER_ID [SERVER_ID] (options)'
+      banner 'knife ionoscloud volume delete SERVER_ID [SERVER_ID] (options)'
 
       option :datacenter_id,
              short: '-D ID',

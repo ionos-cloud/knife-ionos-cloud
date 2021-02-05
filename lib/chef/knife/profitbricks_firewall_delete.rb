@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksFirewallDelete < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks firewall delete FIREWALL_ID [FIREWALL_ID] (options)'
+      banner 'knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

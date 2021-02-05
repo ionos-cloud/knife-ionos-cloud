@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksCompositeServerCreate < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks composite server create (options)'
+      banner 'knife ionoscloud composite server create (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

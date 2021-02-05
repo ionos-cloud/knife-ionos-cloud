@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksDatacenterCreate < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks datacenter create (options)'
+      banner 'knife ionoscloud datacenter create (options)'
 
       option :name,
              short: '-n NAME',

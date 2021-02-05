@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksDatacenterDelete < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks datacenter delete DATACENTER_ID' \
+      banner 'knife ionoscloud datacenter delete DATACENTER_ID' \
              ' [DATACENTER_ID] (options)'
 
       def run

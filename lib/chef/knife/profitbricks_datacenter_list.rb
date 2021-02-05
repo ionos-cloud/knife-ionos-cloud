@@ -1,12 +1,12 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 require 'ionoscloud'
 
 class Chef
   class Knife
     class ProfitbricksDatacenterList < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks datacenter list'
+      banner 'knife ionoscloud datacenter list'
 
       def run
         $stdout.sync = true

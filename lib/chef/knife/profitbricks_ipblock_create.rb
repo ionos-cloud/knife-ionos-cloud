@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksIpblockCreate < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks ipblock create (options)'
+      banner 'knife ionoscloud ipblock create (options)'
 
       option :location,
              short: '-l LOCATION',

@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksIpfailoverAdd < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks ipfailover add (options)'
+      banner 'knife ionoscloud ipfailover add (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

@@ -1,29 +1,24 @@
 require 'chef/knife'
-require 'knife-profitbricks/version'
+require 'knife-ionoscloud/version'
 
 class Chef
   class Knife
-    module ProfitbricksBase
+    module IonoscloudBase
       def self.included(includer)
         includer.class_eval do
           deps do
             require 'ionoscloud'
           end
 
-          option :profitbricks_username,
+          option :ionoscloud_username,
             short: '-u USERNAME',
             long: '--username USERNAME',
-            description: 'Your ProfitBricks username'
+            description: 'Your Ionoscloud username'
 
-          option :profitbricks_password,
+          option :ionoscloud_password,
             short: '-p PASSWORD',
             long: '--password PASSWORD',
-            description: 'Your ProfitBricks password'
-
-          option :profitbricks_url,
-            short: '-U URL',
-            long: '--url URL',
-            description: 'The ProfitBricks API URL'
+            description: 'Your Ionoscloud password'
         end
       end
 
@@ -46,10 +41,10 @@ class Chef
       def api_client
         api_config = Ionoscloud::Configuration.new()
 
-        api_config.username = config[:profitbricks_username]
-        api_config.password = config[:profitbricks_password]
+        api_config.username = config[:ionoscloud_username]
+        api_config.password = config[:ionoscloud_password]
 
-        api_config.debugging = config[:profitbricks_debug] || false
+        api_config.debugging = config[:ionoscloud_debug] || false
 
         Ionoscloud::ApiClient.new(api_config)
       end

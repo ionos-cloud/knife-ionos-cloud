@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksServerReboot < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks server reboot SERVER_ID [SERVER_ID] (options)'
+      banner 'knife ionoscloud server reboot SERVER_ID [SERVER_ID] (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

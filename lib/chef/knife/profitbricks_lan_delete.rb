@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksLanDelete < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks lan delete LAN_ID [LAN_ID] (options)'
+      banner 'knife ionoscloud lan delete LAN_ID [LAN_ID] (options)'
 
       option :datacenter_id,
              short: '-D DATACENTER_ID',

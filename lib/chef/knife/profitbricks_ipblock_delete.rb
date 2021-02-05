@@ -1,11 +1,11 @@
-require 'chef/knife/profitbricks_base'
+require 'chef/knife/ionoscloud_base'
 
 class Chef
   class Knife
     class ProfitbricksIpblockDelete < Knife
-      include Knife::ProfitbricksBase
+      include Knife::IonoscloudBase
 
-      banner 'knife profitbricks ipblock delete IPBLOCK_ID [IPBLOCK_ID]'
+      banner 'knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]'
 
       def run
         ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
