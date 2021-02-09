@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud datacenter create (options)'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the data center'
+            short: '-n NAME',
+            long: '--name NAME',
+            description: 'Name of the data center'
 
       option :description,
              short: '-D DESCRIPTION',

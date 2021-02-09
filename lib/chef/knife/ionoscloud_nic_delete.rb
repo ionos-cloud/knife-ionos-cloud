@@ -39,7 +39,7 @@ class Chef
           msg_pair('NAT', nic.properties.nat)
 
           begin
-            confirm('Do you really want to delete this NIC')
+            confirm('Do you really want to delete this Nic')
           rescue SystemExit => exc
             next
           end

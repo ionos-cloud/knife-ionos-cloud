@@ -30,8 +30,8 @@ class Chef
 
       def validate_required_params(required_params, params)
         missing_params = required_params.select do |param|
-           params[param].nil?
-         end
+          params[param].nil?
+        end
         if missing_params.any?
           ui.error "Missing required parameters #{missing_params}"
           exit(1)

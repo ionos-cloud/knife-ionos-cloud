@@ -5,8 +5,7 @@ class Chef
     class IonoscloudDatacenterDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud datacenter delete DATACENTER_ID' \
-             ' [DATACENTER_ID] (options)'
+      banner 'knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]'
 
       def run
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
