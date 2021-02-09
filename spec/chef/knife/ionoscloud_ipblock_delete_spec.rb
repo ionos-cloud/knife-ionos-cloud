@@ -38,6 +38,7 @@ describe Chef::Knife::IonoscloudIpblockDelete do
       end
 
       expect(subject).to receive(:puts).with("ID: #{@ip_block.id}")
+      expect(subject).to receive(:puts).with("Name: #{@ip_block.properties.name}")
       expect(subject).to receive(:puts).with("Location: #{@ip_block.properties.location}")
       expect(subject).to receive(:puts).with("IP Addresses: #{@ip_block.properties.ips.to_s}")
 

@@ -14,11 +14,14 @@ describe Chef::Knife::IonoscloudIpblockCreate do
     it 'should reserve a IP block' do
       location = 'us/las'
       size = 1
+      name = 'test_ip'
+
       {
         ionoscloud_username: ENV['IONOS_USERNAME'],
         ionoscloud_password: ENV['IONOS_PASSWORD'],
         location: location,
         size: size,
+        name: name,
       }.each do |key, value|
         subject.config[key] = value
       end
@@ -29,6 +32,7 @@ describe Chef::Knife::IonoscloudIpblockCreate do
       expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
         @ipblock_id = argument.split(' ').last
       end
+      expect(subject).to receive(:puts).with("Name: #{name}")
       expect(subject).to receive(:puts).with("Location: #{location}")
 
       block = /\d{,2}|1\d{2}|2[0-4]\d|25[0-5]/
@@ -40,6 +44,7 @@ describe Chef::Knife::IonoscloudIpblockCreate do
         ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ipblock_id)
 
         expect(ip_block.properties.size).to eq(size)
+        expect(ip_block.properties.name).to eq(name)
         expect(ip_block.properties.location).to eq(location)
         expect(ip_block.properties.ips.length).to eq(size)
 

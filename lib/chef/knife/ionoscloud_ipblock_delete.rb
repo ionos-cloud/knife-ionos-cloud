@@ -19,6 +19,7 @@ class Chef
           end
 
           msg_pair('ID', ipblock.id)
+          msg_pair('Name', ipblock.properties.name)
           msg_pair('Location', ipblock.properties.location)
           msg_pair('IP Addresses', ipblock.properties.ips)
 

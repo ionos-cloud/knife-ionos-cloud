@@ -27,8 +27,9 @@ describe Chef::Knife::IonoscloudIpblockList do
 
       expect(subject).to receive(:puts).with(
         %r{
-          (^ID\s+Location\s+IP\sAddresses\s*$\n.*#{@ipblock.id}\s+#{@ipblock.properties.location}\s+
-            #{@ipblock.properties.ips.join(", ").to_s.gsub(' ', '\s')}\s*$)
+          (^ID\s+Name\s+Location\s+IP\sAddresses\s*$\n.*#{@ipblock.id}\s+
+            #{@ipblock.properties.name.to_s.gsub(' ', '\s')}\s+#{@ipblock.properties.location}
+            \s+#{@ipblock.properties.ips.join(", ").to_s.gsub(' ', '\s')}\s*$)
         }x
       )
       subject.run
