@@ -1,5 +1,4 @@
 require 'chef/knife/ionoscloud_base'
-require 'ionoscloud'
 
 class Chef
   class Knife

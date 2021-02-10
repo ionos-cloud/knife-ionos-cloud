@@ -33,7 +33,7 @@ class Chef
           params[param].nil?
         end
         if missing_params.any?
-          ui.error "Missing required parameters #{missing_params}"
+          puts "Missing required parameters #{missing_params}"
           exit(1)
         end
       end
@@ -56,7 +56,7 @@ class Chef
       def is_done?(request_id)
         response = Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id)
         if response.metadata.status == 'FAILED'
-          ui.error "Request #{request_id} failed\n" + response.metadata.message
+          puts "Request #{request_id} failed\n" + response.metadata.message
           exit(1)
         end
         response.metadata.status == 'DONE'

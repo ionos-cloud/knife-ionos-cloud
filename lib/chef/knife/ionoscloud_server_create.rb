@@ -49,7 +49,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id name cores ram), config)
+        validate_required_params(%i(datacenter_id cores ram), config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {
@@ -60,13 +60,8 @@ class Chef
           availabilityZone: config[:availabilityzone]
         }
 
-        if config[:bootcdrom]
-          params[:bootCdrom] = { id: config[:bootcdrom] }
-        end
-
-        if config[:bootvolume]
-          params[:bootVolume] = { id: config[:bootvolume] }
-        end
+        params[:bootCdrom] = { id: config[:bootcdrom] } unless config[:bootcdrom].nil?
+        params[:bootVolume] = { id: config[:bootvolume] } unless config[:bootvolume].nil?
 
         server_api = Ionoscloud::ServerApi.new(api_client)
         
