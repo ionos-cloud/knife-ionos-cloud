@@ -11,6 +11,29 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
   end
 
   describe '#run' do
+    it 'should fail if location is not provided' do
+      datacenter_name = 'Chef test'
+      description = 'Chef test datacenter'
+      {
+        ionoscloud_username: ENV['IONOS_USERNAME'],
+        ionoscloud_password: ENV['IONOS_PASSWORD'],
+        name: datacenter_name,
+        description: description,
+      }.each do |key, value|
+        subject.config[key] = value
+      end
+
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+      
+      expect(subject).to receive(:puts).with('Missing required parameters [:location]')
+
+      expect { subject.run }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+      
+    end
+
     it 'should create a data center' do
       datacenter_name = 'Chef test'
       description = 'Chef test datacenter'
