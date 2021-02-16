@@ -1,3 +1,3 @@
 #!/bin/sh
 
-knife profitbricks datacenter create --name "Test Datacenter" --location "us/las"
+knife ionoscloud datacenter create --name "Test Datacenter" --location "us/las"
