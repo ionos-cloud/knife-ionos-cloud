@@ -3,6 +3,10 @@
 * [Introduction](README.md)
 * [Changelog](changelog.md)
 
+## Subcommands
+
+* [Datacenter Create](subcommands/datacenter_create.md)
+
 <!-- ## API
 
 * [DefaultApi](api/defaultapi.md)
