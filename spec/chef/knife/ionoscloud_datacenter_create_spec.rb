@@ -31,7 +31,6 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
       expect { subject.run }.to raise_error(SystemExit) do |error|
         expect(error.status).to eq(1)
       end
-      
     end
 
     it 'should create a data center' do

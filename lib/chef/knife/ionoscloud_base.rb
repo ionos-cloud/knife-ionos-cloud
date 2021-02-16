@@ -46,7 +46,7 @@ class Chef
 
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        Ionoscloud::ApiClient.new(api_config)
+        @api_client ||= Ionoscloud::ApiClient.new(api_config)
       end
 
       def get_request_id(headers)
