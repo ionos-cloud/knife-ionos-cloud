@@ -130,6 +130,26 @@ def create_test_volume(datacenter, properties = {})
   Ionoscloud::VolumeApi.new.datacenters_volumes_find_by_id(datacenter.id, volume.id)
 end
 
+def create_test_k8s_cluster(properties = {})
+  cluster_properties = {
+    name: properties[:name] || 'CheftestCluster',
+    k8sVersion: properties[:version] || '1.18.15',
+  }.compact
+
+  if properties[:maintenance_day] && properties[:maintenance_time]
+    cluster_properties[:maintenance_window] = {
+      dayOfTheWeek: properties[:maintenance_day],
+      time: properties[:maintenance_time],
+    }
+  end
+
+  cluster, _, headers = Ionoscloud::KubernetesApi.new.k8s_post_with_http_info({ properties: cluster_properties })
+
+  Ionoscloud::ApiClient.new.wait_for { is_done? get_request_id headers }
+
+  Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster.id)
+end
+
 def get_request_id(headers)
   headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
 end
@@ -141,4 +161,9 @@ def is_done?(request_id)
     exit(1)
   end
   response.metadata.status == 'DONE'
+end
+
+def cluster_check_state?(cluster_id, target_state = 'ACTIVE')
+  cluster = Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster_id)
+  cluster.metadata.state == target_state
 end
