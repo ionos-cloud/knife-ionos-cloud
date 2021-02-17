@@ -22,7 +22,7 @@ class Subcommand < Mustache
   def initialize(banner, options, description, name)
     @banner = banner
     @options = options || []
-    @example = banner.chomp('(options)').gsub!(/\[.*\] /,'') + (options.map { |el| el[:long]}).join(' ')
+    @example = banner.chomp('(options)').gsub!(/\[.*\] /,'') || banner.chomp('(options)') + (options.map { |el| el[:long]}).join(' ')
     @description = description
     @name = name
   end
@@ -79,6 +79,9 @@ Chef::Knife.constants.select {|c|
     subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
     subcommands.append({ title: subcommand_name, filename: filename })
   rescue Exception => exc
+    puts "could not generate doc for #{subcommand}"
+    puts exc
+    raise exc
   end
 }
 

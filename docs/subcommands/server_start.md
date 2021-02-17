@@ -21,4 +21,4 @@
 
 ## Example
 
-    knife ionoscloud server start SERVER_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID
+    knife ionoscloud server start SERVER_ID 

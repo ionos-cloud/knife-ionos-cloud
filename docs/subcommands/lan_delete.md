@@ -21,4 +21,4 @@
 
 ## Example
 
-    knife ionoscloud lan delete LAN_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID
+    knife ionoscloud lan delete LAN_ID 

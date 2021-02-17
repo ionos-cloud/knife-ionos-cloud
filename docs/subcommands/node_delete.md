@@ -24,4 +24,4 @@
 
 ## Example
 
-    knife ionoscloud node delete NODE_ID --username USERNAME --password PASSWORD --cluster-id CLUSTER_ID --nodepool-id NODEPOOL_ID
+    knife ionoscloud node delete NODE_ID 

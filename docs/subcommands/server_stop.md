@@ -21,4 +21,4 @@
 
 ## Example
 
-    knife ionoscloud server stop SERVER_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID
+    knife ionoscloud server stop SERVER_ID 

@@ -21,4 +21,4 @@
 
 ## Example
 
-    knife ionoscloud volume delete SERVER_ID --username USERNAME --password PASSWORD --datacenter-id ID
+    knife ionoscloud volume delete SERVER_ID 

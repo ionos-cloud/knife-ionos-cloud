@@ -24,4 +24,4 @@
 
 ## Example
 
-    knife ionoscloud volume detach VOLUME_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID --server-id SERVER_ID
+    knife ionoscloud volume detach VOLUME_ID 

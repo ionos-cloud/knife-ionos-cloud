@@ -21,4 +21,4 @@
 
 ## Example
 
-    knife ionoscloud server reboot SERVER_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID
+    knife ionoscloud server reboot SERVER_ID 

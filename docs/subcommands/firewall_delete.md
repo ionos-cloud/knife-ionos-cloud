@@ -27,4 +27,4 @@
 
 ## Example
 
-    knife ionoscloud firewall delete FIREWALL_ID --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID
+    knife ionoscloud firewall delete FIREWALL_ID 
