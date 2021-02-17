@@ -9,7 +9,9 @@
 
 ```
 {{#options}}
-* {{name}}: {{long}}, {{short}}   {{description}}
+    {{name}}: {{long}}{{#short}}, {{short}}{{/short}}
+        {{description}}
+
 {{/options}}
 ```
 

@@ -21,6 +21,18 @@ class Chef
               short: '-l LOCATION',
               long: '--location LOCATION',
               description: 'Location of the data center'
+      
+      attr_reader :description
+      
+      def initialize
+        super()
+        @description =
+        "Unless you are planning to manage an existing Ionoscloud environment, "\
+        "the first step will typically involve choosing the location for a new virtual data center"\
+        "A list of locations can be obtained with location command.\n\n\t"\
+        "knife ionoscloud location list\n\n"\
+        "Make a note of the desired location ID and now the data center can be created.\n"
+      end
 
       def run
         $stdout.sync = true

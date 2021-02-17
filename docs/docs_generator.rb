@@ -22,7 +22,7 @@ class Subcommand < Mustache
   def initialize(banner, options, description, name)
     @banner = banner
     @options = options || []
-    @example = banner.chomp('(options)') + (options.map { |el| el[:long]}).join(' ')
+    @example = banner.chomp('(options)').gsub!(/\[.*\] /,'') + (options.map { |el| el[:long]}).join(' ')
     @description = description
     @name = name
   end
