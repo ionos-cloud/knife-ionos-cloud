@@ -82,6 +82,7 @@ Chef::Knife.constants.select {|c|
   end
 }
 
+subcommands.sort! { |a,b| a[:title] <=> b[:title] }
 
 File.open('summary.md', 'w') {|f| 
   f.write(Summary.new(subcommands).render,)
