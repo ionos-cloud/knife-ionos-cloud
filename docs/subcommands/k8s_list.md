@@ -1,18 +1,21 @@
 # K8sList
 
-
+Retrieve a list of Kubernetes clusters.
 
     knife ionoscloud k8s list
 
 
 ## Available options:
+---
+
+### Required options:
 
 ```
     ionoscloud_username: --username USERNAME, -u USERNAME
-        Your Ionoscloud username
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        Your Ionoscloud password
+        your Ionoscloud password
 
 ```
 

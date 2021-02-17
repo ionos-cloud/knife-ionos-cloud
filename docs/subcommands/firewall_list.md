@@ -1,30 +1,36 @@
 # FirewallList
 
-
+Lists all available firewall rules assigned to a NIC.
 
     knife ionoscloud firewall list (options)
 
 
 ## Available options:
+---
+
+### Required options:
+* datacenter_id
+* server_id
+* nic_id
 
 ```
-    ionoscloud_username: --username USERNAME, -u USERNAME
-        Your Ionoscloud username
-
-    ionoscloud_password: --password PASSWORD, -p PASSWORD
-        Your Ionoscloud password
-
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
-        ID of the data center
+        iD of the data center (required)
 
     server_id: --server-id SERVER_ID, -S SERVER_ID
-        The ID of the server
+        the ID of the server (required)
 
     nic_id: --nic-id NIC_ID, -N NIC_ID
-        ID of the NIC
+        iD of the NIC (required)
+
+    ionoscloud_username: --username USERNAME, -u USERNAME
+        your Ionoscloud username
+
+    ionoscloud_password: --password PASSWORD, -p PASSWORD
+        your Ionoscloud password
 
 ```
 
 ## Example
 
-    knife ionoscloud firewall list --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID
+    knife ionoscloud firewall list --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD

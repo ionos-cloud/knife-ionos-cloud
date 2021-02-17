@@ -21,10 +21,22 @@ class Chef
               short: '-n NAME',
               long: '--name NAME',
               description: 'Name of the IP block'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Reserves an IP block at a specified location that can be used by resources '\
+        'within any VDCs provisioned in that same location. An IP block consists of '\
+        'one or more static IP addresses. The IP block size (number of IP addresses) '\
+        'and location are required to reserve an IP block.'
+        @required_options = [:size, :location]
+      end
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(size location), config)
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Allocating IP block...', :magenta)}"
 

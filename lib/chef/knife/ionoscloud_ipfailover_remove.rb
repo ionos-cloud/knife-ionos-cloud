@@ -26,10 +26,19 @@ class Chef
             short: '-n NIC_ID',
             long: '--nic-id NIC_ID',
             description: 'NIC to be added to IP failover group'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Remove IP Failover from LAN'
+        @required_options = [:datacenter_id, :lan_id, :ip, :nic_id]
+      end
 
       def run
         $stdout.sync = true
-        validate_required_params(%i[datacenter_id lan_id ip nic_id], config)
+        validate_required_params(@required_options, config)
 
         lan_api = Ionoscloud::LanApi.new(api_client)
 

@@ -7,6 +7,17 @@ class Chef
 
       banner 'knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]'
 
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'You will want to exercise a bit of caution here. Removing a data center will destroy '\
+        'all objects contained within that data center -- servers, volumes, snapshots, and so on. '\
+        'The objects -- once removed -- will be unrecoverable.'
+        @required_options = []
+      end
+
       def run
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 

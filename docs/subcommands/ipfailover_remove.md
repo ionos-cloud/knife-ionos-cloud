@@ -1,33 +1,40 @@
 # IpfailoverRemove
 
-
+Remove IP Failover from LAN
 
     knife ionoscloud ipfailover remove (options)
 
 
 ## Available options:
+---
+
+### Required options:
+* datacenter_id
+* lan_id
+* ip
+* nic_id
 
 ```
-    ionoscloud_username: --username USERNAME, -u USERNAME
-        Your Ionoscloud username
-
-    ionoscloud_password: --password PASSWORD, -p PASSWORD
-        Your Ionoscloud password
-
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
-        Name of the data center
+        name of the data center (required)
 
     lan_id: --lan-id LAN_ID, -l LAN_ID
-        Lan ID
+        lan ID (required)
 
     ip: --ip IP, -i IP
-        IP to be added to IP failover group
+        iP to be added to IP failover group (required)
 
     nic_id: --nic-id NIC_ID, -n NIC_ID
-        NIC to be added to IP failover group
+        nIC to be added to IP failover group (required)
+
+    ionoscloud_username: --username USERNAME, -u USERNAME
+        your Ionoscloud username
+
+    ionoscloud_password: --password PASSWORD, -p PASSWORD
+        your Ionoscloud password
 
 ```
 
 ## Example
 
-    knife ionoscloud ipfailover remove --username USERNAME --password PASSWORD --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID
+    knife ionoscloud ipfailover remove --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD

@@ -1,18 +1,21 @@
 # IpblockDelete
 
-
+Releases a currently assigned IP block.
 
     knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]
 
 
 ## Available options:
+---
+
+### Required options:
 
 ```
     ionoscloud_username: --username USERNAME, -u USERNAME
-        Your Ionoscloud username
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        Your Ionoscloud password
+        your Ionoscloud password
 
 ```
 

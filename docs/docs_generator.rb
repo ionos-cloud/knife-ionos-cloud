@@ -17,14 +17,15 @@ class Subcommand < Mustache
   self.template_path = './templates'
   self.template_file = './templates/subcommand_doc.mustache'
 
-  attr_accessor :banner, :options, :example, :description, :name
+  attr_accessor :banner, :options, :example, :description, :name, :required_options
 
-  def initialize(banner, options, description, name)
+  def initialize(banner, options, description, name, required_options)
     @banner = banner
     @options = options || []
     @example = banner.chomp('(options)').gsub!(/\[.*\] /,'') || banner.chomp('(options)') + (options.map { |el| el[:long]}).join(' ')
     @description = description
     @name = name
+    @required_options = required_options || []
   end
 end
 
@@ -42,8 +43,10 @@ end
 def generate_subcommand_doc(subcommand)
   options = subcommand.options.map { |key, value|
     value[:name] = key
+    value[:required] = subcommand.required_options.include? key
+    value[:description][0] = value[:description][0].downcase
     value
-  }
+  }.rotate(2)
 
   subcommand_name = subcommand.class.to_s
   subcommand_name.slice!('Chef::Knife::Ionoscloud')
@@ -56,6 +59,8 @@ def generate_subcommand_doc(subcommand)
     description = ''
   end
 
+
+
   File.open(filename, 'w') {|f| 
     f.write(
       Subcommand.new(
@@ -63,9 +68,12 @@ def generate_subcommand_doc(subcommand)
         options,
         description,
         subcommand_name,
+        subcommand.required_options,
       ).render,
     )
   }
+
+  puts "Generated documentation for #{subcommand_name}."
   return subcommand_name, filename
 end
 
@@ -79,9 +87,7 @@ Chef::Knife.constants.select {|c|
     subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
     subcommands.append({ title: subcommand_name, filename: filename })
   rescue Exception => exc
-    puts "could not generate doc for #{subcommand}"
-    puts exc
-    raise exc
+    puts "Could not generate doc for #{subcommand}. Error: #{exc}"
   end
 }
 

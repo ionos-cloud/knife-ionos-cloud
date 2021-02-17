@@ -11,25 +11,29 @@ Make a note of the desired location ID and now the data center can be created.
 
 
 ## Available options:
+---
+
+### Required options:
+* location
 
 ```
-    ionoscloud_username: --username USERNAME, -u USERNAME
-        Your Ionoscloud username
-
-    ionoscloud_password: --password PASSWORD, -p PASSWORD
-        Your Ionoscloud password
-
     name: --name NAME, -n NAME
-        Name of the data center
+        name of the data center
 
     description: --description DESCRIPTION, -D DESCRIPTION
-        Description of the data center
+        description of the data center
 
     location: --location LOCATION, -l LOCATION
-        Location of the data center
+        location of the data center (required)
+
+    ionoscloud_username: --username USERNAME, -u USERNAME
+        your Ionoscloud username
+
+    ionoscloud_password: --password PASSWORD, -p PASSWORD
+        your Ionoscloud password
 
 ```
 
 ## Example
 
-    knife ionoscloud datacenter create --username USERNAME --password PASSWORD --name NAME --description DESCRIPTION --location LOCATION
+    knife ionoscloud datacenter create --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD

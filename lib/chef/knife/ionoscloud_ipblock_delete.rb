@@ -6,6 +6,15 @@ class Chef
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Releases a currently assigned IP block.'
+        @required_options = []
+      end
 
       def run
         ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)

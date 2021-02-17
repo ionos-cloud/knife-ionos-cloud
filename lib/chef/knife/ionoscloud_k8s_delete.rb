@@ -7,6 +7,15 @@ class Chef
 
       banner 'knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Deletes a Kubernetes cluster. The cluster cannot contain any node pools when deleting.'
+        @required_options = []
+      end
+
       def run
         $stdout.sync = true
 

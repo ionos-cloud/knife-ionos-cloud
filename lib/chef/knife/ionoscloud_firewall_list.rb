@@ -21,11 +21,20 @@ class Chef
              short: '-N NIC_ID',
              long: '--nic-id NIC_ID',
              description: 'ID of the NIC'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Lists all available firewall rules assigned to a NIC.'
+        @required_options = [:datacenter_id, :server_id, :nic_id]
+      end
 
       def run
         $stdout.sync = true
 
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
+        validate_required_params(@required_options, config)
 
         firewall_list = [
           ui.color('ID', :bold),

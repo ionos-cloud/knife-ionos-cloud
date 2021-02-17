@@ -6,6 +6,15 @@ class Chef
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud contract list'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Lists information about available contract resources.'
+        @required_options = []
+      end
 
       def run
         $stdout.sync = true

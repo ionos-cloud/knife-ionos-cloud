@@ -113,11 +113,20 @@ class Chef
       option :nat,
              long: '--nat',
              description: 'Set to enable NAT on the NIC'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
+        @required_options = [:datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan]
+      end
 
       def run
         $stdout.sync = true
 
-        validate_required_params(%i[datacenter_id name cores ram size type dhcp lan], config)
+        validate_required_params(@required_options, config)
 
         if !config[:image] && !config[:imagealias]
           ui.error("Either '--image' or '--image-alias' parameter must be provided")

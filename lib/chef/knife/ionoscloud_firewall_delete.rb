@@ -20,9 +20,18 @@ class Chef
              short: '-N NIC_ID',
              long: '--nic-id NIC_ID',
              description: 'ID of the NIC'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Deletes a firewall rule from an existing NIC.'
+        @required_options = [:datacenter_id, :server_id, :nic_id]
+      end
 
       def run
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
+        validate_required_params(@required_options, config)
         
         nic_api = Ionoscloud::NicApi.new(api_client)
 

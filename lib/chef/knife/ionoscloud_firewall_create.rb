@@ -70,10 +70,19 @@ class Chef
               long: '--icmp-code INT',
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Creates a new firewall rule on an existing NIC.'
+        @required_options = [:datacenter_id, :server_id, :nic_id]
+      end
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
         
