@@ -2,7 +2,7 @@ require 'mustache'
 
 $LOAD_PATH << '.'
 
-Dir["../lib/chef/knife/*.rb"].each {|file| require file }
+Dir["../lib/chef/knife/*.rb"].each { |file| require file }
 
 
 def underscore_string(s)
@@ -22,7 +22,7 @@ class Subcommand < Mustache
   def initialize(banner, options, description, name, required_options)
     @banner = banner
     @options = options || []
-    @example = banner.chomp('(options)').gsub!(/\[.*\] /,'') || banner.chomp('(options)') + (options.map { |el| el[:long]}).join(' ')
+    @example = banner.chomp('(options)').gsub!(/\[.*\] /, '') || banner.chomp('(options)') + (options.map { |el| el[:long] }).join(' ')
     @description = description
     @name = name
     @required_options = required_options || []
@@ -61,7 +61,7 @@ def generate_subcommand_doc(subcommand)
 
 
 
-  File.open(filename, 'w') {|f| 
+  File.open(filename, 'w') { |f| 
     f.write(
       Subcommand.new(
         subcommand.banner,
@@ -79,7 +79,7 @@ end
 
 subcommands = []
 
-Chef::Knife.constants.select {|c|
+Chef::Knife.constants.select { |c|
   Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud') 
 }.each {
   |subcommand|
@@ -91,8 +91,8 @@ Chef::Knife.constants.select {|c|
   end
 }
 
-subcommands.sort! { |a,b| a[:title] <=> b[:title] }
+subcommands.sort! { |a, b| a[:title] <=> b[:title] }
 
-File.open('summary.md', 'w') {|f| 
+File.open('summary.md', 'w') { |f| 
   f.write(Summary.new(subcommands).render,)
 }

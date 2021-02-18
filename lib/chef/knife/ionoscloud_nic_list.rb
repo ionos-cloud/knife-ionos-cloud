@@ -19,7 +19,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'List all available NICs connected to a server.'

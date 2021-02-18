@@ -58,6 +58,6 @@ The IONOS Cloud plugin for Knife aims to offer access to all resources in the IO
 
 ## FAQ
 
-1. How can I open a bug/feature request? 
+1. How can I open a bug/feature request?
 
 Bugs & feature requests can be open on the repository issues: [https://github.com/ionos-cloud/knife-ionos-cloud/issues/new/choose](https://github.com/ionos-cloud/knife-ionos-cloud/issues/new/choose)

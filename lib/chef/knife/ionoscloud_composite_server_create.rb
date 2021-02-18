@@ -116,7 +116,7 @@ class Chef
       
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'

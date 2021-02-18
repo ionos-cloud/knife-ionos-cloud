@@ -20,7 +20,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Delete a single Kubernetes Node.'

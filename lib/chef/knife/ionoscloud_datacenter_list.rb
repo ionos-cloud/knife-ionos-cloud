@@ -9,7 +9,7 @@ class Chef
 
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Ionoscloud introduces the concept of virtual data centers. '\

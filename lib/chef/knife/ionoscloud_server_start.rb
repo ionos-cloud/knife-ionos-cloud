@@ -14,7 +14,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'This will start a server. If the server\'s public IP was deallocated then a new IP will be assigned.'

@@ -14,7 +14,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Retrieve the kubeconfig file for a given Kubernetes cluster.'

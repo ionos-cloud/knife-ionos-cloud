@@ -29,7 +29,7 @@ class Chef
       
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         "Successfully setting up an IP Failover group requires three steps:\n"\

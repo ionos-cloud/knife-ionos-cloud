@@ -15,7 +15,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Lists all available LANs under a data center.'

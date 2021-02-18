@@ -65,7 +65,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Creates a volume within the data center. This will NOT attach the volume to a server. '\

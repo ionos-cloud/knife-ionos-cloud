@@ -9,7 +9,7 @@ class Chef
 
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'You will want to exercise a bit of caution here. Removing a data center will destroy '\

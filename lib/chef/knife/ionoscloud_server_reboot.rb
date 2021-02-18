@@ -14,7 +14,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'This will force a hard reboot of the server. Do not use this method '\

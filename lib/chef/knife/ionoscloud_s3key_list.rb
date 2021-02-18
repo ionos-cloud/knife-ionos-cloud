@@ -14,7 +14,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Retrieve a list of all the S3 keys for a specific user.'
@@ -34,7 +34,7 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        user_management_api.um_users_s3keys_get(config[:user], {depth: 1}).items.each do |s3_key|
+        user_management_api.um_users_s3keys_get(config[:user], { depth: 1 }).items.each do |s3_key|
           s3key_list << s3_key.id
           s3key_list << s3_key.properties.secret_key
           s3key_list << s3_key.metadata.etag

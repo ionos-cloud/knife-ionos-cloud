@@ -20,7 +20,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Retrieve a list of Kubernetes Nodes in a Nodepool.'

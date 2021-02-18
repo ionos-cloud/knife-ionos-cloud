@@ -73,7 +73,7 @@ class Chef
       
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Creates a new firewall rule on an existing NIC.'
@@ -110,7 +110,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        firewall= nic_api.datacenters_servers_nics_firewallrules_find_by_id(
+        firewall = nic_api.datacenters_servers_nics_firewallrules_find_by_id(
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],

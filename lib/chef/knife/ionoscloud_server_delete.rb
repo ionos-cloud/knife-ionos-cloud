@@ -14,7 +14,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         "This will remove a server from a VDC.\n\n"\

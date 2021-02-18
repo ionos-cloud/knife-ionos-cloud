@@ -9,7 +9,7 @@ class Chef
       
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'A list of disk and ISO images are available from Ionoscloud for immediate use. '\

@@ -24,7 +24,7 @@ class Chef
       
       attr_reader :description, :required_options
       
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         'Reserves an IP block at a specified location that can be used by resources '\
@@ -46,7 +46,7 @@ class Chef
           name: config[:name],
         }.compact
 
-        ipblock, _, headers = Ionoscloud::IPBlocksApi.new(api_client).ipblocks_post_with_http_info({ properties: params.compact})
+        ipblock, _, headers = Ionoscloud::IPBlocksApi.new(api_client).ipblocks_post_with_http_info({ properties: params.compact })
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }

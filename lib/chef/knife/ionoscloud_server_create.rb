@@ -49,7 +49,7 @@ class Chef
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         "One of the unique features of the Ionoscloud platform when compared "\

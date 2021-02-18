@@ -83,11 +83,11 @@ class Chef
       option :lans,
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes',
-              proc: proc { |lans| lans.split(',').map! {|lan| { id: Integer(lan) } } }
+              proc: proc { |lans| lans.split(',').map! { |lan| { id: Integer(lan) } } }
 
       attr_reader :description, :required_options
 
-      def initialize(args=[])
+      def initialize(args = [])
         super(args)
         @description =
         "Creates a node pool into an existing Kubernetes cluster. "\
