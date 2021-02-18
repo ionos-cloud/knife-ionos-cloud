@@ -1,5 +1,24 @@
 # Ionoscloud Chef Knife Plugin
 
+<!-- [![Gem Version][GV img]][Gem Version] -->
+[![Build Status][BS img]][Build Status]
+[![Dependency Status][DS img]][Dependency Status]
+[![Code Climate][CC img]][Code Climate]
+[![Coverage Status][CS img]][Coverage Status]
+
+<!-- [Gem Version]: https://rubygems.org/gems/boolean_class -->
+[Build Status]: https://travis-ci.org/elgalu/boolean_class
+[travis pull requests]: https://travis-ci.org/elgalu/boolean_class/pull_requests
+[Dependency Status]: https://gemnasium.com/elgalu/boolean_class
+[Code Climate]: https://codeclimate.com/github/elgalu/boolean_class
+[Coverage Status]: https://coveralls.io/r/elgalu/boolean_class
+
+<!-- [GV img]: https://badge.fury.io/rb/boolean_class.png -->
+[BS img]: https://travis-ci.org/elgalu/boolean_class.png
+[DS img]: https://gemnasium.com/elgalu/boolean_class.png
+[CC img]: https://codeclimate.com/github/elgalu/boolean_class.png
+[CS img]: https://coveralls.io/repos/elgalu/boolean_class/badge.png?branch=master
+
 ## Overview
 
 Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-ionoscloud` plugin utilizes the Ionoscloud REST API to provision and manage various cloud resources on the Ionoscloud platform.
