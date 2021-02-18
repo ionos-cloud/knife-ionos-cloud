@@ -10,16 +10,18 @@ Retrieve a list of all the S3 keys for a specific user.
 
 ### Required options:
 * user
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     user: --user USER_ID, -u USER_ID
         the ID of the user (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

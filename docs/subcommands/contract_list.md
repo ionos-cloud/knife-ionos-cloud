@@ -9,13 +9,15 @@ Lists information about available contract resources.
 ---
 
 ### Required options:
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

@@ -9,13 +9,15 @@ You will want to exercise a bit of caution here. Removing a data center will des
 ---
 
 ### Required options:
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

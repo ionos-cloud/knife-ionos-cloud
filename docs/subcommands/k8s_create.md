@@ -10,6 +10,8 @@ Creates a new Managed Kubernetes cluster.
 
 ### Required options:
 * name
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     name: --name NAME, -n NAME
@@ -25,10 +27,10 @@ Creates a new Managed Kubernetes cluster.
         time Of the day when to perform the maintenance.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

@@ -18,12 +18,12 @@ class Chef
         super(args)
         @description =
         'Retrieve a list of all the S3 keys for a specific user.'
-        @required_options = [:user]
+        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
-        validate_required_params(@required_options, config)
         $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         s3key_list = [
           ui.color('ID', :bold),

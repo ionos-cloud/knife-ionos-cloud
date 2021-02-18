@@ -32,12 +32,11 @@ class Chef
         "A list of locations can be obtained with location command.\n\n\t"\
         "knife ionoscloud location list\n\n"\
         "Make a note of the desired location ID and now the data center can be created.\n"
-        @required_options = [:location]
+        @required_options = [:location, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
         $stdout.sync = true
-
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating data center...', :magenta)}"

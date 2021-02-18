@@ -24,10 +24,11 @@ class Chef
         super(args)
         @description =
         'Deletes an existing NIC from a server.'
-        @required_options = [:datacenter_id, :server_id]
+        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
         validate_required_params(@required_options, config)
 
         nic_api = Ionoscloud::NicApi.new(api_client)

@@ -13,6 +13,8 @@ This will NOT delete the volume from your virtual data center. You will need to 
 ### Required options:
 * datacenter_id
 * server_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -22,10 +24,10 @@ This will NOT delete the volume from your virtual data center. You will need to 
         the ID of the server (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

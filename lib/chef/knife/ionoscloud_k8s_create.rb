@@ -33,7 +33,7 @@ class Chef
         super(args)
         @description =
         'Creates a new Managed Kubernetes cluster.'
-        @required_options = [:name]
+        @required_options = [:name, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

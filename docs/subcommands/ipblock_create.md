@@ -11,6 +11,8 @@ Reserves an IP block at a specified location that can be used by resources withi
 ### Required options:
 * size
 * location
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     location: --location LOCATION, -l LOCATION
@@ -23,10 +25,10 @@ Reserves an IP block at a specified location that can be used by resources withi
         name of the IP block
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

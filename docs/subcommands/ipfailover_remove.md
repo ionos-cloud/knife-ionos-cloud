@@ -13,6 +13,8 @@ Remove IP Failover from LAN
 * lan_id
 * ip
 * nic_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -28,10 +30,10 @@ Remove IP Failover from LAN
         nIC to be added to IP failover group (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

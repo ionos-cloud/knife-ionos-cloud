@@ -13,6 +13,8 @@ The Ionoscloud platform supports adding multiple NICs to a server. These NICs ca
 * datacenter_id
 * server_id
 * lan
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -37,10 +39,10 @@ The Ionoscloud platform supports adding multiple NICs to a server. These NICs ca
         set to enable NAT on the NIC
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

@@ -20,10 +20,13 @@ class Chef
         'This will force a hard reboot of the server. Do not use this method '\
         'if you want to gracefully reboot the machine. This is the equivalent '\
         'of powering off the machine and turning it back on.'
-        @required_options = [:datacenter_id]
+        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         @name_args.each do |server_id|

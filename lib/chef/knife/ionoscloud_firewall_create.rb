@@ -77,7 +77,7 @@ class Chef
         super(args)
         @description =
         'Creates a new firewall rule on an existing NIC.'
-        @required_options = [:datacenter_id, :server_id, :nic_id]
+        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

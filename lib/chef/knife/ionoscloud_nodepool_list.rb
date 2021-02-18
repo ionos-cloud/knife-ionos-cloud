@@ -18,10 +18,11 @@ class Chef
         super(args)
         @description =
         'Retrieve a list of all node pools contained in a selected Kubernetes cluster.'
-        @required_options = [:cluster_id]
+        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
         validate_required_params(@required_options, config)
 
         nodepool_list = [

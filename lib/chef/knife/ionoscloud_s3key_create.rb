@@ -18,12 +18,12 @@ class Chef
         super(args)
         @description =
         'Creates a new S3 key for a particular user.'
-        @required_options = [:user]
+        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
-        validate_required_params(@required_options, config)
         $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating S3key...', :magenta)}"
 

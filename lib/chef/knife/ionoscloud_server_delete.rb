@@ -20,10 +20,11 @@ class Chef
         "This will remove a server from a VDC.\n\n"\
         "**NOTE**: This will not automatically remove the storage volume(s) "\
         "attached to a server. A separate API call is required to perform that action."
-        @required_options = [:datacenter_id]
+        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
         validate_required_params(@required_options, config)
 
         server_api = Ionoscloud::ServerApi.new(api_client)

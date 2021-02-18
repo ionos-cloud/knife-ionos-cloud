@@ -17,6 +17,8 @@ This creates a new composite server with an attached volume and NIC in a specifi
 * type
 * dhcp
 * lan
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -83,10 +85,10 @@ This creates a new composite server with an attached volume and NIC in a specifi
         set to enable NAT on the NIC
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

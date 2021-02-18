@@ -14,6 +14,8 @@ Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768,
 * datacenter_id
 * cores
 * ram
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -41,10 +43,10 @@ Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768,
         reference to a CD-ROM used for booting
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

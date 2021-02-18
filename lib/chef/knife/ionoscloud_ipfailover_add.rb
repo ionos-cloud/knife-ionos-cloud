@@ -36,7 +36,7 @@ class Chef
         "* Add a reserved IP address to a NIC that will become the IP Failover master.\n"\
         "* Use PATCH or PUT to enable ipFailover by providing the relevant ip and nicUuid values.\n"\
         "* Add the same reserved IP address to any other NICs that are a member of the same LAN. Those NICs will become IP Failover members.\n"
-        @required_options = [:datacenter_id, :lan_id, :ip, :nic_id]
+        @required_options = [:datacenter_id, :lan_id, :ip, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

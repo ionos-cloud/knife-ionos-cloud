@@ -13,6 +13,8 @@ Creates a volume within the data center. This will NOT attach the volume to a se
 * name
 * type
 * size
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -49,10 +51,10 @@ Creates a volume within the data center. This will NOT attach the volume to a se
         the volume availability zone of the server
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

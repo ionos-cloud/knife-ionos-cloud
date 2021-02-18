@@ -88,6 +88,7 @@ Chef::Knife.constants.select { |c|
     subcommands.append({ title: subcommand_name, filename: filename })
   rescue Exception => exc
     puts "Could not generate doc for #{subcommand}. Error: #{exc}"
+    raise exc
   end
 }
 

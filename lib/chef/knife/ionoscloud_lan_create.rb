@@ -31,7 +31,7 @@ class Chef
         super(args)
         @description =
         'Creates a new LAN under a data center.'
-        @required_options = [:datacenter_id]
+        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

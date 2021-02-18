@@ -23,7 +23,7 @@ class Chef
         super(args)
         @description =
         'List all available NICs connected to a server.'
-        @required_options = [:datacenter_id, :server_id]
+        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

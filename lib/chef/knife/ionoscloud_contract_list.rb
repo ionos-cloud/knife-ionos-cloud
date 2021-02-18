@@ -13,11 +13,13 @@ class Chef
         super(args)
         @description =
         'Lists information about available contract resources.'
-        @required_options = []
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
         $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         contract = Ionoscloud::ContractApi.new(api_client).contracts_get()
 
         puts "#{ui.color('Contract Type', :cyan)}: #{contract.type}"

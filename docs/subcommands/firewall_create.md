@@ -12,6 +12,8 @@ Creates a new firewall rule on an existing NIC.
 * datacenter_id
 * server_id
 * nic_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -51,10 +53,10 @@ Creates a new firewall rule on an existing NIC.
         defines the allowed code (from 0 to 254) if the protocol ICMP is chosen; null allows all codes
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

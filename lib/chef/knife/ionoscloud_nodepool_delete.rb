@@ -18,12 +18,12 @@ class Chef
         super(args)
         @description =
         'Deletes a node pool within an existing Kubernetes cluster.'
-        @required_options = [:cluster_id]
+        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
-        validate_required_params(@required_options, config)
         $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 

@@ -56,12 +56,12 @@ class Chef
         "with the other providers is that they allow you to define your own settings "\
         "for cores, memory, and disk size without being tied to a particular size or flavor.\n\n"\
         "Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth.*"
-        @required_options = [:datacenter_id, :cores, :ram]
+        @required_options = [:datacenter_id, :cores, :ram, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
-        validate_required_params(@required_options, config)
-        $stdout.sync = true
+       $stdout.sync = true
+       validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {

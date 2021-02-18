@@ -10,6 +10,8 @@ List all available volumes under a data center. You can also list all volumes at
 
 ### Required options:
 * datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -19,10 +21,10 @@ List all available volumes under a data center. You can also list all volumes at
         the ID of the server
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

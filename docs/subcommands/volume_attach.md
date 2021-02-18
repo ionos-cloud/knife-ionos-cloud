@@ -11,6 +11,8 @@ This will attach a pre-existing storage volume to the server.
 ### Required options:
 * datacenter_id
 * server_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -20,10 +22,10 @@ This will attach a pre-existing storage volume to the server.
         the ID of the server (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

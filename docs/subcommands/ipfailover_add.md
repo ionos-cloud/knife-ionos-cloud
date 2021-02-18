@@ -17,6 +17,8 @@ Successfully setting up an IP Failover group requires three steps:
 * lan_id
 * ip
 * nic_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -32,10 +34,10 @@ Successfully setting up an IP Failover group requires three steps:
         nIC to be added to IP failover group (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 

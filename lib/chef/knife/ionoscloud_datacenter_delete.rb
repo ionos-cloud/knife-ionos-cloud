@@ -15,10 +15,13 @@ class Chef
         'You will want to exercise a bit of caution here. Removing a data center will destroy '\
         'all objects contained within that data center -- servers, volumes, snapshots, and so on. '\
         'The objects -- once removed -- will be unrecoverable.'
-        @required_options = []
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 
         @name_args.each do |datacenter_id|

@@ -70,12 +70,12 @@ class Chef
         @description =
         'Creates a volume within the data center. This will NOT attach the volume to a server. '\
         'Please see the Servers section for details on how to attach storage volumes.'
-        @required_options = [:datacenter_id, :name, :type, :size]
+        @required_options = [:datacenter_id, :name, :type, :size, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
-        validate_required_params(@required_options, config)
         $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         if !config[:image] && !config[:imagealias]
           ui.error("Either '--image' or '--image-alias' parameter must be provided")

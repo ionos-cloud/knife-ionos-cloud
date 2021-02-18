@@ -31,7 +31,7 @@ class Chef
         'within any VDCs provisioned in that same location. An IP block consists of '\
         'one or more static IP addresses. The IP block size (number of IP addresses) '\
         'and location are required to reserve an IP block.'
-        @required_options = [:size, :location]
+        @required_options = [:size, :location, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run

@@ -13,10 +13,13 @@ class Chef
         super(args)
         @description =
         'Releases a currently assigned IP block.'
-        @required_options = []
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
         @name_args.each do |ipblock_id|
           begin

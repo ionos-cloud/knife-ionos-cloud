@@ -10,6 +10,8 @@ Creates a new LAN under a data center.
 
 ### Required options:
 * datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -22,10 +24,10 @@ Creates a new LAN under a data center.
         boolean indicating if the LAN faces the public Internet or not; defaults to false
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username
+        your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password
+        your Ionoscloud password (required)
 
 ```
 
