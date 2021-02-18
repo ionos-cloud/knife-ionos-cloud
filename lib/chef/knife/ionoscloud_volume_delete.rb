@@ -12,7 +12,19 @@ class Chef
              long: '--datacenter-id ID',
              description: 'Name of the data center'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Deletes the specified volume. This will result in the volume being '\
+        'removed from your virtual data center. Please use this with caution!'
+        @required_options = [:datacenter_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
+
         volume_api = Ionoscloud::VolumeApi.new(api_client)
 
         @name_args.each do |volume_id|

@@ -12,10 +12,18 @@ class Chef
               long: '--user USER_ID',
               description: 'The ID of the user'
 
-      def run
-        $stdout.sync = true
+      attr_reader :description, :required_options
 
-        validate_required_params(%i(user), config)
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Retrieve a list of all the S3 keys for a specific user.'
+        @required_options = [:user]
+      end
+
+      def run
+        validate_required_params(@required_options, config)
+        $stdout.sync = true
 
         s3key_list = [
           ui.color('ID', :bold),

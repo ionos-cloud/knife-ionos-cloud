@@ -47,9 +47,21 @@ class Chef
              long: '--boot-cdrom CDROM_ID',
              description: 'Reference to a CD-ROM used for booting'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        "One of the unique features of the Ionoscloud platform when compared "\
+        "with the other providers is that they allow you to define your own settings "\
+        "for cores, memory, and disk size without being tied to a particular size or flavor.\n\n"\
+        "Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth.*"
+        @required_options = [:datacenter_id, :cores, :ram]
+      end
+
       def run
+        validate_required_params(@required_options, config)
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id cores ram), config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {

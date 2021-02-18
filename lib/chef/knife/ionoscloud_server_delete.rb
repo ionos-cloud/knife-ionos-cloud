@@ -12,7 +12,20 @@ class Chef
              long: '--datacenter-id DATACENTER_ID',
              description: 'Name of the data center'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        "This will remove a server from a VDC.\n\n"\
+        "**NOTE**: This will not automatically remove the storage volume(s) "\
+        "attached to a server. A separate API call is required to perform that action."
+        @required_options = [:datacenter_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         @name_args.each do |server_id|

@@ -129,12 +129,12 @@ class Chef
         validate_required_params(@required_options, config)
 
         if !config[:image] && !config[:imagealias]
-          ui.error("Either '--image' or '--image-alias' parameter must be provided")
+          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
           exit(1)
         end
 
         if !config[:sshkeys] && !config[:imagepassword]
-          ui.error("Either '--image-password' or '--ssh-keys' parameter must be provided")
+          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
           exit(1)
         end
 

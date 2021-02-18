@@ -7,6 +7,15 @@ class Chef
 
       banner 'knife ionoscloud location list'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'List available physical locations where resources can reside.'
+        @required_options = []
+      end
+
       def run
         $stdout.sync = true
         location_list = [

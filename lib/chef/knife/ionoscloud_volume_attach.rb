@@ -17,8 +17,18 @@ class Chef
              long: '--server-id SERVER_ID',
              description: 'The ID of the server'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'This will attach a pre-existing storage volume to the server.'
+        @required_options = [:datacenter_id, :server_id]
+      end
+
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
+        validate_required_params(@required_options, config)
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         @name_args.each do |volume_id|

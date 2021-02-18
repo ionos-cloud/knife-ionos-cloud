@@ -12,10 +12,18 @@ class Chef
               long: '--user USER_ID',
               description: 'The ID of the user'
 
-      def run
-        $stdout.sync = true
+      attr_reader :description, :required_options
 
-        validate_required_params(%i(user), config)
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Creates a new S3 key for a particular user.'
+        @required_options = [:user]
+      end
+
+      def run
+        validate_required_params(@required_options, config)
+        $stdout.sync = true
 
         print "#{ui.color('Creating S3key...', :magenta)}"
 

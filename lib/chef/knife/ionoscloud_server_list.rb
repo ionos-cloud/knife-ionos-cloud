@@ -12,8 +12,19 @@ class Chef
              long: '--datacenter-id DATACENTER_ID',
              description: 'The ID of the datacenter containing the server'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'List all available servers under a specified data center.'
+        @required_options = [:datacenter_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
         $stdout.sync = true
+
         server_list = [
           ui.color('ID', :bold),
           ui.color('Name', :bold),

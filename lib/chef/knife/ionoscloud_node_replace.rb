@@ -18,7 +18,21 @@ class Chef
               long: '--nodepool-id NODEPOOL_ID',
               description: 'The ID of the K8s Nodepool'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        "You can recreate a single Kubernetes Node.\n\n"\
+        "Managed Kubernetes starts a process which based on the nodepool\'s "\
+        "template creates & configures a new node, waits for status \"ACTIVE\", "\
+        "and migrates all the pods from the faulty node, deleting it once empty. "\
+        "While this operation occurs, the nodepool will have an extra billable \"ACTIVE\" node."
+        @required_options = [:cluster_id, :nodepool_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
         $stdout.sync = true
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)

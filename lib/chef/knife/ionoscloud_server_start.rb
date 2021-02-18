@@ -12,7 +12,18 @@ class Chef
              long: '--datacenter-id DATACENTER_ID',
              description: 'ID of the data center'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'This will start a server. If the server\'s public IP was deallocated then a new IP will be assigned.'
+        @required_options = [:datacenter_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         @name_args.each do |server_id|

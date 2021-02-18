@@ -13,7 +13,18 @@ class Chef
              description: 'The ID of the data center',
              proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Lists all available LANs under a data center.'
+        @required_options = [:datacenter_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
+
         $stdout.sync = true
         lan_list = [
           ui.color('ID', :bold),

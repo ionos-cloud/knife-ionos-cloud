@@ -18,7 +18,17 @@ class Chef
               long: '--nodepool-id NODEPOOL_ID',
               description: 'The ID of the K8s Nodepool'
 
+      attr_reader :description, :required_options
+
+      def initialize(args=[])
+        super(args)
+        @description =
+        'Delete a single Kubernetes Node.'
+        @required_options = [:cluster_id, :nodepool_id]
+      end
+
       def run
+        validate_required_params(@required_options, config)
         $stdout.sync = true
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
