@@ -1,9 +1,10 @@
+#!/usr/bin/env ruby
+
 require 'mustache'
 
 $LOAD_PATH << '.'
 
 Dir["../lib/chef/knife/*.rb"].each { |file| require file }
-
 
 def underscore_string(s)
   s.gsub(/::/, '/').
@@ -59,8 +60,6 @@ def generate_subcommand_doc(subcommand)
     description = ''
   end
 
-
-
   File.open(filename, 'w') { |f| 
     f.write(
       Subcommand.new(
@@ -88,7 +87,7 @@ Chef::Knife.constants.select { |c|
     subcommands.append({ title: subcommand_name, filename: filename })
   rescue Exception => exc
     puts "Could not generate doc for #{subcommand}. Error: #{exc}"
-    raise exc
+    # raise exc
   end
 }
 
