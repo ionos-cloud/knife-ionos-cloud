@@ -2,15 +2,6 @@ $:.unshift File.expand_path('../../lib/chef/knife', __FILE__)
 require 'rspec'
 require 'chef'
 
-require 'simplecov'
-require 'coveralls'
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-]
-SimpleCov.start
-
 RSpec.configure do |config|
   config.before(:each) do
     Ionoscloud.configure do |config|
