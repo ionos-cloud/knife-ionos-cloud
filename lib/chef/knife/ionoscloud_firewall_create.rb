@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -70,10 +70,19 @@ class Chef
               long: '--icmp-code INT',
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Creates a new firewall rule on an existing NIC.'
+        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+      end
 
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id server_id nic_id), config)
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
         
@@ -101,7 +110,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        firewall= nic_api.datacenters_servers_nics_firewallrules_find_by_id(
+        firewall = nic_api.datacenters_servers_nics_firewallrules_find_by_id(
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],

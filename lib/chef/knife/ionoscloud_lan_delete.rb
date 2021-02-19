@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -13,7 +13,19 @@ class Chef
              description: 'Name of the data center',
              proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Deletes an existing LAN.'
+        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         lan_api = Ionoscloud::LanApi.new(api_client)
         @name_args.each do |lan_id|
           begin

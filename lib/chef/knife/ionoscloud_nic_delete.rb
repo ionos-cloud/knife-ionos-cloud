@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -18,8 +18,18 @@ class Chef
              long: '--server-id SERVER_ID',
              description: 'The ID of the server assigned the NIC'
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Deletes an existing NIC from a server.'
+        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         nic_api = Ionoscloud::NicApi.new(api_client)
         @name_args.each do |nic_id|

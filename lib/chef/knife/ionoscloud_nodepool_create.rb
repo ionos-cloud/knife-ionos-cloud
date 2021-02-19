@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -83,14 +83,27 @@ class Chef
       option :lans,
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes',
-              proc: proc { |lans| lans.split(',').map! {|lan| { id: Integer(lan) } } }
+              proc: proc { |lans| lans.split(',').map! { |lan| { id: Integer(lan) } } }
+
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        "Creates a node pool into an existing Kubernetes cluster. "\
+        "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
+        "The worker nodes within the node pools will be deployed into an existing data centers."
+        @required_options = [
+          :datacenter_id, :cluster_id, :name, :version, 
+          :nodecount, :cpufamily, :cores, :ram, 
+          :availabilityzone, :storagetype, :storagesize,
+          :ionoscloud_username, :ionoscloud_password,
+        ]
+      end
 
       def run
         $stdout.sync = true
-        validate_required_params(
-          %i(datacenter_id cluster_id name version nodecount cpufamily cores ram availabilityzone storagetype storagesize),
-          config,
-        )
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating K8s Nodepool...', :magenta)}"
 

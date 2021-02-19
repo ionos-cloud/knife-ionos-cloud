@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -13,7 +13,19 @@ class Chef
              description: 'The ID of the data center',
              proc: proc { |datacenter_id| Chef::Config[:knife][:datacenter_id] = datacenter_id }
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Lists all available LANs under a data center.'
+        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         $stdout.sync = true
         lan_list = [
           ui.color('ID', :bold),

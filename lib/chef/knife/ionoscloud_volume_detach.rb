@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -17,8 +17,22 @@ class Chef
              long: '--server-id SERVER_ID',
              description: 'The ID of the server'
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        "This will detach the volume from the server. Depending on the volume "\
+        "HotUnplug settings, this may result in the server being rebooted.\n\n"\
+        "This will NOT delete the volume from your virtual data center. You will "\
+        "need to make a separate request to delete a volume."
+        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
-        validate_required_params(%i(datacenter_id server_id), config)
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         @name_args.each do |volume_id|

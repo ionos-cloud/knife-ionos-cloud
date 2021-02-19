@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -6,9 +6,20 @@ class Chef
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud contract list'
+      
+      attr_reader :description, :required_options
+      
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Lists information about available contract resources.'
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
+      end
 
       def run
         $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         contract = Ionoscloud::ContractApi.new(api_client).contracts_get()
 
         puts "#{ui.color('Contract Type', :cyan)}: #{contract.type}"

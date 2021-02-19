@@ -1,0 +1,26 @@
+# {{name}}
+
+{{description}}
+
+    {{banner}}
+
+
+## Available options:
+---
+
+### Required options:
+{{#required_options}}
+* {{.}}
+{{/required_options}}
+
+```
+{{#options}}
+    {{name}}: {{long}}{{#short}}, {{short}}{{/short}}
+        {{{description}}}{{#required}} (required){{/required}}
+
+{{/options}}
+```
+
+## Example
+
+    {{example}}

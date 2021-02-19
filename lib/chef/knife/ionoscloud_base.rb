@@ -1,5 +1,4 @@
 require 'chef/knife'
-require 'knife-ionoscloud/version'
 
 class Chef
   class Knife

@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -12,10 +12,18 @@ class Chef
               long: '--user USER_ID',
               description: 'The ID of the user'
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        'Retrieve a list of all the S3 keys for a specific user.'
+        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
         $stdout.sync = true
-
-        validate_required_params(%i(user), config)
+        validate_required_params(@required_options, config)
 
         s3key_list = [
           ui.color('ID', :bold),
@@ -26,7 +34,7 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        user_management_api.um_users_s3keys_get(config[:user], {depth: 1}).items.each do |s3_key|
+        user_management_api.um_users_s3keys_get(config[:user], { depth: 1 }).items.each do |s3_key|
           s3key_list << s3_key.id
           s3key_list << s3_key.properties.secret_key
           s3key_list << s3_key.metadata.etag

@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -45,9 +45,20 @@ class Chef
              boolean: true | false,
              description: 'Set to enable NAT on the NIC'
 
+      attr_reader :description, :required_options
+
+      def initialize(args = [])
+        super(args)
+        @description =
+        "Creates a NIC on the specified server.\n"\
+        "The Ionoscloud platform supports adding multiple NICs to a server. These NICs "\
+        "can be used to create different, segmented networks on the platform."
+        @required_options = [:datacenter_id, :server_id, :lan, :ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
         $stdout.sync = true
-        validate_required_params(%i(datacenter_id server_id lan), config)
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating nic...', :magenta)}"
 

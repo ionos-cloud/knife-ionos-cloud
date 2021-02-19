@@ -1,4 +1,4 @@
-require 'chef/knife/ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -7,7 +7,21 @@ class Chef
 
       banner 'knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]'
 
+      attr_reader :description, :required_options
+      
+      def initialize(args = [])
+        super(args)
+        @description =
+        'You will want to exercise a bit of caution here. Removing a data center will destroy '\
+        'all objects contained within that data center -- servers, volumes, snapshots, and so on. '\
+        'The objects -- once removed -- will be unrecoverable.'
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
+      end
+
       def run
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
+
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 
         @name_args.each do |datacenter_id|
