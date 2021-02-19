@@ -37,7 +37,6 @@ class Chef
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{s3_key.id}"
         puts "#{ui.color('Secret Key', :cyan)}: #{s3_key.properties.secret_key}"
-        puts "#{ui.color('Etag', :cyan)}: #{s3_key.metadata.etag}"
         puts "#{ui.color('Active', :cyan)}: #{s3_key.properties.active}"
         puts 'done'
       end

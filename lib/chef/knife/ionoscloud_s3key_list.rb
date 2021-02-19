@@ -28,7 +28,6 @@ class Chef
         s3key_list = [
           ui.color('ID', :bold),
           ui.color('Secret Key', :bold),
-          ui.color('Etag', :bold),
           ui.color('Active', :bold),
         ]
 
@@ -37,11 +36,10 @@ class Chef
         user_management_api.um_users_s3keys_get(config[:user], { depth: 1 }).items.each do |s3_key|
           s3key_list << s3_key.id
           s3key_list << s3_key.properties.secret_key
-          s3key_list << s3_key.metadata.etag
           s3key_list << s3_key.properties.active.to_s
         end
 
-        puts ui.list(s3key_list, :uneven_columns_across, 4)
+        puts ui.list(s3key_list, :uneven_columns_across, 3)
       end
     end
   end
