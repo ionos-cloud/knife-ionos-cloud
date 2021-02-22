@@ -1,6 +1,6 @@
 # Ionoscloud Chef Knife Plugin
 
-![SDK CI](https://github.com/ionos-cloud/sdk-resources/workflows/CI/badge.svg)
+![CI](https://github.com/ionos-cloud/sdk-resources/workflows/CI/badge.svg)
 [![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud)
 [![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
 
