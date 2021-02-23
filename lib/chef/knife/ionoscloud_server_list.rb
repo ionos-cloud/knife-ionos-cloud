@@ -33,7 +33,7 @@ class Chef
           ui.color('Availability Zone', :bold),
           ui.color('VM State', :bold),
           ui.color('Boot Volume', :bold),
-          ui.color('Boot CDROM', :bold)
+          ui.color('Boot CDROM', :bold),
         ]
 
         server_api = Ionoscloud::ServerApi.new(api_client)
