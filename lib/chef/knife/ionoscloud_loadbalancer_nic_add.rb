@@ -43,7 +43,7 @@ class Chef
             )
             request_ids_to_wait.append(get_request_id headers)
 
-            ui.warn("Added NIC #{nic_id} to the Load balancer #{config[:loadbalancer_id]}. Request ID: #{get_request_id headers}.")
+            ui.info("Added NIC #{nic_id} to the Load balancer #{config[:loadbalancer_id]}. Request ID: #{get_request_id headers}.")
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("NIC ID #{nic_id} not found. Skipping.")
