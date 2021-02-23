@@ -10,12 +10,12 @@ class Chef
       option :datacenter_id,
               short: '-D DATACENTER_ID',
               long: '--datacenter-id DATACENTER_ID',
-              description: 'Name of the data center'
+              description: 'ID of the data center'
 
       option :loadbalancer_id,
               short: '-L LOADBALANCER_ID',
               long: '--loadbalancer-id LOADBALANCER_ID',
-              description: 'Name of the load balancer'
+              description: 'ID of the load balancer'
 
       attr_reader :description, :required_options
       

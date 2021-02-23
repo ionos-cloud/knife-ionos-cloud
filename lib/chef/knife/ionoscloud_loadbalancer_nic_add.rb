@@ -31,7 +31,6 @@ class Chef
         validate_required_params(@required_options, config)
 
         load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
-        nic_api = Ionoscloud::NicApi.new(api_client)
 
         request_ids_to_wait = []
 
@@ -40,9 +39,7 @@ class Chef
             _, _, headers = load_balancer_api.datacenters_loadbalancers_balancednics_post_with_http_info(
               config[:datacenter_id],
               config[:loadbalancer_id],
-              {
-                id: nic_id,
-              },
+              { id: nic_id },
             )
             request_ids_to_wait.append(get_request_id headers)
 
