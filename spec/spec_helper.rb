@@ -150,6 +150,72 @@ def create_test_k8s_cluster(properties = {})
   Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster.id)
 end
 
+def user_mock(opts = {})
+  Ionoscloud::User.new({
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521a',
+    properties: Ionoscloud::UserProperties.new({
+      firstname: opts['firstname'] || 'Firstname',
+      lastname: opts['lastname'] || 'Lastname',
+      email: opts['email'] || 'a@a.a',
+      password: opts['password'] || 'parola1234',
+      administrator: opts['administrator'] || false,
+      force_sec_auth: opts['force_sec_auth'] || false,
+    }),
+  })
+end
+
+def arrays_without_one_element(arr)
+  result = [{ array: arr[1..], removed: [arr[0]]}]
+  (1..arr.length - 1).each {
+    |i|
+    result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]})
+  }
+  result
+end
+
+def expected_call_api_otps(operation, body, return_type)
+  {
+    operation: operation,
+    header_params: { "Accept" => "application/json", "Content-Type" => "application/json" },
+    query_params: {},
+    form_params: {},
+    body: body,
+    auth_names: ['Basic Authentication', 'Token Authentication'],
+    return_type: return_type,
+  }
+end
+
+def mock_wait_for(subject)
+  allow(subject.api_client).to receive(:wait_for) { true }
+end
+
+def mock_call_api(subject, rules = [])
+  allow(subject.api_client).to receive(:call_api) {
+    |method, path, opts|
+
+    received_body = JSON.parse(opts[:body], symbolize_names: true)
+    result = nil
+
+    rules.each { |rule|
+      if (
+        method.to_s == rule[:method] &&
+        path == rule[:path] &&
+        opts[:operation] == rule[:operation] &&
+        opts[:return_type] == rule[:return_type] &&
+        received_body == rule[:body]
+      )
+        result = rule[:result]
+        break
+      end
+    }
+    if result.nil?
+      raise ArgumentError.new "Received unexpected call with args: #{[method, path, opts]}"
+    end
+
+    result
+  }
+end
+
 def get_request_id(headers)
   headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
 end
