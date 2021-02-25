@@ -164,56 +164,43 @@ def user_mock(opts = {})
   })
 end
 
+def users_mock(opts = {})
+  Ionoscloud::Users.new({
+    id: 'users',
+    type: 'collection',
+    items: [user_mock],
+  })
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]]}]
-  (1..arr.length - 1).each {
-    |i|
-    result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]})
-  }
+  (1..arr.length - 1).each { |i| result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]}) }
   result
 end
 
-def expected_call_api_otps(operation, body, return_type)
-  {
-    operation: operation,
-    header_params: { "Accept" => "application/json", "Content-Type" => "application/json" },
-    query_params: {},
-    form_params: {},
-    body: body,
-    auth_names: ['Basic Authentication', 'Token Authentication'],
-    return_type: return_type,
-  }
-end
-
 def mock_wait_for(subject)
-  allow(subject.api_client).to receive(:wait_for) { true }
+  expect(subject.api_client).to receive(:wait_for).once { true }
 end
 
-def mock_call_api(subject, rules = [])
-  allow(subject.api_client).to receive(:call_api) {
-    |method, path, opts|
-
-    received_body = JSON.parse(opts[:body], symbolize_names: true)
-    result = nil
-
-    rules.each { |rule|
-      if (
-        method.to_s == rule[:method] &&
-        path == rule[:path] &&
-        opts[:operation] == rule[:operation] &&
-        opts[:return_type] == rule[:return_type] &&
-        received_body == rule[:body]
-      )
-        result = rule[:result]
-        break
+def mock_call_api(subject, rules)
+  rules.each do |rule|
+    expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
+      result = nil
+      received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
+  
+      expect(method.to_s).to eq(rule[:method])
+      expect(path).to eq(rule[:path])
+      expect(opts[:operation]).to eq(rule[:operation])
+      expect(opts[:return_type]).to eq(rule[:return_type] || 'Object')
+      expect(received_body).to eq(rule[:body] || nil)
+      
+      if rule[:exception]
+        raise rule[:exception]
       end
-    }
-    if result.nil?
-      raise ArgumentError.new "Received unexpected call with args: #{[method, path, opts]}"
+      rule[:result]
     end
-
-    result
-  }
+  end
+  expect(subject.api_client).not_to receive(:call_api)
 end
 
 def get_request_id(headers)

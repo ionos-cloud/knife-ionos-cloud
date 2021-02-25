@@ -16,10 +16,20 @@ describe Chef::Knife::IonoscloudUserCreate do
  
       subject_config.each { |key, value| subject.config[key] = value }
 
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+
+      expect(subject).to receive(:puts).with("ID: #{user.id}")
+      expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
+      expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
+      expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
+      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
+      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth}")
+
       mock_wait_for(subject)
       mock_call_api(
-        subject, 
-        rules = [
+        subject,
+        [
           {
             method: 'POST',
             path: '/um/users',
@@ -30,45 +40,23 @@ describe Chef::Knife::IonoscloudUserCreate do
           },
         ],
       )
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-
-      expect(subject.api_client).to receive(:wait_for).once
-      expect(subject.api_client).to receive(:call_api).once
-
-      expect(subject).to receive(:puts).with("ID: #{user.id}")
-      expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
-      expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
-      expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
-      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
-      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth}")
 
       expect { subject.run }.not_to raise_error(Exception)
     end
 
     it "should not make any call if any required option is missing" do
       required_options = subject.instance_variable_get(:@required_options)
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
-      puts required_options.to_s
       arrays_without_one_element(required_options).each {
-        |a|
-        puts a.to_s
-      }
-
-      test_cases = arrays_without_one_element(required_options)
-
-      test_cases.each {
         |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
-        allow(subject).to receive(:puts)
-        allow(subject).to receive(:print)
-
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
   
-
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end
