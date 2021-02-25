@@ -25,7 +25,12 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        puts Ionoscloud::UserManagementApi.new(api_client).um_users_s3ssourl_get(config[:user_id]).sso_url
+        begin
+          puts Ionoscloud::UserManagementApi.new(api_client).um_users_s3ssourl_get(config[:user_id]).sso_url
+        rescue Ionoscloud::ApiError => err
+          raise err unless err.code == 404
+          ui.error("User ID #{config[:user_id]} not found. Skipping.")
+        end
       end
     end
   end

@@ -150,26 +150,32 @@ def create_test_k8s_cluster(properties = {})
   Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster.id)
 end
 
+def sso_url_mock(opts = {})
+  Ionoscloud::S3ObjectStorageSSO.new(
+    sso_url: opts['sso_url'] || 'www.sso-url.com',
+  )
+end
+
 def user_mock(opts = {})
-  Ionoscloud::User.new({
+  Ionoscloud::User.new(
     id: 'a3c3c57e-921d-4f81-9dbd-444d571d521a',
-    properties: Ionoscloud::UserProperties.new({
+    properties: Ionoscloud::UserProperties.new(
       firstname: opts['firstname'] || 'Firstname',
       lastname: opts['lastname'] || 'Lastname',
       email: opts['email'] || 'a@a.a',
       password: opts['password'] || 'parola1234',
       administrator: opts['administrator'] || false,
       force_sec_auth: opts['force_sec_auth'] || false,
-    }),
-  })
+    ),
+  )
 end
 
 def users_mock(opts = {})
-  Ionoscloud::Users.new({
+  Ionoscloud::Users.new(
     id: 'users',
     type: 'collection',
     items: [user_mock],
-  })
+  )
 end
 
 def arrays_without_one_element(arr)

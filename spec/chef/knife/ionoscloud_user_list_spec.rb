@@ -84,6 +84,7 @@ describe Chef::Knife::IonoscloudUserList do
 
       expect(subject.ui).to receive(:list). with(user_list, :uneven_columns_across, 6)
 
+      expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
         subject,
         [
