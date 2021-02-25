@@ -1,42 +1,49 @@
 require 'spec_helper'
-require 'ionoscloud_user_create'
+require 'ionoscloud_snapshot_list'
 
-Chef::Knife::IonoscloudUserCreate.load_deps
+Chef::Knife::IonoscloudSnapshotList.load_deps
 
-describe Chef::Knife::IonoscloudUserCreate do
-  subject { Chef::Knife::IonoscloudUserCreate.new }
+describe Chef::Knife::IonoscloudSnapshotList do
+  subject { Chef::Knife::IonoscloudSnapshotList.new }
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_post with the expected arguments and output based on what it receives' do
-      user = user_mock
+    it 'should call SnapshotApi.snapshots_get' do
+      snapshots = snapshots_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-      }.merge(user.properties.to_hash)
+      }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
+      allow(subject.ui).to receive(:list)
 
-      expect(subject).to receive(:puts).with("ID: #{user.id}")
-      expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
-      expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
-      expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
-      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
-      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth}")
+      user_list = user_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Description', :bold),
+        subject.ui.color('Location', :bold),
+        subject.ui.color('Size', :bold),
+        snapshots.items.first.id,
+        snapshots.items.first.properties.name,
+        snapshots.items.first.properties.description || '',
+        snapshots.items.first.properties.location,
+        snapshots.items.first.properties.size.to_s,
+      ]
 
-      mock_wait_for(subject)
+      expect(subject.ui).to receive(:list). with(user_list, :uneven_columns_across, 5)
+
       mock_call_api(
         subject,
         [
           {
-            method: 'POST',
-            path: '/um/users',
-            operation: :'UserManagementApi.um_users_post',
-            return_type: 'User',
-            body: { properties: user.properties.to_hash },
-            result: user,
+            method: 'GET',
+            path: '/snapshots',
+            operation: :'SnapshotApi.snapshots_get',
+            return_type: 'Snapshots',
+            result: snapshots,
           },
         ],
       )

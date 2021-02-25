@@ -101,7 +101,7 @@ describe Chef::Knife::IonoscloudUserList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it "should not make any call if any required option is missing" do
+    it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)

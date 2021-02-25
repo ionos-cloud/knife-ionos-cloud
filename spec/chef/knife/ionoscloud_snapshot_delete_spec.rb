@@ -1,35 +1,48 @@
 require 'spec_helper'
-require 'ionoscloud_user_ssourl'
+require 'ionoscloud_snapshot_delete'
 
-Chef::Knife::IonoscloudUserSsourl.load_deps
+Chef::Knife::IonoscloudSnapshotDelete.load_deps
 
-describe Chef::Knife::IonoscloudUserSsourl do
-  subject { Chef::Knife::IonoscloudUserSsourl.new }
+describe Chef::Knife::IonoscloudSnapshotDelete do
+  subject { Chef::Knife::IonoscloudSnapshotDelete.new }
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_ssourlget and output the received url when the user ID is valid' do
-      user = user_mock
-      sso_url = sso_url_mock
+    it 'should call SnapshotApi.snapshots_delete when the ID is valid' do
+      snapshot = snapshot_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        user_id: user.id,
+        yes: true,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [snapshot.id]
 
       allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+
+      expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
+      expect(subject).to receive(:puts).with("Name: #{snapshot.properties.name}")
+      expect(subject).to receive(:puts).with("Description: #{snapshot.properties.description}")
+      expect(subject).to receive(:puts).with("Location: #{snapshot.properties.location}")
+      expect(subject).to receive(:puts).with("Size: #{snapshot.properties.size.to_s}")
 
       expect(subject.api_client).not_to receive(:wait_for)
+      expect(subject).to receive(:get_request_id).once
       mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/um/users/#{user.id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
-            return_type: 'S3ObjectStorageSSO',
-            result: sso_url,
+            path: "/snapshots/#{snapshot.id}",
+            operation: :'SnapshotApi.snapshots_find_by_id',
+            return_type: 'Snapshot',
+            result: snapshot,
+          },
+          {
+            method: 'DELETE',
+            path: "/snapshots/#{snapshot.id}",
+            operation: :'SnapshotApi.snapshots_delete',
           },
         ],
       )
@@ -37,20 +50,20 @@ describe Chef::Knife::IonoscloudUserSsourl do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should output an error is the user is not found' do
-      user_id = 'invalid_id'
+    it 'should not call SnapshotApi.snapshots_delete when the user ID is not valid' do
+      snapshot_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        user_id: user_id,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [snapshot_id]
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("User ID #{user_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Snapshot ID #{snapshot_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -58,9 +71,9 @@ describe Chef::Knife::IonoscloudUserSsourl do
         [
           {
             method: 'GET',
-            path: "/um/users/#{user_id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
-            return_type: 'S3ObjectStorageSSO',
+            path: "/snapshots/#{snapshot_id}",
+            operation: :'SnapshotApi.snapshots_find_by_id',
+            return_type: 'Snapshot',
             exception: Ionoscloud::ApiError.new(:code => 404),
           },
         ],

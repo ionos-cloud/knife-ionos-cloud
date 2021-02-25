@@ -156,6 +156,42 @@ def sso_url_mock(opts = {})
   )
 end
 
+def volume_mock(opts = {})
+  Ionoscloud::Volume.new(
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521c',
+    properties: Ionoscloud::VolumeProperties.new(
+      name: opts[:name] || 'volume_name',
+      size: opts[:size] || '10.0',
+      bus: opts[:bus] || 'VIRTIO',
+      image: opts[:image] || 'a3c3c57e-921d-4f81-9dbd-444d571d521d',
+      type: opts[:type] || 'SSD',
+      licence_type: opts[:licence_type] || 'LINUX',
+      availability_zone: opts[:availability_zone] || 'AUTO',
+    ),
+  )
+end
+
+def snapshot_mock(opts = {})
+  Ionoscloud::Snapshot.new(
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521b',
+    properties: Ionoscloud::SnapshotProperties.new(
+      name: opts[:name] || 'snapshot_name',
+      description: opts[:description] || 'snapshot_description',
+      licence_type: opts[:licence_type] || 'LINUX',
+      location: opts[:location] || 'de/fra',
+      size: opts[:size] || 10.0,
+    ),
+  )
+end
+
+def snapshots_mock(opts = {})
+  Ionoscloud::Snapshots.new(
+    id: 'snapshots',
+    type: 'collection',
+    items: [snapshot_mock],
+  )
+end
+
 def user_mock(opts = {})
   Ionoscloud::User.new(
     id: 'a3c3c57e-921d-4f81-9dbd-444d571d521a',
@@ -197,6 +233,7 @@ def mock_call_api(subject, rules)
       expect(method.to_s).to eq(rule[:method])
       expect(path).to eq(rule[:path])
       expect(opts[:operation]).to eq(rule[:operation])
+      expect(opts[:form_params]).to eq(rule[:form_params] || {})
       expect(opts[:return_type]).to eq(rule[:return_type] || 'Object')
       expect(received_body).to eq(rule[:body] || nil)
       
