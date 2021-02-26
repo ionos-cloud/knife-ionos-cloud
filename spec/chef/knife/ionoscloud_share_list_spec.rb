@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudShareList do
         shares.items.first.properties.share_privilege.to_s,
       ]
 
-      expect(subject.ui).to receive(:list). with(user_list, :uneven_columns_across, 3)
+      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 3)
 
       mock_call_api(
         subject,

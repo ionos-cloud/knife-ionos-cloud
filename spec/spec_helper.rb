@@ -171,6 +171,24 @@ def volume_mock(opts = {})
   )
 end
 
+def s3_key_mock(opts = {})
+  Ionoscloud::S3Key.new(
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d5212',
+    properties: Ionoscloud::S3KeyProperties.new(
+      secret_key: opts[:secret_key] || 'secret_key',
+      active: opts[:active] || true,
+    ),
+  )
+end
+
+def s3_keys_mock(opts = {})
+  Ionoscloud::S3Keys.new(
+    id: 's3keys',
+    type: 'collection',
+    items: [s3_key_mock],
+  )
+end
+
 def group_share_mock(opts = {})
   Ionoscloud::GroupShare.new(
     id: 'a3c3c57e-921d-4f81-9dbd-444d571d521f',
@@ -186,6 +204,24 @@ def group_shares_mock(opts = {})
     id: 'shares',
     type: 'collection',
     items: [group_share_mock],
+  )
+end
+
+def resource_mock(opts = {})
+  Ionoscloud::Resource.new(
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d5215',
+    type: opts[:type] || 'resource_type',
+    properties: Ionoscloud::ResourceProperties.new(
+      name: opts[:name] || 'resource_name',
+    ),
+  )
+end
+
+def resources_mock(opts = {})
+  Ionoscloud::Resources.new(
+    id: 'resources',
+    type: 'collection',
+    items: [resource_mock],
   )
 end
 

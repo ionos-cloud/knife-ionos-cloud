@@ -35,7 +35,7 @@ describe Chef::Knife::IonoscloudUserList do
         users.items.first.properties.force_sec_auth.to_s,
       ]
 
-      expect(subject.ui).to receive(:list). with(user_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 6)
 
       mock_call_api(
         subject,
@@ -82,7 +82,7 @@ describe Chef::Knife::IonoscloudUserList do
         users.items.first.properties.force_sec_auth.to_s,
       ]
 
-      expect(subject.ui).to receive(:list). with(user_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 6)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

@@ -7,7 +7,7 @@ class Chef
 
       banner 'knife ionoscloud s3key list (options)'
 
-      option :user,
+      option :user_id,
               short: '-u USER_ID',
               long: '--user USER_ID',
               description: 'The ID of the user'
@@ -18,7 +18,7 @@ class Chef
         super(args)
         @description =
         'Retrieve a list of all the S3 keys for a specific user.'
-        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -33,7 +33,7 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        user_management_api.um_users_s3keys_get(config[:user], { depth: 1 }).items.each do |s3_key|
+        user_management_api.um_users_s3keys_get(config[:user_id], { depth: 1 }).items.each do |s3_key|
           s3key_list << s3_key.id
           s3key_list << s3_key.properties.secret_key
           s3key_list << s3_key.properties.active.to_s

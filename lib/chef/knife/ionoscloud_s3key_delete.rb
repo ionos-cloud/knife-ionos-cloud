@@ -5,9 +5,9 @@ class Chef
     class IonoscloudS3keyDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID]'
+      banner 'knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)'
 
-      option :user,
+      option :user_id,
               short: '-u USER_ID',
               long: '--user USER_ID',
               description: 'The ID of the user'
@@ -18,7 +18,7 @@ class Chef
         super(args)
         @description =
         'This operation deletes a specific S3 key.'
-        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -29,7 +29,7 @@ class Chef
 
         @name_args.each do |s3key_id|
           begin
-            s3_key = user_management_api.um_users_s3keys_find_by_key_id(config[:user], s3key_id)
+            s3_key = user_management_api.um_users_s3keys_find_by_key_id(config[:user_id], s3key_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("S3 key ID #{s3key_id} not found. Skipping.")
@@ -48,7 +48,7 @@ class Chef
             next
           end
 
-          _, _, headers = user_management_api.um_users_s3keys_delete_with_http_info(config[:user], s3key_id)
+          _, _, headers = user_management_api.um_users_s3keys_delete_with_http_info(config[:user_id], s3key_id)
           ui.warn("Deleted S3 key #{s3_key.id}. Request ID: #{get_request_id headers}")
         end
       end

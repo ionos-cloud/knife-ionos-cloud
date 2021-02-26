@@ -1,17 +1,18 @@
 require 'spec_helper'
-require 'ionoscloud_snapshot_list'
+require 'ionoscloud_s3key_list'
 
-Chef::Knife::IonoscloudSnapshotList.load_deps
+Chef::Knife::IonoscloudS3keyList.load_deps
 
-describe Chef::Knife::IonoscloudSnapshotList do
-  subject { Chef::Knife::IonoscloudSnapshotList.new }
+describe Chef::Knife::IonoscloudS3keyList do
+  subject { Chef::Knife::IonoscloudS3keyList.new }
 
   describe '#run' do
-    it 'should call SnapshotApi.snapshots_get' do
-      snapshots = snapshots_mock
+    it 'should call UserManagementApi.um_users_s3keys_get' do
+    s3_keys = s3_keys_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        user_id: 'user_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
@@ -22,28 +23,24 @@ describe Chef::Knife::IonoscloudSnapshotList do
 
       user_list = user_list = [
         subject.ui.color('ID', :bold),
-        subject.ui.color('Name', :bold),
-        subject.ui.color('Description', :bold),
-        subject.ui.color('Location', :bold),
-        subject.ui.color('Size', :bold),
-        snapshots.items.first.id,
-        snapshots.items.first.properties.name,
-        snapshots.items.first.properties.description || '',
-        snapshots.items.first.properties.location,
-        snapshots.items.first.properties.size.to_s,
+        subject.ui.color('Secret Key', :bold),
+        subject.ui.color('Active', :bold),
+        s3_keys.items.first.id,
+        s3_keys.items.first.properties.secret_key,
+        s3_keys.items.first.properties.active.to_s,
       ]
 
-      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 5)
+      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 3)
 
       mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: '/snapshots',
-            operation: :'SnapshotApi.snapshots_get',
-            return_type: 'Snapshots',
-            result: snapshots,
+            path: "/um/users/#{subject_config[:user_id]}/s3keys",
+            operation: :'UserManagementApi.um_users_s3keys_get',
+            return_type: 'S3Keys',
+            result: s3_keys,
           },
         ],
       )

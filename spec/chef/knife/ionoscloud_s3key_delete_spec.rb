@@ -1,32 +1,31 @@
 require 'spec_helper'
-require 'ionoscloud_snapshot_delete'
+require 'ionoscloud_s3key_delete'
 
-Chef::Knife::IonoscloudSnapshotDelete.load_deps
+Chef::Knife::IonoscloudS3keyDelete.load_deps
 
-describe Chef::Knife::IonoscloudSnapshotDelete do
-  subject { Chef::Knife::IonoscloudSnapshotDelete.new }
+describe Chef::Knife::IonoscloudS3keyDelete do
+  subject { Chef::Knife::IonoscloudS3keyDelete.new }
 
   describe '#run' do
-    it 'should call SnapshotApi.snapshots_delete when the ID is valid' do
-      snapshot = snapshot_mock
+    it 'should call UserManagementApi.um_users_s3keys_delete when the ID is valid' do
+      s3_key = s3_key_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        user_id: 'user_id',
         yes: true,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [snapshot.id]
+      subject.name_args = [s3_key.id]
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
-      expect(subject).to receive(:puts).with("Name: #{snapshot.properties.name}")
-      expect(subject).to receive(:puts).with("Description: #{snapshot.properties.description}")
-      expect(subject).to receive(:puts).with("Location: #{snapshot.properties.location}")
-      expect(subject).to receive(:puts).with("Size: #{snapshot.properties.size.to_s}")
-      expect(subject.ui).to receive(:warn).with("Deleted Snapshot #{snapshot.id}. Request ID: ")
+      expect(subject).to receive(:puts).with("ID: #{s3_key.id}")
+      expect(subject).to receive(:puts).with("Secret Key: #{s3_key.properties.secret_key}")
+      expect(subject).to receive(:puts).with("Active: #{s3_key.properties.active}")
+      expect(subject.ui).to receive(:warn).with("Deleted S3 key #{s3_key.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -35,15 +34,15 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
         [
           {
             method: 'GET',
-            path: "/snapshots/#{snapshot.id}",
-            operation: :'SnapshotApi.snapshots_find_by_id',
-            return_type: 'Snapshot',
-            result: snapshot,
+            path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key.id}",
+            operation: :'UserManagementApi.um_users_s3keys_find_by_key_id',
+            return_type: 'S3Key',
+            result: s3_key,
           },
           {
             method: 'DELETE',
-            path: "/snapshots/#{snapshot.id}",
-            operation: :'SnapshotApi.snapshots_delete',
+            path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key.id}",
+            operation: :'UserManagementApi.um_users_s3keys_delete',
           },
         ],
       )
@@ -51,20 +50,21 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call SnapshotApi.snapshots_delete when the user ID is not valid' do
-      snapshot_id = 'invalid_id'
+    it 'should not call UserManagementApi.um_users_s3keys_delete when the ID is not valid' do
+      s3_key_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        user_id: 'user_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [snapshot_id]
+      subject.name_args = [s3_key_id]
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("Snapshot ID #{snapshot_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("S3 key ID #{s3_key_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -72,9 +72,9 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
         [
           {
             method: 'GET',
-            path: "/snapshots/#{snapshot_id}",
-            operation: :'SnapshotApi.snapshots_find_by_id',
-            return_type: 'Snapshot',
+            path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key_id}",
+            operation: :'UserManagementApi.um_users_s3keys_find_by_key_id',
+            return_type: 'S3Key',
             exception: Ionoscloud::ApiError.new(:code => 404),
           },
         ],
