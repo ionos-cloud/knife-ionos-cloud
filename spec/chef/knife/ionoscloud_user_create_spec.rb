@@ -4,7 +4,12 @@ require 'ionoscloud_user_create'
 Chef::Knife::IonoscloudUserCreate.load_deps
 
 describe Chef::Knife::IonoscloudUserCreate do
-  subject { Chef::Knife::IonoscloudUserCreate.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudUserCreate.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call UserManagementApi.um_users_post with the expected arguments and output based on what it receives' do
@@ -21,9 +26,6 @@ describe Chef::Knife::IonoscloudUserCreate do
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with("ID: #{user.id}")
       expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
@@ -52,11 +54,8 @@ describe Chef::Knife::IonoscloudUserCreate do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -68,7 +67,7 @@ describe Chef::Knife::IonoscloudUserCreate do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

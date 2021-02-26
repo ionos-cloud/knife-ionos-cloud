@@ -4,7 +4,12 @@ require 'ionoscloud_snapshot_delete'
 Chef::Knife::IonoscloudSnapshotDelete.load_deps
 
 describe Chef::Knife::IonoscloudSnapshotDelete do
-  subject { Chef::Knife::IonoscloudSnapshotDelete.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudSnapshotDelete.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call SnapshotApi.snapshots_delete when the ID is valid' do
@@ -17,9 +22,6 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
  
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [snapshot.id]
-
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
       expect(subject).to receive(:puts).with("Name: #{snapshot.properties.name}")
@@ -61,9 +63,6 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [snapshot_id]
 
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-
       expect(subject.ui).to receive(:error).with("Snapshot ID #{snapshot_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
@@ -85,11 +84,8 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -101,7 +97,7 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

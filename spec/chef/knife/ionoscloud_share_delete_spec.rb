@@ -4,7 +4,12 @@ require 'ionoscloud_share_delete'
 Chef::Knife::IonoscloudShareDelete.load_deps
 
 describe Chef::Knife::IonoscloudShareDelete do
-  subject { Chef::Knife::IonoscloudShareDelete.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudShareDelete.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call UserManagementApi.um_groups_shares_delete when the ID is valid' do
@@ -18,9 +23,6 @@ describe Chef::Knife::IonoscloudShareDelete do
  
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [share.id]
-
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with("ID: #{share.id}")
       expect(subject).to receive(:puts).with("Edit Privilege: #{share.properties.edit_privilege.to_s}")
@@ -61,9 +63,6 @@ describe Chef::Knife::IonoscloudShareDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [share_id]
 
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-
       expect(subject.ui).to receive(:error).with("Resource Share ID #{share_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
@@ -85,11 +84,8 @@ describe Chef::Knife::IonoscloudShareDelete do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -101,7 +97,7 @@ describe Chef::Knife::IonoscloudShareDelete do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

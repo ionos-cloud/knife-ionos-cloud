@@ -4,7 +4,12 @@ require 'ionoscloud_s3key_list'
 Chef::Knife::IonoscloudS3keyList.load_deps
 
 describe Chef::Knife::IonoscloudS3keyList do
-  subject { Chef::Knife::IonoscloudS3keyList.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudS3keyList.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call UserManagementApi.um_users_s3keys_get' do
@@ -17,11 +22,7 @@ describe Chef::Knife::IonoscloudS3keyList do
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-      allow(subject.ui).to receive(:list)
-
-      user_list = user_list = [
+      s3_key_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Secret Key', :bold),
         subject.ui.color('Active', :bold),
@@ -30,7 +31,7 @@ describe Chef::Knife::IonoscloudS3keyList do
         s3_keys.items.first.properties.active.to_s,
       ]
 
-      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 3)
+      expect(subject.ui).to receive(:list).with(s3_key_list, :uneven_columns_across, 3)
 
       mock_call_api(
         subject,
@@ -50,11 +51,8 @@ describe Chef::Knife::IonoscloudS3keyList do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -66,7 +64,7 @@ describe Chef::Knife::IonoscloudS3keyList do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

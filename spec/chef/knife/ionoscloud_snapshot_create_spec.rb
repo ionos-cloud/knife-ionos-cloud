@@ -4,7 +4,12 @@ require 'ionoscloud_snapshot_create'
 Chef::Knife::IonoscloudSnapshotCreate.load_deps
 
 describe Chef::Knife::IonoscloudSnapshotCreate do
-  subject { Chef::Knife::IonoscloudSnapshotCreate.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudSnapshotCreate.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call VolumeApi.datacenters_volumes_create_snapshot_post with the expected arguments and output based on what it receives' do
@@ -17,9 +22,6 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
       expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
       expect(subject).to receive(:puts).with("Name: #{snapshot.properties.name}")
@@ -53,11 +55,8 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -69,7 +68,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

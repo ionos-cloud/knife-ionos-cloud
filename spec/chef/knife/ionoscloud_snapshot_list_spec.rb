@@ -4,7 +4,12 @@ require 'ionoscloud_snapshot_list'
 Chef::Knife::IonoscloudSnapshotList.load_deps
 
 describe Chef::Knife::IonoscloudSnapshotList do
-  subject { Chef::Knife::IonoscloudSnapshotList.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudSnapshotList.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
 
   describe '#run' do
     it 'should call SnapshotApi.snapshots_get' do
@@ -16,11 +21,7 @@ describe Chef::Knife::IonoscloudSnapshotList do
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-      allow(subject.ui).to receive(:list)
-
-      user_list = user_list = [
+      snapshot_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
         subject.ui.color('Description', :bold),
@@ -33,7 +34,7 @@ describe Chef::Knife::IonoscloudSnapshotList do
         snapshots.items.first.properties.size.to_s,
       ]
 
-      expect(subject.ui).to receive(:list).with(user_list, :uneven_columns_across, 5)
+      expect(subject.ui).to receive(:list).with(snapshot_list, :uneven_columns_across, 5)
 
       mock_call_api(
         subject,
@@ -53,11 +54,8 @@ describe Chef::Knife::IonoscloudSnapshotList do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
+      arrays_without_one_element(required_options).each do |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -69,7 +67,7 @@ describe Chef::Knife::IonoscloudSnapshotList do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end
