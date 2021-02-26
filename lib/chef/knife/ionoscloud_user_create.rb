@@ -32,7 +32,7 @@ class Chef
               long: '--admin ADMIN',
               description: 'Assigns the user have administrative rights.'
 
-      option :forceSecAuth,
+      option :force_sec_auth,
               long: '--sec-auth SEC_AUTH',
               description: 'Indicates if secure (two-factor) authentication should be forced for the user.'
       
@@ -62,7 +62,7 @@ class Chef
             email: config[:email],
             password: config[:password],
             administrator: config[:administrator],
-            forceSecAuth: config[:forceSecAuth],
+            forceSecAuth: config[:force_sec_auth],
           }.compact,
         })
 

@@ -171,6 +171,24 @@ def volume_mock(opts = {})
   )
 end
 
+def group_share_mock(opts = {})
+  Ionoscloud::GroupShare.new(
+    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521f',
+    properties: Ionoscloud::GroupShareProperties.new(
+      edit_privilege: opts[:edit_privilege] || true,
+      share_privilege: opts[:share_privilege] || true,
+    ),
+  )
+end
+
+def group_shares_mock(opts = {})
+  Ionoscloud::GroupShares.new(
+    id: 'shares',
+    type: 'collection',
+    items: [group_share_mock],
+  )
+end
+
 def snapshot_mock(opts = {})
   Ionoscloud::Snapshot.new(
     id: 'a3c3c57e-921d-4f81-9dbd-444d571d521b',

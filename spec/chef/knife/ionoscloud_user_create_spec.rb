@@ -12,7 +12,13 @@ describe Chef::Knife::IonoscloudUserCreate do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-      }.merge(user.properties.to_hash)
+        firstname: user.properties.firstname,
+        lastname: user.properties.lastname,
+        email: user.properties.email,
+        password: user.properties.password,
+        administrator: user.properties.administrator,
+        force_sec_auth: user.properties.force_sec_auth,
+      }
  
       subject_config.each { |key, value| subject.config[key] = value }
 

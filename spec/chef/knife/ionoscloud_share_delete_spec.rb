@@ -1,33 +1,31 @@
 require 'spec_helper'
-require 'ionoscloud_user_delete'
+require 'ionoscloud_share_delete'
 
-Chef::Knife::IonoscloudUserDelete.load_deps
+Chef::Knife::IonoscloudShareDelete.load_deps
 
-describe Chef::Knife::IonoscloudUserDelete do
-  subject { Chef::Knife::IonoscloudUserDelete.new }
+describe Chef::Knife::IonoscloudShareDelete do
+  subject { Chef::Knife::IonoscloudShareDelete.new }
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_delete when the ID is valid' do
-      user = user_mock
+    it 'should call UserManagementApi.um_groups_shares_delete when the ID is valid' do
+      share = group_share_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        group_id: 'group_id',
         yes: true,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [user.id]
+      subject.name_args = [share.id]
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject).to receive(:puts).with("ID: #{user.id}")
-      expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
-      expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
-      expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
-      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator.to_s}")
-      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth.to_s}")
-      expect(subject.ui).to receive(:warn).with("Deleted User #{user.id}. Request ID: ")
+      expect(subject).to receive(:puts).with("ID: #{share.id}")
+      expect(subject).to receive(:puts).with("Edit Privilege: #{share.properties.edit_privilege.to_s}")
+      expect(subject).to receive(:puts).with("Share Privilege: #{share.properties.share_privilege.to_s}")
+      expect(subject.ui).to receive(:warn).with("Deleted Resource Share #{share.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -36,15 +34,15 @@ describe Chef::Knife::IonoscloudUserDelete do
         [
           {
             method: 'GET',
-            path: "/um/users/#{user.id}",
-            operation: :'UserManagementApi.um_users_find_by_id',
-            return_type: 'User',
-            result: user,
+            path: "/um/groups/#{subject_config[:group_id]}/shares/#{share.id}",
+            operation: :'UserManagementApi.um_groups_shares_find_by_resource_id',
+            return_type: 'GroupShare',
+            result: share,
           },
           {
             method: 'DELETE',
-            path: "/um/users/#{user.id}",
-            operation: :'UserManagementApi.um_users_delete',
+            path: "/um/groups/#{subject_config[:group_id]}/shares/#{share.id}",
+            operation: :'UserManagementApi.um_groups_shares_delete',
           },
         ],
       )
@@ -52,20 +50,21 @@ describe Chef::Knife::IonoscloudUserDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call UserManagementApi.um_users_delete when the ID is not valid' do
-      user_id = 'invalid_id'
+    it 'should not call UserManagementApi.um_groups_shares_delete when the ID is not valid' do
+      share_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        group_id: 'group_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [user_id]
+      subject.name_args = [share_id]
 
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("User ID #{user_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Resource Share ID #{share_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -73,9 +72,9 @@ describe Chef::Knife::IonoscloudUserDelete do
         [
           {
             method: 'GET',
-            path: "/um/users/#{user_id}",
-            operation: :'UserManagementApi.um_users_find_by_id',
-            return_type: 'User',
+            path: "/um/groups/#{subject_config[:group_id]}/shares/#{share_id}",
+            operation: :'UserManagementApi.um_groups_shares_find_by_resource_id',
+            return_type: 'GroupShare',
             exception: Ionoscloud::ApiError.new(:code => 404),
           },
         ],
