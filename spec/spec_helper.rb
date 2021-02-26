@@ -1,6 +1,8 @@
 $:.unshift File.expand_path('../../lib/chef/knife', __FILE__)
 require 'rspec'
 require 'chef'
+require 'securerandom'
+
 
 RSpec.configure do |config|
   config.before(:each) do
@@ -150,6 +152,63 @@ def create_test_k8s_cluster(properties = {})
   Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster.id)
 end
 
+def lan_mock(opts = {})
+  Ionoscloud::Lan.new(
+    id: opts[:id] || '1',
+    properties: Ionoscloud::LanProperties.new(
+      name: opts[:name] || 'lan_name',
+      public: opts[:public] || true,
+    ),
+  )
+end
+
+def lans_mock(opts = {})
+  Ionoscloud::Lans.new(
+    id: 'lans',
+    type: 'collection',
+    items: [lan_mock],
+  )
+end
+
+def datacenter_mock(opts = {})
+  Ionoscloud::Datacenter.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::DatacenterProperties.new(
+      name: opts[:name] || 'datacenter_name',
+      description: opts[:description] || 'datacenter_description',
+      location: opts[:location] || 'de/fra',
+    ),
+  )
+end
+
+def datacenters_mock(opts = {})
+  Ionoscloud::Datacenters.new(
+    id: 'datacenters',
+    type: 'collection',
+    items: [datacenter_mock],
+  )
+end
+
+def pcc_mock(opts = {})
+  Ionoscloud::PrivateCrossConnect.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::PrivateCrossConnectProperties.new(
+      name: opts[:name] || 'pcc_name',
+      description: opts[:description] || 'pcc_description',
+      peers: opts[:peers] || [lan_mock, lan_mock],
+      connectable_datacenters: opts[:connectable_datacenters] || [datacenter_mock, datacenter_mock],
+    ),
+  )
+end
+
+def pccs_mock(opts = {})
+  Ionoscloud::PrivateCrossConnects.new(
+    id: 'pccs',
+    type: 'collection',
+    items: [pcc_mock],
+  )
+end
+
 def sso_url_mock(opts = {})
   Ionoscloud::S3ObjectStorageSSO.new(
     sso_url: opts['sso_url'] || 'www.sso-url.com',
@@ -158,7 +217,7 @@ end
 
 def volume_mock(opts = {})
   Ionoscloud::Volume.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521c',
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::VolumeProperties.new(
       name: opts[:name] || 'volume_name',
       size: opts[:size] || '10.0',
@@ -171,9 +230,17 @@ def volume_mock(opts = {})
   )
 end
 
+def volumes_mock(opts = {})
+  Ionoscloud::Volumes.new(
+    id: 'volumes',
+    type: 'collection',
+    items: [volume_mock],
+  )
+end
+
 def s3_key_mock(opts = {})
   Ionoscloud::S3Key.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d5212',
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::S3KeyProperties.new(
       secret_key: opts[:secret_key] || 'secret_key',
       active: opts[:active] || true,
@@ -191,7 +258,7 @@ end
 
 def group_share_mock(opts = {})
   Ionoscloud::GroupShare.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521f',
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::GroupShareProperties.new(
       edit_privilege: opts[:edit_privilege] || true,
       share_privilege: opts[:share_privilege] || true,
@@ -209,7 +276,7 @@ end
 
 def resource_mock(opts = {})
   Ionoscloud::Resource.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d5215',
+    id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'resource_type',
     properties: Ionoscloud::ResourceProperties.new(
       name: opts[:name] || 'resource_name',
@@ -227,7 +294,7 @@ end
 
 def snapshot_mock(opts = {})
   Ionoscloud::Snapshot.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521b',
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::SnapshotProperties.new(
       name: opts[:name] || 'snapshot_name',
       description: opts[:description] || 'snapshot_description',
@@ -248,7 +315,7 @@ end
 
 def user_mock(opts = {})
   Ionoscloud::User.new(
-    id: 'a3c3c57e-921d-4f81-9dbd-444d571d521a',
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::UserProperties.new(
       firstname: opts['firstname'] || 'Firstname',
       lastname: opts['lastname'] || 'Lastname',

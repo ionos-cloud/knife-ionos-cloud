@@ -19,13 +19,11 @@ class Chef
 
       option :peers,
               long: '--peers LAN_ID [LAN_ID]',
-              description: 'An array of LANs joined to this private cross connect',
-              proc: proc { |lans| lans.split(',').map! { |lan| { id: Integer(lan) } } }
+              description: 'An array of LANs joined to this private cross connect'
 
       option :datacenters,
               long: '--datacenters DATACENTER_IS [DATACENTER_IS]',
-              description: 'An array of datacenters joined to this private cross connect',
-              proc: proc { |datacenters| datacenters.split(',').map! { |datacenter| { id: datacenter } } }
+              description: 'An array of datacenters joined to this private cross connect'
       
       attr_reader :description, :required_options
       
@@ -33,7 +31,7 @@ class Chef
         super(args)
         @description =
         'Creates a Private Cross-Connect.'
-        @required_options = [:name, :peers, :datacenters, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -44,12 +42,13 @@ class Chef
 
         pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
 
+        config[:peers] = config[:peers].split(',').map { |peer| { id: peer } } unless config[:peers].nil?
+        config[:datacenters] = config[:datacenters].split(',').map { |datacenter| { id: datacenter } } unless config[:datacenters].nil?
+
         pcc, _, headers  = pcc_api.pccs_post_with_http_info({
           properties: {
             name: config[:name],
             description: config[:description],
-            peers: config[:peers],
-            datacenters: config[:datacenters],
           }.compact,
         })
 

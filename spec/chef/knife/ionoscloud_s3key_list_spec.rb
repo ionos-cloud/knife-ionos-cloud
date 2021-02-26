@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudS3keyList do
 
   describe '#run' do
     it 'should call UserManagementApi.um_users_s3keys_get' do
-    s3_keys = s3_keys_mock
+      s3_keys = s3_keys_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',

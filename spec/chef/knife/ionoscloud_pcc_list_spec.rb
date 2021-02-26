@@ -1,47 +1,46 @@
 require 'spec_helper'
-require 'ionoscloud_share_list'
+require 'ionoscloud_pcc_list'
 
-Chef::Knife::IonoscloudShareList.load_deps
+Chef::Knife::IonoscloudPccList.load_deps
 
-describe Chef::Knife::IonoscloudShareList do
+describe Chef::Knife::IonoscloudPccList do
   before :each do
-    subject { Chef::Knife::IonoscloudShareList.new }
+    subject { Chef::Knife::IonoscloudPccList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call UserManagementApi.um_groups_shares_get' do
-      shares = group_shares_mock
+    it 'should call PrivateCrossConnectApi.pccs_get' do
+      pccs = pccs_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        group_id: 'group_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      share_list = [
+      pcc_list = [
         subject.ui.color('ID', :bold),
-        subject.ui.color('Edit Privilege', :bold),
-        subject.ui.color('Share Privilege', :bold),
-        shares.items.first.id,
-        shares.items.first.properties.edit_privilege.to_s,
-        shares.items.first.properties.share_privilege.to_s,
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Description', :bold),
+        pccs.items.first.id,
+        pccs.items.first.properties.name,
+        pccs.items.first.properties.description || '',
       ]
 
-      expect(subject.ui).to receive(:list).with(share_list, :uneven_columns_across, 3)
+      expect(subject.ui).to receive(:list).with(pcc_list, :uneven_columns_across, 3)
 
       mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/um/groups/#{subject_config[:group_id]}/shares",
-            operation: :'UserManagementApi.um_groups_shares_get',
-            return_type: 'GroupShares',
-            result: shares,
+            path: '/pccs',
+            operation: :'PrivateCrossConnectApi.pccs_get',
+            return_type: 'PrivateCrossConnects',
+            result: pccs,
           },
         ],
       )
