@@ -27,22 +27,22 @@ class Chef
               long: '--version VERSION',
               description: 'The version for the Kubernetes cluster.'
 
-      option :maintenanceday,
+      option :maintenance_day,
               short: '-d MAINTENANCE_DAY',
               long: '--maintenance-day MAINTENANCE_DAY',
               description: 'Day Of the week when to perform the maintenance.'
 
-      option :maintenancetime,
+      option :maintenance_time,
               short: '-t MAINTENANCE_TIME',
               long: '--maintenance-time MAINTENANCE_TIME',
               description: 'Time Of the day when to perform the maintenance.'
 
-      option :nodecount,
+      option :node_count,
               short: '-c NODE_COUNT',
               long: '--node-count NODE_COUNT',
               description: 'The number of worker nodes that the node pool should contain. Min 2, Max: Determined by the resource availability.'
 
-      option :cpufamily,
+      option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
               description: 'Sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE]',
@@ -57,33 +57,32 @@ class Chef
               long: '--ram RAM',
               description: 'The amount of RAM in MB'
 
-      option :availabilityzone,
+      option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
               description: 'The availability zone of the node pool',
               default: 'AUTO'
 
-      option :storagetype,
+      option :storage_type,
               long: '--storage-type STORAGE_TYPE',
               description: 'Sets the storage type. [HDD, SSD]',
               default: 'HDD'
 
-      option :storagesize,
+      option :storage_size,
               long: '--storage-size STORAGE_SIZE',
               description: 'The total allocated storage capacity of a node.'
     
-      option :minnodecount,
+      option :min_node_count,
               long: '--min-node-count MIN_NODE_COUNT',
               description: 'The minimum number of worker nodes that the managed node group can scale in'
 
-      option :maxnodecount,
+      option :max_node_count,
               long: '--max-node-count MAX_NODE_COUNT',
               description: 'The maximum number of worker nodes that the managed node pool can scale-out.'
     
       option :lans,
               long: '--lans LAN_ID [LAN_ID]',
-              description: 'An array of additional private LANs attached to worker nodes',
-              proc: proc { |lans| lans.split(',').map! { |lan| { id: Integer(lan) } } }
+              description: 'An array of additional private LANs attached to worker nodes'
 
       attr_reader :description, :required_options
 
@@ -94,10 +93,8 @@ class Chef
         "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
         "The worker nodes within the node pools will be deployed into an existing data centers."
         @required_options = [
-          :datacenter_id, :cluster_id, :name, :version, 
-          :nodecount, :cpufamily, :cores, :ram, 
-          :availabilityzone, :storagetype, :storagesize,
-          :ionoscloud_username, :ionoscloud_password,
+          :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram, 
+          :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,
         ]
       end
 
@@ -113,30 +110,30 @@ class Chef
           name: config[:name],
           k8sVersion: config[:version],
           datacenterId: config[:datacenter_id],
-          nodeCount: config[:nodecount],
-          cpuFamily: config[:cpufamily],
+          nodeCount: config[:node_count],
+          cpuFamily: config[:cpu_family],
           coresCount: config[:cores],
           ramSize: config[:ram],
-          availabilityZone: config[:availabilityzone],
-          storageType: config[:storagetype],
-          storageSize: config[:storagesize],
+          availabilityZone: config[:availability_zone],
+          storageType: config[:storage_type],
+          storageSize: config[:storage_size],
         }
 
-        if config[:maintenanceday] && config[:maintenancetime]
+        if config[:maintenance_day] && config[:maintenance_time]
           nodepool_properties[:maintenanceWindow] = {
-            dayOfTheWeek: config[:maintenanceday],
-            time: config[:maintenancetime],
+            dayOfTheWeek: config[:maintenance_day],
+            time: config[:maintenance_time],
           }
         end
 
-        if config[:minnodecount] || config[:maxnodecount]
+        if config[:min_node_count] || config[:max_node_count]
           nodepool_properties[:autoScaling] = {}
-          nodepool_properties[:autoScaling][:minNodeCount] = config[:minnodecount] unless config[:minnodecount].nil?
-          nodepool_properties[:autoScaling][:maxNodeCount] = config[:maxnodecount] unless config[:maxnodecount].nil?
+          nodepool_properties[:autoScaling][:minNodeCount] = config[:min_node_count] unless config[:min_node_count].nil?
+          nodepool_properties[:autoScaling][:maxNodeCount] = config[:max_node_count] unless config[:max_node_count].nil?
         end
 
         if config[:lans]
-          nodepool_properties[:lans] = config[:lans]
+          nodepool_properties[:lans] = config[:lans].split(',').map! { |lan| { id: Integer(lan) } }
         end
 
         nodepool = kubernetes_api.k8s_nodepools_post(config[:cluster_id], { properties: nodepool_properties })
