@@ -17,12 +17,12 @@ class Chef
              long: '--version VERSION',
              description: 'The version for the Kubernetes cluster.'
 
-      option :maintenanceday,
+      option :maintenance_day,
              short: '-d MAINTENANCE_DAY',
              long: '--maintenance-day MAINTENANCE_DAY',
              description: 'Day Of the week when to perform the maintenance.'
 
-      option :maintenancetime,
+      option :maintenance_time,
              short: '-t MAINTENANCE_TIME',
              long: '--maintenance-time MAINTENANCE_TIME',
              description: 'Time Of the day when to perform the maintenance.'
@@ -49,10 +49,10 @@ class Chef
           k8sVersion: config[:version],
         }.compact
 
-        if config[:maintenanceday] && config[:maintenancetime]
+        if config[:maintenance_day] && config[:maintenance_time]
           cluster_properties[:maintenanceWindow] = {
-            dayOfTheWeek: config[:maintenanceday],
-            time: config[:maintenancetime],
+            dayOfTheWeek: config[:maintenance_day],
+            time: config[:maintenance_time],
           }
         end
 

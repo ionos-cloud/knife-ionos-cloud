@@ -25,7 +25,12 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        puts Ionoscloud::KubernetesApi.new(api_client).k8s_kubeconfig_get(config[:cluster_id])
+        begin
+          puts Ionoscloud::KubernetesApi.new(api_client).k8s_kubeconfig_get(config[:cluster_id])
+        rescue Ionoscloud::ApiError => err
+          raise err unless err.code == 404
+          ui.error("K8s Cluster ID #{config[:cluster_id]} not found. Skipping.")
+        end
       end
     end
   end
