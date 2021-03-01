@@ -32,6 +32,7 @@ class Chef
             load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
               config[:datacenter_id],
               load_balancer_id,
+              { depth: 1 },
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
@@ -39,10 +40,13 @@ class Chef
             next
           end
 
+          nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
+
           msg_pair('ID', load_balancer.id)
           msg_pair('Name', load_balancer.properties.name)
           msg_pair('IP address', load_balancer.properties.ip)
           msg_pair('DHCP', load_balancer.properties.dhcp)
+          msg_pair('Balanced Nics', nics.to_s)
 
           puts "\n"
 
