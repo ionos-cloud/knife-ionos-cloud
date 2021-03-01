@@ -53,18 +53,18 @@ class Chef
 
         load_balancer, _, headers  = load_balancer_api.datacenters_loadbalancers_post_with_http_info(
           config[:datacenter_id],
-          {
-            properties: {
+          Ionoscloud::Loadbalancer.new(
+            properties: Ionoscloud::LoadbalancerProperties.new(
               name: config[:name],
               ip: config[:ip],
               dhcp: config[:dhcp],
-            }.compact,
-            entities: {
-              balancednics: {
+            ),
+            entities: Ionoscloud::LoadbalancerEntities.new(
+              balancednics: Ionoscloud::Nics.new(
                 items: config[:nics],
-              }
-            }
-          },
+              )
+            )
+          ),
         )
 
         dot = ui.color('.', :magenta)
