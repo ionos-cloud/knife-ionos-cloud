@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudNodepoolList do
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      pcc_list = [
+      nodepool_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
         subject.ui.color('K8s Version', :bold),
@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudNodepoolList do
         k8s_nodepools.items.first.metadata.state,
       ]
 
-      expect(subject.ui).to receive(:list).with(pcc_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(nodepool_list, :uneven_columns_across, 6)
 
       mock_call_api(
         subject,

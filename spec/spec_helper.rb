@@ -157,6 +157,22 @@ end
 ################################## NEW MOCKS ######################################
 ###################################################################################
 
+def location_mock(opts = {})
+  Ionoscloud::Location.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::LocationProperties.new(
+      name: opts[:name] || 'location_name',
+    ),
+  )
+end
+
+def locations_mock(opts = {})
+  Ionoscloud::Locations.new(
+    id: 'locations',
+    type: 'collection',
+    items: [location_mock],
+  )
+end
 
 def maintenance_window_mock(opts = {})
   Ionoscloud::KubernetesMaintenanceWindow.new(
@@ -173,14 +189,17 @@ def auto_scaling_mock(opts = {})
 end
 
 def k8s_cluster_mock(opts = {})
-  Ionoscloud::Datacenter.new(
+  Ionoscloud::K8s.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::DatacenterProperties.new(
+    properties: Ionoscloud::K8sProperties.new(
       name: opts[:name] || 'k8s_cluster_name',
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || { dayOfTheWeek: 'Sunday', time: '23:03:19Z' },
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
       viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2']
+    ),
+    metadata: Ionoscloud::KubernetesNodeMetadata.new(
+      state: 'READY',
     ),
   )
 end
@@ -237,6 +256,9 @@ def k8s_node_mock(opts = {})
       public_ip: opts[:public_ip] || '1.1.1.1',
       k8s_version: opts[:k8s_version] || '1.17.7',
     ),
+    metadata: Ionoscloud::KubernetesNodeMetadata.new(
+      state: 'READY',
+    ),
   )
 end
 
@@ -244,7 +266,7 @@ def k8s_nodes_mock(opts = {})
   Ionoscloud::KubernetesNodes.new(
     id: "#{SecureRandom.uuid}/nodes",
     type: 'collection',
-    items: [datacenter_mock],
+    items: [k8s_node_mock],
   )
 end
 
