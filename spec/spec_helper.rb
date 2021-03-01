@@ -157,6 +157,52 @@ end
 ################################## NEW MOCKS ######################################
 ###################################################################################
 
+def nic_mock(opts = {})
+  Ionoscloud::Nic.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NicProperties.new(
+      name: opts[:name] || 'nic_name',
+      ips: opts[:ips] || ['1.1.1.1'],
+      nat: opts[:nat] || true,
+      firewall_active: opts[:firewall_active] || true,
+      mac: opts[:mac] || '00:0a:95:9d:68:16',
+      lan: opts[:lan] || 1,
+    ),
+    entities: Ionoscloud::NicEntities.new(
+      firewallrules: opts[:firewallrules] || [],
+    )
+  )
+end
+
+def nics_mock(opts = {})
+  Ionoscloud::Nics.new(
+    id: 'nics',
+    type: 'collection',
+    items: [nic_mock, nic_mock],
+  )
+end
+
+def load_balancer_mock(opts = {})
+  Ionoscloud::Loadbalancer.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::LoadbalancerProperties.new(
+      name: opts[:name] || 'load_balancer_name',
+      ip: opts[:ip] || '1.1.1.1',
+      dhcp: opts[:dhcp] || true,
+    ),
+    entities: Ionoscloud::LoadbalancerEntities.new(
+      balancednics: opts[:nics] || nics_mock,
+    )
+  )
+end
+
+def load_balancers_mock(opts = {})
+  Ionoscloud::Loadbalancers.new(
+    id: 'loadbalancers',
+    type: 'collection',
+    items: [load_balancer_mock],
+  )
+end
 
 def location_mock(opts = {})
   Ionoscloud::Location.new(
@@ -481,6 +527,8 @@ def mock_call_api(subject, rules)
     expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
       result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
+
+      # puts [received_body, rule[:body]].to_s
   
       expect(method.to_s).to eq(rule[:method])
       expect(path).to eq(rule[:path])

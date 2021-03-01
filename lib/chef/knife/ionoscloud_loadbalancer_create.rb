@@ -28,8 +28,7 @@ class Chef
 
       option :nics,
               long: '--nics NIC_ID [NIC_ID]',
-              description: 'An array of additional private NICs attached to worker nodes',
-              proc: proc { |nics| nics.split(',').map! { |nic| { id: nic } } }
+              description: 'An array of additional private NICs attached to worker nodes'
       
       attr_reader :description, :required_options
       
@@ -46,6 +45,10 @@ class Chef
 
         print "#{ui.color('Creating Load Balancer...', :magenta)}"
 
+        if config[:nics]
+          config[:nics] = config[:nics].split(',').map! { |nic| { id: nic } }
+        end
+
         load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
 
         load_balancer, _, headers  = load_balancer_api.datacenters_loadbalancers_post_with_http_info(
@@ -55,21 +58,28 @@ class Chef
               name: config[:name],
               ip: config[:ip],
               dhcp: config[:dhcp],
-              nics: config[:nics],
             }.compact,
+            entities: {
+              balancednics: {
+                items: config[:nics],
+              }
+            }
           },
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], load_balancer.id)
+        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], load_balancer.id, { depth: 1 })
+
+        nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
         puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
         puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
         puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
+        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
         puts 'done'
       end
     end
