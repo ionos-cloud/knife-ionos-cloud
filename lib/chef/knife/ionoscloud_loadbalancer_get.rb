@@ -44,7 +44,7 @@ class Chef
         puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
         puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
         puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('NICs', :cyan)}: #{nics.to_s}"
+        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
 
       end
     end

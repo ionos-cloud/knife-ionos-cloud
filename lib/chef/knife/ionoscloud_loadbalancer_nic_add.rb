@@ -41,9 +41,10 @@ class Chef
               config[:loadbalancer_id],
               { id: nic_id },
             )
-            request_ids_to_wait.append(get_request_id headers)
+            request_id = get_request_id headers
+            request_ids_to_wait.append(request_id)
 
-            ui.info("Added NIC #{nic_id} to the Load balancer #{config[:loadbalancer_id]}. Request ID: #{get_request_id headers}.")
+            ui.info("Added NIC #{nic_id} to the Load balancer #{config[:loadbalancer_id]}. Request ID: #{request_id}.")
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("NIC ID #{nic_id} not found. Skipping.")
@@ -66,7 +67,7 @@ class Chef
         puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
         puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
         puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('NICs', :cyan)}: #{nics.to_s}"
+        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
         puts 'done'
       end
     end
