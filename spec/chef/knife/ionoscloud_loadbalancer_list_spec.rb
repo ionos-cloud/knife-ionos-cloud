@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudLoadbalancerList do
         subject.ui.color('Name', :bold),
         subject.ui.color('IP address', :bold),
         subject.ui.color('DHCP', :bold),
-        subject.ui.color('NICs Count', :bold),
+        subject.ui.color('NICs count', :bold),
         load_balancers.items.first.id,
         load_balancers.items.first.properties.name,
         load_balancers.items.first.properties.ip,
