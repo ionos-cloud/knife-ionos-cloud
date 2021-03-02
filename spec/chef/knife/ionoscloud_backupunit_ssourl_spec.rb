@@ -1,19 +1,19 @@
 require 'spec_helper'
-require 'ionoscloud_user_ssourl'
+require 'ionoscloud_backupunit_ssourl'
 
-Chef::Knife::IonoscloudUserSsourl.load_deps
+Chef::Knife::IonoscloudBackupunitSsourl.load_deps
 
-describe Chef::Knife::IonoscloudUserSsourl do
-  subject { Chef::Knife::IonoscloudUserSsourl.new }
+describe Chef::Knife::IonoscloudBackupunitSsourl do
+  subject { Chef::Knife::IonoscloudBackupunitSsourl.new }
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_ssourl_get and output the received url when the user ID is valid' do
-      user = user_mock
-      sso_url = sso_url_mock
+    it 'should call BackupUnitApi.backupunits_ssourl_get and output the received url when the user ID is valid' do
+      backupunit = backupunit_mock
+      backupunit_sso = backupunit_sso_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        user_id: user.id,
+        backupunit_id: backupunit.id,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
@@ -26,10 +26,10 @@ describe Chef::Knife::IonoscloudUserSsourl do
         [
           {
             method: 'GET',
-            path: "/um/users/#{user.id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
-            return_type: 'S3ObjectStorageSSO',
-            result: sso_url,
+            path: "/backupunits/#{backupunit.id}/ssourl",
+            operation: :'BackupUnitApi.backupunits_ssourl_get',
+            return_type: 'BackupUnitSSO',
+            result: backupunit_sso,
           },
         ],
       )
@@ -38,11 +38,11 @@ describe Chef::Knife::IonoscloudUserSsourl do
     end
 
     it 'should output an error is the user is not found' do
-      user_id = 'invalid_id'
+      backupunit_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        user_id: user_id,
+        backupunit_id: backupunit_id,
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
@@ -50,7 +50,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("User ID #{user_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Backup unit ID #{backupunit_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -58,9 +58,9 @@ describe Chef::Knife::IonoscloudUserSsourl do
         [
           {
             method: 'GET',
-            path: "/um/users/#{user_id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
-            return_type: 'S3ObjectStorageSSO',
+            path: "/backupunits/#{backupunit_id}/ssourl",
+            operation: :'BackupUnitApi.backupunits_ssourl_get',
+            return_type: 'BackupUnitSSO',
             exception: Ionoscloud::ApiError.new(:code => 404),
           },
         ],

@@ -157,6 +157,25 @@ end
 ################################## NEW MOCKS ######################################
 ###################################################################################
 
+def backupunit_mock(opts = {})
+  Ionoscloud::BackupUnit.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::BackupUnitProperties.new(
+      name: opts[:name] || 'backupunit_name',
+      password: opts[:password] || 'password1234',
+      email: opts[:email] || 'test@test.com',
+    ),
+  )
+end
+
+def backupunits_mock(opts = {})
+  Ionoscloud::BackupUnits.new(
+    id: 'backupunits',
+    type: 'collection',
+    items: [backupunit_mock, backupunit_mock],
+  )
+end
+
 def nic_mock(opts = {})
   Ionoscloud::Nic.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -383,6 +402,12 @@ def pccs_mock(opts = {})
     id: 'pccs',
     type: 'collection',
     items: [pcc_mock],
+  )
+end
+
+def backupunit_sso_mock(opts = {})
+  Ionoscloud::BackupUnitSSO.new(
+    sso_url: opts['sso_url'] || 'www.sso-url.com',
   )
 end
 
