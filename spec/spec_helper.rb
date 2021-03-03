@@ -157,6 +157,24 @@ end
 ###################################################################################
 
 
+def label_resource_mock(opts = {})
+  Ionoscloud::LabelResource.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::LabelResourceProperties.new(
+      key: opts[:key] || 'key',
+      value: opts[:value] || 'value',
+    ),
+  )
+end
+
+def label_resources_mock(opts = {})
+  Ionoscloud::LabelResources.new(
+    id: 'labelresources',
+    type: 'collection',
+    items: [label_resource_mock, label_resource_mock],
+  )
+end
+
 def label_mock(opts = {})
   Ionoscloud::Label.new(
     id: opts[:id] || SecureRandom.uuid,

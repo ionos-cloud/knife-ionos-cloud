@@ -23,6 +23,22 @@ describe Chef::Knife::IonoscloudLabelList do
       @labels.items[1].properties.value,
     ]
 
+    @label_resources = label_resources_mock
+    @label_resource_list = label_resource_list = [
+      subject.ui.color('Resource ID', :bold),
+      subject.ui.color('Resource Type', :bold),
+      subject.ui.color('Label key', :bold),
+      subject.ui.color('Value', :bold),
+      'resource_id',
+      'resource_type',
+      @label_resources.items.first.properties.key,
+      @label_resources.items.first.properties.value,
+      'resource_id',
+      'resource_type',
+      @label_resources.items[1].properties.key,
+      @label_resources.items[1].properties.value,
+    ]
+
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
@@ -33,12 +49,14 @@ describe Chef::Knife::IonoscloudLabelList do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'datacenter',
-        resource_id: @labels.items.first.properties.resource_id,
+        resource_id: 'resource_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -49,7 +67,7 @@ describe Chef::Knife::IonoscloudLabelList do
             path: "/datacenters/#{subject_config[:resource_id]}/labels",
             operation: :'LabelApi.datacenters_labels_get',
             return_type: 'LabelResources',
-            result: @labels,
+            result: @label_resources,
           },
         ],
       )
@@ -57,18 +75,20 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_servers_labels_get when the type is datacenter and output based on what it receives' do
+    it 'should call LabelApi.datacenters_servers_labels_get when the type is server and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'server',
         datacenter_id: 'datacenter_id',
-        resource_id: @labels.items.first.properties.resource_id,
+        resource_id: 'resource_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -79,7 +99,7 @@ describe Chef::Knife::IonoscloudLabelList do
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels",
             operation: :'LabelApi.datacenters_servers_labels_get',
             return_type: 'LabelResources',
-            result: @labels,
+            result: @label_resources,
           },
         ],
       )
@@ -87,18 +107,20 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_volumes_labels_get when the type is datacenter and output based on what it receives' do
+    it 'should call LabelApi.datacenters_volumes_labels_get when the type is volume and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'volume',
         datacenter_id: 'datacenter_id',
-        resource_id: @labels.items.first.properties.resource_id,
+        resource_id: 'resource_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -109,7 +131,7 @@ describe Chef::Knife::IonoscloudLabelList do
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels",
             operation: :'LabelApi.datacenters_volumes_labels_get',
             return_type: 'LabelResources',
-            result: @labels,
+            result: @label_resources,
           },
         ],
       )
@@ -122,12 +144,14 @@ describe Chef::Knife::IonoscloudLabelList do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'ipblock',
-        resource_id: @labels.items.first.properties.resource_id,
+        resource_id: 'resource_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -138,7 +162,7 @@ describe Chef::Knife::IonoscloudLabelList do
             path: "/ipblocks/#{subject_config[:resource_id]}/labels",
             operation: :'LabelApi.ipblocks_labels_get',
             return_type: 'LabelResources',
-            result: @labels,
+            result: @label_resources,
           },
         ],
       )
@@ -151,12 +175,14 @@ describe Chef::Knife::IonoscloudLabelList do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'snapshot',
-        resource_id: @labels.items.first.properties.resource_id,
+        resource_id: 'resource_id',
       }
  
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -167,7 +193,7 @@ describe Chef::Knife::IonoscloudLabelList do
             path: "/snapshots/#{subject_config[:resource_id]}/labels",
             operation: :'LabelApi.snapshots_labels_get',
             return_type: 'LabelResources',
-            result: @labels,
+            result: @label_resources,
           },
         ],
       )
@@ -186,7 +212,7 @@ describe Chef::Knife::IonoscloudLabelList do
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject.ui).to receive(:warn).with("#{subject_config[:type]} is not a valid Resource Type. Returning all available labels.")
-      expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
+      expect(subject.ui).to receive(:list).with(@label_resource_list, :uneven_columns_across, 4)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

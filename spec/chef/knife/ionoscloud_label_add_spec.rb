@@ -13,12 +13,12 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
   describe '#run' do
     it 'should call LabelApi.datacenters_labels_post when the type is datacenter and output based on what it receives' do
-      label = label_mock
+      label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'datacenter',
-        resource_id: label.properties.resource_id,
+        resource_id: 'resource_id',
         key: label.properties.key,
         value: label.properties.value,
       }
@@ -54,13 +54,13 @@ describe Chef::Knife::IonoscloudLabelAdd do
     end
 
     it 'should call LabelApi.datacenters_servers_labels_post when the type is server and output based on what it receives' do
-      label = label_mock
+      label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'server',
         datacenter_id: 'datacenter_id',
-        resource_id: label.properties.resource_id,
+        resource_id: 'resource_id',
         key: label.properties.key,
         value: label.properties.value,
       }
@@ -96,13 +96,13 @@ describe Chef::Knife::IonoscloudLabelAdd do
     end
 
     it 'should call LabelApi.datacenters_volumes_labels_post when the type is volume and output based on what it receives' do
-      label = label_mock
+      label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'volume',
         datacenter_id: 'datacenter_id',
-        resource_id: label.properties.resource_id,
+        resource_id: 'resource_id',
         key: label.properties.key,
         value: label.properties.value,
       }
@@ -138,12 +138,12 @@ describe Chef::Knife::IonoscloudLabelAdd do
     end
 
     it 'should call LabelApi.ipblocks_labels_post when the type is ipblock and output based on what it receives' do
-      label = label_mock
+      label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'ipblock',
-        resource_id: label.properties.resource_id,
+        resource_id: 'resource_id',
         key: label.properties.key,
         value: label.properties.value,
       }
@@ -179,12 +179,12 @@ describe Chef::Knife::IonoscloudLabelAdd do
     end
 
     it 'should call LabelApi.snapshots_labels_post when the type is snapshot and output based on what it receives' do
-      label = label_mock
+      label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         type: 'snapshot',
-        resource_id: label.properties.resource_id,
+        resource_id: 'resource_id',
         key: label.properties.key,
         value: label.properties.value,
       }
