@@ -38,8 +38,8 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        if config[:group_id]
-          groups = user_management_api.um_users_groups_get(config[:user], { depth: 1 }).items
+        if config[:user_id]
+          groups = user_management_api.um_users_groups_get(config[:user_id], { depth: 1 }).items
         else
           groups = user_management_api.um_groups_get({ depth: 1 }).items
         end

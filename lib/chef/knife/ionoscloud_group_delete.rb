@@ -26,12 +26,14 @@ class Chef
 
         @name_args.each do |group_id|
           begin
-            group = user_management_api.um_groups_find_by_id(group_id)
+            group = user_management_api.um_groups_find_by_id(group_id, { depth: 1 })
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Group ID #{group_id} not found. Skipping.")
             next
           end
+
+          users = group.entities.users.items.map! {|el| el.id }
 
           msg_pair('ID', group.id)
           msg_pair('Name', group.properties.name)
@@ -41,6 +43,7 @@ class Chef
           msg_pair('Access Activity Log', group.properties.access_activity_log.to_s)
           msg_pair('S3 Privilege', group.properties.s3_privilege.to_s)
           msg_pair('Create Backup Unit', group.properties.create_backup_unit.to_s)
+          msg_pair('Users', users.to_s)
           puts "\n"
 
           begin

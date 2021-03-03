@@ -35,9 +35,10 @@ class Chef
               config[:group_id],
               user_id,
             )
-            request_ids_to_wait.append(get_request_id headers)
+            request_id = get_request_id headers
+            request_ids_to_wait.append(request_id)
 
-            ui.warn("Removed User #{user_id} from the Group #{config[:group_id]}. Request ID: #{get_request_id headers}.")
+            ui.warn("Removed User #{user_id} from the Group #{config[:group_id]}. Request ID: #{request_id}.")
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("User ID #{user_id} not found. Skipping.")

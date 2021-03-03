@@ -3,7 +3,6 @@ require 'rspec'
 require 'chef'
 require 'securerandom'
 
-
 RSpec.configure do |config|
   config.before(:each) do
     Ionoscloud.configure do |config|
@@ -156,6 +155,7 @@ end
 ###################################################################################
 ################################## NEW MOCKS ######################################
 ###################################################################################
+
 
 def backupunit_mock(opts = {})
   Ionoscloud::BackupUnit.new(
@@ -512,6 +512,40 @@ def snapshots_mock(opts = {})
     id: 'snapshots',
     type: 'collection',
     items: [snapshot_mock],
+  )
+end
+
+def group_mock(opts = {})
+  Ionoscloud::Group.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::GroupProperties.new(
+      name: opts[:name] || 'group_name',
+      create_data_center: opts[:create_data_center] || true,
+      create_snapshot: opts[:create_snapshot] || true,
+      reserve_ip: opts[:reserve_ip] || true,
+      access_activity_log: opts[:access_activity_log] || true,
+      s3_privilege: opts[:s3_privilege] || true,
+      create_backup_unit: opts[:create_backup_unit] || true,
+    ),
+    entities: Ionoscloud::GroupEntities.new(
+      users: group_members_mock,
+    ),
+  )
+end
+
+def groups_mock(opts = {})
+  Ionoscloud::Groups.new(
+    id: 'groups',
+    type: 'collection',
+    items: [group_mock, group_mock],
+  )
+end
+
+def group_members_mock(opts = {})
+  Ionoscloud::GroupMembers.new(
+    id: 'groupmembers',
+    type: 'collection',
+    items: [user_mock, user_mock],
   )
 end
 

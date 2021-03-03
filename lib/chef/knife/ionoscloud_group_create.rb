@@ -12,7 +12,7 @@ class Chef
               long: '--name NAME',
               description: 'Mame of the group.'
 
-      option :create_datacenter,
+      option :create_data_center,
               short: '-D',
               long: '--create-datacenter',
               description: 'The group will be allowed to create virtual data centers.'
@@ -36,7 +36,7 @@ class Chef
               long: '--s3',
               description: 'The group will be allowed to manage S3'
 
-      option :create_backupunit,
+      option :create_backup_unit,
               short: '-b',
               long: '--create-backupunit',
               description: 'The group will be able to manage backup units.'
@@ -61,12 +61,12 @@ class Chef
         group, _, headers  = user_management_api.um_groups_post_with_http_info({
           properties: {
             name: config[:name],
-            createDataCenter: config[:create_datacenter],
+            createDataCenter: config[:create_data_center],
             createSnapshot: config[:create_snapshot],
             reserveIp: config[:reserve_ip],
             accessActivityLog: config[:access_activity_log],
             s3Privilege: config[:s3_privilege],
-            createBackupUnit: config[:create_backupunit],
+            createBackupUnit: config[:create_backup_unit],
           }.compact,
         })
 
