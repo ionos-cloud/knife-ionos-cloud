@@ -17,25 +17,10 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center.'
 
-      option :server_id,
-              short: '-S SERVER_ID',
-              long: '--server-id SERVER_ID',
-              description: 'ID of the server.'
-
-      option :volume_id,
-              short: '-V VOLUME_ID',
-              long: '--volume-id VOLUME_ID',
-              description: 'ID of the volume.'
-
-      option :ipblock_id,
-              short: '-I IPBLOCK_ID',
-              long: '--ipblock-id IPBLOCK_ID',
-              description: 'ID of the ipblock.'
-
-      option :snapshot_id,
-              short: '-s SNAPSHOT_ID',
-              long: '--snapshot-id SNAPSHOT_ID',
-              description: 'ID of the snapshot.'
+      option :resource_id,
+              short: '-R RESOURCE_ID',
+              long: '--resource-id RESOURCE_ID',
+              description: 'ID of the resource.'
       
       attr_reader :description, :required_options
       
@@ -56,20 +41,20 @@ class Chef
 
         case config[:type]
         when 'datacenter'
-          validate_required_params([:datacenter_id], config)
-          labels = label_api.datacenters_labels_get(config[:datacenter_id], opts)
+          validate_required_params([:resource_id], config)
+          labels = label_api.datacenters_labels_get(config[:resource_id], opts)
         when 'server'
-          validate_required_params([:datacenter_id, :server_id], config)
-          labels = label_api.datacenters_servers_labels_get(config[:datacenter_id], config[:server_id], opts)
+          validate_required_params([:datacenter_id, :resource_id], config)
+          labels = label_api.datacenters_servers_labels_get(config[:datacenter_id], config[:resource_id], opts)
         when 'volume'
-          validate_required_params([:datacenter_id, :volume_id], config)
-          labels = label_api.datacenters_volumes_labels_get(config[:datacenter_id], config[:volume_id], opts)
+          validate_required_params([:datacenter_id, :resource_id], config)
+          labels = label_api.datacenters_volumes_labels_get(config[:datacenter_id], config[:resource_id], opts)
         when 'ipblock'
-          validate_required_params([:ipblock_id], config)
-          labels = label_api.ipblocks_labels_get(config[:ipblock_id], opts)
+          validate_required_params([:resource_id], config)
+          labels = label_api.ipblocks_labels_get(config[:resource_id], opts)
         when 'snapshot'
-          validate_required_params([:snapshot_id], config)
-          labels = label_api.snapshots_labels_get(config[:datacenter_id], opts)
+          validate_required_params([:resource_id], config)
+          labels = label_api.snapshots_labels_get(config[:resource_id], opts)
         else
           if !config[:type].nil?
             ui.warn("#{config[:type]} is not a valid Resource Type. Returning all available labels.")
@@ -85,7 +70,7 @@ class Chef
         ]
 
         labels.items.each do |label|
-          label_list << (label.properties.respond_to?(:resource_id) ? label.properties.resource_id : config[:"#{config[:type]}_id"])
+          label_list << (label.properties.respond_to?(:resource_id) ? label.properties.resource_id : config[:resource_id])
           label_list << (label.properties.respond_to?(:resource_type) ? label.properties.resource_type : config[:type])
           label_list << label.properties.key
           label_list << label.properties.value

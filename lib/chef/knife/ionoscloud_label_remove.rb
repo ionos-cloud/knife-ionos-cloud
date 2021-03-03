@@ -17,25 +17,10 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center.'
 
-      option :server_id,
-              short: '-S SERVER_ID',
-              long: '--server-id SERVER_ID',
-              description: 'ID of the server.'
-
-      option :volume_id,
-              short: '-V VOLUME_ID',
-              long: '--volume-id VOLUME_ID',
-              description: 'ID of the volume.'
-
-      option :ipblock_id,
-              short: '-I IPBLOCK_ID',
-              long: '--ipblock-id IPBLOCK_ID',
-              description: 'ID of the ipblock.'
-
-      option :snapshot_id,
-              short: '-s SNAPSHOT_ID',
-              long: '--snapshot-id SNAPSHOT_ID',
-              description: 'ID of the snapshot.'
+      option :resource_id,
+              short: '-R RESOURCE_ID',
+              long: '--resource-id RESOURCE_ID',
+              description: 'ID of the resource.'
       
       attr_reader :description, :required_options
       
@@ -43,7 +28,7 @@ class Chef
         super(args)
         @description =
         'Remove a Label from a Resource.'
-        @required_options = [:type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:type, :resource_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -52,45 +37,39 @@ class Chef
         
         label_api = Ionoscloud::LabelApi.new(api_client)
 
+        args = [config[:resource_id]]
+
         case config[:type]
         when 'datacenter'
+          method = label_api.method(:datacenters_labels_delete)
+        when 'server'
           validate_required_params([:datacenter_id], config)
 
-          method = label_api.method(:datacenters_labels_delete)
-          args = [config[:datacenter_id]]
-        when 'server'
-          validate_required_params([:datacenter_id, :server_id], config)
-
           method = label_api.method(:datacenters_servers_labels_delete)
-          args = [config[:datacenter_id, :server_id]]
+          args = [config[:datacenter_id], config[:server_id]]
         when 'volume'
-          validate_required_params([:datacenter_id, :volume_id], config)
+          validate_required_params([:datacenter_id], config)
 
           method = label_api.method(:datacenters_volumes_labels_delete)
-          args = [config[:datacenter_id], config[:volume_id]]
+          args = [config[:datacenter_id], config[:resource_id]]
         when 'ipblock'
-          validate_required_params([:ipblock_id], config)
-
           method = label_api.method(:ipblocks_labels_delete)
-          args = [config[:ipblock_id]]
         when 'snapshot'
-          validate_required_params([:snapshot_id], config)
-
           method = label_api.method(:snapshots_labels_delete)
-          args = [config[:snapshot_id]]
         else
           ui.error("#{config[:type]} is not a valid Resource Type.")
+          exit(1)
         end
 
         @name_args.each do |label_key|
           begin
-            method.call(config[:datacenter_id], label_key)
+            method.call(*args, label_key)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Label #{label_key} not found. Skipping.")
             next
           end
-          ui.warn("Removed Label #{config[:key]} from #{config[:type]} #{config[:"#{config[:type]}_id"]}.")
+          ui.warn("Removed Label #{config[:key]} from #{config[:type]} #{config[:resource_id]}.")
         end
       end
     end
