@@ -46,7 +46,7 @@ class Chef
           validate_required_params([:datacenter_id], config)
 
           method = label_api.method(:datacenters_servers_labels_delete)
-          args = [config[:datacenter_id], config[:server_id]]
+          args = [config[:datacenter_id], config[:resource_id]]
         when 'volume'
           validate_required_params([:datacenter_id], config)
 
@@ -69,7 +69,7 @@ class Chef
             ui.error("Label #{label_key} not found. Skipping.")
             next
           end
-          ui.warn("Removed Label #{config[:key]} from #{config[:type]} #{config[:resource_id]}.")
+          ui.warn("Removed Label #{label_key} from #{config[:type]} #{config[:resource_id]}.")
         end
       end
     end
