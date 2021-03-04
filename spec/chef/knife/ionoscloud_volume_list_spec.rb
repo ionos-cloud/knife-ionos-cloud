@@ -4,55 +4,115 @@ require 'ionoscloud_volume_list'
 Chef::Knife::IonoscloudVolumeList.load_deps
 
 describe Chef::Knife::IonoscloudVolumeList do
-  subject { Chef::Knife::IonoscloudVolumeList.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
-    @volume = create_test_volume(@datacenter)
+    subject { Chef::Knife::IonoscloudVolumeList.new }
+
+    @volumes = volumes_mock
+
+    @volume_list = volume_list = [
+      subject.ui.color('ID', :bold),
+      subject.ui.color('Name', :bold),
+      subject.ui.color('Size', :bold),
+      subject.ui.color('Bus', :bold),
+      subject.ui.color('Image', :bold),
+      subject.ui.color('Type', :bold),
+      subject.ui.color('Zone', :bold),
+      subject.ui.color('Device Number', :bold),
+      @volumes.items.first.id,
+      @volumes.items.first.properties.name,
+      @volumes.items.first.properties.size.to_s,
+      @volumes.items.first.properties.bus,
+      @volumes.items.first.properties.image,
+      @volumes.items.first.properties.type,
+      @volumes.items.first.properties.availability_zone,
+      @volumes.items.first.properties.device_number.to_s,
+      @volumes.items[1].id,
+      @volumes.items[1].properties.name,
+      @volumes.items[1].properties.size.to_s,
+      @volumes.items[1].properties.bus,
+      @volumes.items[1].properties.image,
+      @volumes.items[1].properties.type,
+      @volumes.items[1].properties.availability_zone,
+      @volumes.items[1].properties.device_number.to_s,
+    ]
 
     allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should list volumes' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+    it 'should call VolumeApi.datacenters_volumes_get when no server_id is set' do
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id', 
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with(
-        %r{
-          (^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device\sNumber\s*$\n
-            #{@volume.id}\s+#{@volume.properties.name.gsub(' ', '\s')}\s+#{@volume.properties.size}\s+
-            #{@volume.properties.bus}\s+#{@volume.properties.image}\s+#{@volume.properties.type}\s+
-            #{@volume.properties.availability_zone}\s+#{@volume.properties.device_number.to_s}\s*$)
-        }x,
+      expect(subject.ui).to receive(:list).with(@volume_list, :uneven_columns_across, 8)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/volumes",
+            operation: :'VolumeApi.datacenters_volumes_get',
+            return_type: 'Volumes',
+            result: @volumes,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
     end
-    it 'should print only headers if there are no volumes' do
-      @server = create_test_server(@datacenter)
 
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+    it 'should call ServerApi.datacenters_servers_volumes_get when server_id is set' do
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id', 
+        server_id: 'server_id'
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Size\s+Bus\s+Image\s+Type\s+Zone\s+Device Number\s*\n$/,
+      expect(subject.ui).to receive(:list).with(@volume_list, :uneven_columns_across, 8)
+
+      expect(subject.api_client).not_to receive(:wait_for)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
+            operation: :'ServerApi.datacenters_servers_volumes_get',
+            return_type: 'AttachedVolumes',
+            result: @volumes,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+  
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

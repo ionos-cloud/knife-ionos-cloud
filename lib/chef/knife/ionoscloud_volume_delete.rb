@@ -45,6 +45,9 @@ class Chef
           msg_pair('Size', volume.properties.size)
           msg_pair('Bus', volume.properties.bus)
           msg_pair('Image', volume.properties.image)
+          msg_pair('Type', volume.properties.type)
+          msg_pair('Licence Type', volume.properties.licence_type)
+          msg_pair('Zone', volume.properties.availability_zone)
 
           begin
             confirm('Do you really want to delete this volume')

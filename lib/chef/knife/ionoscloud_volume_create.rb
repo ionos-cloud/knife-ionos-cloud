@@ -32,11 +32,11 @@ class Chef
              long: '--image ID',
              description: 'The image or snapshot ID'
 
-      option :imagealias,
+      option :image_alias,
              long: '--image-alias IMAGE_ALIAS',
              description: '(required) The image alias'
 
-      option :imagepassword,
+      option :image_password,
              short: '-P PASSWORD',
              long: '--image-password PASSWORD',
              description: 'The password set on the image for the "root" or "Administrator" user'
@@ -57,7 +57,7 @@ class Chef
              description: 'A list of public SSH keys to include',
              proc: proc { |sshkeys| sshkeys.split(',') }
 
-      option :volume_availability_zone,
+      option :availability_zone,
              short: '-Z AVAILABILITY_ZONE',
              long: '--availability-zone AVAILABILITY_ZONE',
              description: 'The volume availability zone of the server',
@@ -77,52 +77,36 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !config[:image] && !config[:imagealias]
-          ui.error("Either '--image' or '--image-alias' parameter must be provided")
+        if !config[:image] && !config[:image_alias]
+          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
           exit(1)
         end
 
-        if !config[:sshkeys] && !config[:imagepassword]
-          ui.error("Either '--image-password' or '--ssh-keys' parameter must be provided")
+        if !config[:sshkeys] && !config[:image_password]
+          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
           exit(1)
         end
 
         print "#{ui.color('Creating volume...', :magenta)}"
 
-        params = {
-          name: config[:name],
-          size: config[:size],
-          bus: config[:bus] || 'VIRTIO',
-          type: config[:type],
-          licenceType: config[:licencetype],
-        }
-
-        if config[:image]
-          params[:image] = config[:image]
-        end
-
-        if config[:imagealias]
-          params[:imageAlias] = config[:imagealias]
-        end
-
-        if config[:sshkeys]
-          params[:sshKeys] = config[:sshkeys]
-        end
-
-        if config[:imagepassword]
-          params[:imagePassword] = config[:imagepassword]
-        end
-
-        if config[:volume_availability_zone]
-          params[:availabilityZone] = config[:volume_availability_zone]
-        end
-
-
         volume_api = Ionoscloud::VolumeApi.new(api_client)
 
         volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
           config[:datacenter_id],
-          { properties: params.compact },
+          {
+            properties: {
+              name: config[:name],
+              size: config[:size],
+              bus: config[:bus] || 'VIRTIO',
+              type: config[:type],
+              licenceType: config[:licencetype],
+              image: config[:image],
+              imageAlias: config[:image_alias],
+              sshKeys: config[:sshKeys],
+              imagePassword: config[:image_password],
+              availabilityZone: config[:availability_zone],
+            }.compact
+          },
         )
 
         dot = ui.color('.', :magenta)

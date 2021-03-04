@@ -157,6 +157,29 @@ end
 ###################################################################################
 
 
+def volume_mock(opts = {})
+  Ionoscloud::Volume.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::VolumeProperties.new(
+      name: opts[:name] || 'Test Volume',
+      size: opts[:size] || 2,
+      type: opts[:type] || 'HDD',
+      bus: opts[:bus] || 'VIRTIO',
+      availability_zone: opts[:availability_zone] || 'AUTO',
+      licence_type: opts[:licence_type] || 'LINUX',
+      image: opts[:image] || SecureRandom.uuid,
+    ),
+  )
+end
+
+def volumes_mock(opts = {})
+  Ionoscloud::Volumes.new(
+    id: 'volumes',
+    type: 'collection',
+    items: [volume_mock, volume_mock],
+  )
+end
+
 def label_resource_mock(opts = {})
   Ionoscloud::LabelResource.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -452,29 +475,6 @@ end
 def sso_url_mock(opts = {})
   Ionoscloud::S3ObjectStorageSSO.new(
     sso_url: opts['sso_url'] || 'www.sso-url.com',
-  )
-end
-
-def volume_mock(opts = {})
-  Ionoscloud::Volume.new(
-    id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::VolumeProperties.new(
-      name: opts[:name] || 'volume_name',
-      size: opts[:size] || '10.0',
-      bus: opts[:bus] || 'VIRTIO',
-      image: opts[:image] || 'a3c3c57e-921d-4f81-9dbd-444d571d521d',
-      type: opts[:type] || 'SSD',
-      licence_type: opts[:licence_type] || 'LINUX',
-      availability_zone: opts[:availability_zone] || 'AUTO',
-    ),
-  )
-end
-
-def volumes_mock(opts = {})
-  Ionoscloud::Volumes.new(
-    id: 'volumes',
-    type: 'collection',
-    items: [volume_mock],
   )
 end
 

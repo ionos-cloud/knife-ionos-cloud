@@ -52,7 +52,10 @@ class Chef
           msg_pair('Name', volume.properties.name)
           msg_pair('Size', volume.properties.size)
           msg_pair('Bus', volume.properties.bus)
-          msg_pair('Device Number', volume.properties.device_number)
+          msg_pair('Image', volume.properties.image)
+          msg_pair('Type', volume.properties.type)
+          msg_pair('Licence Type', volume.properties.licence_type)
+          msg_pair('Zone', volume.properties.availability_zone)
 
           begin
             confirm('Do you really want to detach this volume')
