@@ -237,6 +237,24 @@ def backupunits_mock(opts = {})
   )
 end
 
+def lan_mock(opts = {})
+  Ionoscloud::Lan.new(
+    id: opts[:id] || '1',
+    properties: Ionoscloud::LanProperties.new(
+      name: opts[:name] || 'lan_name',
+      public: opts[:public] || true,
+    ),
+  )
+end
+
+def lans_mock(opts = {})
+  Ionoscloud::Lans.new(
+    id: 'lans',
+    type: 'collection',
+    items: [lan_mock],
+  )
+end
+
 def nic_mock(opts = {})
   Ionoscloud::Nic.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -260,6 +278,31 @@ def nics_mock(opts = {})
     id: 'nics',
     type: 'collection',
     items: [nic_mock, nic_mock],
+  )
+end
+
+def firewall_mock(opts = {})
+  Ionoscloud::FirewallRule.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::FirewallruleProperties.new(
+      name: opts[:name] || 'firewall_name',
+      protocol: opts[:protocol] || 'UDP',
+      source_mac: opts[:source_mac] || '01:23:45:67:89:00',
+      source_ip: opts[:source_ip] || '10.9.20.11',
+      target_ip: opts[:target_ip] || '10.9.20.11',
+      port_range_start: opts[:port_range_start] || 22,
+      port_range_end: opts[:port_range_end] || 22,
+      icmp_type: opts[:icmp_type] || 4,
+      icmp_code: opts[:icmp_code] || 7,
+    ),
+  )
+end
+
+def firewalls_mock(opts = {})
+  Ionoscloud::FirewallRules.new(
+    id: 'firewalls',
+    type: 'collection',
+    items: [firewall_mock, firewall_mock],
   )
 end
 
@@ -445,24 +488,6 @@ def k8s_nodes_mock(opts = {})
     id: "#{SecureRandom.uuid}/nodes",
     type: 'collection',
     items: [k8s_node_mock],
-  )
-end
-
-def lan_mock(opts = {})
-  Ionoscloud::Lan.new(
-    id: opts[:id] || '1',
-    properties: Ionoscloud::LanProperties.new(
-      name: opts[:name] || 'lan_name',
-      public: opts[:public] || true,
-    ),
-  )
-end
-
-def lans_mock(opts = {})
-  Ionoscloud::Lans.new(
-    id: 'lans',
-    type: 'collection',
-    items: [lan_mock],
   )
 end
 
