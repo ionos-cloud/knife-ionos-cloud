@@ -25,8 +25,7 @@ class Chef
       option :ips,
              short: '-i IP[,IP,...]',
              long: '--ips IP[,IP,...]',
-             description: 'IPs assigned to the NIC',
-             proc: proc { |ips| ips.split(',') }
+             description: 'IPs assigned to the NIC'
 
       option :dhcp,
              short: '-d',
@@ -62,16 +61,17 @@ class Chef
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
+        if config[:ips]
+          config[:ips] = config[:ips].split(',')
+        end
+
         params = {
           name: config[:name],
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
+          nat: config[:nat],
         }
-
-        if config[:nat]
-          params[:nat] = config[:nat]
-        end
 
         nic_api = Ionoscloud::NicApi.new(api_client)
 
@@ -93,7 +93,7 @@ class Chef
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{nic.id}"
         puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
-        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips}"
+        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
         puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
         puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
         puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"

@@ -242,8 +242,9 @@ def nic_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NicProperties.new(
       name: opts[:name] || 'nic_name',
-      ips: opts[:ips] || ['1.1.1.1'],
+      ips: opts[:ips] || ['1.1.1.1', '1.1.1.2'],
       nat: opts[:nat] || true,
+      dhcp: opts[:dhcp] || true,
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
@@ -281,6 +282,44 @@ def load_balancers_mock(opts = {})
     id: 'loadbalancers',
     type: 'collection',
     items: [load_balancer_mock],
+  )
+end
+
+def image_mock(opts = {})
+  Ionoscloud::Image.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::ImageProperties.new(
+      name: opts[:name] || 'image_name',
+      description: opts[:description] || 'image_description',
+      location: opts[:location] || 'image_location',
+      size: opts[:size] || 10,
+      public: opts[:public] || true,
+    ),
+  )
+end
+
+def images_mock(opts = {})
+  Ionoscloud::Images.new(
+    id: 'images',
+    type: 'collection',
+    items: [image_mock],
+  )
+end
+
+def location_mock(opts = {})
+  Ionoscloud::Location.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::LocationProperties.new(
+      name: opts[:name] || 'location_name',
+    ),
+  )
+end
+
+def locations_mock(opts = {})
+  Ionoscloud::Locations.new(
+    id: 'locations',
+    type: 'collection',
+    items: [location_mock],
   )
 end
 

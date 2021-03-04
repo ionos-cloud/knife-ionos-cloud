@@ -16,8 +16,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
       volume = volume_mock
       subject_config = {
         ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        cluster_id: 'cluster_id',
+        ionoscloud_password: 'password',\
         datacenter_id: 'datacenter_id',
         name: volume.properties.name,
         size: volume.properties.size,
@@ -67,8 +66,8 @@ describe Chef::Knife::IonoscloudVolumeCreate do
           },
         ],
       )
-      subject.run
-      # expect { subject.run }.not_to raise_error(Exception)
+
+      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should not call anything when neither image not image-alias is provided' do
