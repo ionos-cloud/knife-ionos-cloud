@@ -4,79 +4,99 @@ require 'ionoscloud_ipblock_delete'
 Chef::Knife::IonoscloudIpblockDelete.load_deps
 
 describe Chef::Knife::IonoscloudIpblockDelete do
-  subject { Chef::Knife::IonoscloudIpblockDelete.new }
-
   before :each do
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:confirm)
-    allow(subject.ui).to receive(:warn)
-  end
+    subject { Chef::Knife::IonoscloudIpblockDelete.new }
 
-  after :each do
-    begin
-      Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ip_block.id)
-    rescue Exception
-    end
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should release the ip block' do
-      @ip_block = create_test_ipblock()
-  
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-      subject.name_args = [@ip_block.id]
+    it 'should call IPBlocksApi.ipblocks_delete when the ID is valid' do
+      ipblock = ipblock_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        yes: true,
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [ipblock.id]
 
-      expect(subject.ui).to receive(:warn).with(
-        /Released IP block #{@ip_block.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
-      ) do |arg|
-        @request_id = arg.split('Request ID: ').last
-      end
+      expect(subject).to receive(:puts).with("ID: #{ipblock.id}")
+      expect(subject).to receive(:puts).with("Name: #{ipblock.properties.name}")
+      expect(subject).to receive(:puts).with("IP Addresses: #{ipblock.properties.ips.to_s}")
+      expect(subject).to receive(:puts).with("Location: #{ipblock.properties.location}")
+      expect(subject.ui).to receive(:warn).with("Released IP block #{ipblock.id}. Request ID: ")
 
-      expect(subject).to receive(:puts).with("ID: #{@ip_block.id}")
-      expect(subject).to receive(:puts).with("Name: #{@ip_block.properties.name}")
-      expect(subject).to receive(:puts).with("Location: #{@ip_block.properties.location}")
-      expect(subject).to receive(:puts).with("IP Addresses: #{@ip_block.properties.ips.to_s}")
+      expect(subject.api_client).not_to receive(:wait_for)
+      expect(subject).to receive(:get_request_id).once
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/ipblocks/#{ipblock.id}",
+            operation: :'IPBlocksApi.ipblocks_find_by_id',
+            return_type: 'IpBlock',
+            result: ipblock,
+          },
+          {
+            method: 'DELETE',
+            path: "/ipblocks/#{ipblock.id}",
+            operation: :'IPBlocksApi.ipblocks_delete',
+          },
+        ],
+      )
 
-      subject.run
-
-      raise Exception.new 'No Request ID found.' unless @request_id
-
-      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
-
-      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
-      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
-      expect(request.metadata.targets.length).to eq(1)
-      expect(request.metadata.targets.first.target.type).to eq('ipblock')
-      expect(request.metadata.targets.first.target.id).to eq(@ip_block.id)
-
-      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
-      
-      expect { Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ip_block.id) }.to raise_error(Ionoscloud::ApiError) do |error|
-        expect(error.code).to eq(404)
-      end
+      expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print a message when wrong ID' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-      wrong_ipblock_ids = [123,]
-      subject.name_args = wrong_ipblock_ids
-
-      expect(subject.ui).not_to receive(:warn)
-      wrong_ipblock_ids.each {
-        |wrong_ipblock_id|
-        expect(subject.ui).to receive(:error).with("IP block ID #{wrong_ipblock_id} not found. Skipping.")
+    it 'should not call IPBlocksApi.ipblocks_delete when the user ID is not valid' do
+      ipblock_id = 'invalid_id'
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
       }
-      subject.run
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [ipblock_id]
+
+      expect(subject.ui).to receive(:error).with("IP block ID #{ipblock_id} not found. Skipping.")
+
+      expect(subject.api_client).not_to receive(:wait_for)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/ipblocks/#{ipblock_id}",
+            operation: :'IPBlocksApi.ipblocks_find_by_id',
+            return_type: 'IpBlock',
+            exception: Ionoscloud::ApiError.new(:code => 404),
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+  
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

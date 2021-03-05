@@ -55,7 +55,7 @@ class Chef
         puts "#{ui.color('ID', :cyan)}: #{ipblock.id}"
         puts "#{ui.color('Name', :cyan)}: #{ipblock.properties.name}"
         puts "#{ui.color('Location', :cyan)}: #{ipblock.properties.location}"
-        puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties.ips}"
+        puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties.ips.to_s}"
         puts 'done'
       end
     end

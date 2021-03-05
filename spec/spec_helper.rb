@@ -157,6 +157,26 @@ end
 ###################################################################################
 
 
+def ipblock_mock(opts = {})
+  Ionoscloud::IpBlock.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::IpBlockProperties.new(
+      name: opts[:name] || 'Test IpBlock',
+      size: opts[:size] || 4,
+      location: opts[:location] || 'de/fra',
+      ips: opts[:ips] || ['87.106.113.181', '87.106.113.176', '87.106.113.177', '87.106.113.178'],
+    ),
+  )
+end
+
+def ipblocks_mock(opts = {})
+  Ionoscloud::IpBlocks.new(
+    id: 'IpBlocks',
+    type: 'collection',
+    items: [ipblock_mock, ipblock_mock],
+  )
+end
+
 def datacenter_mock(opts = {})
   Ionoscloud::Datacenter.new(
     id: opts[:id] || SecureRandom.uuid,

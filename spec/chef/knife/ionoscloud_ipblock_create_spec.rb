@@ -4,53 +4,68 @@ require 'ionoscloud_ipblock_create'
 Chef::Knife::IonoscloudIpblockCreate.load_deps
 
 describe Chef::Knife::IonoscloudIpblockCreate do
-  subject { Chef::Knife::IonoscloudIpblockCreate.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudIpblockCreate.new }
 
-  after :each do
-    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock_id) unless @ipblock_id.nil?
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should reserve a IP block' do
-      location = 'us/las'
-      size = 1
-      name = 'test_ip'
+    it 'should call IPBlocksApi.ipblocks_post with the expected arguments and output based on what it receives' do
+      ipblock = ipblock_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        ipblock_id: 'ipblock_id',
+        name: ipblock.properties.name,
+        size: ipblock.properties.size,
+        location: ipblock.properties.location,
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
 
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        location: location,
-        size: size,
-        name: name,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+      expect(subject).to receive(:puts).with("ID: #{ipblock.id}")
+      expect(subject).to receive(:puts).with("Name: #{ipblock.properties.name}")
+      expect(subject).to receive(:puts).with("IP Addresses: #{ipblock.properties.ips.to_s}")
+      expect(subject).to receive(:puts).with("Location: #{ipblock.properties.location}")
 
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
+      expected_body = ipblock.properties.to_hash
+      expected_body.delete(:ips)
 
-      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/) do |argument|
-        @ipblock_id = argument.split(' ').last
-      end
-      expect(subject).to receive(:puts).with("Name: #{name}")
-      expect(subject).to receive(:puts).with("Location: #{location}")
+      mock_wait_for(subject)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'POST',
+            path: "/ipblocks",
+            operation: :'IPBlocksApi.ipblocks_post',
+            return_type: 'IpBlock',
+            body: { properties: expected_body },
+            result: ipblock,
+          },
+        ],
+      )
 
-      block = /\d{,2}|1\d{2}|2[0-4]\d|25[0-5]/
-      expect(subject).to receive(:puts).with(/\A^IP Addresses: \["#{block}\.#{block}\.#{block}\.#{block}"\]\z/)
-      
-      subject.run
+      expect { subject.run }.not_to raise_error(Exception)
+    end
 
-      if @ipblock_id
-        ip_block = Ionoscloud::IPBlocksApi.new.ipblocks_find_by_id(@ipblock_id)
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
 
-        expect(ip_block.properties.size).to eq(size)
-        expect(ip_block.properties.name).to eq(name)
-        expect(ip_block.properties.location).to eq(location)
-        expect(ip_block.properties.ips.length).to eq(size)
+      arrays_without_one_element(required_options).each do |test_case|
 
-        expect(ip_block.metadata.state).to eq('AVAILABLE')
-        expect(ip_block.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-        expect(ip_block.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+  
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
       end
     end
   end
