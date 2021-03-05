@@ -28,6 +28,9 @@ describe Chef::Knife::IonoscloudLanCreate do
       expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
 
+      expected_body = lan.properties.to_hash
+      expected_body.delete(:ipFailover)
+
       mock_wait_for(subject)
       mock_call_api(
         subject,
