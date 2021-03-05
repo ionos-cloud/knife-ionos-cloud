@@ -4,36 +4,73 @@ require 'ionoscloud_datacenter_list'
 Chef::Knife::IonoscloudDatacenterList.load_deps
 
 describe Chef::Knife::IonoscloudDatacenterList do
-  subject { Chef::Knife::IonoscloudDatacenterList.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
+    subject { Chef::Knife::IonoscloudDatacenterList.new }
 
     allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should output the column headers and the datacenter' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
+    it 'should call DataCenterApi.datacenters_get' do
+      datacenters = datacenters_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
+
+      datacenter_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Description', :bold),
+        subject.ui.color('Location', :bold),
+        subject.ui.color('Version', :bold),
+      ]
+
+      datacenters.items.each do |datacenter|
+        datacenter_list << datacenter.id
+        datacenter_list << datacenter.properties.name
+        datacenter_list << datacenter.properties.description
+        datacenter_list << datacenter.properties.location
+        datacenter_list << datacenter.properties.version.to_s
       end
 
-      expect(subject).to receive(:puts).with(
-        %r{
-          (^ID\s+Name\s+Description\s+Location\s+Version\s*$\n.*
-          #{@datacenter.id}\s+#{@datacenter.properties.name.gsub(' ', '\s')}\s+
-          #{@datacenter.properties.description.gsub(' ', '\s')}\s+
-          #{@datacenter.properties.location}\s+1\s*$)
-        }x
+      expect(subject.ui).to receive(:list).with(datacenter_list, :uneven_columns_across, 5)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters",
+            operation: :'DataCenterApi.datacenters_get',
+            return_type: 'Datacenters',
+            result: datacenters,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+  
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

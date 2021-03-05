@@ -164,6 +164,7 @@ def datacenter_mock(opts = {})
       name: opts[:name] || 'Test Datacenter',
       description: opts[:description] || 'Test description',
       location: opts[:location] || 'de/fra',
+      version: opts[:version] || 12,
     ),
   )
 end
