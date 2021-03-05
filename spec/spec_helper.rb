@@ -157,6 +157,52 @@ end
 ###################################################################################
 
 
+def datacenter_mock(opts = {})
+  Ionoscloud::Datacenter.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::DatacenterProperties.new(
+      name: opts[:name] || 'Test Datacenter',
+      description: opts[:description] || 'Test description',
+      location: opts[:location] || 'de/fra',
+    ),
+  )
+end
+
+def datacenters_mock(opts = {})
+  Ionoscloud::Datacenters.new(
+    id: 'Datacenters',
+    type: 'collection',
+    items: [datacenter_mock, datacenter_mock],
+  )
+end
+
+def server_mock(opts = {})
+  Ionoscloud::Server.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::ServerProperties.new(
+      name: opts[:name] || 'Test Server',
+      ram: opts[:ram] || 1024,
+      cores: opts[:cores] || 1,
+      availability_zone: opts[:availability_zone] || 'ZONE_1',
+      cpu_family: opts[:cpu_family] || 'INTEL_SKYLAKE',
+      boot_cdrom: opts[:boot_cdrom] || Ionoscloud::ResourceReference.new({ id: SecureRandom.uuid }),
+      boot_volume: opts[:boot_volume] || Ionoscloud::ResourceReference.new({ id: SecureRandom.uuid }),
+    ),
+    entities: Ionoscloud::ServerEntities.new(
+      volumes: opts[:volumes] || [],
+      nics: opts[:nics] || [],
+    )
+  )
+end
+
+def servers_mock(opts = {})
+  Ionoscloud::Servers.new(
+    id: 'servers',
+    type: 'collection',
+    items: [server_mock, server_mock],
+  )
+end
+
 def volume_mock(opts = {})
   Ionoscloud::Volume.new(
     id: opts[:id] || SecureRandom.uuid,

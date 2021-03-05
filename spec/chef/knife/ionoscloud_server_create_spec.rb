@@ -4,65 +4,81 @@ require 'ionoscloud_server_create'
 Chef::Knife::IonoscloudServerCreate.load_deps
 
 describe Chef::Knife::IonoscloudServerCreate do
-  subject { Chef::Knife::IonoscloudServerCreate.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
+    subject { Chef::Knife::IonoscloudServerCreate.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
-  end
-
   describe '#run' do
-    it 'should create a server' do
-      server_cores = 2
-      server_ram = 2048
-      server_name = 'Chef Test'
-      cpu_family = 'INTEL_SKYLAKE'
-      availability_zone = 'AUTO'
+    it 'should call ServerApi.datacenters_servers_post with the expected arguments and output based on what it receives' do
+      server = server_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        name: server.properties.name,
+        cores: server.properties.cores,
+        cpu_family: server.properties.cpu_family,
+        ram: server.properties.ram,
+        availability_zone: server.properties.availability_zone,
+        boot_volume: server.properties.boot_volume.id,
+        boot_cdrom: server.properties.boot_cdrom.id,
+      }
+ 
+      subject_config.each { |key, value| subject.config[key] = value }
 
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        cores: server_cores,
-        ram: server_ram,
-        name: server_name,
-        cpuFamily: cpu_family,
-        availabilityZone: availability_zone,
-      }.each do |key, value|
-        subject.config[key] = value
+      expect(subject).to receive(:puts).with("ID: #{server.id}")
+      expect(subject).to receive(:puts).with("Name: #{server.properties.name}")
+      expect(subject).to receive(:puts).with("Cores: #{server.properties.cores}")
+      expect(subject).to receive(:puts).with("CPU Family: #{server.properties.cpu_family}")
+      expect(subject).to receive(:puts).with("Ram: #{server.properties.ram}")
+      expect(subject).to receive(:puts).with("Availability Zone: #{server.properties.availability_zone}")
+      expect(subject).to receive(:puts).with("Boot Volume: #{server.properties.boot_volume.id}")
+      expect(subject).to receive(:puts).with("Boot CDROM: #{server.properties.boot_cdrom.id}")
+
+      mock_wait_for(subject)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'POST',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers",
+            operation: :'ServerApi.datacenters_servers_post',
+            return_type: 'Server',
+            body: { properties: server.properties.to_hash },
+            result: server,
+          },
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}",
+            operation: :'ServerApi.datacenters_servers_find_by_id',
+            return_type: 'Server',
+            result: server,
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+  
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
       end
-
-      expect(subject).to receive(:puts).with(/^ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b$/)
-      expect(subject).to receive(:puts).with("Name: #{server_name}")
-      expect(subject).to receive(:puts).with("Cores: #{server_cores}")
-      expect(subject).to receive(:puts).with("CPU Family: #{cpu_family}")
-      expect(subject).to receive(:puts).with("Ram: #{server_ram}")
-      expect(subject).to receive(:puts).with("Availability Zone: #{availability_zone}")
-      expect(subject).to receive(:puts).with("Boot Volume: ")
-      expect(subject).to receive(:puts).with("Boot CDROM: ")
-
-      subject.run
-
-      server = Ionoscloud::ServerApi.new.datacenters_servers_get(@datacenter.id, { depth: 3 }).items.first
-
-      expect(server.properties.name).to eq(server_name)
-      expect(server.properties.cores).to eq(server_cores)
-      expect(server.properties.ram).to eq(server_ram)
-      expect(server.properties.vm_state).to eq('RUNNING')
-      expect(server.properties.boot_volume).to be_nil
-      expect(server.properties.boot_cdrom).to be_nil
-      expect(server.metadata.state).to eq('AVAILABLE')
-      expect(server.metadata.created_by).to eq(ENV['IONOS_USERNAME'])
-      expect(server.metadata.last_modified_by).to eq(ENV['IONOS_USERNAME'])
-
-      expect(server.entities.cdroms.items).to be_empty
-      expect(server.entities.nics.items).to be_empty
     end
   end
 end

@@ -35,7 +35,7 @@ class Chef
             ui.error("Server ID #{server_id} not found. Skipping.")
             next
           end
-          ui.warn("Server #{server_id} is starting. Request ID: #{get_request_id headers}")
+          ui.info("Server #{server_id} is starting. Request ID: #{get_request_id headers}")
         end
       end
     end

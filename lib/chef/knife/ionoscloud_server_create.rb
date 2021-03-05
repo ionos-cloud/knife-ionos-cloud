@@ -22,7 +22,7 @@ class Chef
              long: '--cores CORES',
              description: 'The number of processor cores'
 
-      option :cpufamily,
+      option :cpu_family,
              short: '-f CPU_FAMILY',
              long: '--cpu-family CPU_FAMILY',
              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
@@ -33,17 +33,17 @@ class Chef
              long: '--ram RAM',
              description: 'The amount of RAM in MB'
 
-      option :availabilityzone,
+      option :availability_zone,
              short: '-a AVAILABILITY_ZONE',
              long: '--availability-zone AVAILABILITY_ZONE',
              description: 'The availability zone of the server',
              default: 'AUTO'
 
-      option :bootvolume,
+      option :boot_volume,
              long: '--boot-volume VOLUME_ID',
              description: 'Reference to a volume used for booting'
 
-      option :bootcdrom,
+      option :boot_cdrom,
              long: '--boot-cdrom CDROM_ID',
              description: 'Reference to a CD-ROM used for booting'
 
@@ -67,13 +67,13 @@ class Chef
         params = {
           name: config[:name],
           cores: config[:cores],
-          cpuFamily: config[:cpufamily],
+          cpuFamily: config[:cpu_family],
           ram: config[:ram],
-          availabilityZone: config[:availabilityzone]
+          availabilityZone: config[:availability_zone]
         }
 
-        params[:bootCdrom] = { id: config[:bootcdrom] } unless config[:bootcdrom].nil?
-        params[:bootVolume] = { id: config[:bootvolume] } unless config[:bootvolume].nil?
+        params[:bootCdrom] = { id: config[:boot_cdrom] } unless config[:boot_cdrom].nil?
+        params[:bootVolume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
 
         server_api = Ionoscloud::ServerApi.new(api_client)
         
@@ -94,8 +94,8 @@ class Chef
         puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
         puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
-        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume}"
-        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom}"
+        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume ? server.properties.boot_volume.id : ''}"
+        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom ? server.properties.boot_cdrom.id : ''}"
 
         puts 'done'
       end
