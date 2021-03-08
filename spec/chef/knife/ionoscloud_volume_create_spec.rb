@@ -16,7 +16,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
       volume = volume_mock
       subject_config = {
         ionoscloud_username: 'email',
-        ionoscloud_password: 'password',\
+        ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         name: volume.properties.name,
         size: volume.properties.size,

@@ -611,8 +611,6 @@ def mock_call_api(subject, rules)
     expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
       result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
-
-      # puts [received_body, rule[:body]].to_s
   
       expect(method.to_s).to eq(rule[:method])
       expect(path).to eq(rule[:path])
