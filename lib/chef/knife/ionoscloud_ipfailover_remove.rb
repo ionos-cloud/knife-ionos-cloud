@@ -20,12 +20,12 @@ class Chef
       option :ip,
             short: '-i IP',
             long: '--ip IP',
-            description: 'IP to be added to IP failover group'
+            description: 'IP to be removed from the IP failover group'
 
       option :nic_id,
             short: '-n NIC_ID',
             long: '--nic-id NIC_ID',
-            description: 'NIC to be added to IP failover group'
+            description: 'NIC to be removed from the IP failover group'
       
       attr_reader :description, :required_options
       
@@ -44,24 +44,31 @@ class Chef
 
         lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
+        initial_length = lan.properties.ip_failover.length
+
         changes = Ionoscloud::LanProperties.new(
-          { ip_failover: lan.properties.ip_failover.select { |el| el.nic_uuid != config[:nic_id] && el.ip != config[:ip] } },
+          { ip_failover: lan.properties.ip_failover.select { |el| el.nic_uuid != config[:nic_id] || el.ip != config[:ip] } },
         )
+        new_length = changes.ip_failover.length
 
-        _, _, headers = lan_api.datacenters_lans_patch_with_http_info(
-          config[:datacenter_id], config[:lan_id], changes,
-        )
+        if new_length < initial_length
+          _, _, headers = lan_api.datacenters_lans_patch_with_http_info(
+            config[:datacenter_id], config[:lan_id], changes,
+          )
 
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
+          lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
+        end
+
+        ip_failovers = lan.properties.ip_failover.map { |el| el.to_hash }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
         puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
         puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('IP Failover', :cyan)}: #{lan.properties.ip_failover}"
+        puts "#{ui.color('IP Failover', :cyan)}: #{ip_failovers}"
         puts 'done'
       end
     end

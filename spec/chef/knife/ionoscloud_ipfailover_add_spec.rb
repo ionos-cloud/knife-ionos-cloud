@@ -8,7 +8,7 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
     subject { Chef::Knife::IonoscloudIpfailoverAdd.new }
 
     allow(subject).to receive(:puts)
-    # allow(subject).to receive(:print)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
@@ -35,13 +35,13 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
       mock_call_api(
         subject,
         [
-        {
+          {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
             operation: :'LanApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
-        },
+          },
           {
             method: 'PATCH',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
