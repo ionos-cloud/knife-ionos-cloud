@@ -40,7 +40,7 @@ describe Chef::Knife::IonoscloudLanCreate do
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans",
             operation: :'LanApi.datacenters_lans_post',
             return_type: 'LanPost',
-            body: { properties: lan.properties.to_hash },
+            body: { properties: expected_body },
             result: lan,
           },
           {
