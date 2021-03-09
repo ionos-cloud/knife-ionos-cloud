@@ -1,0 +1,58 @@
+# Publish workflow 
+
+name: Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. v1.2.3)'
+        required: true
+
+jobs:
+  publish:
+    env:
+      ruby-version: 2.7
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Validate the version
+        shell: bash
+        run: |
+          if [ "${{ inputs.version }}" != cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//' ]; then
+            echo "Specified version does not match the one from version.rb!"
+            exit 1
+          fi
+          echo Next version will be: v${{ inputs.version }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.61.1
+        with:
+          ruby-version: ${{ env.ruby-version }}
+
+      - name: Install Rubocop
+        run: gem install rubocop
+
+      - name: Run Rubocop
+        run: rubocop
+
+      - name: Install the knife plugin
+        run: bundle
+
+      - name: Run the tests
+        run: rspec
+
+      - name: Create RubyGems release of the Knife plugin
+        shell: bash
+        run: |
+          mkdir -p ~/.gem
+          cat << EOF > ~/.gem/credentials
+          ---
+          :rubygems_api_key: ${{ secrets.RUBYGEMS }}
+          EOF
+          chmod 0600 ~/.gem/credentials
+          gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
