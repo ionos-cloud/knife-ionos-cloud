@@ -29,7 +29,7 @@ jobs:
         run: gem install rubocop
 
       - name: Run Rubocop
-        run: gem install rubocop
+        run: rubocop
 
       - name: Install the knife plugin
         run: bundle
