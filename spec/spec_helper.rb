@@ -11,6 +11,36 @@ end
 ################################## NEW MOCKS ######################################
 ###################################################################################
 
+def contract_mock(opts = {})
+  Ionoscloud::Contract.new(
+    type: opts[:type] || 'contract',
+    properties: Ionoscloud::ContractProperties.new(
+      contract_number: opts[:contract_number] || 31884391,
+      owner: opts[:owner] || 'user@domain.com',
+      reg_domain: opts[:reg_domain] || 'ionos.de',
+      status: opts[:status] || 'BILLABLE',
+      resource_limits: opts[:resource_limits] || Ionoscloud::ResourceLimits.new(
+        cores_per_contract: opts[:cores_per_contract] || 8,
+        cores_per_server: opts[:cores_per_server] || 4,
+        cores_provisioned: opts[:cores_provisioned] || 2,
+        hdd_limit_per_contract: opts[:hdd_limit_per_contract] || 600,
+        hdd_limit_per_volume: opts[:hdd_limit_per_volume] || 400,
+        hdd_volume_provisioned: opts[:hdd_volume_provisioned] || 100,
+        ram_per_contract: opts[:ram_per_contract] || 20480,
+        ram_per_server: opts[:ram_per_server] || 20480,
+        ram_provisioned: opts[:ram_provisioned] || 4096,
+        reservable_ips: opts[:reservable_ips] || 10,
+        reserved_ips_in_use: opts[:reserved_ips_in_use] || 12,
+        reserved_ips_on_contract: opts[:reserved_ips_on_contract] || 20, 
+        ssd_limit_per_contract: opts[:ssd_limit_per_contract] || 600,
+        ssd_limit_per_volume: opts[:ssd_limit_per_volume] || 300,
+        ssd_volume_provisioned: opts[:ssd_volume_provisioned] || 50,
+        k8s_cluster_limit_total: opts[:k8s_cluster_limit_total] || 12,
+        k8s_clusters_provisioned: opts[:k8s_clusters_provisioned] || 1,
+      ),
+    ),
+  )
+end
 
 def ipblock_mock(opts = {})
   Ionoscloud::IpBlock.new(
