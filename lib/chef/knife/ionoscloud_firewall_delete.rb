@@ -20,9 +20,9 @@ class Chef
              short: '-N NIC_ID',
              long: '--nic-id NIC_ID',
              description: 'ID of the NIC'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -33,7 +33,7 @@ class Chef
       def run
         $stdout.sync = true
         validate_required_params(@required_options, config)
-        
+
         nic_api = Ionoscloud::NicApi.new(api_client)
 
         @name_args.each do |firewall_id|

@@ -43,10 +43,10 @@ class Chef
         lan_api = Ionoscloud::LanApi.new(api_client)
 
         lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
-          config[:datacenter_id], 
+          config[:datacenter_id],
           {
             properties: {
-              name: config[:name], 
+              name: config[:name],
               public: config[:public],
             }
           },

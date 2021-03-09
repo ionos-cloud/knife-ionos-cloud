@@ -71,7 +71,7 @@ class Chef
       option :storage_size,
               long: '--storage-size STORAGE_SIZE',
               description: 'The total allocated storage capacity of a node.'
-    
+
       option :min_node_count,
               long: '--min-node-count MIN_NODE_COUNT',
               description: 'The minimum number of worker nodes that the managed node group can scale in'
@@ -79,7 +79,7 @@ class Chef
       option :max_node_count,
               long: '--max-node-count MAX_NODE_COUNT',
               description: 'The maximum number of worker nodes that the managed node pool can scale-out.'
-    
+
       option :lans,
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes'
@@ -93,7 +93,7 @@ class Chef
         "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
         "The worker nodes within the node pools will be deployed into an existing data centers."
         @required_options = [
-          :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram, 
+          :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram,
           :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,
         ]
       end

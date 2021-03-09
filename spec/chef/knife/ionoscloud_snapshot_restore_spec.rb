@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
         volume_id: volume.id,
         snapshot_id: snapshot.id,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{volume.id}")
@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
       expect(subject).to receive(:puts).with("Type: #{volume.properties.type}")
       expect(subject).to receive(:puts).with("Licence Type: #{volume.properties.licence_type}")
       expect(subject).to receive(:puts).with("Zone: #{volume.properties.availability_zone}")
-      
+
       mock_wait_for(subject)
       mock_call_api(
         subject,
@@ -66,7 +66,7 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

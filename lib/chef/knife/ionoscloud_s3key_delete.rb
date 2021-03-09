@@ -13,7 +13,7 @@ class Chef
               description: 'The ID of the user'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

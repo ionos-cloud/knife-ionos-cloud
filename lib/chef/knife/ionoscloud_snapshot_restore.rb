@@ -21,9 +21,9 @@ class Chef
               short: '-S SNAPSHOT_ID',
               long: '--snapshot SNAPSHOT_ID',
               description: 'ID of the Snapshot'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -43,7 +43,7 @@ class Chef
         _, _, headers  = volume_api.datacenters_volumes_restore_snapshot_post_with_http_info(
           config[:datacenter_id],
           config[:volume_id],
-          { snapshot_id: config[:snapshot_id]},
+          { snapshot_id: config[:snapshot_id] },
         )
 
         dot = ui.color('.', :magenta)

@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud pcc delete PCC_ID [PCC_ID]'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -31,8 +31,8 @@ class Chef
             next
           end
 
-          peers = pcc.properties.peers.map {|peer| peer.id}
-          datacenters = pcc.properties.connectable_datacenters.map {|datacenter| datacenter.id}
+          peers = pcc.properties.peers.map { |peer| peer.id }
+          datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
 
           msg_pair('ID', pcc.id)
           msg_pair('Name', pcc.properties.name)

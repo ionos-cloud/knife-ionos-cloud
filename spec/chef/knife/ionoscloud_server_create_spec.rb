@@ -26,7 +26,7 @@ describe Chef::Knife::IonoscloudServerCreate do
         boot_volume: server.properties.boot_volume.id,
         boot_cdrom: server.properties.boot_cdrom.id,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{server.id}")
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudServerCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

@@ -26,7 +26,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
         image_alias: 'debian:latest',
         image_password: 'K3tTj8G14a3EgKyNeeiY',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_body = volume.properties.to_hash
@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
         availability_zone: volume.properties.availability_zone,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       expect(subject.ui).to receive(:error).with('Either \'--image\' or \'--image-alias\' parameter must be provided')
 
@@ -110,7 +110,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
         availability_zone: volume.properties.availability_zone,
         image_alias: 'debian:latest',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       expect(subject.ui).to receive(:error).with('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
 
@@ -131,7 +131,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

@@ -21,9 +21,9 @@ class Chef
               short: '-R RESOURCE_ID',
               long: '--resource-id RESOURCE_ID',
               description: 'ID of the resource.'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -34,7 +34,7 @@ class Chef
       def run
         $stdout.sync = true
         validate_required_params(@required_options, config)
-        
+
         label_api = Ionoscloud::LabelApi.new(api_client)
 
         args = [config[:resource_id]]

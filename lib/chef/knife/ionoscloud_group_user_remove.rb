@@ -13,7 +13,7 @@ class Chef
               description: 'ID of the group.'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -46,14 +46,14 @@ class Chef
           end
         end
 
-        request_ids_to_wait.each { |request_id| api_client.wait_for {is_done? request_id}}
+        request_ids_to_wait.each { |request_id| api_client.wait_for { is_done? request_id } }
 
         group = user_management_api.um_groups_find_by_id(
           config[:group_id],
           { depth: 1 },
         )
 
-        users = group.entities.users.items.map! {|el| el.id }
+        users = group.entities.users.items.map! { |el| el.id }
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{group.id}"

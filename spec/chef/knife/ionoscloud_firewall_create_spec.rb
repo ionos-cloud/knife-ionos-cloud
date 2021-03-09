@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
         icmp_type: firewall.properties.icmp_type,
         icmp_code: firewall.properties.icmp_code,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{firewall.id}")
@@ -78,7 +78,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

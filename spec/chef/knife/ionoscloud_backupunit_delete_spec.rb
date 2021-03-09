@@ -19,7 +19,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
         ionoscloud_password: 'password',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [backupunit.id]
 
@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [backup_unit]
 
@@ -89,7 +89,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

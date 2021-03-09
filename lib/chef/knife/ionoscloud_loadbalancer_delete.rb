@@ -13,7 +13,7 @@ class Chef
               description: 'Name of the data center'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

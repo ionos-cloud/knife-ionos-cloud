@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud pcc list'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

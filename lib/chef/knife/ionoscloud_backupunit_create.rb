@@ -21,9 +21,9 @@ class Chef
               short: '-e EMAIL',
               long: '--email EMAIL',
               description: 'The e-mail address you want assigned to the backup unit.'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

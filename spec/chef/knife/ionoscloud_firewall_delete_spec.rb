@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
         nic_id: 'nic_id',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [firewall.id]
 
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
         server_id: 'server_id',
         nic_id: 'nic_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [firewall_id]
 
@@ -105,7 +105,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

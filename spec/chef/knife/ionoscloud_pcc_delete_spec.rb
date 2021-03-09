@@ -19,12 +19,12 @@ describe Chef::Knife::IonoscloudPccDelete do
         ionoscloud_password: 'password',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [pcc.id]
 
-      peers = pcc.properties.peers.map {|peer| peer.id}
-      datacenters = pcc.properties.connectable_datacenters.map {|datacenter| datacenter.id}
+      peers = pcc.properties.peers.map { |peer| peer.id }
+      datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
 
       expect(subject).to receive(:puts).with("ID: #{pcc.id}")
       expect(subject).to receive(:puts).with("Name: #{pcc.properties.name}")
@@ -62,7 +62,7 @@ describe Chef::Knife::IonoscloudPccDelete do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [pcc_id]
 
@@ -94,7 +94,7 @@ describe Chef::Knife::IonoscloudPccDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

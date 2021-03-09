@@ -20,7 +20,7 @@ describe Chef::Knife::IonoscloudShareDelete do
         group_id: 'group_id',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [share.id]
 
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudShareDelete do
         ionoscloud_password: 'password',
         group_id: 'group_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [share_id]
 
@@ -91,7 +91,7 @@ describe Chef::Knife::IonoscloudShareDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

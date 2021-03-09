@@ -25,7 +25,7 @@ describe Chef::Knife::IonoscloudGroupCreate do
         s3_privilege: group.properties.s3_privilege,
         create_backup_unit: group.properties.create_backup_unit,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{group.id}")
@@ -64,7 +64,7 @@ describe Chef::Knife::IonoscloudGroupCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

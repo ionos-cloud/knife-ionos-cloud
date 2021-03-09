@@ -17,7 +17,7 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'The ID of the resource.'
 
-      option :edit_privilege	,
+      option :edit_privilege,
               short: '-e',
               long: '--edit',
               description: 'The group has permission to edit privileges on this resource.'
@@ -26,9 +26,9 @@ class Chef
               short: '-s',
               long: '--share',
               description: 'The group has permission to share this resource.'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -116,7 +116,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -148,7 +148,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -180,7 +180,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -210,7 +210,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -241,7 +241,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -272,7 +272,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -303,7 +303,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
         resource_id: label.properties.resource_id,
         key: label.properties.key,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [label.id]
 
@@ -356,16 +356,16 @@ describe Chef::Knife::IonoscloudLabelRemove do
           resource_id: 'resource_id',
           key: 'key',
         }
-  
+
         subject_config.each { |key, value| subject.config[key] = value }
-  
+
         expect(subject).to receive(:puts).with("Missing required parameters #{[:datacenter_id]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end
-  
+
         subject_config.each { |value| subject.config[value] = nil }
       end
     end
@@ -379,7 +379,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

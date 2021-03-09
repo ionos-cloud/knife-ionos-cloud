@@ -70,9 +70,9 @@ class Chef
               long: '--icmp-code INT',
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -85,7 +85,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
-        
+
         params = {
           name: config[:name],
           protocol: config[:protocol],

@@ -21,9 +21,9 @@ class Chef
               short: '-l LOCATION',
               long: '--location LOCATION',
               description: 'Location of the data center'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

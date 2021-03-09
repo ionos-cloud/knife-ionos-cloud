@@ -26,9 +26,9 @@ class Chef
             short: '-n NIC_ID',
             long: '--nic-id NIC_ID',
             description: 'NIC to be removed from the IP failover group'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

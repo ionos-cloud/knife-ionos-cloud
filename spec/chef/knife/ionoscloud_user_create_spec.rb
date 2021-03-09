@@ -24,7 +24,7 @@ describe Chef::Knife::IonoscloudUserCreate do
         administrator: user.properties.administrator,
         force_sec_auth: user.properties.force_sec_auth,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{user.id}")
@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudUserCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

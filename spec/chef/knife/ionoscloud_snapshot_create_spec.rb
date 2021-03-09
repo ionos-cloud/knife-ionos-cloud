@@ -20,7 +20,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
         datacenter_id: 'datacenter_id',
         volume_id: 'volume_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
@@ -28,7 +28,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
       expect(subject).to receive(:puts).with("Description: #{snapshot.properties.description}")
       expect(subject).to receive(:puts).with("Location: #{snapshot.properties.location}")
       expect(subject).to receive(:puts).with("Size: #{snapshot.properties.size.to_s}")
-      
+
       mock_wait_for(subject)
       mock_call_api(
         subject,
@@ -62,7 +62,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

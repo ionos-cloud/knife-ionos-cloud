@@ -31,7 +31,7 @@ class Chef
         @name_args.each do |volume_id|
           begin
             volume = volume_api.datacenters_volumes_find_by_id(
-              config[:datacenter_id], 
+              config[:datacenter_id],
               volume_id,
             )
           rescue Ionoscloud::ApiError => err
@@ -56,7 +56,7 @@ class Chef
           end
 
           _, _, headers = volume_api.datacenters_volumes_delete_with_http_info(
-            config[:datacenter_id], 
+            config[:datacenter_id],
             volume_id,
           )
           ui.warn("Deleted Volume #{volume.id}. Request ID: #{get_request_id headers}")

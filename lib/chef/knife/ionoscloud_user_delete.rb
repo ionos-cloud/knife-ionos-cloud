@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud user delete USER_ID [USER_ID]'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
