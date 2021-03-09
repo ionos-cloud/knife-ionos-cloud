@@ -2,10 +2,17 @@ $:.unshift File.expand_path('../../lib/chef/knife', __FILE__)
 require 'rspec'
 require 'chef'
 require 'securerandom'
+require 'simplecov'
 
 RSpec.configure do |config|
   config.pattern = 'spec/chef/knife/*_spec.rb'
 end
+
+SimpleCov.start do
+  add_group 'Commands', 'lib/chef/knife/'
+  add_group 'Spec files', 'spec/chef/knife/'
+end
+SimpleCov.coverage_dir 'coverage'
 
 ###################################################################################
 ################################## NEW MOCKS ######################################
