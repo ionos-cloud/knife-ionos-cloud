@@ -1,10 +1,8 @@
 # Ionoscloud Chef Knife Plugin
 
-<!-- [![Gem Version][GV img]][Gem Version] -->
-
-<!-- [Gem Version]: https://rubygems.org/gems/knife-ionoscloud -->
-
-<!-- [GV img]: https://badge.fury.io/rb/knife-ionoscloud.png -->
+![CI](https://github.com/ionos-cloud/sdk-resources/workflows/CI/badge.svg)
+[![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud)
+[![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
 
 ## Overview
 
