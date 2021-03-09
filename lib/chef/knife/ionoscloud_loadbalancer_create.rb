@@ -29,9 +29,9 @@ class Chef
       option :nics,
               long: '--nics NIC_ID [NIC_ID]',
               description: 'An array of additional private NICs attached to worker nodes'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

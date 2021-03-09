@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
         key: label.properties.key,
         value: label.properties.value,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("Resource ID: #{subject_config[:resource_id]}")
@@ -64,7 +64,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
         key: label.properties.key,
         value: label.properties.value,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("Resource ID: #{subject_config[:resource_id]}")
@@ -106,7 +106,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
         key: label.properties.key,
         value: label.properties.value,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("Resource ID: #{subject_config[:resource_id]}")
@@ -147,7 +147,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
         key: label.properties.key,
         value: label.properties.value,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("Resource ID: #{subject_config[:resource_id]}")
@@ -188,7 +188,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
         key: label.properties.key,
         value: label.properties.value,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("Resource ID: #{subject_config[:resource_id]}")
@@ -252,16 +252,16 @@ describe Chef::Knife::IonoscloudLabelAdd do
           key: 'key',
           value: 'value',
         }
-  
+
         subject_config.each { |key, value| subject.config[key] = value }
-  
+
         expect(subject).to receive(:puts).with("Missing required parameters #{[:datacenter_id]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end
-  
+
         subject_config.each { |value| subject.config[value] = nil }
       end
     end
@@ -275,7 +275,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

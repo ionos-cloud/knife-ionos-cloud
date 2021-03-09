@@ -20,11 +20,11 @@ describe Chef::Knife::IonoscloudGroupGet do
         datacenter_id: 'datacenter_id',
         group_id: group.id,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
-      
-      users = group.entities.users.items.map {|el| el.id }
+
+      users = group.entities.users.items.map { |el| el.id }
 
       expect(subject).to receive(:puts).with("ID: #{group.id}")
       expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudGroupGet do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

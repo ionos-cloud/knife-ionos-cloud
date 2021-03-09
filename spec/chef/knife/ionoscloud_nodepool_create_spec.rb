@@ -34,7 +34,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
         max_node_count: nodepool.properties.auto_scaling.max_node_count,
         lans: nodepool.properties.lans.map { |lan| lan.id }.join(','),
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
@@ -87,7 +87,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

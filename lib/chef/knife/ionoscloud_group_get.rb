@@ -13,7 +13,7 @@ class Chef
               description: 'ID of the group.'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -29,7 +29,7 @@ class Chef
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
         group = user_management_api.um_groups_find_by_id(config[:group_id], { depth: 1 })
 
-        users = group.entities.users.items.map! {|el| el.id }
+        users = group.entities.users.items.map! { |el| el.id }
 
         puts "#{ui.color('ID', :cyan)}: #{group.id}"
         puts "#{ui.color('Name', :cyan)}: #{group.properties.name}"

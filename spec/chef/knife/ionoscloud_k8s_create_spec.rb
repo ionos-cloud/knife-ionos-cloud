@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudK8sCreate do
         maintenance_day: cluster.properties.maintenance_window.day_of_the_week,
         maintenance_time: cluster.properties.maintenance_window.time,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
@@ -71,7 +71,7 @@ describe Chef::Knife::IonoscloudK8sCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

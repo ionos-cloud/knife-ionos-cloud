@@ -18,7 +18,7 @@ class Chef
               description: 'Name of the load balancer'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -50,10 +50,10 @@ class Chef
             ui.error("NIC ID #{nic_id} not found. Skipping.")
             next
           end
-          
+
         end
 
-        request_ids_to_wait.each { |request_id| api_client.wait_for {is_done? request_id}}
+        request_ids_to_wait.each { |request_id| api_client.wait_for { is_done? request_id } }
 
         load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
           config[:datacenter_id],
@@ -61,7 +61,7 @@ class Chef
           { depth: 1 },
         )
 
-        nics = load_balancer.entities.balancednics.items.map! {|el| el.id }
+        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
 
         puts "\n\n"
         puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"

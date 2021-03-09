@@ -20,7 +20,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
         datacenter_id: 'datacenter_id',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [load_balancer.id]
 
@@ -63,7 +63,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [load_balancer_id]
 
@@ -95,7 +95,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

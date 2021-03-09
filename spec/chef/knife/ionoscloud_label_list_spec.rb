@@ -51,7 +51,7 @@ describe Chef::Knife::IonoscloudLabelList do
         type: 'datacenter',
         resource_id: 'resource_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
@@ -83,7 +83,7 @@ describe Chef::Knife::IonoscloudLabelList do
         datacenter_id: 'datacenter_id',
         resource_id: 'resource_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
@@ -115,7 +115,7 @@ describe Chef::Knife::IonoscloudLabelList do
         datacenter_id: 'datacenter_id',
         resource_id: 'resource_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
@@ -146,7 +146,7 @@ describe Chef::Knife::IonoscloudLabelList do
         type: 'ipblock',
         resource_id: 'resource_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
@@ -177,7 +177,7 @@ describe Chef::Knife::IonoscloudLabelList do
         type: 'snapshot',
         resource_id: 'resource_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
@@ -208,7 +208,7 @@ describe Chef::Knife::IonoscloudLabelList do
         type: 'invalid_type',
         resource_id: @labels.items.first.properties.resource_id,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject.ui).to receive(:warn).with("#{subject_config[:type]} is not a valid Resource Type. Returning all available labels.")
@@ -237,7 +237,7 @@ describe Chef::Knife::IonoscloudLabelList do
         ionoscloud_password: 'password',
         resource_id: @labels.items.first.properties.resource_id,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject.ui).to receive(:list).with(@label_list, :uneven_columns_across, 4)
@@ -275,16 +275,16 @@ describe Chef::Knife::IonoscloudLabelList do
           key: 'key',
           value: 'value',
         }
-  
+
         subject_config.each { |key, value| subject.config[key] = value }
-  
+
         expect(subject).to receive(:puts).with("Missing required parameters #{[:resource_id]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end
-  
+
         subject_config.each { |value| subject.config[value] = nil }
       end
     end
@@ -302,16 +302,16 @@ describe Chef::Knife::IonoscloudLabelList do
           key: 'key',
           value: 'value',
         }
-  
+
         subject_config.each { |key, value| subject.config[key] = value }
-  
+
         expect(subject).to receive(:puts).with("Missing required parameters #{[:datacenter_id]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end
-  
+
         subject_config.each { |value| subject.config[value] = nil }
       end
     end
@@ -325,7 +325,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

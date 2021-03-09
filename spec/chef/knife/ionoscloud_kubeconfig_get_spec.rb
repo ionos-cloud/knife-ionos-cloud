@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with(kubeconfig)
@@ -42,7 +42,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
         ionoscloud_password: 'password',
         cluster_id: 'invalid_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       allow(subject).to receive(:puts)
@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

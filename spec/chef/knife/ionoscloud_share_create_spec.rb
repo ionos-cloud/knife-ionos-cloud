@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudShareCreate do
         edit_privilege: share.properties.edit_privilege,
         share_privilege: share.properties.share_privilege,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{share.id}")
@@ -56,7 +56,7 @@ describe Chef::Knife::IonoscloudShareCreate do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

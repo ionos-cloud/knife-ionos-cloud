@@ -60,8 +60,8 @@ class Chef
       end
 
       def run
-       $stdout.sync = true
-       validate_required_params(@required_options, config)
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {
@@ -76,7 +76,7 @@ class Chef
         params[:bootVolume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
 
         server_api = Ionoscloud::ServerApi.new(api_client)
-        
+
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],
           { properties: params.compact },

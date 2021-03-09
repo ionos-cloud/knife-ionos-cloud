@@ -21,9 +21,9 @@ class Chef
               short: '-n NAME',
               long: '--name NAME',
               description: 'Name of the IP block'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

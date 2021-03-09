@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudNodeReplace do
         nodepool_id: 'nodepool_id',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_node.id]
 
@@ -51,7 +51,7 @@ describe Chef::Knife::IonoscloudNodeReplace do
         cluster_id: 'cluster_id',
         nodepool_id: 'nodepool_id',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_node_id]
 
@@ -82,7 +82,7 @@ describe Chef::Knife::IonoscloudNodeReplace do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

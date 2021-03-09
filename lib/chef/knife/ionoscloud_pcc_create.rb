@@ -24,9 +24,9 @@ class Chef
       option :datacenters,
               long: '--datacenters DATACENTER_IS [DATACENTER_IS]',
               description: 'An array of datacenters joined to this private cross connect'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

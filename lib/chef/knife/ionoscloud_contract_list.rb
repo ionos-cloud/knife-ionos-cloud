@@ -6,9 +6,9 @@ class Chef
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud contract list'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

@@ -45,7 +45,7 @@ describe Chef::Knife::IonoscloudGroupList do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject.ui).to receive(:list).with(@group_list, :uneven_columns_across, 8)
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudGroupList do
         ionoscloud_password: 'password',
         user_id: 'user_id'
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject.ui).to receive(:list).with(@group_list, :uneven_columns_across, 8)
@@ -103,7 +103,7 @@ describe Chef::Knife::IonoscloudGroupList do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

@@ -41,7 +41,7 @@ class Chef
               config[:datacenter_id],
               config[:server_id],
               volume_id,
-            )          
+            )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Volume ID #{volume_id} not found. Skipping.")

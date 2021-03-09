@@ -40,9 +40,9 @@ class Chef
               short: '-b',
               long: '--create-backupunit',
               description: 'The group will be able to manage backup units.'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

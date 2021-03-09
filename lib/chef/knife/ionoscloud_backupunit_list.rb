@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud backupunit list'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

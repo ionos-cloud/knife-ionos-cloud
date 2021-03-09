@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud group delete GROUP_ID [GROUP_ID]'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -33,7 +33,7 @@ class Chef
             next
           end
 
-          users = group.entities.users.items.map! {|el| el.id }
+          users = group.entities.users.items.map! { |el| el.id }
 
           msg_pair('ID', group.id)
           msg_pair('Name', group.properties.name)

@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

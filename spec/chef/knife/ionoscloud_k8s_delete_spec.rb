@@ -15,13 +15,13 @@ describe Chef::Knife::IonoscloudK8sDelete do
     it 'should call KubernetesApi.k8s_delete when the ID is valid' do
       k8s_cluster = k8s_cluster_mock({ entities: Ionoscloud::KubernetesClusterEntities.new(
         nodepools: k8s_nodepools_mock({ items: [] }),
-      )})
+      ) })
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         yes: true,
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster.id]
 
@@ -63,7 +63,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster_id]
 
@@ -85,7 +85,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
 
       expect { subject.run }.not_to raise_error(Exception)
     end
-                                                                                                                          
+
     it 'should not call KubernetesApi.k8s_delete when the cluster is not active' do
       k8s_cluster = k8s_cluster_mock(
         {
@@ -99,7 +99,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster.id]
 
@@ -121,14 +121,14 @@ describe Chef::Knife::IonoscloudK8sDelete do
 
       expect { subject.run }.not_to raise_error(Exception)
     end
-                                                                                                                          
+
     it 'should not call KubernetesApi.k8s_delete when the cluster has existing Nodepools' do
       k8s_cluster = k8s_cluster_mock()
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster.id]
 
@@ -160,7 +160,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
         expect(subject.api_client).not_to receive(:call_api)
-  
+
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
         end

@@ -16,9 +16,9 @@ class Chef
               short: '-V VOLUME_ID',
               long: '--volume VOLUME_ID',
               description: 'ID of the Volume'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

@@ -111,7 +111,7 @@ class Chef
       option :nat,
               long: '--nat',
               description: 'Set to enable NAT on the NIC'
-      
+
       attr_reader :description, :required_options
 
       def initialize(args = [])

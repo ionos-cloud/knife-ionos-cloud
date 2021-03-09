@@ -60,7 +60,7 @@ def generate_subcommand_doc(subcommand)
     description = ''
   end
 
-  File.open(filename, 'w') { |f| 
+  File.open(filename, 'w') { |f|
     f.write(
       Subcommand.new(
         subcommand.banner,
@@ -79,7 +79,7 @@ end
 subcommands = []
 
 Chef::Knife.constants.select { |c|
-  Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud') 
+  Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud')
 }.each {
   |subcommand|
   begin
@@ -93,6 +93,6 @@ Chef::Knife.constants.select { |c|
 
 subcommands.sort! { |a, b| a[:title] <=> b[:title] }
 
-File.open('summary.md', 'w') { |f| 
+File.open('summary.md', 'w') { |f|
   f.write(Summary.new(subcommands).render,)
 }

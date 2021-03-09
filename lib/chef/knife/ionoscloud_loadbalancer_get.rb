@@ -18,7 +18,7 @@ class Chef
               description: 'ID of the load balancer'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -38,14 +38,13 @@ class Chef
           { depth: 1 },
         )
 
-        nics = load_balancer.entities.balancednics.items.map! {|el| el.id }
+        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
 
         puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
         puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
         puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
         puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
         puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
-
       end
     end
   end
