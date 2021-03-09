@@ -46,16 +46,15 @@ class Chef
              long: '--type TYPE',
              description: 'The disk type (HDD OR SSD)'
 
-      option :licencetype,
+      option :licence_type,
              short: '-l LICENCE',
              long: '--licence-type LICENCE',
              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
 
-      option :sshkeys,
+      option :ssh_keys,
              short: '-K SSHKEY[,SSHKEY,...]',
              long: '--ssh-keys SSHKEY1,SSHKEY2,...',
-             description: 'A list of public SSH keys to include',
-             proc: proc { |sshkeys| sshkeys.split(',') }
+             description: 'A list of public SSH keys to include'
 
       option :availability_zone,
              short: '-Z AVAILABILITY_ZONE',
@@ -82,9 +81,13 @@ class Chef
           exit(1)
         end
 
-        if !config[:sshkeys] && !config[:image_password]
+        if !config[:ssh_keys] && !config[:image_password]
           ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
           exit(1)
+        end
+
+        if config[:ssh_keys]
+          config[:ssh_keys] = config[:ssh_keys].split(',')
         end
 
         print "#{ui.color('Creating volume...', :magenta)}"
@@ -99,7 +102,7 @@ class Chef
               size: config[:size],
               bus: config[:bus] || 'VIRTIO',
               type: config[:type],
-              licenceType: config[:licencetype],
+              licenceType: config[:licence_type],
               image: config[:image],
               imageAlias: config[:image_alias],
               sshKeys: config[:sshKeys],
