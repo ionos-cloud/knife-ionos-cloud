@@ -8,44 +8,44 @@ class Chef
       banner 'knife ionoscloud server create (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the virtual datacenter'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the virtual datacenter'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the server'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the server'
 
       option :cores,
-             short: '-C CORES',
-             long: '--cores CORES',
-             description: 'The number of processor cores'
+              short: '-C CORES',
+              long: '--cores CORES',
+              description: 'The number of processor cores'
 
       option :cpu_family,
-             short: '-f CPU_FAMILY',
-             long: '--cpu-family CPU_FAMILY',
-             description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-             default: 'INTEL_SKYLAKE'
+              short: '-f CPU_FAMILY',
+              long: '--cpu-family CPU_FAMILY',
+              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
+              default: 'INTEL_SKYLAKE'
 
       option :ram,
-             short: '-r RAM',
-             long: '--ram RAM',
-             description: 'The amount of RAM in MB'
+              short: '-r RAM',
+              long: '--ram RAM',
+              description: 'The amount of RAM in MB'
 
       option :availability_zone,
-             short: '-a AVAILABILITY_ZONE',
-             long: '--availability-zone AVAILABILITY_ZONE',
-             description: 'The availability zone of the server',
-             default: 'AUTO'
+              short: '-a AVAILABILITY_ZONE',
+              long: '--availability-zone AVAILABILITY_ZONE',
+              description: 'The availability zone of the server',
+              default: 'AUTO'
 
       option :boot_volume,
-             long: '--boot-volume VOLUME_ID',
-             description: 'Reference to a volume used for booting'
+              long: '--boot-volume VOLUME_ID',
+              description: 'Reference to a volume used for booting'
 
       option :boot_cdrom,
-             long: '--boot-cdrom CDROM_ID',
-             description: 'Reference to a CD-ROM used for booting'
+              long: '--boot-cdrom CDROM_ID',
+              description: 'Reference to a CD-ROM used for booting'
 
       attr_reader :description, :required_options
 

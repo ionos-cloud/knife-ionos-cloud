@@ -41,7 +41,6 @@ class Chef
 
       option :nat,
               long: '--nat',
-              boolean: true | false,
               description: 'Set to enable NAT on the NIC'
 
       attr_reader :description, :required_options
@@ -70,7 +69,7 @@ class Chef
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
-          nat: config[:nat],
+          nat: !config[:nat].nil?,
         }
 
         nic_api = Ionoscloud::NicApi.new(api_client)
