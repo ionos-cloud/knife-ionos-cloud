@@ -10,14 +10,14 @@ class Chef
           end
 
           option :ionoscloud_username,
-            short: '-u USERNAME',
-            long: '--username USERNAME',
-            description: 'Your Ionoscloud username'
+                  short: '-u USERNAME',
+                  long: '--username USERNAME',
+                  description: 'Your Ionoscloud username'
 
           option :ionoscloud_password,
-            short: '-p PASSWORD',
-            long: '--password PASSWORD',
-            description: 'Your Ionoscloud password'
+                  short: '-p PASSWORD',
+                  long: '--password PASSWORD',
+                  description: 'Your Ionoscloud password'
         end
       end
 

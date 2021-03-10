@@ -8,59 +8,59 @@ class Chef
       banner 'knife ionoscloud volume create (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the volume'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the volume'
 
       option :size,
-             short: '-S SIZE',
-             long: '--size SIZE',
-             description: 'The size of the volume in GB'
+              short: '-S SIZE',
+              long: '--size SIZE',
+              description: 'The size of the volume in GB'
 
       option :bus,
-             short: '-b BUS',
-             long: '--bus BUS',
-             description: 'The bus type of the volume (VIRTIO or IDE)'
+              short: '-b BUS',
+              long: '--bus BUS',
+              description: 'The bus type of the volume (VIRTIO or IDE)'
 
       option :image,
-             short: '-N ID',
-             long: '--image ID',
-             description: 'The image or snapshot ID'
+              short: '-N ID',
+              long: '--image ID',
+              description: 'The image or snapshot ID'
 
       option :image_alias,
-             long: '--image-alias IMAGE_ALIAS',
-             description: '(required) The image alias'
+              long: '--image-alias IMAGE_ALIAS',
+              description: '(required) The image alias'
 
       option :image_password,
-             short: '-P PASSWORD',
-             long: '--image-password PASSWORD',
-             description: 'The password set on the image for the "root" or "Administrator" user'
+              short: '-P PASSWORD',
+              long: '--image-password PASSWORD',
+              description: 'The password set on the image for the "root" or "Administrator" user'
 
       option :type,
-             short: '-t TYPE',
-             long: '--type TYPE',
-             description: 'The disk type (HDD OR SSD)'
+              short: '-t TYPE',
+              long: '--type TYPE',
+              description: 'The disk type (HDD OR SSD)'
 
       option :licence_type,
-             short: '-l LICENCE',
-             long: '--licence-type LICENCE',
-             description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              short: '-l LICENCE',
+              long: '--licence-type LICENCE',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
 
       option :ssh_keys,
-             short: '-K SSHKEY[,SSHKEY,...]',
-             long: '--ssh-keys SSHKEY1,SSHKEY2,...',
-             description: 'A list of public SSH keys to include'
+              short: '-K SSHKEY[,SSHKEY,...]',
+              long: '--ssh-keys SSHKEY1,SSHKEY2,...',
+              description: 'A list of public SSH keys to include'
 
       option :availability_zone,
-             short: '-Z AVAILABILITY_ZONE',
-             long: '--availability-zone AVAILABILITY_ZONE',
-             description: 'The volume availability zone of the server',
-             required: false
+              short: '-Z AVAILABILITY_ZONE',
+              long: '--availability-zone AVAILABILITY_ZONE',
+              description: 'The volume availability zone of the server',
+              required: false
 
       attr_reader :description, :required_options
 

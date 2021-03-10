@@ -8,21 +8,21 @@ class Chef
       banner 'knife ionoscloud lan create (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the server'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the server'
 
       option :public,
-             short: '-p',
-             long: '--public',
-             boolean: true,
-             default: false,
-             description: 'Boolean indicating if the LAN faces the public ' \
+              short: '-p',
+              long: '--public',
+              boolean: true,
+              default: false,
+              description: 'Boolean indicating if the LAN faces the public ' \
                           'Internet or not; defaults to false'
 
       attr_reader :description, :required_options

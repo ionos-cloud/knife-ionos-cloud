@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud backupunit ssourl (options)'
 
       option :backupunit_id,
-             short: '-B BACKUPUNIT_ID',
-             long: '--backupunit-id BACKUPUNIT_ID',
-             description: 'The ID of the Backup unit.'
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit-id BACKUPUNIT_ID',
+              description: 'The ID of the Backup unit.'
 
       attr_reader :description, :required_options
 

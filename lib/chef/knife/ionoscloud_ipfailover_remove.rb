@@ -8,24 +8,24 @@ class Chef
       banner 'knife ionoscloud ipfailover remove (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       option :lan_id,
-             short: '-l LAN_ID',
-             long: '--lan-id LAN_ID',
-             description: 'Lan ID'
+              short: '-l LAN_ID',
+              long: '--lan-id LAN_ID',
+              description: 'Lan ID'
 
       option :ip,
-            short: '-i IP',
-            long: '--ip IP',
-            description: 'IP to be removed from the IP failover group'
+              short: '-i IP',
+              long: '--ip IP',
+              description: 'IP to be removed from the IP failover group'
 
       option :nic_id,
-            short: '-n NIC_ID',
-            long: '--nic-id NIC_ID',
-            description: 'NIC to be removed from the IP failover group'
+              short: '-n NIC_ID',
+              long: '--nic-id NIC_ID',
+              description: 'NIC to be removed from the IP failover group'
 
       attr_reader :description, :required_options
 

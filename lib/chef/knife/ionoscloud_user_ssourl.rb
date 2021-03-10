@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud user ssourl (options)'
 
       option :user_id,
-             short: '-U USER_ID',
-             long: '--user-id USER_ID',
-             description: 'The ID of the Backup unit.'
+              short: '-U USER_ID',
+              long: '--user-id USER_ID',
+              description: 'The ID of the Backup unit.'
 
       attr_reader :description, :required_options
 

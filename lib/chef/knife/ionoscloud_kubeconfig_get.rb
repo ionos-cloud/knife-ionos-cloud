@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud kubeconfig get (options)'
 
       option :cluster_id,
-             short: '-C CLUSTER_ID',
-             long: '--cluster-id CLUSTER_ID',
-             description: 'The ID of the Kubernetes cluster.'
+              short: '-C CLUSTER_ID',
+              long: '--cluster-id CLUSTER_ID',
+              description: 'The ID of the Kubernetes cluster.'
 
       attr_reader :description, :required_options
 
