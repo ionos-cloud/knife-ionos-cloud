@@ -615,12 +615,12 @@ def user_mock(opts = {})
   Ionoscloud::User.new(
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::UserProperties.new(
-      firstname: opts['firstname'] || 'Firstname',
-      lastname: opts['lastname'] || 'Lastname',
-      email: opts['email'] || 'a@a.a',
-      password: opts['password'] || 'parola1234',
-      administrator: opts['administrator'] || false,
-      force_sec_auth: opts['force_sec_auth'] || false,
+      firstname: opts[:firstname] || 'Firstname',
+      lastname: opts[:lastname] || 'Lastname',
+      email: opts[:email] || 'a@a.a',
+      password: opts[:password] || 'parola1234',
+      administrator: opts[:administrator] || false,
+      force_sec_auth: opts[:force_sec_auth] || false,
     ),
   )
 end
@@ -630,6 +630,16 @@ def users_mock(opts = {})
     id: 'users',
     type: 'collection',
     items: [user_mock],
+  )
+end
+
+def request_status_mock(opts = {})
+  Ionoscloud::RequestStatus.new(
+    id: opts[:id] || SecureRandom.uuid,
+    metadata: Ionoscloud::RequestStatusMetadata.new(
+      status: opts[:status] || 'DONE',
+      message: opts[:message] || 'Message',
+    ),
   )
 end
 
@@ -664,22 +674,4 @@ def mock_call_api(subject, rules)
     end
   end
   expect(subject.api_client).not_to receive(:call_api)
-end
-
-def get_request_id(headers)
-  headers['Location'].scan(%r{/requests/(\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b)}).last.first
-end
-
-def is_done?(request_id)
-  response = Ionoscloud::RequestApi.new.requests_status_get(request_id)
-  if response.metadata.status == 'FAILED'
-    ui.error "Request #{request_id} failed\n" + response.metadata.message
-    exit(1)
-  end
-  response.metadata.status == 'DONE'
-end
-
-def cluster_check_state?(cluster_id, target_state = 'ACTIVE')
-  cluster = Ionoscloud::KubernetesApi.new.k8s_find_by_cluster_id(cluster_id)
-  cluster.metadata.state == target_state
 end
