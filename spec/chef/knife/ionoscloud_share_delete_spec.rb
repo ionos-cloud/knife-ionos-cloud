@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudShareDelete do
             path: "/um/groups/#{subject_config[:group_id]}/shares/#{share_id}",
             operation: :'UserManagementApi.um_groups_shares_find_by_resource_id',
             return_type: 'GroupShare',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

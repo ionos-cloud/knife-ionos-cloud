@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
             path: "/backupunits/#{backupunit_id}/ssourl",
             operation: :'BackupUnitApi.backupunits_ssourl_get',
             return_type: 'BackupUnitSSO',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

@@ -98,7 +98,7 @@ describe Chef::Knife::IonoscloudGroupUserAdd do
             operation: :'UserManagementApi.um_groups_users_post',
             body: { id: user_id },
             return_type: 'User',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
           {
             method: 'GET',

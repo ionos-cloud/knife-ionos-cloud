@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
             path: "/um/users/#{user_id}/s3ssourl",
             operation: :'UserManagementApi.um_users_s3ssourl_get',
             return_type: 'S3ObjectStorageSSO',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

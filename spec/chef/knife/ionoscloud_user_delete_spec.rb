@@ -75,7 +75,7 @@ describe Chef::Knife::IonoscloudUserDelete do
             path: "/um/users/#{user_id}",
             operation: :'UserManagementApi.um_users_find_by_id',
             return_type: 'User',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

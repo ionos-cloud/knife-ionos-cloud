@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudLanDelete do
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan_id}",
             operation: :'LanApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

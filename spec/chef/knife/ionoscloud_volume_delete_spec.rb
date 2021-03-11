@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudVolumeDelete do
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume_id}",
             operation: :'VolumeApi.datacenters_volumes_find_by_id',
             return_type: 'Volume',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

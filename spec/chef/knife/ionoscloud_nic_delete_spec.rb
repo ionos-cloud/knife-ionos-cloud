@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudNicDelete do
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{nic_id}",
             operation: :'NicApi.datacenters_servers_nics_find_by_id',
             return_type: 'Nic',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

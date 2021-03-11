@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
             path: "/k8s/#{subject_config[:cluster_id]}/kubeconfig",
             operation: :'KubernetesApi.k8s_kubeconfig_get',
             return_type: 'KubernetesConfig',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

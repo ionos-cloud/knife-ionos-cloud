@@ -88,7 +88,7 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{subject_config[:loadbalancer_id]}/balancednics/#{nic_id}",
             operation: :'LoadBalancerApi.datacenters_loadbalancers_balancednics_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
           {
             method: 'GET',

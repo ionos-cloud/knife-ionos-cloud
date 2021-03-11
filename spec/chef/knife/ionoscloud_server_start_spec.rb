@@ -66,7 +66,7 @@ describe Chef::Knife::IonoscloudServerStart do
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/start",
             operation: :'ServerApi.datacenters_servers_start_post',
             return_type: 'Object',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

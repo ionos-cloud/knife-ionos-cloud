@@ -60,7 +60,7 @@ describe Chef::Knife::IonoscloudRequestStatus do
             path: "/requests/#{request_id}/status",
             operation: :'RequestApi.requests_status_get',
             return_type: 'RequestStatus',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudS3keyDelete do
             path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key_id}",
             operation: :'UserManagementApi.um_users_s3keys_find_by_key_id',
             return_type: 'S3Key',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

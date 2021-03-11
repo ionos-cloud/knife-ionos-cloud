@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
             path: "/backupunits/#{backup_unit}",
             operation: :'BackupUnitApi.backupunits_find_by_id',
             return_type: 'BackupUnit',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

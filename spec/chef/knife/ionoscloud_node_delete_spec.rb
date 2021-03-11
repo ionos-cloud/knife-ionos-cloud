@@ -78,7 +78,7 @@ describe Chef::Knife::IonoscloudNodeDelete do
             path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{subject_config[:nodepool_id]}/nodes/#{k8s_node_id}",
             operation: :'KubernetesApi.k8s_nodepools_nodes_find_by_id',
             return_type: 'KubernetesNode',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

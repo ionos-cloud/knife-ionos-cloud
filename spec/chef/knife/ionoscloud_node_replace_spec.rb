@@ -65,7 +65,7 @@ describe Chef::Knife::IonoscloudNodeReplace do
             method: 'POST',
             path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{subject_config[:nodepool_id]}/nodes/#{k8s_node_id}/replace",
             operation: :'KubernetesApi.k8s_nodepools_nodes_replace_post',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

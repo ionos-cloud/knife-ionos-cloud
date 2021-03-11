@@ -94,7 +94,7 @@ describe Chef::Knife::IonoscloudGroupUserRemove do
             method: 'DELETE',
             path: "/um/groups/#{subject_config[:group_id]}/users/#{user_id}",
             operation: :'UserManagementApi.um_groups_users_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
           {
             method: 'GET',
