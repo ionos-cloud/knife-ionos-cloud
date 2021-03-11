@@ -8,24 +8,24 @@ class Chef
       banner 'knife ionoscloud k8s create (options)'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the server'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the server'
 
       option :version,
-             short: '-v VERSION',
-             long: '--version VERSION',
-             description: 'The version for the Kubernetes cluster.'
+              short: '-v VERSION',
+              long: '--version VERSION',
+              description: 'The version for the Kubernetes cluster.'
 
-      option :maintenanceday,
-             short: '-d MAINTENANCE_DAY',
-             long: '--maintenance-day MAINTENANCE_DAY',
-             description: 'Day Of the week when to perform the maintenance.'
+      option :maintenance_day,
+              short: '-d MAINTENANCE_DAY',
+              long: '--maintenance-day MAINTENANCE_DAY',
+              description: 'Day Of the week when to perform the maintenance.'
 
-      option :maintenancetime,
-             short: '-t MAINTENANCE_TIME',
-             long: '--maintenance-time MAINTENANCE_TIME',
-             description: 'Time Of the day when to perform the maintenance.'
+      option :maintenance_time,
+              short: '-t MAINTENANCE_TIME',
+              long: '--maintenance-time MAINTENANCE_TIME',
+              description: 'Time Of the day when to perform the maintenance.'
 
       attr_reader :description, :required_options
 
@@ -49,10 +49,10 @@ class Chef
           k8sVersion: config[:version],
         }.compact
 
-        if config[:maintenanceday] && config[:maintenancetime]
+        if config[:maintenance_day] && config[:maintenance_time]
           cluster_properties[:maintenanceWindow] = {
-            dayOfTheWeek: config[:maintenanceday],
-            time: config[:maintenancetime],
+            dayOfTheWeek: config[:maintenance_day],
+            time: config[:maintenance_time],
           }
         end
 

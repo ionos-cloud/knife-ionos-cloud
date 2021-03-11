@@ -4,32 +4,70 @@ require 'ionoscloud_lan_list'
 Chef::Knife::IonoscloudLanList.load_deps
 
 describe Chef::Knife::IonoscloudLanList do
-  subject { Chef::Knife::IonoscloudLanList.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
-    @lan = create_test_lan(@datacenter)
-  end
+    subject { Chef::Knife::IonoscloudLanList.new }
 
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should output the column headers and the lan' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-      allow(subject).to receive(:puts)
+    it 'should call LanApi.datacenters_lans_get' do
+      lans = lans_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+      }
 
-      expect(subject).to receive(:puts).with(
-        /^ID\s+Name\s+Public\s*$\n#{@lan.id}\s+#{@lan.properties.name}\s+#{@lan.properties.public}\s*$/,
+      subject_config.each { |key, value| subject.config[key] = value }
+
+      lan_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Public', :bold),
+      ]
+
+      lans.items.each do |lan|
+        lan_list << lan.id
+        lan_list << lan.properties.name
+        lan_list << lan.properties.public.to_s
+      end
+
+      expect(subject.ui).to receive(:list).with(lan_list, :uneven_columns_across, 3)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/lans",
+            operation: :'LanApi.datacenters_lans_get',
+            return_type: 'Lans',
+            result: lans,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

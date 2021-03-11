@@ -8,44 +8,44 @@ class Chef
       banner 'knife ionoscloud server create (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the virtual datacenter'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the virtual datacenter'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the server'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the server'
 
       option :cores,
-             short: '-C CORES',
-             long: '--cores CORES',
-             description: 'The number of processor cores'
+              short: '-C CORES',
+              long: '--cores CORES',
+              description: 'The number of processor cores'
 
-      option :cpufamily,
-             short: '-f CPU_FAMILY',
-             long: '--cpu-family CPU_FAMILY',
-             description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-             default: 'INTEL_SKYLAKE'
+      option :cpu_family,
+              short: '-f CPU_FAMILY',
+              long: '--cpu-family CPU_FAMILY',
+              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
+              default: 'INTEL_SKYLAKE'
 
       option :ram,
-             short: '-r RAM',
-             long: '--ram RAM',
-             description: 'The amount of RAM in MB'
+              short: '-r RAM',
+              long: '--ram RAM',
+              description: 'The amount of RAM in MB'
 
-      option :availabilityzone,
-             short: '-a AVAILABILITY_ZONE',
-             long: '--availability-zone AVAILABILITY_ZONE',
-             description: 'The availability zone of the server',
-             default: 'AUTO'
+      option :availability_zone,
+              short: '-a AVAILABILITY_ZONE',
+              long: '--availability-zone AVAILABILITY_ZONE',
+              description: 'The availability zone of the server',
+              default: 'AUTO'
 
-      option :bootvolume,
-             long: '--boot-volume VOLUME_ID',
-             description: 'Reference to a volume used for booting'
+      option :boot_volume,
+              long: '--boot-volume VOLUME_ID',
+              description: 'Reference to a volume used for booting'
 
-      option :bootcdrom,
-             long: '--boot-cdrom CDROM_ID',
-             description: 'Reference to a CD-ROM used for booting'
+      option :boot_cdrom,
+              long: '--boot-cdrom CDROM_ID',
+              description: 'Reference to a CD-ROM used for booting'
 
       attr_reader :description, :required_options
 
@@ -60,23 +60,23 @@ class Chef
       end
 
       def run
-       $stdout.sync = true
-       validate_required_params(@required_options, config)
+        $stdout.sync = true
+        validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating server...', :magenta)}"
         params = {
           name: config[:name],
           cores: config[:cores],
-          cpuFamily: config[:cpufamily],
+          cpuFamily: config[:cpu_family],
           ram: config[:ram],
-          availabilityZone: config[:availabilityzone]
+          availabilityZone: config[:availability_zone]
         }
 
-        params[:bootCdrom] = { id: config[:bootcdrom] } unless config[:bootcdrom].nil?
-        params[:bootVolume] = { id: config[:bootvolume] } unless config[:bootvolume].nil?
+        params[:bootCdrom] = { id: config[:boot_cdrom] } unless config[:boot_cdrom].nil?
+        params[:bootVolume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
 
         server_api = Ionoscloud::ServerApi.new(api_client)
-        
+
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],
           { properties: params.compact },
@@ -94,8 +94,8 @@ class Chef
         puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
         puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
-        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume}"
-        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom}"
+        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume ? server.properties.boot_volume.id : ''}"
+        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom ? server.properties.boot_cdrom.id : ''}"
 
         puts 'done'
       end

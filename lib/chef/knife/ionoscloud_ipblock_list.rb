@@ -6,9 +6,9 @@ class Chef
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud ipblock list'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -32,7 +32,7 @@ class Chef
           ipblock_list << ipblock.id
           ipblock_list << ipblock.properties.name
           ipblock_list << ipblock.properties.location
-          ipblock_list << ipblock.properties.ips.join(", ").to_s
+          ipblock_list << ipblock.properties.ips.join(', ')
         end
 
         puts ui.list(ipblock_list, :uneven_columns_across, 4)

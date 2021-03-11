@@ -4,39 +4,80 @@ require 'ionoscloud_nic_list'
 Chef::Knife::IonoscloudNicList.load_deps
 
 describe Chef::Knife::IonoscloudNicList do
-  subject { Chef::Knife::IonoscloudNicList.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
-    @server = create_test_server(@datacenter)
-    @nic = create_test_nic(@datacenter, @server)
+    subject { Chef::Knife::IonoscloudNicList.new }
 
     allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should output the column headers and the nic' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+    it 'should call NicApi.datacenters_servers_nics_get' do
+      nics = nics_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        server_id: 'server_id',
+      }
 
-      expect(subject).to receive(:puts).with(
-        %r{
-          (^ID\s+Name\s+IPs\s+DHCP\s+NAT\s+LAN\s*$\n#{@nic.id}\s+
-            #{@nic.properties.name.gsub(' ', '\s')}\s+\[\"#{@nic.properties.ips.first.to_s}\"\]
-            \s+#{@nic.properties.dhcp}\s+#{@nic.properties.nat}\s+#{@nic.properties.lan}\s*$)
-        }x
+      subject_config.each { |key, value| subject.config[key] = value }
+
+      nic_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('IPs', :bold),
+        subject.ui.color('DHCP', :bold),
+        subject.ui.color('NAT', :bold),
+        subject.ui.color('LAN', :bold),
+        nics.items.first.id,
+        nics.items.first.properties.name,
+        nics.items.first.properties.ips.to_s,
+        nics.items.first.properties.dhcp.to_s,
+        nics.items.first.properties.nat.to_s,
+        nics.items.first.properties.lan.to_s,
+        nics.items[1].id,
+        nics.items[1].properties.name,
+        nics.items[1].properties.ips.to_s,
+        nics.items[1].properties.dhcp.to_s,
+        nics.items[1].properties.nat.to_s,
+        nics.items[1].properties.lan.to_s,
+      ]
+
+      expect(subject.ui).to receive(:list).with(nic_list, :uneven_columns_across, 6)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics",
+            operation: :'NicApi.datacenters_servers_nics_get',
+            return_type: 'Nics',
+            result: nics,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

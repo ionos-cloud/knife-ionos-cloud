@@ -4,58 +4,96 @@ require 'ionoscloud_volume_attach'
 Chef::Knife::IonoscloudVolumeAttach.load_deps
 
 describe Chef::Knife::IonoscloudVolumeAttach do
-  subject { Chef::Knife::IonoscloudVolumeAttach.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
-    @server = create_test_server(@datacenter)
+    subject { Chef::Knife::IonoscloudVolumeAttach.new }
 
     allow(subject).to receive(:puts)
-    allow(subject.ui).to receive(:msg)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should attach a volume' do
-      @volume = create_test_volume(@datacenter)
-      subject.name_args = [@volume.id]
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-      }.each do |key, value|
-        subject.config[key] = value
-      end
+    it 'should call ServerApi.datacenters_servers_volumes_post when the ID is valid' do
+      volume = volume_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        server_id: 'server_id',
+        yes: true,
+      }
 
-      expect(subject.ui).to receive(:msg).with(
-        /Volume #{@volume.id} attached to server. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
-      ) do |arg|
-        @request_id = arg.split('Request ID: ').last
-      end
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [volume.id]
 
-      subject.run
+      expect(subject.ui).to receive(:msg).with("Volume #{volume.id} attached to server. Request ID: ")
 
-      raise Exception.new 'No Request ID found.' unless @request_id
-
-      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
-
-      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
-      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
-      expect(request.metadata.targets.length).to eq(1)
-      expect(request.metadata.targets.first.target.type).to eq('volume')
-      expect(request.metadata.targets.first.target.id).to eq(@volume.id)
-
-      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
-      
-      volume = Ionoscloud::ServerApi.new.datacenters_servers_volumes_find_by_id(
-        @datacenter.id, @server.id, @volume.id,
+      expect(subject).not_to receive(:wait_for)
+      expect(subject).to receive(:get_request_id).once
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'POST',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
+            operation: :'ServerApi.datacenters_servers_volumes_post',
+            body: { id: volume.id },
+            return_type: 'Volume',
+            result: volume,
+          },
+        ],
       )
 
-      expect(volume.properties.bus).to eq('VIRTIO')
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not call ServerApi.datacenters_servers_volumes_post when the ID is not valid' do
+      volume_id = 'invalid_id'
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        server_id: 'server_id',
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [volume_id]
+
+      expect(subject.ui).to receive(:error).with("Volume ID #{volume_id} not found. Skipping.")
+
+      expect(subject.api_client).not_to receive(:wait_for)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'POST',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
+            operation: :'ServerApi.datacenters_servers_volumes_post',
+            body: { id: volume_id },
+            return_type: 'Volume',
+            exception: Ionoscloud::ApiError.new(code: 404),
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

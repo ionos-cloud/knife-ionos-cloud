@@ -8,22 +8,22 @@ class Chef
       banner 'knife ionoscloud firewall list (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'ID of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'ID of the data center'
 
       option :server_id,
-             short: '-S SERVER_ID',
-             long: '--server-id SERVER_ID',
-             description: 'The ID of the server'
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'The ID of the server'
 
       option :nic_id,
-             short: '-N NIC_ID',
-             long: '--nic-id NIC_ID',
-             description: 'ID of the NIC'
-      
+              short: '-N NIC_ID',
+              long: '--nic-id NIC_ID',
+              description: 'ID of the NIC'
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =

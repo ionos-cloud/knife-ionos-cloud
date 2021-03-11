@@ -4,35 +4,71 @@ require 'ionoscloud_ipblock_list'
 Chef::Knife::IonoscloudIpblockList.load_deps
 
 describe Chef::Knife::IonoscloudIpblockList do
-  subject { Chef::Knife::IonoscloudIpblockList.new }
-
   before :each do
-    @ipblock = create_test_ipblock()
+    subject { Chef::Knife::IonoscloudIpblockList.new }
 
     allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::IPBlocksApi.new.ipblocks_delete(@ipblock.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should output the column headers and the ipblock' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
+    it 'should call IPBlocksApi.ipblocks_get' do
+      ipblocks = ipblocks_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+
+      ipblock_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Location', :bold),
+        subject.ui.color('IP Addresses', :bold),
+      ]
+
+      ipblocks.items.each do |ipblock|
+        ipblock_list << ipblock.id
+        ipblock_list << ipblock.properties.name
+        ipblock_list << ipblock.properties.location
+        ipblock_list << ipblock.properties.ips.join(', ')
       end
 
-      expect(subject).to receive(:puts).with(
-        %r{
-          (^ID\s+Name\s+Location\s+IP\sAddresses\s*$\n.*#{@ipblock.id}\s+
-            #{@ipblock.properties.name.to_s.gsub(' ', '\s')}\s+#{@ipblock.properties.location}
-            \s+#{@ipblock.properties.ips.join(", ").to_s.gsub(' ', '\s')}\s*$)
-        }x
+      expect(subject.ui).to receive(:list).with(ipblock_list, :uneven_columns_across, 4)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: '/ipblocks',
+            operation: :'IPBlocksApi.ipblocks_get',
+            return_type: 'IpBlocks',
+            result: ipblocks,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

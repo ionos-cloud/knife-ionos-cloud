@@ -31,11 +31,6 @@ class Chef
           ui.color('K8s Version', :bold),
           ui.color('Datacenter ID', :bold),
           ui.color('Node Count', :bold),
-          # ui.color('CPU Family', :bold),
-          # ui.color('Cores Count', :bold),
-          # ui.color('RAM', :bold),
-          # ui.color('Storage Type', :bold),
-          # ui.color('Storage Size', :bold),
           ui.color('State', :bold),
         ]
 
@@ -47,11 +42,6 @@ class Chef
           nodepool_list << nodepool.properties.k8s_version
           nodepool_list << nodepool.properties.datacenter_id
           nodepool_list << nodepool.properties.node_count.to_s
-          # nodepool_list << nodepool.properties.cpu_family
-          # nodepool_list << nodepool.properties.cores_count.to_s
-          # nodepool_list << nodepool.properties.ram_size.to_s
-          # nodepool_list << nodepool.properties.storage_type
-          # nodepool_list << nodepool.properties.storage_size.to_s
           nodepool_list << nodepool.metadata.state
         end
         puts ui.list(nodepool_list, :uneven_columns_across, 6)

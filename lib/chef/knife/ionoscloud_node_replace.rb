@@ -39,14 +39,14 @@ class Chef
 
         @name_args.each do |node_id|
           begin
-            _, _, headers = kubernetes_api.k8s_nodepools_nodes_replace_post_with_http_info(config[:cluster_id], config[:nodepool_id], node_id)
+            kubernetes_api.k8s_nodepools_nodes_replace_post(config[:cluster_id], config[:nodepool_id], node_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("K8s Node ID #{node_id} not found. Skipping.")
             next
           end
 
-          ui.warn("Recreated K8s Node #{node.id}.")
+          ui.warn("Recreated K8s Node #{node_id}.")
         end
       end
     end

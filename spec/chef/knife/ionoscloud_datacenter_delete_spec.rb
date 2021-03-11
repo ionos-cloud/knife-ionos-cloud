@@ -4,80 +4,99 @@ require 'ionoscloud_datacenter_delete'
 Chef::Knife::IonoscloudDatacenterDelete.load_deps
 
 describe Chef::Knife::IonoscloudDatacenterDelete do
-  subject { Chef::Knife::IonoscloudDatacenterDelete.new }
+  before :each do
+    subject { Chef::Knife::IonoscloudDatacenterDelete.new }
 
-  after :each do
-    begin
-      Ionoscloud::DataCenterApi.new.datacenters_delete(@datacenter.id)
-    rescue Exception
-    end
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should delete a data center when yes' do
-      @datacenter = create_test_datacenter()
-
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-  
-      subject.name_args = [@datacenter.id]
-
-      allow(subject).to receive(:puts)
-      allow(subject.ui).to receive(:warn)
-      allow(subject).to receive(:confirm)
-
-      expect(subject.ui).to receive(:warn).with(
-        /Deleted Data center #{@datacenter.id}. Request ID: (\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})\b/,
-      ) do |arg|
-        @request_id = arg.split('Request ID: ').last
-      end
-
-      expect(subject).to receive(:puts).with("ID: #{@datacenter.id}")
-      expect(subject).to receive(:puts).with("Name: #{@datacenter.properties.name}")
-      expect(subject).to receive(:puts).with("Description: #{@datacenter.properties.description}")
-      expect(subject).to receive(:puts).with("Location: #{@datacenter.properties.location}")
-      expect(subject).to receive(:puts).with("Version: #{@datacenter.properties.version}")
-
-      subject.run
-
-      raise Exception.new 'No Request ID found.' unless @request_id
-
-      request = Ionoscloud::RequestApi.new.requests_status_get(@request_id)
-
-      expect(request.metadata.status).to eq('QUEUED').or(eq('DONE'))
-      expect(request.metadata.message).to eq('Request has been queued').or(eq('Request has been successfully executed'))
-      expect(request.metadata.targets.length).to eq(1)
-      expect(request.metadata.targets.first.target.type).to eq('datacenter')
-      expect(request.metadata.targets.first.target.id).to eq(@datacenter.id)
-
-      Ionoscloud::ApiClient.new.wait_for { is_done? @request_id }
-      
-      expect { Ionoscloud::DataCenterApi.new.datacenters_find_by_id(@datacenter.id) }.to raise_error(Ionoscloud::ApiError) do |error|
-        expect(error.code).to eq(404)
-      end
-    end
-
-    it 'should print a message when wrong ID' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-      }.each do |key, value|
-        subject.config[key] = value
-      end
-      wrong_datacenter_ids = [123,]
-      subject.name_args = wrong_datacenter_ids
-      
-      expect(subject.ui).not_to receive(:warn)
-      wrong_datacenter_ids.each {
-        |wrong_datacenter_id|
-        expect(subject.ui).to receive(:error).with("Data center ID #{wrong_datacenter_id} not found. Skipping.")
+    it 'should call DataCenterApi.datacenters_delete when the ID is valid' do
+      datacenter = datacenter_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        yes: true,
       }
 
-      subject.run
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [datacenter.id]
+
+      expect(subject).to receive(:puts).with("ID: #{datacenter.id}")
+      expect(subject).to receive(:puts).with("Name: #{datacenter.properties.name}")
+      expect(subject).to receive(:puts).with("Description: #{datacenter.properties.description}")
+      expect(subject).to receive(:puts).with("Location: #{datacenter.properties.location}")
+      expect(subject.ui).to receive(:warn).with("Deleted Data center #{datacenter.id}. Request ID: ")
+
+      expect(subject.api_client).not_to receive(:wait_for)
+      expect(subject).to receive(:get_request_id).once
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{datacenter.id}",
+            operation: :'DataCenterApi.datacenters_find_by_id',
+            return_type: 'Datacenter',
+            result: datacenter,
+          },
+          {
+            method: 'DELETE',
+            path: "/datacenters/#{datacenter.id}",
+            operation: :'DataCenterApi.datacenters_delete',
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not call DataCenterApi.datacenters_delete when the user ID is not valid' do
+      datacenter_id = 'invalid_id'
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [datacenter_id]
+
+      expect(subject.ui).to receive(:error).with("Data center ID #{datacenter_id} not found. Skipping.")
+
+      expect(subject.api_client).not_to receive(:wait_for)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{datacenter_id}",
+            operation: :'DataCenterApi.datacenters_find_by_id',
+            return_type: 'Datacenter',
+            exception: Ionoscloud::ApiError.new(code: 404),
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

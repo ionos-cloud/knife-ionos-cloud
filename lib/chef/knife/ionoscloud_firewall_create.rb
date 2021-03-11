@@ -33,46 +33,46 @@ class Chef
               default: 'TCP',
               description: 'The protocol of the firewall rule (TCP, UDP, ICMP, ANY)'
 
-      option :sourcemac,
+      option :source_mac,
               short: '-m MAC',
               long: '--source-mac MAC',
               description: 'Only traffic originating from the respective MAC address is allowed'
 
-      option :sourceip,
+      option :source_ip,
               short: '-I IP',
               long: '--source-ip IP',
               description: 'Only traffic originating from the respective IPv4' \
                           ' address is allowed; null allows all source IPs'
 
-      option :targetip,
+      option :target_ip,
               long: '--target-ip IP',
               description: 'In case the target NIC has multiple IP addresses,' \
                           ' only traffic directed to the respective IP' \
                           ' address of the NIC is allowed; null value allows' \
                           ' all target IPs'
 
-      option :portrangestart,
+      option :port_range_start,
               short: '-p PORT',
               long: '--port-range-start PORT',
               description: 'Defines the start range of the allowed port(s)'
 
-      option :portrangeend,
+      option :port_range_end,
               short: '-t PORT',
               long: '--port-range-end PORT',
               description: 'Defines the end range of the allowed port(s)'
 
-      option :icmptype,
+      option :icmp_type,
               long: '--icmp-type INT',
               description: 'Defines the allowed type (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all types'
 
-      option :icmpcode,
+      option :icmp_code,
               long: '--icmp-code INT',
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
-      
+
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -85,17 +85,17 @@ class Chef
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating firewall...', :magenta)}"
-        
+
         params = {
           name: config[:name],
           protocol: config[:protocol],
-          sourceMac: config[:sourcemac],
-          sourceIp: config[:sourceip],
-          targetIp: config[:targetip],
-          portRangeStart: config[:portrangestart],
-          portRangeEnd: config[:portrangeend],
-          icmpType: config[:icmptype],
-          icmpCode: config[:icmpcode],
+          source_mac: config[:source_mac],
+          source_ip: config[:source_ip],
+          target_ip: config[:target_ip],
+          port_range_start: config[:port_range_start],
+          port_range_end: config[:port_range_end],
+          icmp_type: config[:icmp_type],
+          icmp_code: config[:icmp_code],
         }
 
         nic_api = Ionoscloud::NicApi.new(api_client)
@@ -104,7 +104,7 @@ class Chef
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],
-          { properties: params.compact },
+          Ionoscloud::FirewallRule.new({ properties: Ionoscloud::FirewallruleProperties.new(params.compact) }),
         )
 
         dot = ui.color('.', :magenta)

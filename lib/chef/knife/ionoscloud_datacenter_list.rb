@@ -8,7 +8,7 @@ class Chef
       banner 'knife ionoscloud datacenter list'
 
       attr_reader :description, :required_options
-      
+
       def initialize(args = [])
         super(args)
         @description =
@@ -30,7 +30,7 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Description', :bold),
           ui.color('Location', :bold),
-          ui.color('Version', :bold)
+          ui.color('Version', :bold),
         ]
 
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)

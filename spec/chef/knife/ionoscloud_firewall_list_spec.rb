@@ -4,45 +4,87 @@ require 'ionoscloud_firewall_list'
 Chef::Knife::IonoscloudFirewallList.load_deps
 
 describe Chef::Knife::IonoscloudFirewallList do
-  subject { Chef::Knife::IonoscloudFirewallList.new }
-
   before :each do
-    @datacenter = create_test_datacenter()
-    @server = create_test_server(@datacenter)
-    @nic = create_test_nic(@datacenter, @server)
-    @firewall = create_test_firewall(@datacenter, @server, @nic)
+    subject { Chef::Knife::IonoscloudFirewallList.new }
 
     allow(subject).to receive(:puts)
-  end
-
-  after :each do
-    Ionoscloud::DataCenterApi.new.datacenters_delete_with_http_info(@datacenter.id)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should output the column headers' do
-      {
-        ionoscloud_username: ENV['IONOS_USERNAME'],
-        ionoscloud_password: ENV['IONOS_PASSWORD'],
-        datacenter_id: @datacenter.id,
-        server_id: @server.id,
-        nic_id: @nic.id,
-      }.each do |key, value|
-        subject.config[key] = value
+    it 'should call NicApi.datacenters_servers_nics_firewallrules_get' do
+      firewalls = firewalls_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        server_id: 'server_id',
+        nic_id: 'nic_id',
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+
+      firewall_list = [
+        subject.ui.color('ID', :bold),
+        subject.ui.color('Name', :bold),
+        subject.ui.color('Protocol', :bold),
+        subject.ui.color('Source MAC', :bold),
+        subject.ui.color('Source IP', :bold),
+        subject.ui.color('Target IP', :bold),
+        subject.ui.color('Port Range Start', :bold),
+        subject.ui.color('Port Range End', :bold),
+        subject.ui.color('ICMP Type', :bold),
+        subject.ui.color('ICMP CODE', :bold),
+      ]
+
+      firewalls.items.each do |firewall|
+        firewall_list << firewall.id
+        firewall_list << firewall.properties.name
+        firewall_list << firewall.properties.protocol.to_s
+        firewall_list << firewall.properties.source_mac.to_s
+        firewall_list << firewall.properties.source_ip.to_s
+        firewall_list << firewall.properties.target_ip.to_s
+        firewall_list << firewall.properties.port_range_start.to_s
+        firewall_list << firewall.properties.port_range_end.to_s
+        firewall_list << firewall.properties.icmp_type.to_s
+        firewall_list << firewall.properties.icmp_code.to_s
       end
 
-      expect(subject).to receive(:puts).with(
-        %r{
-          (^ID\s+Name\s+Protocol\s+Source\sMAC\s+Source\sIP\s+Target\sIP\s+
-          Port\sRange\sStart\s+Port\sRange\sEnd\s+ICMP\sType\s+ICMP\sCODE*$\n
-          #{@firewall.id}\s+#{@firewall.properties.name.gsub(' ', '\s')}
-          \s+#{@firewall.properties.protocol}\s+#{@firewall.properties.source_mac}
-          \s+#{@firewall.properties.source_ip}\s+#{@firewall.properties.target_ip}
-          \s+#{@firewall.properties.port_range_start}\s+#{@firewall.properties.port_range_end}
-          \s+#{@firewall.properties.icmp_type}\s+#{@firewall.properties.icmp_code}\s*$)
-        }x
+      expect(subject.ui).to receive(:list).with(firewall_list, :uneven_columns_across, 10)
+
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/"\
+                  "nics/#{subject_config[:nic_id]}/firewallrules",
+            operation: :'NicApi.datacenters_servers_nics_firewallrules_get',
+            return_type: 'FirewallRules',
+            result: firewalls,
+          },
+        ],
       )
-      subject.run
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
     end
   end
 end

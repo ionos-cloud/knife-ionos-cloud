@@ -8,42 +8,40 @@ class Chef
       banner 'knife ionoscloud nic create (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       option :server_id,
-             short: '-S SERVER_ID',
-             long: '--server-id SERVER_ID',
-             description: 'Name of the server'
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'Name of the server'
 
       option :name,
-             short: '-n NAME',
-             long: '--name NAME',
-             description: 'Name of the NIC'
+              short: '-n NAME',
+              long: '--name NAME',
+              description: 'Name of the NIC'
 
       option :ips,
-             short: '-i IP[,IP,...]',
-             long: '--ips IP[,IP,...]',
-             description: 'IPs assigned to the NIC',
-             proc: proc { |ips| ips.split(',') }
+              short: '-i IP[,IP,...]',
+              long: '--ips IP[,IP,...]',
+              description: 'IPs assigned to the NIC'
 
       option :dhcp,
-             short: '-d',
-             long: '--dhcp',
-             boolean: true | false,
-             default: true,
-             description: 'Set to false if you wish to disable DHCP'
+              short: '-d',
+              long: '--dhcp',
+              boolean: true | false,
+              default: true,
+              description: 'Set to false if you wish to disable DHCP'
 
       option :lan,
-             short: '-l ID',
-             long: '--lan ID',
-             description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
+              short: '-l ID',
+              long: '--lan ID',
+              description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
       option :nat,
-             long: '--nat',
-             boolean: true | false,
-             description: 'Set to enable NAT on the NIC'
+              long: '--nat',
+              description: 'Set to enable NAT on the NIC'
 
       attr_reader :description, :required_options
 
@@ -62,16 +60,17 @@ class Chef
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
+        if config[:ips]
+          config[:ips] = config[:ips].split(',')
+        end
+
         params = {
           name: config[:name],
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
+          nat: !config[:nat].nil?,
         }
-
-        if config[:nat]
-          params[:nat] = config[:nat]
-        end
 
         nic_api = Ionoscloud::NicApi.new(api_client)
 
@@ -93,7 +92,7 @@ class Chef
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{nic.id}"
         puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
-        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips}"
+        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
         puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
         puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
         puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"

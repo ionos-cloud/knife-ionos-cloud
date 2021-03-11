@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       attr_reader :description, :required_options
 
@@ -41,8 +41,11 @@ class Chef
           msg_pair('ID', server.id)
           msg_pair('Name', server.properties.name)
           msg_pair('Cores', server.properties.cores)
-          msg_pair('RAM', server.properties.ram)
+          msg_pair('CPU Family', server.properties.cpu_family)
+          msg_pair('Ram', server.properties.ram)
           msg_pair('Availability Zone', server.properties.availability_zone)
+          msg_pair('Boot Volume', server.properties.boot_volume.id)
+          msg_pair('Boot CDROM', server.properties.boot_cdrom.id)
 
           begin
             confirm('Do you really want to delete this server')

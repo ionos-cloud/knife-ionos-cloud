@@ -7,7 +7,7 @@ class Chef
 
       banner 'knife ionoscloud s3key create (options)'
 
-      option :user,
+      option :user_id,
               short: '-u USER_ID',
               long: '--user USER_ID',
               description: 'The ID of the user'
@@ -18,7 +18,7 @@ class Chef
         super(args)
         @description =
         'Creates a new S3 key for a particular user.'
-        @required_options = [:user, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -29,7 +29,7 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        s3_key, _, headers  = user_management_api.um_users_s3keys_post_with_http_info(config[:user])
+        s3_key, _, headers  = user_management_api.um_users_s3keys_post_with_http_info(config[:user_id])
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
@@ -37,7 +37,6 @@ class Chef
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{s3_key.id}"
         puts "#{ui.color('Secret Key', :cyan)}: #{s3_key.properties.secret_key}"
-        puts "#{ui.color('Etag', :cyan)}: #{s3_key.metadata.etag}"
         puts "#{ui.color('Active', :cyan)}: #{s3_key.properties.active}"
         puts 'done'
       end

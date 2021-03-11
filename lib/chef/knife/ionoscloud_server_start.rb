@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud server start SERVER_ID [SERVER_ID] (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'ID of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'ID of the data center'
 
       attr_reader :description, :required_options
 
@@ -35,7 +35,7 @@ class Chef
             ui.error("Server ID #{server_id} not found. Skipping.")
             next
           end
-          ui.warn("Server #{server_id} is starting. Request ID: #{get_request_id headers}")
+          ui.info("Server #{server_id} is starting. Request ID: #{get_request_id headers}")
         end
       end
     end

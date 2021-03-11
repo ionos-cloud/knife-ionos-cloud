@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud volume delete SERVER_ID [SERVER_ID] (options)'
 
       option :datacenter_id,
-             short: '-D ID',
-             long: '--datacenter-id ID',
-             description: 'Name of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'Name of the data center'
 
       attr_reader :description, :required_options
 
@@ -31,7 +31,7 @@ class Chef
         @name_args.each do |volume_id|
           begin
             volume = volume_api.datacenters_volumes_find_by_id(
-              config[:datacenter_id], 
+              config[:datacenter_id],
               volume_id,
             )
           rescue Ionoscloud::ApiError => err
@@ -45,6 +45,9 @@ class Chef
           msg_pair('Size', volume.properties.size)
           msg_pair('Bus', volume.properties.bus)
           msg_pair('Image', volume.properties.image)
+          msg_pair('Type', volume.properties.type)
+          msg_pair('Licence Type', volume.properties.licence_type)
+          msg_pair('Zone', volume.properties.availability_zone)
 
           begin
             confirm('Do you really want to delete this volume')
@@ -53,7 +56,7 @@ class Chef
           end
 
           _, _, headers = volume_api.datacenters_volumes_delete_with_http_info(
-            config[:datacenter_id], 
+            config[:datacenter_id],
             volume_id,
           )
           ui.warn("Deleted Volume #{volume.id}. Request ID: #{get_request_id headers}")

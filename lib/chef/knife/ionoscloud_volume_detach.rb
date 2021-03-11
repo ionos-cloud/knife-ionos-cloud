@@ -8,14 +8,14 @@ class Chef
       banner 'knife ionoscloud volume detach VOLUME_ID [VOLUME_ID] (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'The ID of the data center'
 
       option :server_id,
-             short: '-S SERVER_ID',
-             long: '--server-id SERVER_ID',
-             description: 'The ID of the server'
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'The ID of the server'
 
       attr_reader :description, :required_options
 
@@ -41,7 +41,7 @@ class Chef
               config[:datacenter_id],
               config[:server_id],
               volume_id,
-            )          
+            )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Volume ID #{volume_id} not found. Skipping.")
@@ -52,7 +52,10 @@ class Chef
           msg_pair('Name', volume.properties.name)
           msg_pair('Size', volume.properties.size)
           msg_pair('Bus', volume.properties.bus)
-          msg_pair('Device Number', volume.properties.device_number)
+          msg_pair('Image', volume.properties.image)
+          msg_pair('Type', volume.properties.type)
+          msg_pair('Licence Type', volume.properties.licence_type)
+          msg_pair('Zone', volume.properties.availability_zone)
 
           begin
             confirm('Do you really want to detach this volume')

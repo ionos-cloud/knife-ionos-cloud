@@ -8,14 +8,14 @@ class Chef
       banner 'knife ionoscloud nic list (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the datacenter containing the NIC'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'The ID of the datacenter containing the NIC'
 
       option :server_id,
-             short: '-S SERVER_ID',
-             long: '--server-id SERVER_ID',
-             description: 'The ID of the server assigned the NIC'
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'The ID of the server assigned the NIC'
 
       attr_reader :description, :required_options
 
