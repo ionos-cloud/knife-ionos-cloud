@@ -81,7 +81,7 @@ describe Chef::Knife::IonoscloudBaseTest do
       request_status = request_status_mock({ status: 'FAILED' })
       request_id = SecureRandom.uuid
 
-      expect(subject).to receive(:puts).with("Request #{request_id} failed\n#{request_status.metadata.message.to_s}")
+      expect(subject).to receive(:puts).with("\nRequest #{request_id} failed\n#{request_status.metadata.message.to_s}")
 
       mock_call_api(
         subject,
@@ -106,7 +106,7 @@ describe Chef::Knife::IonoscloudBaseTest do
   describe '#get_request_id' do
     it 'should return nil when Headers has no Location key' do
       headers = {
-        'another_key' => "/requests/123"
+        'another_key' => '/requests/123'
       }
 
       expect(subject.get_request_id headers).to be_nil
@@ -114,7 +114,7 @@ describe Chef::Knife::IonoscloudBaseTest do
 
     it 'should return nil when Headers[\'Location\'] contains no uuid' do
       headers = {
-        'Location' => "/requests/123"
+        'Location' => '/requests/123'
       }
 
       expect(subject.get_request_id headers).to be_nil

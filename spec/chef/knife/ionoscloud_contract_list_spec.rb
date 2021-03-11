@@ -49,7 +49,7 @@ describe Chef::Knife::IonoscloudContractList do
         [
           {
             method: 'GET',
-            path: "/contracts",
+            path: '/contracts',
             operation: :'ContractApi.contracts_get',
             return_type: 'Contract',
             result: contract,

@@ -39,7 +39,7 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
         [
           {
             method: 'POST',
-            path: "/datacenters",
+            path: '/datacenters',
             operation: :'DataCenterApi.datacenters_post',
             return_type: 'Datacenter',
             body: { properties: expected_body },

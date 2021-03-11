@@ -39,7 +39,7 @@ describe Chef::Knife::IonoscloudIpblockCreate do
         [
           {
             method: 'POST',
-            path: "/ipblocks",
+            path: '/ipblocks',
             operation: :'IPBlocksApi.ipblocks_post',
             return_type: 'IpBlock',
             body: { properties: expected_body },

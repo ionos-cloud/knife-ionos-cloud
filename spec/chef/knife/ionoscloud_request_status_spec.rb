@@ -1,24 +1,23 @@
 require 'spec_helper'
-require 'ionoscloud_backupunit_ssourl'
+require 'ionoscloud_request_status'
 
-Chef::Knife::IonoscloudBackupunitSsourl.load_deps
+Chef::Knife::IonoscloudRequestStatus.load_deps
 
-describe Chef::Knife::IonoscloudBackupunitSsourl do
-  subject { Chef::Knife::IonoscloudBackupunitSsourl.new }
+describe Chef::Knife::IonoscloudRequestStatus do
+  subject { Chef::Knife::IonoscloudRequestStatus.new }
 
   describe '#run' do
-    it 'should call BackupUnitApi.backupunits_ssourl_get and output the received url when the user ID is valid' do
-      backupunit = backupunit_mock
-      backupunit_sso = backupunit_sso_mock
+    it 'should call RequestApi.requests_status_get and output the received status when the request ID is valid' do
+      request_status = request_status_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        backupunit_id: backupunit.id,
+        request_id: 'request_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with(backupunit_sso.sso_url)
+      allow(subject).to receive(:puts)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -26,10 +25,10 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
         [
           {
             method: 'GET',
-            path: "/backupunits/#{backupunit.id}/ssourl",
-            operation: :'BackupUnitApi.backupunits_ssourl_get',
-            return_type: 'BackupUnitSSO',
-            result: backupunit_sso,
+            path: "/requests/#{subject_config[:request_id]}/status",
+            operation: :'RequestApi.requests_status_get',
+            return_type: 'RequestStatus',
+            result: request_status,
           },
         ],
       )
@@ -37,12 +36,12 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should output an error is the user is not found' do
-      backupunit_id = 'invalid_id'
+    it 'should output an error is the request is not found' do
+      request_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        backupunit_id: backupunit_id,
+        request_id: request_id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -50,7 +49,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("Backup unit ID #{backupunit_id} not found.")
+      expect(subject.ui).to receive(:error).with("Request ID #{request_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -58,9 +57,9 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
         [
           {
             method: 'GET',
-            path: "/backupunits/#{backupunit_id}/ssourl",
-            operation: :'BackupUnitApi.backupunits_ssourl_get',
-            return_type: 'BackupUnitSSO',
+            path: "/requests/#{request_id}/status",
+            operation: :'RequestApi.requests_status_get',
+            return_type: 'RequestStatus',
             exception: Ionoscloud::ApiError.new(:code => 404),
           },
         ],

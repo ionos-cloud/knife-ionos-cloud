@@ -31,7 +31,7 @@ class Chef
           puts Ionoscloud::BackupUnitApi.new(api_client).backupunits_ssourl_get(config[:backupunit_id]).sso_url
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
-          ui.error("Backup unit ID #{config[:backupunit_id]} not found. Skipping.")
+          ui.error("Backup unit ID #{config[:backupunit_id]} not found.")
         end
       end
     end

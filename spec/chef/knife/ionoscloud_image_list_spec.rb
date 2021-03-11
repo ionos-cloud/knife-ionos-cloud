@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudImageList do
         [
           {
             method: 'GET',
-            path: "/images",
+            path: '/images',
             operation: :'ImageApi.images_get',
             return_type: 'Images',
             result: images,

@@ -35,7 +35,7 @@ describe Chef::Knife::IonoscloudLocationList do
         [
           {
             method: 'GET',
-            path: "/locations",
+            path: '/locations',
             operation: :'LocationApi.locations_get',
             return_type: 'Locations',
             result: locations,

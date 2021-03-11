@@ -220,7 +220,7 @@ describe Chef::Knife::IonoscloudLabelList do
         [
           {
             method: 'GET',
-            path: "/labels",
+            path: '/labels',
             operation: :'LabelApi.labels_get',
             return_type: 'Labels',
             result: @labels,
@@ -248,7 +248,7 @@ describe Chef::Knife::IonoscloudLabelList do
         [
           {
             method: 'GET',
-            path: "/labels",
+            path: '/labels',
             operation: :'LabelApi.labels_get',
             return_type: 'Labels',
             result: @labels,

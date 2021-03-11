@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudDatacenterList do
         [
           {
             method: 'GET',
-            path: "/datacenters",
+            path: '/datacenters',
             operation: :'DataCenterApi.datacenters_get',
             return_type: 'Datacenters',
             result: datacenters,
