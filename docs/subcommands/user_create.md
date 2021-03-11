@@ -33,7 +33,7 @@ Creates a new user under a particular contract.
     administrator: --admin ADMIN, -a ADMIN
         assigns the user have administrative rights.
 
-    forceSecAuth: --sec-auth SEC_AUTH
+    force_sec_auth: --sec-auth SEC_AUTH
         indicates if secure (two-factor) authentication should be forced for the user.
 
     ionoscloud_username: --username USERNAME, -u USERNAME

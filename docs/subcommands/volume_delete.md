@@ -14,7 +14,7 @@ Deletes the specified volume. This will result in the volume being removed from 
 * ionoscloud_password
 
 ```
-    datacenter_id: --datacenter-id ID, -D ID
+    datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME

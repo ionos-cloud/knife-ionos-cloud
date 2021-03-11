@@ -27,19 +27,19 @@ Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768,
     cores: --cores CORES, -C CORES
         the number of processor cores (required)
 
-    cpufamily: --cpu-family CPU_FAMILY, -f CPU_FAMILY
+    cpu_family: --cpu-family CPU_FAMILY, -f CPU_FAMILY
         the family of the CPU (INTEL_XEON or AMD_OPTERON)
 
     ram: --ram RAM, -r RAM
         the amount of RAM in MB (required)
 
-    availabilityzone: --availability-zone AVAILABILITY_ZONE, -a AVAILABILITY_ZONE
+    availability_zone: --availability-zone AVAILABILITY_ZONE, -a AVAILABILITY_ZONE
         the availability zone of the server
 
-    bootvolume: --boot-volume VOLUME_ID
+    boot_volume: --boot-volume VOLUME_ID
         reference to a volume used for booting
 
-    bootcdrom: --boot-cdrom CDROM_ID
+    boot_cdrom: --boot-cdrom CDROM_ID
         reference to a CD-ROM used for booting
 
     ionoscloud_username: --username USERNAME, -u USERNAME

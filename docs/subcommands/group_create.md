@@ -17,7 +17,7 @@ Use this operation to create a new group and set group privileges.
     name: --name NAME, -N NAME
         mame of the group. (required)
 
-    create_datacenter: --create-datacenter, -D
+    create_data_center: --create-datacenter, -D
         the group will be allowed to create virtual data centers.
 
     create_snapshot: --create-snapshot, -s
@@ -32,7 +32,7 @@ Use this operation to create a new group and set group privileges.
     s3_privilege: --s3
         the group will be allowed to manage S3
 
-    create_backupunit: --create-backupunit, -b
+    create_backup_unit: --create-backupunit, -b
         the group will be able to manage backup units.
 
     ionoscloud_username: --username USERNAME, -u USERNAME

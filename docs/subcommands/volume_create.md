@@ -32,22 +32,22 @@ Creates a volume within the data center. This will NOT attach the volume to a se
     image: --image ID, -N ID
         the image or snapshot ID
 
-    imagealias: --image-alias IMAGE_ALIAS
+    image_alias: --image-alias IMAGE_ALIAS
         (required) The image alias
 
-    imagepassword: --image-password PASSWORD, -P PASSWORD
+    image_password: --image-password PASSWORD, -P PASSWORD
         the password set on the image for the "root" or "Administrator" user
 
     type: --type TYPE, -t TYPE
         the disk type (HDD OR SSD) (required)
 
-    licencetype: --licence-type LICENCE, -l LICENCE
+    licence_type: --licence-type LICENCE, -l LICENCE
         the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
 
-    sshkeys: --ssh-keys SSHKEY1,SSHKEY2,..., -K SSHKEY[,SSHKEY,...]
+    ssh_keys: --ssh-keys SSHKEY1,SSHKEY2,..., -K SSHKEY[,SSHKEY,...]
         a list of public SSH keys to include
 
-    volume_availability_zone: --availability-zone AVAILABILITY_ZONE, -Z AVAILABILITY_ZONE
+    availability_zone: --availability-zone AVAILABILITY_ZONE, -Z AVAILABILITY_ZONE
         the volume availability zone of the server
 
     ionoscloud_username: --username USERNAME, -u USERNAME

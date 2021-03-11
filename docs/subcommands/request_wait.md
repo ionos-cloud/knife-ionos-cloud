@@ -1,21 +1,21 @@
-# S3keyDelete
+# RequestWait
 
-This operation deletes a specific S3 key.
+Waits until a request status is either DONE or FAILED.
 
-    knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
+    knife ionoscloud request wait (options)
 
 
 ## Available options:
 ---
 
 ### Required options:
-* user_id
+* request_id
 * ionoscloud_username
 * ionoscloud_password
 
 ```
-    user_id: --user USER_ID, -u USER_ID
-        the ID of the user (required)
+    request_id: --request-id REQUEST_ID, -R REQUEST_ID
+        the ID of the Backup unit. (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -27,4 +27,4 @@ This operation deletes a specific S3 key.
 
 ## Example
 
-    knife ionoscloud s3key delete S3KEY_ID 
+    knife ionoscloud request wait --request-id REQUEST_ID --username USERNAME --password PASSWORD

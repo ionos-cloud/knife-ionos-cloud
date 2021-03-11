@@ -24,10 +24,10 @@ Remove IP Failover from LAN
         lan ID (required)
 
     ip: --ip IP, -i IP
-        iP to be added to IP failover group (required)
+        iP to be removed from the IP failover group (required)
 
     nic_id: --nic-id NIC_ID, -n NIC_ID
-        nIC to be added to IP failover group (required)
+        nIC to be removed from the IP failover group (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)

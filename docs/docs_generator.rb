@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# This must be run from /docs directory
+
 require 'mustache'
 
 $LOAD_PATH << '.'
@@ -78,18 +80,25 @@ end
 
 subcommands = []
 
-Chef::Knife.constants.select { |c|
-  Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud')
-}.each {
-  |subcommand|
-  begin
-    subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
-    subcommands.append({ title: subcommand_name, filename: filename })
-  rescue Exception => exc
-    puts "Could not generate doc for #{subcommand}. Error: #{exc}"
-    # raise exc
+begin
+  Chef::Knife.constants.select { |c|
+    Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud')
+  }.each {
+    |subcommand|
+    begin
+      subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
+      subcommands.append({ title: subcommand_name, filename: filename })
+    rescue Exception => exc
+      puts "Could not generate doc for #{subcommand}. Error: #{exc}"
+      # raise exc
+    end
+  }
+rescue NameError => exc
+  if exc.message == 'uninitialized constant Chef'
+    puts 'This must be run from /docs directory!'
   end
-}
+  raise exc
+end
 
 subcommands.sort! { |a, b| a[:title] <=> b[:title] }
 

@@ -15,13 +15,13 @@ The worker nodes within the node pools will be deployed into an existing data ce
 * cluster_id
 * name
 * version
-* nodecount
-* cpufamily
+* node_count
+* cpu_family
 * cores
 * ram
-* availabilityzone
-* storagetype
-* storagesize
+* availability_zone
+* storage_type
+* storage_size
 * ionoscloud_username
 * ionoscloud_password
 
@@ -38,16 +38,16 @@ The worker nodes within the node pools will be deployed into an existing data ce
     version: --version VERSION, -v VERSION
         the version for the Kubernetes cluster. (required)
 
-    maintenanceday: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
+    maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
-    maintenancetime: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME
+    maintenance_time: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME
         time Of the day when to perform the maintenance.
 
-    nodecount: --node-count NODE_COUNT, -c NODE_COUNT
+    node_count: --node-count NODE_COUNT, -c NODE_COUNT
         the number of worker nodes that the node pool should contain. Min 2, Max: Determined by the resource availability. (required)
 
-    cpufamily: --cpu-family CPU_FAMILY, -f CPU_FAMILY
+    cpu_family: --cpu-family CPU_FAMILY, -f CPU_FAMILY
         sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE] (required)
 
     cores: --cores CORES
@@ -56,19 +56,19 @@ The worker nodes within the node pools will be deployed into an existing data ce
     ram: --ram RAM, -r RAM
         the amount of RAM in MB (required)
 
-    availabilityzone: --availability-zone AVAILABILITY_ZONE, -a AVAILABILITY_ZONE
+    availability_zone: --availability-zone AVAILABILITY_ZONE, -a AVAILABILITY_ZONE
         the availability zone of the node pool (required)
 
-    storagetype: --storage-type STORAGE_TYPE
+    storage_type: --storage-type STORAGE_TYPE
         sets the storage type. [HDD, SSD] (required)
 
-    storagesize: --storage-size STORAGE_SIZE
+    storage_size: --storage-size STORAGE_SIZE
         the total allocated storage capacity of a node. (required)
 
-    minnodecount: --min-node-count MIN_NODE_COUNT
+    min_node_count: --min-node-count MIN_NODE_COUNT
         the minimum number of worker nodes that the managed node group can scale in
 
-    maxnodecount: --max-node-count MAX_NODE_COUNT
+    max_node_count: --max-node-count MAX_NODE_COUNT
         the maximum number of worker nodes that the managed node pool can scale-out.
 
     lans: --lans LAN_ID [LAN_ID]
