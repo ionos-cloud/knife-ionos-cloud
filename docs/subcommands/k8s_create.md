@@ -20,10 +20,10 @@ Creates a new Managed Kubernetes cluster.
     version: --version VERSION, -v VERSION
         the version for the Kubernetes cluster.
 
-    maintenanceday: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
+    maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
-    maintenancetime: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME
+    maintenance_time: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME
         time Of the day when to perform the maintenance.
 
     ionoscloud_username: --username USERNAME, -u USERNAME

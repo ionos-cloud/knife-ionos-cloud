@@ -31,25 +31,25 @@ Creates a new firewall rule on an existing NIC.
     protocol: --protocol PROTOCOL, -P PROTOCOL
         the protocol of the firewall rule (TCP, UDP, ICMP, ANY)
 
-    sourcemac: --source-mac MAC, -m MAC
+    source_mac: --source-mac MAC, -m MAC
         only traffic originating from the respective MAC address is allowed
 
-    sourceip: --source-ip IP, -I IP
+    source_ip: --source-ip IP, -I IP
         only traffic originating from the respective IPv4 address is allowed; null allows all source IPs
 
-    targetip: --target-ip IP
+    target_ip: --target-ip IP
         in case the target NIC has multiple IP addresses, only traffic directed to the respective IP address of the NIC is allowed; null value allows all target IPs
 
-    portrangestart: --port-range-start PORT, -p PORT
+    port_range_start: --port-range-start PORT, -p PORT
         defines the start range of the allowed port(s)
 
-    portrangeend: --port-range-end PORT, -t PORT
+    port_range_end: --port-range-end PORT, -t PORT
         defines the end range of the allowed port(s)
 
-    icmptype: --icmp-type INT
+    icmp_type: --icmp-type INT
         defines the allowed type (from 0 to 254) if the protocol ICMP is chosen; null allows all types
 
-    icmpcode: --icmp-code INT
+    icmp_code: --icmp-code INT
         defines the allowed code (from 0 to 254) if the protocol ICMP is chosen; null allows all codes
 
     ionoscloud_username: --username USERNAME, -u USERNAME

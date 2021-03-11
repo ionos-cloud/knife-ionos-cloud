@@ -19,17 +19,8 @@ List all Labels available to the user. Specify the type and required resource ID
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center.
 
-    server_id: --server-id SERVER_ID, -S SERVER_ID
-        iD of the server.
-
-    volume_id: --volume-id VOLUME_ID, -V VOLUME_ID
-        iD of the volume.
-
-    ipblock_id: --ipblock-id IPBLOCK_ID, -I IPBLOCK_ID
-        iD of the ipblock.
-
-    snapshot_id: --snapshot-id SNAPSHOT_ID, -s SNAPSHOT_ID
-        iD of the snapshot.
+    resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
+        iD of the resource.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -41,4 +32,4 @@ List all Labels available to the user. Specify the type and required resource ID
 
 ## Example
 
-    knife ionoscloud label list --resource-type RESOURCE_TYPE --datacenter-id DATACENTER_ID --server-id SERVER_ID --volume-id VOLUME_ID --ipblock-id IPBLOCK_ID --snapshot-id SNAPSHOT_ID --username USERNAME --password PASSWORD
+    knife ionoscloud label list --resource-type RESOURCE_TYPE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD

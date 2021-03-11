@@ -9,12 +9,12 @@ Creates a new S3 key for a particular user.
 ---
 
 ### Required options:
-* user
+* user_id
 * ionoscloud_username
 * ionoscloud_password
 
 ```
-    user: --user USER_ID, -u USER_ID
+    user_id: --user USER_ID, -u USER_ID
         the ID of the user (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME

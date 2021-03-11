@@ -10,6 +10,7 @@ Remove a Label from a Resource.
 
 ### Required options:
 * type
+* resource_id
 * ionoscloud_username
 * ionoscloud_password
 
@@ -20,17 +21,8 @@ Remove a Label from a Resource.
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center.
 
-    server_id: --server-id SERVER_ID, -S SERVER_ID
-        iD of the server.
-
-    volume_id: --volume-id VOLUME_ID, -V VOLUME_ID
-        iD of the volume.
-
-    ipblock_id: --ipblock-id IPBLOCK_ID, -I IPBLOCK_ID
-        iD of the ipblock.
-
-    snapshot_id: --snapshot-id SNAPSHOT_ID, -s SNAPSHOT_ID
-        iD of the snapshot.
+    resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
+        iD of the resource. (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
