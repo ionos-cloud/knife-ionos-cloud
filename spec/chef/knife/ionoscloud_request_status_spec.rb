@@ -1,42 +1,34 @@
 require 'spec_helper'
-require 'ionoscloud_server_start'
+require 'ionoscloud_request_status'
 
-Chef::Knife::IonoscloudServerStart.load_deps
+Chef::Knife::IonoscloudRequestStatus.load_deps
 
-describe Chef::Knife::IonoscloudServerStart do
-  before :each do
-    subject { Chef::Knife::IonoscloudServerStart.new }
-
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:print)
-  end
+describe Chef::Knife::IonoscloudRequestStatus do
+  subject { Chef::Knife::IonoscloudRequestStatus.new }
 
   describe '#run' do
-    it 'should output success when the ID is valid' do
-      server = server_mock
+    it 'should call RequestApi.requests_status_get and output the received status when the request ID is valid' do
+      request_status = request_status_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        datacenter_id: 'datacenter_id',
-        yes: true,
+        request_id: 'request_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [server.id]
 
-      expect(subject.ui).to receive(:info).with("Server #{server.id} is starting. Request ID: ")
+      allow(subject).to receive(:puts)
 
       expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject).to receive(:get_request_id).once
       mock_call_api(
         subject,
         [
           {
-            method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/start",
-            operation: :'ServerApi.datacenters_servers_start_post',
-            return_type: 'Object',
-            result: server,
+            method: 'GET',
+            path: "/requests/#{subject_config[:request_id]}/status",
+            operation: :'RequestApi.requests_status_get',
+            return_type: 'RequestStatus',
+            result: request_status,
           },
         ],
       )
@@ -44,28 +36,30 @@ describe Chef::Knife::IonoscloudServerStart do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should output failure when the user ID is not valid' do
-      server_id = 'invalid_id'
+    it 'should output an error is the request is not found' do
+      request_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        datacenter_id: 'datacenter_id',
+        request_id: request_id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [server_id]
 
-      expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found. Skipping.")
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+
+      expect(subject.ui).to receive(:error).with("Request ID #{request_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
         subject,
         [
           {
-            method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/start",
-            operation: :'ServerApi.datacenters_servers_start_post',
-            return_type: 'Object',
+            method: 'GET',
+            path: "/requests/#{request_id}/status",
+            operation: :'RequestApi.requests_status_get',
+            return_type: 'RequestStatus',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -76,8 +70,11 @@ describe Chef::Knife::IonoscloudServerStart do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each do |test_case|
+      arrays_without_one_element(required_options).each {
+        |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -89,7 +86,7 @@ describe Chef::Knife::IonoscloudServerStart do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      end
+      }
     end
   end
 end

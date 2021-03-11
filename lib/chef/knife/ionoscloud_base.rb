@@ -10,14 +10,14 @@ class Chef
           end
 
           option :ionoscloud_username,
-            short: '-u USERNAME',
-            long: '--username USERNAME',
-            description: 'Your Ionoscloud username'
+                  short: '-u USERNAME',
+                  long: '--username USERNAME',
+                  description: 'Your Ionoscloud username'
 
           option :ionoscloud_password,
-            short: '-p PASSWORD',
-            long: '--password PASSWORD',
-            description: 'Your Ionoscloud password'
+                  short: '-p PASSWORD',
+                  long: '--password PASSWORD',
+                  description: 'Your Ionoscloud password'
         end
       end
 
@@ -59,7 +59,7 @@ class Chef
       def is_done?(request_id)
         response = Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id)
         if response.metadata.status == 'FAILED'
-          puts "Request #{request_id} failed\n#{response.metadata.message.to_s}"
+          puts "\nRequest #{request_id} failed\n#{response.metadata.message.to_s}"
           exit(1)
         end
         response.metadata.status == 'DONE'

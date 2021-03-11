@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
             path: "/snapshots/#{snapshot_id}",
             operation: :'SnapshotApi.snapshots_find_by_id',
             return_type: 'Snapshot',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

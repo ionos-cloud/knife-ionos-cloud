@@ -18,7 +18,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      allow(subject).to receive(:puts)
+      expect(subject).to receive(:puts).with(backupunit_sso.sso_url)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -50,7 +50,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("Backup unit ID #{backupunit_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Backup unit ID #{backupunit_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
             path: "/backupunits/#{backupunit_id}/ssourl",
             operation: :'BackupUnitApi.backupunits_ssourl_get',
             return_type: 'BackupUnitSSO',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

@@ -168,7 +168,7 @@ class Chef
             ips: config[:ips],
             dhcp: config[:dhcp],
             lan: config[:lan],
-            nat: config[:nat],
+            nat: !config[:nat].nil?,
           }.compact)
         )
 

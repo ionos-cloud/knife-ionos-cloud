@@ -80,7 +80,7 @@ describe Chef::Knife::IonoscloudGroupDelete do
             path: "/um/groups/#{group_id}",
             operation: :'UserManagementApi.um_groups_find_by_id',
             return_type: 'Group',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

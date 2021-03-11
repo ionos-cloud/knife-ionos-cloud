@@ -639,7 +639,35 @@ def request_status_mock(opts = {})
     metadata: Ionoscloud::RequestStatusMetadata.new(
       status: opts[:status] || 'DONE',
       message: opts[:message] || 'Message',
+      targets: opts[:targets] || []
     ),
+  )
+end
+
+def request_target_mock(opts = {})
+  Ionoscloud::RequestTarget.new(
+    status: opts[:status] || 'DONE',
+    target: opts[:target] || resource_mock,
+  )
+end
+
+def request_mock(opts = {})
+  Ionoscloud::Request.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::RequestProperties.new(
+      method: opts[:method] || 'POST',
+    ),
+    metadata: Ionoscloud::RequestMetadata.new(
+      request_status: request_status_mock(opts)
+    )
+  )
+end
+
+def requests_mock(opts = {})
+  Ionoscloud::Requests.new(
+    id: 'requests',
+    type: 'collection',
+    items: [request_mock, request_mock({ targets: [request_target_mock] })],
   )
 end
 
@@ -658,14 +686,15 @@ def mock_call_api(subject, rules)
     expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
       result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
-  
+
       expect(method.to_s).to eq(rule[:method])
       expect(path).to eq(rule[:path])
       expect(opts[:operation]).to eq(rule[:operation])
       expect(opts[:form_params]).to eq(rule[:form_params] || {})
       expect(opts[:return_type]).to eq(rule[:return_type] || 'Object')
       expect(received_body).to eq(rule[:body] || nil)
-      
+      expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
+
       if rule[:exception]
         raise rule[:exception]
       end

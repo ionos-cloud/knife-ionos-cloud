@@ -8,14 +8,14 @@ class Chef
       banner 'knife ionoscloud resource list (options)'
 
       option :resource_type,
-             short: '-t RESOURCE_TYPE',
-             long: '--resource-type RESOURCE_TYPE',
-             description: 'The specific type of resources to retrieve information about.'
+              short: '-t RESOURCE_TYPE',
+              long: '--resource-type RESOURCE_TYPE',
+              description: 'The specific type of resources to retrieve information about.'
 
       option :resource_id,
-             short: '-R RESOURCE_ID',
-             long: '--resource-id RESOURCE_ID',
-             description: 'The ID of the specific resource to retrieve information about.'
+              short: '-R RESOURCE_ID',
+              long: '--resource-id RESOURCE_ID',
+              description: 'The ID of the specific resource to retrieve information about.'
 
       attr_reader :description, :required_options
 

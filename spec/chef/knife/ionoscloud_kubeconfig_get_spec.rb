@@ -48,7 +48,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("K8s Cluster ID #{subject_config[:cluster_id]} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("K8s Cluster ID #{subject_config[:cluster_id]} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
             path: "/k8s/#{subject_config[:cluster_id]}/kubeconfig",
             operation: :'KubernetesApi.k8s_kubeconfig_get',
             return_type: 'KubernetesConfig',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

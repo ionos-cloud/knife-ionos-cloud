@@ -73,7 +73,7 @@ describe Chef::Knife::IonoscloudIpblockDelete do
             path: "/ipblocks/#{ipblock_id}",
             operation: :'IPBlocksApi.ipblocks_find_by_id',
             return_type: 'IpBlock',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

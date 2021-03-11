@@ -18,7 +18,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      allow(subject).to receive(:puts)
+      expect(subject).to receive(:puts).with(sso_url.sso_url)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -50,7 +50,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      expect(subject.ui).to receive(:error).with("User ID #{user_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("User ID #{user_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -61,7 +61,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
             path: "/um/users/#{user_id}/s3ssourl",
             operation: :'UserManagementApi.um_users_s3ssourl_get',
             return_type: 'S3ObjectStorageSSO',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

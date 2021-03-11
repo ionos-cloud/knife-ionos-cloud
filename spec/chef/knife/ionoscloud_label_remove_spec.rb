@@ -66,7 +66,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:resource_id]}/labels/#{label.id}",
             operation: :'LabelApi.datacenters_labels_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )
@@ -130,7 +130,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels/#{label.id}",
             operation: :'LabelApi.datacenters_servers_labels_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )
@@ -194,7 +194,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels/#{label.id}",
             operation: :'LabelApi.datacenters_volumes_labels_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )
@@ -255,7 +255,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
             method: 'DELETE',
             path: "/ipblocks/#{subject_config[:resource_id]}/labels/#{label.id}",
             operation: :'LabelApi.ipblocks_labels_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )
@@ -317,7 +317,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
             method: 'DELETE',
             path: "/snapshots/#{subject_config[:resource_id]}/labels/#{label.id}",
             operation: :'LabelApi.snapshots_labels_delete',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

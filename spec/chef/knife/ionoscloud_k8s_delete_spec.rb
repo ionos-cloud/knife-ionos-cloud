@@ -78,7 +78,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
             path: "/k8s/#{k8s_cluster_id}",
             operation: :'KubernetesApi.k8s_find_by_cluster_id',
             return_type: 'KubernetesCluster',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

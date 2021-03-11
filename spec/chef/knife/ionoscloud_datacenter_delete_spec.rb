@@ -73,7 +73,7 @@ describe Chef::Knife::IonoscloudDatacenterDelete do
             path: "/datacenters/#{datacenter_id}",
             operation: :'DataCenterApi.datacenters_find_by_id',
             return_type: 'Datacenter',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

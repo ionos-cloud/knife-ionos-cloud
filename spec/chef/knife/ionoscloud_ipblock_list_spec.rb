@@ -42,7 +42,7 @@ describe Chef::Knife::IonoscloudIpblockList do
         [
           {
             method: 'GET',
-            path: "/ipblocks",
+            path: '/ipblocks',
             operation: :'IPBlocksApi.ipblocks_get',
             return_type: 'IpBlocks',
             result: ipblocks,

@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud kubeconfig get (options)'
 
       option :cluster_id,
-             short: '-C CLUSTER_ID',
-             long: '--cluster-id CLUSTER_ID',
-             description: 'The ID of the Kubernetes cluster.'
+              short: '-C CLUSTER_ID',
+              long: '--cluster-id CLUSTER_ID',
+              description: 'The ID of the Kubernetes cluster.'
 
       attr_reader :description, :required_options
 
@@ -29,7 +29,7 @@ class Chef
           puts Ionoscloud::KubernetesApi.new(api_client).k8s_kubeconfig_get(config[:cluster_id])
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
-          ui.error("K8s Cluster ID #{config[:cluster_id]} not found. Skipping.")
+          ui.error("K8s Cluster ID #{config[:cluster_id]} not found.")
         end
       end
     end

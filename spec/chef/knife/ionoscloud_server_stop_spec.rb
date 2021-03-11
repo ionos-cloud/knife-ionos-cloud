@@ -66,7 +66,7 @@ describe Chef::Knife::IonoscloudServerStop do
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/stop",
             operation: :'ServerApi.datacenters_servers_stop_post',
             return_type: 'Object',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

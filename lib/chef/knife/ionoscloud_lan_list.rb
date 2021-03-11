@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud lan list (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'The ID of the data center'
 
       attr_reader :description, :required_options
 

@@ -8,18 +8,19 @@ class Chef
       banner 'knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the data center'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'The ID of the data center'
 
       option :server_id,
-             short: '-S SERVER_ID',
-             long: '--server-id SERVER_ID',
-             description: 'The ID of the server'
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'The ID of the server'
+
       option :nic_id,
-             short: '-N NIC_ID',
-             long: '--nic-id NIC_ID',
-             description: 'ID of the NIC'
+              short: '-N NIC_ID',
+              long: '--nic-id NIC_ID',
+              description: 'ID of the NIC'
 
       attr_reader :description, :required_options
 

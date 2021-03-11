@@ -92,7 +92,7 @@ describe Chef::Knife::IonoscloudLoadbalancerNicAdd do
             operation: :'LoadBalancerApi.datacenters_loadbalancers_balancednics_post',
             body: { id: nic_id },
             return_type: 'Nic',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
           {
             method: 'GET',

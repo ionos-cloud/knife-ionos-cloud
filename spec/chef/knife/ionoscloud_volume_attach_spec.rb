@@ -70,7 +70,7 @@ describe Chef::Knife::IonoscloudVolumeAttach do
             operation: :'ServerApi.datacenters_servers_volumes_post',
             body: { id: volume_id },
             return_type: 'Volume',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

@@ -95,7 +95,7 @@ describe Chef::Knife::IonoscloudResourceList do
         [
           {
             method: 'GET',
-            path: "/um/resources",
+            path: '/um/resources',
             operation: :'UserManagementApi.um_resources_get',
             return_type: 'Resources',
             result: @resources,
@@ -123,7 +123,7 @@ describe Chef::Knife::IonoscloudResourceList do
         [
           {
             method: 'GET',
-            path: "/um/resources",
+            path: '/um/resources',
             operation: :'UserManagementApi.um_resources_get',
             return_type: 'Resources',
             result: @resources,

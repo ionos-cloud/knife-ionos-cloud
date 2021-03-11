@@ -77,7 +77,7 @@ describe Chef::Knife::IonoscloudPccDelete do
             path: "/pccs/#{pcc_id}",
             operation: :'PrivateCrossConnectApi.pccs_find_by_id',
             return_type: 'PrivateCrossConnect',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

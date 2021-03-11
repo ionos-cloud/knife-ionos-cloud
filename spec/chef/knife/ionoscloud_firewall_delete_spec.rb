@@ -88,7 +88,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
                   "nics/#{subject_config[:nic_id]}/firewallrules/#{firewall_id}",
             operation: :'NicApi.datacenters_servers_nics_firewallrules_find_by_id',
             return_type: 'FirewallRule',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

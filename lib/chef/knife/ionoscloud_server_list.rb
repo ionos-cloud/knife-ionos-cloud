@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud server list (options)'
 
       option :datacenter_id,
-             short: '-D DATACENTER_ID',
-             long: '--datacenter-id DATACENTER_ID',
-             description: 'The ID of the datacenter containing the server'
+              short: '-D DATACENTER_ID',
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'The ID of the datacenter containing the server'
 
       attr_reader :description, :required_options
 

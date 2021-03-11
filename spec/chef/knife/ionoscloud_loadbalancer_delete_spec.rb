@@ -78,7 +78,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer_id}",
             operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
-            exception: Ionoscloud::ApiError.new(:code => 404),
+            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

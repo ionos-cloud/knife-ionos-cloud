@@ -8,9 +8,9 @@ class Chef
       banner 'knife ionoscloud user ssourl (options)'
 
       option :user_id,
-             short: '-U USER_ID',
-             long: '--user-id USER_ID',
-             description: 'The ID of the Backup unit.'
+              short: '-U USER_ID',
+              long: '--user-id USER_ID',
+              description: 'The ID of the Backup unit.'
 
       attr_reader :description, :required_options
 
@@ -29,7 +29,7 @@ class Chef
           puts Ionoscloud::UserManagementApi.new(api_client).um_users_s3ssourl_get(config[:user_id]).sso_url
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
-          ui.error("User ID #{config[:user_id]} not found. Skipping.")
+          ui.error("User ID #{config[:user_id]} not found.")
         end
       end
     end
