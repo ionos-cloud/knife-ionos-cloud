@@ -7,8 +7,8 @@ require 'knife-ionoscloud/version'
 Gem::Specification.new do |spec|
   spec.name          = 'knife-ionoscloud'
   spec.version       = Knife::Ionoscloud::VERSION
-  spec.authors       = ['Ethan Devenport']
-  spec.email         = ['ethand@stackpointcloud.com']
+  spec.authors       = ['IONOS Cloud']
+  spec.email         = ['sdk@cloud.ionos.com']
   spec.summary       = 'Chef Knife plugin for Ionoscloud platform'
   spec.description   = 'Official Chef Knife plugin for Ionoscloud platform using REST API'
   spec.homepage      = 'https://github.com/ionos-cloud/knife-ionos-cloud'
