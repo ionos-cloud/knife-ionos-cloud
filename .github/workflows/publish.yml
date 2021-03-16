@@ -23,11 +23,11 @@ jobs:
       - name: Validate the version
         shell: bash
         run: |
-          if [ "${{ inputs.version }}" != cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//' ]; then
+          if [ "${{ github.event.inputs.version }}" != cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//' ]; then
             echo "Specified version does not match the one from version.rb!"
             exit 1
           fi
-          echo Next version will be: v${{ inputs.version }}
+          echo Next version will be: v${{ github.event.inputs.version }}
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.61.1
