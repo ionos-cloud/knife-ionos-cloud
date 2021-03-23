@@ -2,19 +2,20 @@
 
 Adds the association of a NIC with a load balancer.
 
-    knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
-
+```text
+knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* loadbalancer_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* loadbalancer\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -26,9 +27,11 @@ Adds the association of a NIC with a load balancer.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example
 
-    knife ionoscloud loadbalancer nic add NIC_ID 
+```text
+knife ionoscloud loadbalancer nic add NIC_ID 
+```
+
