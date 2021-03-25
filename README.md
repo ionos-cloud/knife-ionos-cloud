@@ -1,4 +1,4 @@
-# Introduction
+# Knife Plugin for IONOS Cloud
 
 ![CI](https://github.com/ionos-cloud/knife-ionos-cloud/workflows/CI/badge.svg) 
 [![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud) 
@@ -12,9 +12,10 @@
 
 ## Overview
 
-Usage documaentation can be found at [here](https://docs.ionos.com/knife-plugin)
-
 Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-ionoscloud` plugin utilizes the IONOS Cloud REST API to provision and manage various cloud resources on the IONOS Cloud platform.
+
+In depth documaentation can be found at [here](https://docs.ionos.com/knife-plugin).
+
 
 ## Getting Started
 
