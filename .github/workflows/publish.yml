@@ -54,6 +54,11 @@ jobs:
         id: old_version
         run: echo ::set-output name=VERSION::$(git tag --list "v*" --sort=version:refname | tail -n 2 | head -n 1)
 
+      - name: Check Version
+        run: |
+          echo ${{ steps.new_version.outputs.VERSION }}
+          echo ${{ steps.old_version.outputs.VERSION }}
+
       - name: Check version and create GitHub branch
         run: |
           /usr/bin/bash ./git-versioning.sh ${{ steps.new_version.outputs.VERSION }} ${{ steps.old_version.outputs.VERSION }}
