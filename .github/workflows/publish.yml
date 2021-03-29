@@ -48,7 +48,7 @@ jobs:
 
       - name: Check Version
         run: |
-          if [ "${{ steps.new_version.outputs.VERSION }}" != $(cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//') ]; then
+          if [ "${{ steps.new_version.outputs.VERSION }}" != v$(cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//') ]; then
             echo "Tag version does not match the one from version.rb!"
             exit 1
           fi
