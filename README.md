@@ -1,10 +1,21 @@
-# Introduction
+# Knife Plugin for IONOS Cloud
 
-![CI](https://github.com/ionos-cloud/knife-ionos-cloud/workflows/CI/badge.svg) [![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud) [![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
+![CI](https://github.com/ionos-cloud/knife-ionos-cloud/workflows/CI/badge.svg) 
+[![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud) 
+[![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=knife-plugin)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=bugs)](https://sonarcloud.io/dashboard?id=knife-plugin)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=knife-plugin)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=knife-plugin)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=security_rating)](https://sonarcloud.io/dashboard?id=knife-plugin)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=knife-plugin)
 
 ## Overview
 
 Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-ionoscloud` plugin utilizes the IONOS Cloud REST API to provision and manage various cloud resources on the IONOS Cloud platform.
+
+In depth documaentation can be found at [here](https://docs.ionos.com/knife-plugin).
+
 
 ## Getting Started
 
@@ -67,16 +78,4 @@ $ export IONOSCLOUD_PASSWORD='password'
 $ rspec spec
 ```
 
-## Feature Reference
-
-The IONOS Cloud plugin for Knife aims to offer access to all resources in the IONOS Cloud API and also offers some additional features that make the integration easier:
-
-* authentication for API calls
-* handling of asynchronous requests 
-
-## FAQ
-
-1. How can I open a bug/feature request?
-
 Bugs & feature requests can be open on the repository issues: [https://github.com/ionos-cloud/knife-ionos-cloud/issues/new/choose](https://github.com/ionos-cloud/knife-ionos-cloud/issues/new/choose)
-

@@ -3,11 +3,9 @@
 name: Publish
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to publish (e.g. v1.2.3)'
-        required: true
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
@@ -19,15 +17,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Validate the version
-        shell: bash
-        run: |
-          if [ "${{ github.event.inputs.version }}" != cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//' ]; then
-            echo "Specified version does not match the one from version.rb!"
-            exit 1
-          fi
-          echo Next version will be: v${{ github.event.inputs.version }}
+      
+      - name: Unshallow
+        run: git fetch --prune --unshallow
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1.61.1
@@ -46,6 +38,21 @@ jobs:
       - name: Run the tests
         run: rspec
 
+      - name: Get the new version
+        id: new_version
+        run: echo ::set-output name=VERSION::$(git tag --list "v*" --sort=version:refname | tail -n 1)
+
+      - name: Get the old version
+        id: old_version
+        run: echo ::set-output name=VERSION::$(git tag --list "v*" --sort=version:refname | tail -n 2 | head -n 1)
+
+      - name: Check Version
+        run: |
+          if [ "${{ steps.new_version.outputs.VERSION }}" != v$(cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//') ]; then
+            echo "Tag version does not match the one from version.rb!"
+            exit 1
+          fi
+
       - name: Create RubyGems release of the Knife plugin
         shell: bash
         run: |
@@ -56,3 +63,7 @@ jobs:
           EOF
           chmod 0600 ~/.gem/credentials
           gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
+
+      - name: Check version and create GitHub branch
+        run: |
+          /usr/bin/bash ./git-versioning.sh ${{ steps.new_version.outputs.VERSION }} ${{ steps.old_version.outputs.VERSION }}
