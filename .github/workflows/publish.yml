@@ -35,16 +35,16 @@ jobs:
       - name: Run the tests
         run: rspec
 
-      - name: Create RubyGems release of the Knife plugin
-        shell: bash
-        run: |
-          mkdir -p ~/.gem
-          cat << EOF > ~/.gem/credentials
-          ---
-          :rubygems_api_key: ${{ secrets.RUBYGEMS }}
-          EOF
-          chmod 0600 ~/.gem/credentials
-          gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
+      # - name: Create RubyGems release of the Knife plugin
+      #   shell: bash
+      #   run: |
+      #     mkdir -p ~/.gem
+      #     cat << EOF > ~/.gem/credentials
+      #     ---
+      #     :rubygems_api_key: ${{ secrets.RUBYGEMS }}
+      #     EOF
+      #     chmod 0600 ~/.gem/credentials
+      #     gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
 
       - name: Get the new version
         id: new_version
