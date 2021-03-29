@@ -35,17 +35,6 @@ jobs:
       - name: Run the tests
         run: rspec
 
-      # - name: Create RubyGems release of the Knife plugin
-      #   shell: bash
-      #   run: |
-      #     mkdir -p ~/.gem
-      #     cat << EOF > ~/.gem/credentials
-      #     ---
-      #     :rubygems_api_key: ${{ secrets.RUBYGEMS }}
-      #     EOF
-      #     chmod 0600 ~/.gem/credentials
-      #     gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
-
       - name: Get the new version
         id: new_version
         run: echo ::set-output name=VERSION::$(git tag --list "v*" --sort=version:refname | tail -n 1)
@@ -61,6 +50,17 @@ jobs:
             echo "Specified version does not match the one from version.rb!"
             exit 1
           fi
+
+      # - name: Create RubyGems release of the Knife plugin
+      #   shell: bash
+      #   run: |
+      #     mkdir -p ~/.gem
+      #     cat << EOF > ~/.gem/credentials
+      #     ---
+      #     :rubygems_api_key: ${{ secrets.RUBYGEMS }}
+      #     EOF
+      #     chmod 0600 ~/.gem/credentials
+      #     gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
 
       - name: Check version and create GitHub branch
         run: |
