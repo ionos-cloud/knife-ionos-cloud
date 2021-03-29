@@ -53,16 +53,16 @@ jobs:
             exit 1
           fi
 
-      - name: Create RubyGems release of the Knife plugin
-        shell: bash
-        run: |
-          mkdir -p ~/.gem
-          cat << EOF > ~/.gem/credentials
-          ---
-          :rubygems_api_key: ${{ secrets.RUBYGEMS }}
-          EOF
-          chmod 0600 ~/.gem/credentials
-          gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
+      # - name: Create RubyGems release of the Knife plugin
+      #   shell: bash
+      #   run: |
+      #     mkdir -p ~/.gem
+      #     cat << EOF > ~/.gem/credentials
+      #     ---
+      #     :rubygems_api_key: ${{ secrets.RUBYGEMS }}
+      #     EOF
+      #     chmod 0600 ~/.gem/credentials
+      #     gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
 
       - name: Check version and create GitHub branch
         run: |
