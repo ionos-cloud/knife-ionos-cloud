@@ -48,26 +48,22 @@ jobs:
 
       - name: Check Version
         run: |
-          echo ${{ steps.old_version.outputs.VERSION }}
-          echo ${{ steps.new_version.outputs.VERSION }}
           if [ "${{ steps.new_version.outputs.VERSION }}" != $(cat lib/knife-ionoscloud/version.rb | grep 'VERSION =' | tr -s ' ' | cut -d ' ' -f 4 | sed 's/^.//;s/.$//') ]; then
             echo "Tag version does not match the one from version.rb!"
-            # exit 1
+            exit 1
           fi
 
-      # - name: Create RubyGems release of the Knife plugin
-      #   shell: bash
-      #   run: |
-      #     mkdir -p ~/.gem
-      #     cat << EOF > ~/.gem/credentials
-      #     ---
-      #     :rubygems_api_key: ${{ secrets.RUBYGEMS }}
-      #     EOF
-      #     chmod 0600 ~/.gem/credentials
-      #     gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
+      - name: Create RubyGems release of the Knife plugin
+        shell: bash
+        run: |
+          mkdir -p ~/.gem
+          cat << EOF > ~/.gem/credentials
+          ---
+          :rubygems_api_key: ${{ secrets.RUBYGEMS }}
+          EOF
+          chmod 0600 ~/.gem/credentials
+          gem push $(gem build knife-ionoscloud.gemspec | grep 'File' | tr -s ' ' | cut -d ' ' -f 3)
 
       - name: Check version and create GitHub branch
         run: |
-          echo ${{ steps.old_version.outputs.VERSION }}
-          echo ${{ steps.new_version.outputs.VERSION }}
           /usr/bin/bash ./git-versioning.sh ${{ steps.new_version.outputs.VERSION }} ${{ steps.old_version.outputs.VERSION }}
