@@ -33,7 +33,7 @@ class Chef
               description: 'Assigns the user have administrative rights.'
 
       option :force_sec_auth,
-              long: '--sec-auth SEC_AUTH',
+              long: '--sec-auth',
               description: 'Indicates if secure (two-factor) authentication should be forced for the user.'
 
       attr_reader :description, :required_options

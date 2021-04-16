@@ -41,6 +41,18 @@ class Chef
               long: '--create-backupunit',
               description: 'The group will be able to manage backup units.'
 
+      option :create_k8s_cluster,
+              long: '--create-k8s-cluster',
+              description: 'The group will be able to create kubernetes clusters.'
+              
+      option :create_pcc,
+              long: '--create-pcc',
+              description: 'The group will be able to manage pccs.'
+
+      option :create_internet_access,
+              long: '--create-internet-access',
+              description: 'The group will be have internet access privilege.'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -67,6 +79,9 @@ class Chef
             accessActivityLog: config[:access_activity_log],
             s3Privilege: config[:s3_privilege],
             createBackupUnit: config[:create_backup_unit],
+            createK8sCluster: config[:create_k8s_cluster],
+            createPcc: config[:create_pcc],
+            createInternetAccess: config[:create_internet_access],
           }.compact,
         })
 
@@ -82,6 +97,9 @@ class Chef
         puts "#{ui.color('Access Activity Log', :cyan)}: #{group.properties.access_activity_log.to_s}"
         puts "#{ui.color('S3 Privilege', :cyan)}: #{group.properties.s3_privilege.to_s}"
         puts "#{ui.color('Create Backup Unit', :cyan)}: #{group.properties.create_backup_unit.to_s}"
+        puts "#{ui.color('Create K8s Clusters', :cyan)}: #{group.properties.create_k8s_cluster.to_s}"
+        puts "#{ui.color('Create PCC', :cyan)}: #{group.properties.create_pcc.to_s}"
+        puts "#{ui.color('Create Internet Acess', :cyan)}: #{group.properties.create_internet_access.to_s}"
         puts 'done'
       end
     end
