@@ -19,7 +19,7 @@ class Chef
         @description =
         'Retrieve a list of all the users that have been created under a contract. '\
         'You can retrieve a list of users who are members of the group by passing the '\
-        '*group_id* option.'
+        '_group\_id_ option.'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

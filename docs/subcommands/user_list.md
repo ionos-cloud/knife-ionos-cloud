@@ -1,6 +1,6 @@
 # UserList
 
-Retrieve a list of all the users that have been created under a contract. You can retrieve a list of users who are members of the group by passing the *group_id* option.
+Retrieve a list of all the users that have been created under a contract. You can retrieve a list of users who are members of the group by passing the _group\_id_ option.
 
 ```text
 knife ionoscloud user list (options)

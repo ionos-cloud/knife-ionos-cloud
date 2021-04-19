@@ -1,6 +1,6 @@
 # IpblockCreate
 
-Reserves an IP block at a specified location that can be used by resources within any VDCs provisioned in that same location. An IP block consists of one or more static IP addresses. The IP block size (number of IP addresses) and location are required to reserve an IP block.
+Reserves an IP block at a specified location that can be used by resources within any VDCs provisioned in that same location. An IP block consists of one or more static IP addresses. The IP block size \(number of IP addresses\) and location are required to reserve an IP block.
 
 ```text
 knife ionoscloud ipblock create (options)

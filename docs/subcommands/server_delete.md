@@ -2,7 +2,7 @@
 
 This will remove a server from a VDC.
 
-**NOTE**: This will not automatically remove the storage volume(s) attached to a server. A separate API call is required to perform that action.
+**NOTE**: This will not automatically remove the storage volume\(s\) attached to a server. A separate API call is required to perform that action.
 
 ```text
 knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)
