@@ -24,16 +24,22 @@ knife ionoscloud ipfailover add (options)
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
+
     lan_id: --lan-id LAN_ID, -l LAN_ID
         lan ID (required)
+
     ip: --ip IP, -i IP
         iP to be added to IP failover group (required)
+
     nic_id: --nic-id NIC_ID, -n NIC_ID
         nIC to be added to IP failover group (required)
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example

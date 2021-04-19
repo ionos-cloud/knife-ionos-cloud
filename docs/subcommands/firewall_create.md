@@ -19,32 +19,46 @@ knife ionoscloud firewall create (options)
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
+
     server_id: --server-id SERVER_ID, -S SERVER_ID
         iD of the server (required)
+
     nic_id: --nic-id NIC_ID, -N NIC_ID
         iD of the NIC (required)
+
     name: --name NAME, -n NAME
         name of the NIC
+
     protocol: --protocol PROTOCOL, -P PROTOCOL
         the protocol of the firewall rule (TCP, UDP, ICMP, ANY)
+
     source_mac: --source-mac MAC, -m MAC
         only traffic originating from the respective MAC address is allowed
+
     source_ip: --source-ip IP, -I IP
         only traffic originating from the respective IPv4 address is allowed; null allows all source IPs
+
     target_ip: --target-ip IP
         in case the target NIC has multiple IP addresses, only traffic directed to the respective IP address of the NIC is allowed; null value allows all target IPs
+
     port_range_start: --port-range-start PORT, -p PORT
         defines the start range of the allowed port(s)
+
     port_range_end: --port-range-end PORT, -t PORT
         defines the end range of the allowed port(s)
+
     icmp_type: --icmp-type INT
         defines the allowed type (from 0 to 254) if the protocol ICMP is chosen; null allows all types
+
     icmp_code: --icmp-code INT
         defines the allowed code (from 0 to 254) if the protocol ICMP is chosen; null allows all codes
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example

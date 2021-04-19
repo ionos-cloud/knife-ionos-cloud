@@ -19,14 +19,19 @@ knife ionoscloud snapshot restore (options)
 ```text
     datacenter_id: --datacenter DATACENTER_ID, -D DATACENTER_ID
         iD of the Datacenter (required)
+
     volume_id: --volume VOLUME_ID, -V VOLUME_ID
         iD of the Volume (required)
+
     snapshot_id: --snapshot SNAPSHOT_ID, -S SNAPSHOT_ID
         iD of the Snapshot (required)
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example

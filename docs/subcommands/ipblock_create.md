@@ -18,14 +18,19 @@ knife ionoscloud ipblock create (options)
 ```text
     location: --location LOCATION, -l LOCATION
         location of the IP block (us/las, us/ewr, de/fra, de/fkb) (required)
+
     size: --size INT, -S INT
         the number of IP addresses to reserve (required)
+
     name: --name NAME, -n NAME
         name of the IP block
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example

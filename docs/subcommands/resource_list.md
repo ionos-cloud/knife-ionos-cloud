@@ -18,12 +18,16 @@ knife ionoscloud resource list (options)
 ```text
     resource_type: --resource-type RESOURCE_TYPE, -t RESOURCE_TYPE
         the specific type of resources to retrieve information about.
+
     resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
         the ID of the specific resource to retrieve information about.
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example

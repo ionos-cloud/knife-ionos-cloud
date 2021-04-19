@@ -17,10 +17,13 @@ knife ionoscloud user ssourl (options)
 ```text
     user_id: --user-id USER_ID, -U USER_ID
         the ID of the Backup unit. (required)
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
+
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
