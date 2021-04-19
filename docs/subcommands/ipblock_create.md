@@ -10,10 +10,10 @@ knife ionoscloud ipblock create (options)
 
 ### Required options:
 
-* size
-* location
-* ionoscloud_username
-* ionoscloud_password
+* 
+* 
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     location: --location LOCATION, -l LOCATION

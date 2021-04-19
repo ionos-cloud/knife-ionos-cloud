@@ -10,11 +10,11 @@ knife ionoscloud snapshot restore (options)
 
 ### Required options:
 
-* datacenter_id
-* volume_id
-* snapshot_id
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* volume\_id
+* snapshot\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter DATACENTER_ID, -D DATACENTER_ID

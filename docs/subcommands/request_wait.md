@@ -10,9 +10,9 @@ knife ionoscloud request wait (options)
 
 ### Required options:
 
-* request_id
-* ionoscloud_username
-* ionoscloud_password
+* request\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     request_id: --request-id REQUEST_ID, -R REQUEST_ID

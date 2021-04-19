@@ -10,9 +10,9 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 
 ### Required options:
 
-* user_id
-* ionoscloud_username
-* ionoscloud_password
+* user\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     user_id: --user USER_ID, -u USER_ID

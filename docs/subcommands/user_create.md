@@ -11,12 +11,12 @@ knife ionoscloud user create (options)
 
 ### Required options:
 
-* firstname
-* lastname
-* email
-* password
-* ionoscloud_username
-* ionoscloud_password
+* 
+* 
+* 
+* 
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     firstname: --firstname FIRSTNAME, -f FIRSTNAME

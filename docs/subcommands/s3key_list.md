@@ -10,9 +10,9 @@ knife ionoscloud s3key list (options)
 
 ### Required options:
 
-* user_id
-* ionoscloud_username
-* ionoscloud_password
+* user\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     user_id: --user USER_ID, -u USER_ID

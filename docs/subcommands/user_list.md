@@ -10,8 +10,8 @@ knife ionoscloud user list (options)
 
 ### Required options:
 
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     group_id: --group-id GROUP_ID, -g GROUP_ID

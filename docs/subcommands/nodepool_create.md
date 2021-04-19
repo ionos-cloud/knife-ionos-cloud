@@ -12,19 +12,19 @@ knife ionoscloud nodepool create (options)
 
 ### Required options:
 
-* datacenter_id
-* cluster_id
-* name
-* version
-* node_count
-* cpu_family
-* cores
-* ram
-* availability_zone
-* storage_type
-* storage_size
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* cluster\_id
+* 
+* 
+* node\_count
+* cpu\_family
+* 
+* 
+* availability\_zone
+* storage\_type
+* storage\_size
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID

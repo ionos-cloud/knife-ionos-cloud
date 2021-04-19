@@ -10,8 +10,8 @@ knife ionoscloud label list (options)
 
 ### Required options:
 
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE

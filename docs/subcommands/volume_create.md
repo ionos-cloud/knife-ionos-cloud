@@ -10,12 +10,12 @@ knife ionoscloud volume create (options)
 
 ### Required options:
 
-* datacenter_id
-* name
-* type
-* size
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* 
+* 
+* 
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID

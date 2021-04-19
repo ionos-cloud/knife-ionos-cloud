@@ -10,9 +10,9 @@ knife ionoscloud group create (options)
 
 ### Required options:
 
-* name
-* ionoscloud_username
-* ionoscloud_password
+* 
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     name: --name NAME, -N NAME

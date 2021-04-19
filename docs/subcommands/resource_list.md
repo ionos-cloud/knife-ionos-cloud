@@ -12,8 +12,8 @@ knife ionoscloud resource list (options)
 
 ### Required options:
 
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     resource_type: --resource-type RESOURCE_TYPE, -t RESOURCE_TYPE

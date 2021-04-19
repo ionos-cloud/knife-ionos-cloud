@@ -10,9 +10,9 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
 
 ### Required options:
 
-* group_id
-* ionoscloud_username
-* ionoscloud_password
+* group\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     group_id: --group-id GROUP_ID, -G GROUP_ID

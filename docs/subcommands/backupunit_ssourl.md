@@ -10,9 +10,9 @@ knife ionoscloud backupunit ssourl (options)
 
 ### Required options:
 
-* backupunit_id
-* ionoscloud_username
-* ionoscloud_password
+* backupunit\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     backupunit_id: --backupunit-id BACKUPUNIT_ID, -B BACKUPUNIT_ID

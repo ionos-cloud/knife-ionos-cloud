@@ -10,10 +10,10 @@ knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
 
 ### Required options:
 
-* datacenter_id
-* loadbalancer_id
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* loadbalancer\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID

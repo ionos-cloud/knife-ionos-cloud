@@ -10,9 +10,9 @@ knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
 
 ### Required options:
 
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID

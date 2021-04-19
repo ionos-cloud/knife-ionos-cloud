@@ -10,16 +10,16 @@ knife ionoscloud composite server create (options)
 
 ### Required options:
 
-* datacenter_id
-* name
-* cores
-* ram
-* size
-* type
-* dhcp
-* lan
-* ionoscloud_username
-* ionoscloud_password
+* datacenter\_id
+* 
+* 
+* 
+* 
+* 
+* 
+* 
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID

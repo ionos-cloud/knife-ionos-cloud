@@ -10,10 +10,10 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
 
 ### Required options:
 
-* type
-* resource_id
-* ionoscloud_username
-* ionoscloud_password
+* 
+* resource\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE

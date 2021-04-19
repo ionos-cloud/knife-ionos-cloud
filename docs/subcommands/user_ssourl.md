@@ -10,9 +10,9 @@ knife ionoscloud user ssourl (options)
 
 ### Required options:
 
-* user_id
-* ionoscloud_username
-* ionoscloud_password
+* user\_id
+* ionoscloud\_username
+* ionoscloud\_password
 
 ```text
     user_id: --user-id USER_ID, -U USER_ID
