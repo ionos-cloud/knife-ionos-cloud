@@ -14,12 +14,12 @@ knife ionoscloud nodepool create (options)
 
 * datacenter\_id
 * cluster\_id
-* 
-* 
+* name
+* version
 * node\_count
 * cpu\_family
-* 
-* 
+* cores
+* ram
 * availability\_zone
 * storage\_type
 * storage\_size

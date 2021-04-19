@@ -10,10 +10,10 @@ knife ionoscloud label add (options)
 
 ### Required options:
 
-* 
+* type
 * resource\_id
-* 
-* 
+* key
+* value
 * ionoscloud\_username
 * ionoscloud\_password
 

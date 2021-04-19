@@ -10,7 +10,7 @@ knife ionoscloud k8s create (options)
 
 ### Required options:
 
-* 
+* name
 * ionoscloud\_username
 * ionoscloud\_password
 

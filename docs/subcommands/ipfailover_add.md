@@ -16,7 +16,7 @@ knife ionoscloud ipfailover add (options)
 
 * datacenter\_id
 * lan\_id
-* 
+* ip
 * nic\_id
 * ionoscloud\_username
 * ionoscloud\_password

@@ -13,8 +13,8 @@ knife ionoscloud server create (options)
 ### Required options:
 
 * datacenter\_id
-* 
-* 
+* cores
+* ram
 * ionoscloud\_username
 * ionoscloud\_password
 

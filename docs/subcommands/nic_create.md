@@ -12,7 +12,7 @@ knife ionoscloud nic create (options)
 
 * datacenter\_id
 * server\_id
-* 
+* lan
 * ionoscloud\_username
 * ionoscloud\_password
 

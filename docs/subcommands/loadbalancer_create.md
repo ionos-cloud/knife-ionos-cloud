@@ -11,7 +11,7 @@ knife ionoscloud loadbalancer create (options)
 ### Required options:
 
 * datacenter\_id
-* 
+* name
 * ionoscloud\_username
 * ionoscloud\_password
 

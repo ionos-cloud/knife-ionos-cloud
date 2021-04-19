@@ -12,7 +12,7 @@ knife ionoscloud ipfailover remove (options)
 
 * datacenter\_id
 * lan\_id
-* 
+* ip
 * nic\_id
 * ionoscloud\_username
 * ionoscloud\_password

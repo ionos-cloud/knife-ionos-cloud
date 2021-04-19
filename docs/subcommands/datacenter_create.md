@@ -15,7 +15,7 @@ knife ionoscloud datacenter create (options)
 
 ### Required options:
 
-* 
+* location
 * ionoscloud\_username
 * ionoscloud\_password
 
