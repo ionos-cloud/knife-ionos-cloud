@@ -2,8 +2,7 @@
 
 Unless you are planning to manage an existing Ionoscloud environment, the first step will typically involve choosing the location for a new virtual data centerA list of locations can be obtained with location command.
 
-	
-        ```text
+	```text
 knife ionoscloud location list
 ```
 
