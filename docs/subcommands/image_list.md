@@ -7,7 +7,6 @@ knife ionoscloud image list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

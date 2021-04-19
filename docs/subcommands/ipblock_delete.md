@@ -7,7 +7,6 @@ knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

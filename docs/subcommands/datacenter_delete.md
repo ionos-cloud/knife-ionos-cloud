@@ -7,7 +7,6 @@ knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

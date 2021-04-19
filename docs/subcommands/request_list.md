@@ -7,7 +7,6 @@ knife ionoscloud request list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

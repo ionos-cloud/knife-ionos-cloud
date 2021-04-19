@@ -7,7 +7,6 @@ knife ionoscloud nic list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

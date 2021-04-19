@@ -7,7 +7,6 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

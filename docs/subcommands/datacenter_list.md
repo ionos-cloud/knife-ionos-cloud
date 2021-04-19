@@ -7,7 +7,6 @@ knife ionoscloud datacenter list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

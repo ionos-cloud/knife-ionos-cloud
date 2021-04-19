@@ -7,7 +7,6 @@ knife ionoscloud pcc create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

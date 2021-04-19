@@ -7,7 +7,6 @@ knife ionoscloud lan create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud pcc list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

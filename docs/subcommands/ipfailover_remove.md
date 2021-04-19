@@ -7,7 +7,6 @@ knife ionoscloud ipfailover remove (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud volume create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -12,7 +12,6 @@ knife ionoscloud datacenter create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

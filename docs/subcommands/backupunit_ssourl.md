@@ -7,7 +7,6 @@ knife ionoscloud backupunit ssourl (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

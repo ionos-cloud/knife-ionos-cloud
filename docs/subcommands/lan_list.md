@@ -7,7 +7,6 @@ knife ionoscloud lan list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

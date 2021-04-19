@@ -7,7 +7,6 @@ knife ionoscloud nic create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

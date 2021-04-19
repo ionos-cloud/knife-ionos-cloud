@@ -7,7 +7,6 @@ knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

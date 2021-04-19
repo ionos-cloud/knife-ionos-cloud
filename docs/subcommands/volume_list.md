@@ -7,7 +7,6 @@ knife ionoscloud volume list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

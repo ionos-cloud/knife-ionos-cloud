@@ -7,7 +7,6 @@ knife ionoscloud location list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

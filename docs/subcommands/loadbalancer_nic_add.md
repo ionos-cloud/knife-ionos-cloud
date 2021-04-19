@@ -7,7 +7,6 @@ knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

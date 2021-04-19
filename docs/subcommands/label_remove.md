@@ -7,7 +7,6 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

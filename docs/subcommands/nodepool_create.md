@@ -9,7 +9,6 @@ knife ionoscloud nodepool create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

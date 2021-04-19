@@ -7,7 +7,6 @@ knife ionoscloud group delete GROUP_ID [GROUP_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud snapshot list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud backupunit create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

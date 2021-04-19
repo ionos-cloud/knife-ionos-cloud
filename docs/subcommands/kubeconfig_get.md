@@ -7,7 +7,6 @@ knife ionoscloud kubeconfig get (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

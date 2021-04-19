@@ -7,7 +7,6 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

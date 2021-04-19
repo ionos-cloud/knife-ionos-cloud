@@ -7,7 +7,6 @@ knife ionoscloud share list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

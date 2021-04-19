@@ -7,7 +7,6 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud user list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

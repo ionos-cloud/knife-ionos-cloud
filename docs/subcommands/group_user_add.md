@@ -7,7 +7,6 @@ knife ionoscloud group user add USER_ID [USER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

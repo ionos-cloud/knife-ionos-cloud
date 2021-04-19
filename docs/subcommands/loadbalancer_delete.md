@@ -7,7 +7,6 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 ```
 
 ## Available options:
----
 
 ### Required options:
 

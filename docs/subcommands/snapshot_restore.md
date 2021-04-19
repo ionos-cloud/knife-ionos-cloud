@@ -7,7 +7,6 @@ knife ionoscloud snapshot restore (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

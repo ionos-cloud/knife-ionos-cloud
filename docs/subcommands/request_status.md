@@ -7,7 +7,6 @@ knife ionoscloud request status (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

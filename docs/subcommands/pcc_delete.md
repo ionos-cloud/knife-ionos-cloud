@@ -7,7 +7,6 @@ knife ionoscloud pcc delete PCC_ID [PCC_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

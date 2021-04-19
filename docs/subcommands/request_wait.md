@@ -7,7 +7,6 @@ knife ionoscloud request wait (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

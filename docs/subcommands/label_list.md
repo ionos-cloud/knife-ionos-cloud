@@ -7,7 +7,6 @@ knife ionoscloud label list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud snapshot create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

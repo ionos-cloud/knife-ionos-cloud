@@ -7,7 +7,6 @@ knife ionoscloud server stop SERVER_ID [SERVER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

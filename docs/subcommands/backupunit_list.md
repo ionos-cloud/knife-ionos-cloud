@@ -7,7 +7,6 @@ knife ionoscloud backupunit list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

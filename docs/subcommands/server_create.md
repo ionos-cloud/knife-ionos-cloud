@@ -9,7 +9,6 @@ knife ionoscloud server create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

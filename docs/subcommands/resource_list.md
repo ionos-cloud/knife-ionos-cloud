@@ -9,7 +9,6 @@ knife ionoscloud resource list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

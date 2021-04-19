@@ -7,7 +7,6 @@ knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

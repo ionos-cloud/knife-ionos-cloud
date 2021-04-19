@@ -7,7 +7,6 @@ knife ionoscloud group get (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

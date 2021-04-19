@@ -7,7 +7,6 @@ knife ionoscloud nodepool delete NODEPOOL_ID [NODEPOOL_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

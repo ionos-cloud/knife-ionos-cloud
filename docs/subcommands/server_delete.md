@@ -9,7 +9,6 @@ knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

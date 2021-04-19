@@ -7,7 +7,6 @@ knife ionoscloud group list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

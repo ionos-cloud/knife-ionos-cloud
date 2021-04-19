@@ -11,7 +11,6 @@ knife ionoscloud ipfailover add (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud user delete USER_ID [USER_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

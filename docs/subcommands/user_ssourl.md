@@ -7,7 +7,6 @@ knife ionoscloud user ssourl (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

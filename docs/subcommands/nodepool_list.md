@@ -7,7 +7,6 @@ knife ionoscloud nodepool list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

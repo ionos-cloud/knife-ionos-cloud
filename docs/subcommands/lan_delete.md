@@ -7,7 +7,6 @@ knife ionoscloud lan delete LAN_ID [LAN_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

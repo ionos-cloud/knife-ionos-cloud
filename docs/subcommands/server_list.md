@@ -7,7 +7,6 @@ knife ionoscloud server list (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

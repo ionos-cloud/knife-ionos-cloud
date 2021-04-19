@@ -9,7 +9,6 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

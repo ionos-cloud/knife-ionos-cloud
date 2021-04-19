@@ -7,7 +7,6 @@ knife ionoscloud firewall create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud s3key create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

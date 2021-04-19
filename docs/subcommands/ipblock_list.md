@@ -7,7 +7,6 @@ knife ionoscloud ipblock list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

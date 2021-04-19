@@ -7,7 +7,6 @@ knife ionoscloud composite server create (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

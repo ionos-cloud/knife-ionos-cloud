@@ -7,7 +7,6 @@ knife ionoscloud k8s list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud loadbalancer get (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

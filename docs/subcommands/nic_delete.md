@@ -7,7 +7,6 @@ knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

@@ -7,7 +7,6 @@ knife ionoscloud group user remove USER_ID [USER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 

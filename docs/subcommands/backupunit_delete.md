@@ -7,7 +7,6 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
 ```
 
 ## Available options:
----
 
 ### Required options:
 

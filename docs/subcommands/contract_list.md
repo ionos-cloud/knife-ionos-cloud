@@ -7,7 +7,6 @@ knife ionoscloud contract list
 ```
 
 ## Available options:
----
 
 ### Required options:
 

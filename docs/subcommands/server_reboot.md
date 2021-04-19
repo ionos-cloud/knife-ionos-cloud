@@ -7,7 +7,6 @@ knife ionoscloud server reboot SERVER_ID [SERVER_ID] (options)
 ```
 
 ## Available options:
----
 
 ### Required options:
 
