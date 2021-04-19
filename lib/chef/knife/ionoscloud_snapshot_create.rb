@@ -23,7 +23,6 @@ class Chef
               description: 'Name of the snapshot'
 
       option :description,
-              short: '-d SNAPSHOT_DESCRIPTION',
               long: '--description SNAPSHOT_DESCRIPTION',
               description: 'Description of the snapshot'
 
