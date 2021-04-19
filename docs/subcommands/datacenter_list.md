@@ -21,7 +21,6 @@ knife ionoscloud datacenter list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

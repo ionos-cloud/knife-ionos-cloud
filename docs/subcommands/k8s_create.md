@@ -34,7 +34,6 @@ knife ionoscloud k8s create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

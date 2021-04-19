@@ -25,7 +25,6 @@ knife ionoscloud s3key list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

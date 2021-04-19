@@ -25,7 +25,6 @@ knife ionoscloud user ssourl (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

@@ -45,7 +45,6 @@ knife ionoscloud nic create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

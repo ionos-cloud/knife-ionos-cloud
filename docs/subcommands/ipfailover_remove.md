@@ -37,7 +37,6 @@ knife ionoscloud ipfailover remove (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

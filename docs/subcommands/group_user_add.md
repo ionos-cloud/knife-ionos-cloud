@@ -25,7 +25,6 @@ knife ionoscloud group user add USER_ID [USER_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

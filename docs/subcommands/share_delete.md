@@ -25,7 +25,6 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

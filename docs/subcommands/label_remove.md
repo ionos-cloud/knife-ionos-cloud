@@ -32,7 +32,6 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

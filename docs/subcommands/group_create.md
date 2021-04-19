@@ -52,7 +52,6 @@ knife ionoscloud group create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

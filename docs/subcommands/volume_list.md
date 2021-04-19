@@ -28,7 +28,6 @@ knife ionoscloud volume list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

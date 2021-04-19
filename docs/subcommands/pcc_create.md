@@ -33,7 +33,6 @@ knife ionoscloud pcc create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

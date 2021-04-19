@@ -21,7 +21,6 @@ knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

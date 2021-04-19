@@ -21,7 +21,6 @@ knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

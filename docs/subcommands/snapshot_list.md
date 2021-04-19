@@ -21,7 +21,6 @@ knife ionoscloud snapshot list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

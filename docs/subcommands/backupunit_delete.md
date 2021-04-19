@@ -21,7 +21,6 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

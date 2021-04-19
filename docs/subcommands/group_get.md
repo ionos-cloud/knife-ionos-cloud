@@ -25,7 +25,6 @@ knife ionoscloud group get (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

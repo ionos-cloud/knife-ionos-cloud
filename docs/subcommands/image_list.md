@@ -21,7 +21,6 @@ knife ionoscloud image list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

@@ -21,7 +21,6 @@ knife ionoscloud pcc list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

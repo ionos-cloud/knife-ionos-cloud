@@ -21,7 +21,6 @@ knife ionoscloud backupunit list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

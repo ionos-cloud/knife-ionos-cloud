@@ -25,7 +25,6 @@ knife ionoscloud backupunit ssourl (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

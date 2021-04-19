@@ -33,7 +33,6 @@ knife ionoscloud firewall list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

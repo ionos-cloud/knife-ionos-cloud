@@ -25,7 +25,6 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

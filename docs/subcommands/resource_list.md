@@ -29,7 +29,6 @@ knife ionoscloud resource list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

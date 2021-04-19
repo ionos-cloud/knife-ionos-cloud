@@ -33,7 +33,6 @@ knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

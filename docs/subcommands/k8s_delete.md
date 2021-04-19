@@ -21,7 +21,6 @@ knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

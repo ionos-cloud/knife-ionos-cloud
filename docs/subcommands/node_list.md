@@ -29,7 +29,6 @@ knife ionoscloud node list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

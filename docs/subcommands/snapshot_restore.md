@@ -33,7 +33,6 @@ knife ionoscloud snapshot restore (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

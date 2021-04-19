@@ -41,7 +41,6 @@ knife ionoscloud snapshot create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

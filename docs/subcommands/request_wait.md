@@ -25,7 +25,6 @@ knife ionoscloud request wait (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

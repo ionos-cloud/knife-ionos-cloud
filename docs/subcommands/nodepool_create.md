@@ -82,7 +82,6 @@ knife ionoscloud nodepool create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

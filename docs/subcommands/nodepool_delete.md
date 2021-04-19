@@ -25,7 +25,6 @@ knife ionoscloud nodepool delete NODEPOOL_ID [NODEPOOL_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

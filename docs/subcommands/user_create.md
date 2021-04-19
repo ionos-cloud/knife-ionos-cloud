@@ -44,7 +44,6 @@ knife ionoscloud user create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

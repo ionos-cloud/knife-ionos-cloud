@@ -31,7 +31,6 @@ knife ionoscloud lan create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

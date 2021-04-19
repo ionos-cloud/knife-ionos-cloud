@@ -21,7 +21,6 @@ knife ionoscloud contract list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

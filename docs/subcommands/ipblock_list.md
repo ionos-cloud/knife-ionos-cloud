@@ -21,7 +21,6 @@ knife ionoscloud ipblock list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

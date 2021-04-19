@@ -21,7 +21,6 @@ knife ionoscloud pcc delete PCC_ID [PCC_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

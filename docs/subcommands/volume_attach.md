@@ -29,7 +29,6 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

@@ -25,7 +25,6 @@ knife ionoscloud share list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

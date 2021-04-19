@@ -29,7 +29,6 @@ knife ionoscloud node delete NODE_ID [NODE_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

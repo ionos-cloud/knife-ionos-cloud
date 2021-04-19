@@ -21,7 +21,6 @@ knife ionoscloud location list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

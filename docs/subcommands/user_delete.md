@@ -21,7 +21,6 @@ knife ionoscloud user delete USER_ID [USER_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

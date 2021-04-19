@@ -50,7 +50,6 @@ knife ionoscloud server create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

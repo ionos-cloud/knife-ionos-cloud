@@ -25,7 +25,6 @@ knife ionoscloud nodepool list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

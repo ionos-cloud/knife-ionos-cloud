@@ -25,7 +25,6 @@ knife ionoscloud server stop SERVER_ID [SERVER_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

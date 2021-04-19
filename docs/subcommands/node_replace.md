@@ -31,7 +31,6 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

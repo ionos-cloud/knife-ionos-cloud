@@ -30,7 +30,6 @@ knife ionoscloud label list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

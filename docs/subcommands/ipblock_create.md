@@ -32,7 +32,6 @@ knife ionoscloud ipblock create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

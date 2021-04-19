@@ -92,7 +92,6 @@ knife ionoscloud composite server create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

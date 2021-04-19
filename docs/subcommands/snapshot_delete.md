@@ -21,7 +21,6 @@ knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

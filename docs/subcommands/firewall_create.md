@@ -60,7 +60,6 @@ knife ionoscloud firewall create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

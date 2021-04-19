@@ -25,7 +25,6 @@ knife ionoscloud lan list (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

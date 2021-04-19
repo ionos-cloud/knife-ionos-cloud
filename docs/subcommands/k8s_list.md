@@ -21,7 +21,6 @@ knife ionoscloud k8s list
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

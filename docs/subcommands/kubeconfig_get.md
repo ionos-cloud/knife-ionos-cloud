@@ -25,7 +25,6 @@ knife ionoscloud kubeconfig get (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

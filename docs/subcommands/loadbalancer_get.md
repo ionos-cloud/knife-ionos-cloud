@@ -29,7 +29,6 @@ knife ionoscloud loadbalancer get (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

@@ -25,7 +25,6 @@ knife ionoscloud request status (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

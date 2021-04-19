@@ -36,7 +36,6 @@ knife ionoscloud datacenter create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text

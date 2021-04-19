@@ -33,7 +33,6 @@ knife ionoscloud backupunit create (options)
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
 ```text
