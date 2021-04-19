@@ -44,7 +44,7 @@ class Chef
       option :create_k8s_cluster,
               long: '--create-k8s-cluster',
               description: 'The group will be able to create kubernetes clusters.'
-              
+
       option :create_pcc,
               long: '--create-pcc',
               description: 'The group will be able to manage pccs.'
