@@ -16,13 +16,10 @@ knife ionoscloud user list (options)
 ```text
     group_id: --group-id GROUP_ID, -g GROUP_ID
         iD of the group.
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example

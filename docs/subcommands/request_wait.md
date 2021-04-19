@@ -17,13 +17,10 @@ knife ionoscloud request wait (options)
 ```text
     request_id: --request-id REQUEST_ID, -R REQUEST_ID
         the ID of the Backup unit. (required)
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example

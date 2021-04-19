@@ -22,19 +22,14 @@ knife ionoscloud datacenter create (options)
 ```text
     name: --name NAME, -n NAME
         name of the data center
-
     description: --description DESCRIPTION, -D DESCRIPTION
         description of the data center
-
     location: --location LOCATION, -l LOCATION
         location of the data center (required)
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example

@@ -18,22 +18,16 @@ knife ionoscloud share create (options)
 ```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
-
     resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
         the ID of the resource. (required)
-
     edit_privilege: --edit, -e
         the group has permission to edit privileges on this resource.
-
     share_privilege: --share, -s
         the group has permission to share this resource.
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example

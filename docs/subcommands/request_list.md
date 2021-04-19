@@ -16,16 +16,12 @@ knife ionoscloud request list (options)
 ```text
     limit: --limit LIMIT, -l LIMIT
         the maximum number of results.
-
     offset: --offset OFFSET, -o OFFSET
         the request number from which to return results.
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example

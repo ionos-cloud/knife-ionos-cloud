@@ -16,22 +16,16 @@ knife ionoscloud pcc create (options)
 ```text
     name: --name NAME, -n NAME
         name of the data center
-
     description: --description DESCRIPTION, -D DESCRIPTION
         description of the data center
-
     peers: --peers LAN_ID [LAN_ID]
         an array of LANs joined to this private cross connect
-
     datacenters: --datacenters DATACENTER_IS [DATACENTER_IS]
         an array of datacenters joined to this private cross connect
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
-
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example
