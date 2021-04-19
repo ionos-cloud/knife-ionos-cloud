@@ -7,12 +7,13 @@ knife ionoscloud request status (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* request\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* request_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     request_id: --request-id REQUEST_ID, -R REQUEST_ID
@@ -23,6 +24,7 @@ knife ionoscloud request status (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud request status (options)
 ```text
 knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
 ```
-

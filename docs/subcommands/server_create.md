@@ -2,21 +2,22 @@
 
 One of the unique features of the Ionoscloud platform when compared with the other providers is that they allow you to define your own settings for cores, memory, and disk size without being tied to a particular size or flavor.
 
-Note: _The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth._
+Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth.*
 
 ```text
 knife ionoscloud server create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
+* datacenter_id
 * cores
 * ram
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -48,6 +49,7 @@ knife ionoscloud server create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -55,4 +57,3 @@ knife ionoscloud server create (options)
 ```text
 knife ionoscloud server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --boot-volume VOLUME_ID --boot-cdrom CDROM_ID --username USERNAME --password PASSWORD
 ```
-

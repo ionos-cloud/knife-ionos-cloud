@@ -7,14 +7,15 @@ knife ionoscloud nic create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* server\_id
+* datacenter_id
+* server_id
 * lan
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -43,6 +44,7 @@ knife ionoscloud nic create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -50,4 +52,3 @@ knife ionoscloud nic create (options)
 ```text
 knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
 ```
-

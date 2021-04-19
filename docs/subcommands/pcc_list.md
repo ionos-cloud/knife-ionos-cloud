@@ -7,11 +7,12 @@ knife ionoscloud pcc list
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -19,6 +20,7 @@ knife ionoscloud pcc list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -26,4 +28,3 @@ knife ionoscloud pcc list
 ```text
 knife ionoscloud pcc list--username USERNAME --password PASSWORD
 ```
-

@@ -7,11 +7,12 @@ knife ionoscloud image list
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -19,6 +20,7 @@ knife ionoscloud image list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -26,4 +28,3 @@ knife ionoscloud image list
 ```text
 knife ionoscloud image list--username USERNAME --password PASSWORD
 ```
-

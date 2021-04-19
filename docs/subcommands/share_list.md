@@ -7,12 +7,13 @@ knife ionoscloud share list (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* group\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* group_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
@@ -23,6 +24,7 @@ knife ionoscloud share list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud share list (options)
 ```text
 knife ionoscloud share list --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
-

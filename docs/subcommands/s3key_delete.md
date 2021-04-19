@@ -7,12 +7,13 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* user\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* user_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     user_id: --user USER_ID, -u USER_ID
@@ -23,6 +24,7 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 ```text
 knife ionoscloud s3key delete S3KEY_ID 
 ```
-

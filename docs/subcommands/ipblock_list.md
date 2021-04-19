@@ -7,11 +7,12 @@ knife ionoscloud ipblock list
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -19,6 +20,7 @@ knife ionoscloud ipblock list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -26,4 +28,3 @@ knife ionoscloud ipblock list
 ```text
 knife ionoscloud ipblock list--username USERNAME --password PASSWORD
 ```
-

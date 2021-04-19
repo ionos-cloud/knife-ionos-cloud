@@ -7,11 +7,12 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -19,6 +20,7 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -26,4 +28,3 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
 ```text
 knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]--username USERNAME --password PASSWORD
 ```
-

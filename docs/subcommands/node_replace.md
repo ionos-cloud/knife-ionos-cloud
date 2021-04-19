@@ -9,13 +9,14 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* cluster\_id
-* nodepool\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* cluster_id
+* nodepool_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
@@ -29,6 +30,7 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -36,4 +38,3 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
 ```text
 knife ionoscloud node replace NODE_ID 
 ```
-

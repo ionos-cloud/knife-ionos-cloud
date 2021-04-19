@@ -7,11 +7,12 @@ knife ionoscloud group list (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     user_id: --user-id USER_ID, -u USER_ID
@@ -22,6 +23,7 @@ knife ionoscloud group list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -29,4 +31,3 @@ knife ionoscloud group list (options)
 ```text
 knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD
 ```
-

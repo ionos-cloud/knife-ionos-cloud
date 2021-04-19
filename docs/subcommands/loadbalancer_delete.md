@@ -7,12 +7,13 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -23,6 +24,7 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 ```text
 knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
 ```
-

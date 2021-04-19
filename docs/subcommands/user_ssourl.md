@@ -7,12 +7,13 @@ knife ionoscloud user ssourl (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* user\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* user_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     user_id: --user-id USER_ID, -U USER_ID
@@ -23,6 +24,7 @@ knife ionoscloud user ssourl (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud user ssourl (options)
 ```text
 knife ionoscloud user ssourl --user-id USER_ID --username USERNAME --password PASSWORD
 ```
-

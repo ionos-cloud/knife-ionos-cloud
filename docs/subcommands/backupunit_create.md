@@ -7,14 +7,15 @@ knife ionoscloud backupunit create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
 * name
 * password
 * email
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     name: --name NAME, -n NAME
@@ -31,6 +32,7 @@ knife ionoscloud backupunit create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -38,4 +40,3 @@ knife ionoscloud backupunit create (options)
 ```text
 knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD
 ```
-

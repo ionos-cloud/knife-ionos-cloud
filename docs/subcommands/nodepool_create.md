@@ -9,22 +9,23 @@ knife ionoscloud nodepool create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* cluster\_id
+* datacenter_id
+* cluster_id
 * name
 * version
-* node\_count
-* cpu\_family
+* node_count
+* cpu_family
 * cores
 * ram
-* availability\_zone
-* storage\_type
-* storage\_size
-* ionoscloud\_username
-* ionoscloud\_password
+* availability_zone
+* storage_type
+* storage_size
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -80,6 +81,7 @@ knife ionoscloud nodepool create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -87,4 +89,3 @@ knife ionoscloud nodepool create (options)
 ```text
 knife ionoscloud nodepool create --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --username USERNAME --password PASSWORD
 ```
-

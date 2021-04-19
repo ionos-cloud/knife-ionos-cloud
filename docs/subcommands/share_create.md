@@ -7,13 +7,14 @@ knife ionoscloud share create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* group\_id
-* resource\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* group_id
+* resource_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
@@ -33,6 +34,7 @@ knife ionoscloud share create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -40,4 +42,3 @@ knife ionoscloud share create (options)
 ```text
 knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD
 ```
-

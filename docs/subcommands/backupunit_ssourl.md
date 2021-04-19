@@ -7,12 +7,13 @@ knife ionoscloud backupunit ssourl (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* backupunit\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* backupunit_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     backupunit_id: --backupunit-id BACKUPUNIT_ID, -B BACKUPUNIT_ID
@@ -23,6 +24,7 @@ knife ionoscloud backupunit ssourl (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -30,4 +32,3 @@ knife ionoscloud backupunit ssourl (options)
 ```text
 knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
 ```
-

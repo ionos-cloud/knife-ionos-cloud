@@ -7,13 +7,14 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* server\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* datacenter_id
+* server_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -27,6 +28,7 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -34,4 +36,3 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
 ```text
 knife ionoscloud volume attach VOLUME_ID 
 ```
-

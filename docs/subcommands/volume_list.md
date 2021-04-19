@@ -7,12 +7,13 @@ knife ionoscloud volume list (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -26,6 +27,7 @@ knife ionoscloud volume list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -33,4 +35,3 @@ knife ionoscloud volume list (options)
 ```text
 knife ionoscloud volume list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
 ```
-

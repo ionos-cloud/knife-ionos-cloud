@@ -7,13 +7,14 @@ knife ionoscloud loadbalancer create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
+* datacenter_id
 * name
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -36,6 +37,7 @@ knife ionoscloud loadbalancer create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -43,4 +45,3 @@ knife ionoscloud loadbalancer create (options)
 ```text
 knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
 ```
-

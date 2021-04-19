@@ -1,12 +1,14 @@
 # UserCreate
 
-Creates a new user under a particular contract. **Please Note**: The password set here cannot be updated through the API currently. It is recommended that a new user log into the DCD and change their password.
+Creates a new user under a particular contract.
+**Please Note**: The password set here cannot be updated through the API currently. It is recommended that a new user log into the DCD and change their password.
 
 ```text
 knife ionoscloud user create (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
@@ -14,8 +16,8 @@ knife ionoscloud user create (options)
 * lastname
 * email
 * password
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     firstname: --firstname FIRSTNAME, -f FIRSTNAME
@@ -33,7 +35,7 @@ knife ionoscloud user create (options)
     administrator: --admin ADMIN, -a ADMIN
         assigns the user have administrative rights.
 
-    force_sec_auth: --sec-auth SEC_AUTH
+    force_sec_auth: --sec-auth
         indicates if secure (two-factor) authentication should be forced for the user.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -41,11 +43,11 @@ knife ionoscloud user create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
 ```text
-knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth SEC_AUTH --username USERNAME --password PASSWORD
+knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth --username USERNAME --password PASSWORD
 ```
-

@@ -7,11 +7,12 @@ knife ionoscloud label list (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE
@@ -28,6 +29,7 @@ knife ionoscloud label list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -35,4 +37,3 @@ knife ionoscloud label list (options)
 ```text
 knife ionoscloud label list --resource-type RESOURCE_TYPE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
 ```
-

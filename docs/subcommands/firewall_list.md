@@ -7,14 +7,15 @@ knife ionoscloud firewall list (options)
 ```
 
 ## Available options:
+---
 
 ### Required options:
 
-* datacenter\_id
-* server\_id
-* nic\_id
-* ionoscloud\_username
-* ionoscloud\_password
+* datacenter_id
+* server_id
+* nic_id
+* ionoscloud_username
+* ionoscloud_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
@@ -31,6 +32,7 @@ knife ionoscloud firewall list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
@@ -38,4 +40,3 @@ knife ionoscloud firewall list (options)
 ```text
 knife ionoscloud firewall list --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD
 ```
-
