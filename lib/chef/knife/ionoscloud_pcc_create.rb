@@ -42,8 +42,13 @@ class Chef
 
         pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
 
-        config[:peers] = config[:peers].split(',').map { |peer| { id: peer } } unless config[:peers].nil?
-        config[:datacenters] = config[:datacenters].split(',').map { |datacenter| { id: datacenter } } unless config[:datacenters].nil?
+        config[:peers] = config[:peers].split(',') unless config[:peers].nil?
+        config[:datacenters] = config[:datacenters].split(',') unless config[:datacenters].nil?
+
+        if config[:peers].length != config[:datacenters].length
+          ui.error('Each peer should correspond to one datacenter so they should have the same length!')
+          exit(1)
+        end
 
         pcc, _, headers  = pcc_api.pccs_post_with_http_info({
           properties: {
@@ -54,6 +59,35 @@ class Chef
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
+
+        pcc = pcc_api.pccs_find_by_id(pcc.id)
+
+        if config[:datacenters]
+          lan_api = Ionoscloud::LanApi.new(api_client)
+
+          header_list = []
+
+          config[:datacenters].length.times do |i|
+            allowed_datacenters_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
+            if !allowed_datacenters_ids.include? config[:datacenters][i]
+              ui.error("Datacenter ID #{config[:datacenters][i]} is not allowed")
+              exit(1)
+            end
+            _, _, headers = lan_api.datacenters_lans_patch_with_http_info(
+              config[:datacenters][i],
+              config[:peers][i],
+              { pcc: pcc.id },
+            )
+            header_list << headers
+          end
+
+          header_list.each do |headers|
+            dot = ui.color('.', :magenta)
+            api_client.wait_for { print dot; is_done? get_request_id headers }
+          end
+        end
+
+        pcc = pcc_api.pccs_find_by_id(pcc.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{pcc.id}"
