@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudPccCreate do
   describe '#run' do
     it 'should call PrivateCrossConnectApi.pccs_post with the expected arguments and output based on what it receives' do
       pcc = pcc_mock
-      datacenter_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id}
+      datacenter_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
       lan_ids = pcc.properties.peers.map { |peer| peer.id }
       subject_config = {
         ionoscloud_username: 'email',
