@@ -39,7 +39,7 @@ class Chef
         pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
         config[:peers] = config[:peers].split(',') unless config[:peers].nil?
 
-        if config[:peers].length % 2 != 0
+        if config[:peers] && config[:peers].length % 2 != 0
           ui.error('Each Lan ID should correspond to one Datacenter ID!')
           exit(1)
         end
