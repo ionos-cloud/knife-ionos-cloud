@@ -198,6 +198,7 @@ def lan_mock(opts = {})
     properties: Ionoscloud::LanProperties.new(
       name: opts[:name] || 'lan_name',
       public: opts[:public] || true,
+      pcc: opts[:pcc] || SecureRandom.uuid,
       ip_failover: opts[:ip_failover] || [],
     ),
   )

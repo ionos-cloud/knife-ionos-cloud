@@ -30,17 +30,18 @@ class Chef
           ui.color('ID', :bold),
           ui.color('Name', :bold),
           ui.color('Public', :bold),
+          ui.color('PCC', :bold),
         ]
         lan_api = Ionoscloud::LanApi.new(api_client)
 
         lan_api.datacenters_lans_get(config[:datacenter_id], { depth: 1 }).items.each do |lan|
-          puts lan
           lan_list << lan.id
           lan_list << lan.properties.name
           lan_list << lan.properties.public.to_s
+          lan_list << lan.properties.pcc
         end
 
-        puts ui.list(lan_list, :uneven_columns_across, 3)
+        puts ui.list(lan_list, :uneven_columns_across, 4)
       end
     end
   end
