@@ -34,7 +34,7 @@ def contract_mock(opts = {})
         ram_provisioned: opts[:ram_provisioned] || 4096,
         reservable_ips: opts[:reservable_ips] || 10,
         reserved_ips_in_use: opts[:reserved_ips_in_use] || 12,
-        reserved_ips_on_contract: opts[:reserved_ips_on_contract] || 20, 
+        reserved_ips_on_contract: opts[:reserved_ips_on_contract] || 20,
         ssd_limit_per_contract: opts[:ssd_limit_per_contract] || 600,
         ssd_limit_per_volume: opts[:ssd_limit_per_volume] || 300,
         ssd_volume_provisioned: opts[:ssd_volume_provisioned] || 50,
@@ -342,14 +342,14 @@ end
 
 def maintenance_window_mock(opts = {})
   Ionoscloud::KubernetesMaintenanceWindow.new(
-    day_of_the_week: opts[:day_of_the_week] || 'Sunday', 
+    day_of_the_week: opts[:day_of_the_week] || 'Sunday',
     time: opts[:time] || '23:03:19Z',
   )
 end
 
 def auto_scaling_mock(opts = {})
   Ionoscloud::KubernetesAutoScaling.new(
-    min_node_count: opts[:min_node_count] || 2, 
+    min_node_count: opts[:min_node_count] || 2,
     max_node_count: opts[:max_node_count] || 3,
   )
 end
@@ -673,8 +673,8 @@ def requests_mock(opts = {})
 end
 
 def arrays_without_one_element(arr)
-  result = [{ array: arr[1..], removed: [arr[0]]}]
-  (1..arr.length - 1).each { |i| result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]}) }
+  result = [{ array: arr[1..], removed: [arr[0]] }]
+  (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
   result
 end
 
