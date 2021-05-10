@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: [ 2.5, 2.6, 2.7 ]
+        ruby-version: [ 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7 ]
 
     steps:
       - name: Checkout
@@ -25,14 +25,11 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
 
-      - name: Fix rubocop-ast
-        run: gem update --system
+      # - name: Install Rubocop
+      #   run: gem install rubocop
 
-      - name: Install Rubocop
-        run: gem install rubocop
-
-      - name: Run Rubocop
-        run: rubocop
+      # - name: Run Rubocop
+      #   run: rubocop
 
       - name: Install the knife plugin
         run: bundle
