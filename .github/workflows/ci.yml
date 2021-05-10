@@ -25,6 +25,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
 
+      - name: Fix rubocop-ast
+        run: gem update --system
+
       - name: Install Rubocop
         run: gem install rubocop
 
