@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'chef'
+  spec.add_runtime_dependency 'chef', '~> 16.10', '>= 16.10.17'
   spec.add_runtime_dependency 'ionoscloud', '~> 5.0'
 
   spec.add_development_dependency 'rspec'
