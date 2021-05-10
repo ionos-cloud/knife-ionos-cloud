@@ -668,9 +668,9 @@ def requests_mock(opts = {})
 end
 
 def arrays_without_one_element(arr)
-  result = [{ array: arr[1..], removed: [arr[0]]}]
+  result = [{ array: arr[1..arr.length], removed: [arr[0]]}]
   (1..arr.length - 1).each do |i|
-    result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]})
+    result.append({ array: arr[0..i-1] + arr[i+1..arr.length], removed: [arr[i]]})
   end
   result
 end
