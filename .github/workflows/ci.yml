@@ -25,11 +25,11 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
 
-      # - name: Install Rubocop
-      #   run: gem install rubocop
+      - name: Install Rubocop
+        run: gem install rubocop
 
-      # - name: Run Rubocop
-      #   run: rubocop
+      - name: Run Rubocop
+        run: rubocop
 
       - name: Install the knife plugin
         run: bundle
