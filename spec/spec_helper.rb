@@ -669,7 +669,9 @@ end
 
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]]}]
-  (1..arr.length - 1).each { |i| result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]}) }
+  (1..arr.length - 1).each do |i|
+    result.append({ array: arr[0..i-1] + arr[i+1..], removed: [arr[i]]})
+  end
   result
 end
 
