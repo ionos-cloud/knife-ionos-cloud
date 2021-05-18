@@ -1,23 +1,23 @@
 # UserCreate
 
-Creates a new user under a particular contract. **Please Note**: The password set here cannot be updated through the API currently. It is recommended that a new user log into the DCD and change their password.
+Creates a new user under a particular contract.
+**Please Note**: The password set here cannot be updated through the API currently. It is recommended that a new user log into the DCD and change their password.
 
-```text
-knife ionoscloud user create (options)
-```
+    knife ionoscloud user create (options)
+
 
 ## Available options:
+---
 
 ### Required options:
-
 * firstname
 * lastname
 * email
 * password
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
-```text
+```
     firstname: --firstname FIRSTNAME, -f FIRSTNAME
         firstname of the user. (required)
 
@@ -41,11 +41,9 @@ knife ionoscloud user create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth SEC_AUTH --username USERNAME --password PASSWORD
-```
-
+    knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth SEC_AUTH --username USERNAME --password PASSWORD

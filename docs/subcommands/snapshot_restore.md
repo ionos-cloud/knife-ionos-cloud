@@ -2,21 +2,20 @@
 
 This will restore a snapshot onto a volume. A snapshot is created as just another image that can be used to create new volumes or to restore an existing volume.
 
-```text
-knife ionoscloud snapshot restore (options)
-```
+    knife ionoscloud snapshot restore (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* datacenter_id
+* volume_id
+* snapshot_id
+* ionoscloud_username
+* ionoscloud_password
 
-* datacenter\_id
-* volume\_id
-* snapshot\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     datacenter_id: --datacenter DATACENTER_ID, -D DATACENTER_ID
         iD of the Datacenter (required)
 
@@ -31,11 +30,9 @@ knife ionoscloud snapshot restore (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud snapshot restore --datacenter DATACENTER_ID --volume VOLUME_ID --snapshot SNAPSHOT_ID --username USERNAME --password PASSWORD
-```
-
+    knife ionoscloud snapshot restore --datacenter DATACENTER_ID --volume VOLUME_ID --snapshot SNAPSHOT_ID --username USERNAME --password PASSWORD

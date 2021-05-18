@@ -2,19 +2,18 @@
 
 Retrieves the status of a specific request based on the supplied request id.
 
-```text
-knife ionoscloud request status (options)
-```
+    knife ionoscloud request status (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* request_id
+* ionoscloud_username
+* ionoscloud_password
 
-* request\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     request_id: --request-id REQUEST_ID, -R REQUEST_ID
         the ID of the Request. (required)
 
@@ -23,11 +22,9 @@ knife ionoscloud request status (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
-```
-
+    knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
