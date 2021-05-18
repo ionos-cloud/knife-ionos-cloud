@@ -4,18 +4,23 @@ No option: Retrieves a list of all resources and optionally their group associat
 
 
 
+<<<<<<< HEAD
 ```text
 knife ionoscloud resource list (options)
 ```
+=======
+    knife ionoscloud resource list (options)
+
+>>>>>>> master
 
 ## Available options:
+---
 
 ### Required options:
+* ionoscloud_username
+* ionoscloud_password
 
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     resource_type: --resource-type RESOURCE_TYPE, -t RESOURCE_TYPE
         the specific type of resources to retrieve information about.
 
@@ -27,10 +32,19 @@ knife ionoscloud resource list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+<<<<<<< HEAD
+=======
+
+```
+>>>>>>> master
 
 ```
 ## Example
 
+<<<<<<< HEAD
 ```text
 knife ionoscloud resource list --resource-type RESOURCE_TYPE --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
 ```
+=======
+    knife ionoscloud resource list --resource-type RESOURCE_TYPE --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+>>>>>>> master

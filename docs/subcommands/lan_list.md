@@ -2,19 +2,18 @@
 
 Lists all available LANs under a data center.
 
-```text
-knife ionoscloud lan list (options)
-```
+    knife ionoscloud lan list (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
-* datacenter\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
@@ -23,10 +22,19 @@ knife ionoscloud lan list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+<<<<<<< HEAD
+=======
+
+```
+>>>>>>> master
 
 ```
 ## Example
 
+<<<<<<< HEAD
 ```text
 knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
 ```
+=======
+    knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+>>>>>>> master
