@@ -2,18 +2,19 @@
 
 List all available volumes under a data center. You can also list all volumes attached to a specific server.
 
-    knife ionoscloud volume list (options)
-
+```text
+knife ionoscloud volume list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the virtul data center containing the volume (required)
 
@@ -25,19 +26,10 @@ List all available volumes under a data center. You can also list all volumes at
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
 
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud volume list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
 ```
-=======
-    knife ionoscloud volume list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
->>>>>>> master

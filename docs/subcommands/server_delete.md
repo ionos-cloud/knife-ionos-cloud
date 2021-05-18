@@ -2,20 +2,21 @@
 
 This will remove a server from a VDC.
 
-**NOTE**: This will not automatically remove the storage volume(s) attached to a server. A separate API call is required to perform that action.
+**NOTE**: This will not automatically remove the storage volume\(s\) attached to a server. A separate API call is required to perform that action.
 
-    knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)
-
+```text
+knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -24,19 +25,10 @@ This will remove a server from a VDC.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
 
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud server delete SERVER_ID 
 ```
-=======
-    knife ionoscloud server delete SERVER_ID 
->>>>>>> master

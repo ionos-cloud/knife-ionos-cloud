@@ -2,18 +2,19 @@
 
 Creates a new LAN under a data center.
 
-    knife ionoscloud lan create (options)
-
+```text
+knife ionoscloud lan create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -23,24 +24,18 @@ Creates a new LAN under a data center.
     public: --public, -p
         boolean indicating if the LAN faces the public Internet or not; defaults to false
 
+    pcc: --pcc PCC_ID
+        iD of the PCC to connect the LAN to
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
 
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
-knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --username USERNAME --password PASSWORD
+knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --pcc PCC_ID --username USERNAME --password PASSWORD
 ```
-=======
-    knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --username USERNAME --password PASSWORD
->>>>>>> master

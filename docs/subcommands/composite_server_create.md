@@ -2,14 +2,15 @@
 
 This creates a new composite server with an attached volume and NIC in a specified virtual data center.
 
-    knife ionoscloud composite server create (options)
-
+```text
+knife ionoscloud composite server create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
+
+* datacenter\_id
 * name
 * cores
 * ram
@@ -17,10 +18,10 @@ This creates a new composite server with an attached volume and NIC in a specifi
 * type
 * dhcp
 * lan
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the virtual datacenter (required)
 
@@ -89,19 +90,10 @@ This creates a new composite server with an attached volume and NIC in a specifi
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
 
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud composite server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --volume-name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --type TYPE --licence-type LICENCE --image-password PASSWORD --volume-availability-zone AVAILABILITY_ZONE --ssh-keys SSHKEY1,SSHKEY2,... --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
 ```
-=======
-    knife ionoscloud composite server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --volume-name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --type TYPE --licence-type LICENCE --image-password PASSWORD --volume-availability-zone AVAILABILITY_ZONE --ssh-keys SSHKEY1,SSHKEY2,... --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
->>>>>>> master
