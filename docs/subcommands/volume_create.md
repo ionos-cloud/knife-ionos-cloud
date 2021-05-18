@@ -2,22 +2,21 @@
 
 Creates a volume within the data center. This will NOT attach the volume to a server. Please see the Servers section for details on how to attach storage volumes.
 
-```text
-knife ionoscloud volume create (options)
-```
+    knife ionoscloud volume create (options)
+
 
 ## Available options:
+---
 
 ### Required options:
-
-* datacenter\_id
+* datacenter_id
 * name
 * type
 * size
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
-```text
+```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -56,11 +55,9 @@ knife ionoscloud volume create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --username USERNAME --password PASSWORD
-```
-
+    knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --username USERNAME --password PASSWORD

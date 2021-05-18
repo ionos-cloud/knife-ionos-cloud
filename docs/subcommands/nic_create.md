@@ -1,22 +1,22 @@
 # NicCreate
 
-Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs can be used to create different, segmented networks on the platform.
+Creates a NIC on the specified server.
+The Ionoscloud platform supports adding multiple NICs to a server. These NICs can be used to create different, segmented networks on the platform.
 
-```text
-knife ionoscloud nic create (options)
-```
+    knife ionoscloud nic create (options)
+
 
 ## Available options:
+---
 
 ### Required options:
-
-* datacenter\_id
-* server\_id
+* datacenter_id
+* server_id
 * lan
-* ionoscloud\_username
-* ionoscloud\_password
+* ionoscloud_username
+* ionoscloud_password
 
-```text
+```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -43,11 +43,9 @@ knife ionoscloud nic create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
-```
-
+    knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD

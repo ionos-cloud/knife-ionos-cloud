@@ -17,6 +17,15 @@ class Chef
               long: '--version VERSION',
               description: 'The version for the Kubernetes cluster.'
 
+      option :private,
+              long: '--private',
+              default: false,
+              description: 'The indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.'
+
+      option :gateway_ip,
+              long: '--gateway GATEWAY_IP',
+              description: 'The IP address of the gateway used by the cluster. This is mandatory when `public` is set to `false` and should not be provided otherwise.'
+
       option :maintenance_day,
               short: '-d MAINTENANCE_DAY',
               long: '--maintenance-day MAINTENANCE_DAY',
@@ -47,7 +56,16 @@ class Chef
         cluster_properties = {
           name: config[:name],
           k8sVersion: config[:version],
+          public: !config[:private],
         }.compact
+
+        if config[:private]
+          if !config[:gateway_ip]
+            ui.error("Gateway IP must be specified for private K8s Clusters")
+            exit(1)
+          end
+          cluster_properties[:gatewayIp] = config[:gateway_ip]
+        end
 
         if config[:maintenance_day] && config[:maintenance_time]
           cluster_properties[:maintenanceWindow] = {
