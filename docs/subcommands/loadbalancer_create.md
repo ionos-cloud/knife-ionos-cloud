@@ -2,19 +2,20 @@
 
 Creates a load balancer within the VDC. Load balancers can be used for public or private IP traffic.
 
-    knife ionoscloud loadbalancer create (options)
-
+```text
+knife ionoscloud loadbalancer create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* name
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* name
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -35,9 +36,11 @@ Creates a load balancer within the VDC. Load balancers can be used for public or
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example
 
-    knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
+```text
+knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
+```
+

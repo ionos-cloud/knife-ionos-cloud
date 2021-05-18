@@ -2,19 +2,20 @@
 
 Delete a single Kubernetes Node.
 
-    knife ionoscloud node delete NODE_ID [NODE_ID] (options)
-
+```text
+knife ionoscloud node delete NODE_ID [NODE_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* cluster_id
-* nodepool_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* cluster\_id
+* nodepool\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
         the ID of the K8s Cluster (required)
 
@@ -26,9 +27,11 @@ Delete a single Kubernetes Node.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example
 
-    knife ionoscloud node delete NODE_ID 
+```text
+knife ionoscloud node delete NODE_ID 
+```
+

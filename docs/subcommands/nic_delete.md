@@ -2,19 +2,20 @@
 
 Deletes an existing NIC from a server.
 
-    knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
-
+```text
+knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* server_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* server\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
@@ -26,9 +27,11 @@ Deletes an existing NIC from a server.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
 
 ## Example
 
-    knife ionoscloud nic delete NIC_ID 
+```text
+knife ionoscloud nic delete NIC_ID 
+```
+
