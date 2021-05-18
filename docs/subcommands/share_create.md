@@ -39,7 +39,3 @@ knife ionoscloud share create (options)
 ```text
 knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -29,7 +29,3 @@ knife ionoscloud lan delete LAN_ID [LAN_ID] (options)
 ```text
 knife ionoscloud lan delete LAN_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

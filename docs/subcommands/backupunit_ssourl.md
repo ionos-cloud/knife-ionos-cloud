@@ -29,7 +29,3 @@ knife ionoscloud backupunit ssourl (options)
 ```text
 knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

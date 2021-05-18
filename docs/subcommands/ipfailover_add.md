@@ -6,10 +6,6 @@ Successfully setting up an IP Failover group requires three steps:
 * Use PATCH or PUT to enable ipFailover by providing the relevant ip and nicUuid values.
 * Add the same reserved IP address to any other NICs that are a member of the same LAN. Those NICs will become IP Failover members.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 32dffce... changes for 5.1.0
 ```text
 knife ionoscloud ipfailover add (options)
 ```
@@ -49,7 +45,3 @@ knife ionoscloud ipfailover add (options)
 ```text
 knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

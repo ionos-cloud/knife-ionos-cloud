@@ -25,7 +25,3 @@ knife ionoscloud snapshot list
 ```text
 knife ionoscloud snapshot list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

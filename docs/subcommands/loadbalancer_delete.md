@@ -29,7 +29,3 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 ```text
 knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -44,7 +44,3 @@ knife ionoscloud label add (options)
 ```text
 knife ionoscloud label add --resource-type RESOURCE_TYPE --key KEY --value VALUE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

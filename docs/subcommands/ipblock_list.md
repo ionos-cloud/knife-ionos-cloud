@@ -25,7 +25,3 @@ knife ionoscloud ipblock list
 ```text
 knife ionoscloud ipblock list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

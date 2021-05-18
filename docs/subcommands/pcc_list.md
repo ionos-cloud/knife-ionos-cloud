@@ -25,7 +25,3 @@ knife ionoscloud pcc list
 ```text
 knife ionoscloud pcc list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -29,7 +29,3 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
 ```text
 knife ionoscloud server delete SHARE_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

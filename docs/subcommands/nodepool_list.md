@@ -29,7 +29,3 @@ knife ionoscloud nodepool list
 ```text
 knife ionoscloud nodepool list--cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -25,7 +25,3 @@ knife ionoscloud contract list
 ```text
 knife ionoscloud contract list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

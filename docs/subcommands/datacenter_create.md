@@ -2,20 +2,12 @@
 
 Unless you are planning to manage an existing Ionoscloud environment, the first step will typically involve choosing the location for a new virtual data centerA list of locations can be obtained with location command.
 
-<<<<<<< HEAD
 	```text
-=======
-```text
->>>>>>> parent of 32dffce... changes for 5.1.0
 knife ionoscloud location list
 ```
 
 Make a note of the desired location ID and now the data center can be created.
 
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 32dffce... changes for 5.1.0
 ```text
 knife ionoscloud datacenter create (options)
 ```
@@ -49,7 +41,3 @@ knife ionoscloud datacenter create (options)
 ```text
 knife ionoscloud datacenter create --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

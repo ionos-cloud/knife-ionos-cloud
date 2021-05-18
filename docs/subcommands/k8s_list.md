@@ -25,7 +25,3 @@ knife ionoscloud k8s list
 ```text
 knife ionoscloud k8s list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

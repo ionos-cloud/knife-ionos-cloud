@@ -33,7 +33,3 @@ knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
 ```text
 knife ionoscloud loadbalancer nic add NIC_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

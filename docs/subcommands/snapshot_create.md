@@ -43,11 +43,5 @@ knife ionoscloud snapshot create (options)
 ## Example
 
 ```text
-<<<<<<< HEAD
 knife ionoscloud snapshot create --datacenter DATACENTER_ID --volume VOLUME_ID --name SNAPSHOT_NAME --description SNAPSHOT_DESCRIPTION --sec-auth --licence LICENCE_TYPE --username USERNAME --password PASSWORD
 ```
-=======
-knife ionoscloud snapshot create --datacenter DATACENTER_ID --volume VOLUME_ID --username USERNAME --password PASSWORD
-```
-
->>>>>>> parent of 32dffce... changes for 5.1.0

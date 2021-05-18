@@ -29,7 +29,3 @@ knife ionoscloud group user add USER_ID [USER_ID] (options)
 ```text
 knife ionoscloud group user add USER_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

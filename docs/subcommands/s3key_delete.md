@@ -29,7 +29,3 @@ knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
 ```text
 knife ionoscloud s3key delete S3KEY_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

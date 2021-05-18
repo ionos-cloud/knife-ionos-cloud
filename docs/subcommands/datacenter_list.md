@@ -25,7 +25,3 @@ knife ionoscloud datacenter list
 ```text
 knife ionoscloud datacenter list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

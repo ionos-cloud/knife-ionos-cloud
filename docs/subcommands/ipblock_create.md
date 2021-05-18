@@ -36,7 +36,3 @@ knife ionoscloud ipblock create (options)
 ```text
 knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

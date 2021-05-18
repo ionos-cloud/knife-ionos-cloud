@@ -33,7 +33,3 @@ knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
 ```text
 knife ionoscloud volume attach VOLUME_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

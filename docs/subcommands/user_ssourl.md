@@ -29,7 +29,3 @@ knife ionoscloud user ssourl (options)
 ```text
 knife ionoscloud user ssourl --user-id USER_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

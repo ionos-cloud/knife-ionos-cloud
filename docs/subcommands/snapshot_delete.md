@@ -25,7 +25,3 @@ knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]
 ```text
 knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

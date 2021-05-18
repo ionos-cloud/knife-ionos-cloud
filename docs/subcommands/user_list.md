@@ -28,7 +28,3 @@ knife ionoscloud user list (options)
 ```text
 knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

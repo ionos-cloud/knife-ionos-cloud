@@ -41,7 +41,3 @@ knife ionoscloud ipfailover remove (options)
 ```text
 knife ionoscloud ipfailover remove --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -36,7 +36,3 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
 ```text
 knife ionoscloud label remove LABEL_KEY 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

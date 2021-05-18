@@ -37,7 +37,3 @@ knife ionoscloud firewall list (options)
 ```text
 knife ionoscloud firewall list --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

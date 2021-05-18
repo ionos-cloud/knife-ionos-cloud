@@ -33,7 +33,3 @@ knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
 ```text
 knife ionoscloud nic delete NIC_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

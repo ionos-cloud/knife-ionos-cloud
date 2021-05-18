@@ -29,7 +29,3 @@ knife ionoscloud s3key list (options)
 ```text
 knife ionoscloud s3key list --user USER_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

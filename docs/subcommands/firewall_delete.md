@@ -37,7 +37,3 @@ knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)
 ```text
 knife ionoscloud firewall delete FIREWALL_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

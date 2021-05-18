@@ -37,7 +37,3 @@ knife ionoscloud pcc create (options)
 ```text
 knife ionoscloud pcc create --name NAME --description DESCRIPTION --peers LAN_ID [LAN_ID] --datacenters DATACENTER_IS [DATACENTER_IS] --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

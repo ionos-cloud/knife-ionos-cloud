@@ -29,7 +29,3 @@ knife ionoscloud group user remove USER_ID [USER_ID] (options)
 ```text
 knife ionoscloud group user remove USER_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

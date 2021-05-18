@@ -29,7 +29,3 @@ knife ionoscloud group get (options)
 ```text
 knife ionoscloud group get --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

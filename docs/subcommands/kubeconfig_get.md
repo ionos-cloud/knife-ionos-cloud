@@ -29,7 +29,3 @@ knife ionoscloud kubeconfig get (options)
 ```text
 knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

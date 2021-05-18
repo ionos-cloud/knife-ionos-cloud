@@ -42,7 +42,3 @@ knife ionoscloud loadbalancer create (options)
 ```text
 knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

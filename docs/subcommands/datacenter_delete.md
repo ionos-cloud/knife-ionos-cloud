@@ -25,7 +25,3 @@ knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]
 ```text
 knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

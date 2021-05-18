@@ -45,11 +45,5 @@ knife ionoscloud user create (options)
 ## Example
 
 ```text
-<<<<<<< HEAD
 knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth --username USERNAME --password PASSWORD
 ```
-=======
-knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth SEC_AUTH --username USERNAME --password PASSWORD
-```
-
->>>>>>> parent of 32dffce... changes for 5.1.0

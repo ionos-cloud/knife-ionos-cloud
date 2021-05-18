@@ -25,7 +25,3 @@ knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]
 ```text
 knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -25,7 +25,3 @@ knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]
 ```text
 knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

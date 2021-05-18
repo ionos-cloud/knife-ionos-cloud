@@ -25,7 +25,3 @@ knife ionoscloud backupunit list
 ```text
 knife ionoscloud backupunit list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

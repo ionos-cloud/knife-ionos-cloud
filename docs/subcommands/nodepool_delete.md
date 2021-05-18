@@ -29,7 +29,3 @@ knife ionoscloud nodepool delete NODEPOOL_ID [NODEPOOL_ID] (options)
 ```text
 knife ionoscloud nodepool delete NODEPOOL_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

@@ -31,7 +31,3 @@ knife ionoscloud server delete SERVER_ID [SERVER_ID] (options)
 ```text
 knife ionoscloud server delete SERVER_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

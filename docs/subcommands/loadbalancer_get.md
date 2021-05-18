@@ -33,7 +33,3 @@ knife ionoscloud loadbalancer get (options)
 ```text
 knife ionoscloud loadbalancer get --datacenter-id DATACENTER_ID --loadbalancer-id LOADBALANCER_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

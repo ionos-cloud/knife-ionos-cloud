@@ -25,7 +25,3 @@ knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]
 ```text
 knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

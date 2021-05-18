@@ -31,7 +31,3 @@ knife ionoscloud request list (options)
 ```text
 knife ionoscloud request list --limit LIMIT --offset OFFSET --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

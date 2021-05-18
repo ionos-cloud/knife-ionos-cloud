@@ -37,7 +37,3 @@ knife ionoscloud snapshot restore (options)
 ```text
 knife ionoscloud snapshot restore --datacenter DATACENTER_ID --volume VOLUME_ID --snapshot SNAPSHOT_ID --username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

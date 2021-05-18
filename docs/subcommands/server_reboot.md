@@ -29,7 +29,3 @@ knife ionoscloud server reboot SERVER_ID [SERVER_ID] (options)
 ```text
 knife ionoscloud server reboot SERVER_ID 
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

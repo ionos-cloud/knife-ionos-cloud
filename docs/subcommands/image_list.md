@@ -25,7 +25,3 @@ knife ionoscloud image list
 ```text
 knife ionoscloud image list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

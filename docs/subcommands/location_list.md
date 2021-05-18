@@ -25,7 +25,3 @@ knife ionoscloud location list
 ```text
 knife ionoscloud location list--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0

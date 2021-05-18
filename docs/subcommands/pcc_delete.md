@@ -25,7 +25,3 @@ knife ionoscloud pcc delete PCC_ID [PCC_ID]
 ```text
 knife ionoscloud pcc delete PCC_ID [PCC_ID]--username USERNAME --password PASSWORD
 ```
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 32dffce... changes for 5.1.0
