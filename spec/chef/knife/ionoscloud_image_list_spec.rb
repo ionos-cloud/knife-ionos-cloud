@@ -24,16 +24,16 @@ describe Chef::Knife::IonoscloudImageList do
       image_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
-        subject.ui.color('Description', :bold),
         subject.ui.color('Location', :bold),
         subject.ui.color('Size', :bold),
         subject.ui.color('Public', :bold),
+        subject.ui.color('Aliases', :bold),
         images.items.first.id,
         images.items.first.properties.name,
-        images.items.first.properties.description,
         images.items.first.properties.location,
         images.items.first.properties.size.to_s,
         images.items.first.properties.public.to_s,
+        images.items.first.properties.image_aliases,
       ]
 
       expect(subject.ui).to receive(:list).with(image_list, :uneven_columns_across, 6)

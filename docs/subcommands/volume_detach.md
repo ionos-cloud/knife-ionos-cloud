@@ -4,20 +4,19 @@ This will detach the volume from the server. Depending on the volume HotUnplug s
 
 This will NOT delete the volume from your virtual data center. You will need to make a separate request to delete a volume.
 
-```text
-knife ionoscloud volume detach VOLUME_ID [VOLUME_ID] (options)
-```
+    knife ionoscloud volume detach VOLUME_ID [VOLUME_ID] (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* datacenter_id
+* server_id
+* ionoscloud_username
+* ionoscloud_password
 
-* datacenter\_id
-* server\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
@@ -29,11 +28,9 @@ knife ionoscloud volume detach VOLUME_ID [VOLUME_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud volume detach VOLUME_ID 
-```
-
+    knife ionoscloud volume detach VOLUME_ID 

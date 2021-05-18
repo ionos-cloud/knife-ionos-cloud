@@ -2,19 +2,18 @@
 
 Use this operation to add an existing user to a group.
 
-```text
-knife ionoscloud group user add USER_ID [USER_ID] (options)
-```
+    knife ionoscloud group user add USER_ID [USER_ID] (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* group_id
+* ionoscloud_username
+* ionoscloud_password
 
-* group\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
 
@@ -23,11 +22,9 @@ knife ionoscloud group user add USER_ID [USER_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 
 ## Example
 
-```text
-knife ionoscloud group user add USER_ID 
-```
-
+    knife ionoscloud group user add USER_ID 
