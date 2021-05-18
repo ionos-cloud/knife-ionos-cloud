@@ -25,7 +25,6 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Location', :bold),
           ui.color('IP Addresses', :bold),
-          ui.color('IP Consumers count', :bold),
         ]
         ipblock_api = Ionoscloud::IPBlocksApi.new(api_client)
 
@@ -34,10 +33,9 @@ class Chef
           ipblock_list << ipblock.properties.name
           ipblock_list << ipblock.properties.location
           ipblock_list << ipblock.properties.ips.join(', ')
-          ipblock_list << ipblock.properties.ip_consumers.nil? ? 0 : ipblock.properties.ip_consumers.length
         end
 
-        puts ui.list(ipblock_list, :uneven_columns_across, 5)
+        puts ui.list(ipblock_list, :uneven_columns_across, 4)
       end
     end
   end

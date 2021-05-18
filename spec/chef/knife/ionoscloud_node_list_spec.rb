@@ -27,18 +27,16 @@ describe Chef::Knife::IonoscloudNodeList do
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
         subject.ui.color('Public IP', :bold),
-        subject.ui.color('Private IP', :bold),
         subject.ui.color('K8s Version', :bold),
         subject.ui.color('State', :bold),
         k8s_nodes.items.first.id,
         k8s_nodes.items.first.properties.name,
         k8s_nodes.items.first.properties.public_ip,
-        k8s_nodes.items.first.properties.private_ip,
         k8s_nodes.items.first.properties.k8s_version,
         k8s_nodes.items.first.metadata.state,
       ]
 
-      expect(subject.ui).to receive(:list).with(node_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(node_list, :uneven_columns_across, 5)
 
       mock_call_api(
         subject,

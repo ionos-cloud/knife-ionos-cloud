@@ -289,7 +289,7 @@ def image_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::ImageProperties.new(
       name: opts[:name] || 'image_name',
-      image_aliases: opts[:image_aliases] || ['alias1', 'alias2'],
+      description: opts[:description] || 'image_description',
       location: opts[:location] || 'image_location',
       size: opts[:size] || 10,
       public: opts[:public] || true,
@@ -610,7 +610,7 @@ end
 def user_mock(opts = {})
   Ionoscloud::User.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::UserPropertiesPost.new(
+    properties: Ionoscloud::UserProperties.new(
       firstname: opts[:firstname] || 'Firstname',
       lastname: opts[:lastname] || 'Lastname',
       email: opts[:email] || 'a@a.a',

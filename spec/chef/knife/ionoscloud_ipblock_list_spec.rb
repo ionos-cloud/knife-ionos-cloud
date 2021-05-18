@@ -26,7 +26,6 @@ describe Chef::Knife::IonoscloudIpblockList do
         subject.ui.color('Name', :bold),
         subject.ui.color('Location', :bold),
         subject.ui.color('IP Addresses', :bold),
-        subject.ui.color('IP Consumers count', :bold),
       ]
 
       ipblocks.items.each do |ipblock|
@@ -34,10 +33,9 @@ describe Chef::Knife::IonoscloudIpblockList do
         ipblock_list << ipblock.properties.name
         ipblock_list << ipblock.properties.location
         ipblock_list << ipblock.properties.ips.join(', ')
-        ipblock_list << ipblock.properties.ip_consumers.nil? ? 0 : ipblock.properties.ip_consumers.length
       end
 
-      expect(subject.ui).to receive(:list).with(ipblock_list, :uneven_columns_across, 5)
+      expect(subject.ui).to receive(:list).with(ipblock_list, :uneven_columns_across, 4)
 
       mock_call_api(
         subject,

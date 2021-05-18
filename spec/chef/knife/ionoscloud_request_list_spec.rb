@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with default limit if it is not an Integer' do
+    it 'should call RequestApi.resources_get with default limit if it is not an Integers' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -126,125 +126,6 @@ describe Chef::Knife::IonoscloudRequestList do
 
       expect(subject.ui).to receive(:list).with(@request_list, :uneven_columns_across, 4)
       expect(subject.ui).to receive(:warn).with('offset should be an Integer!')
-
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: '/requests',
-            operation: :'RequestApi.requests_get',
-            options: { depth: 2, limit: subject_config[:limit], offset: 0 },
-            return_type: 'Requests',
-            result: @requests,
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should call RequestApi.resources_get with the expected status when set' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        status: 'FAILED',
-        limit: 12,
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expect(subject.ui).to receive(:list).with(@request_list, :uneven_columns_across, 4)
-
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: '/requests',
-            operation: :'RequestApi.requests_get',
-            options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_request_status: subject_config[:status] },
-            return_type: 'Requests',
-            result: @requests,
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should call RequestApi.resources_get with no status when set wrong' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        status: 'invalid',
-        limit: 12,
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expect(subject.ui).to receive(:list).with(@request_list, :uneven_columns_across, 4)
-      expect(subject.ui).to receive(:warn).with('status should be one of [QUEUED, RUNNING, DONE, FAILED]')
-
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: '/requests',
-            operation: :'RequestApi.requests_get',
-            options: { depth: 2, limit: subject_config[:limit], offset: 0 },
-            return_type: 'Requests',
-            result: @requests,
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-
-    it 'should call RequestApi.resources_get with the expected method when set' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        method: 'DELETE',
-        limit: 12,
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expect(subject.ui).to receive(:list).with(@request_list, :uneven_columns_across, 4)
-
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: '/requests',
-            operation: :'RequestApi.requests_get',
-            options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_method: subject_config[:method] },
-            return_type: 'Requests',
-            result: @requests,
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should call RequestApi.resources_get with no method when set wrong' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        method: 'invalid',
-        limit: 12,
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expect(subject.ui).to receive(:list).with(@request_list, :uneven_columns_across, 4)
-      expect(subject.ui).to receive(:warn).with('method should be one of [POST, PUT, PATCH, DELETE]')
 
       mock_call_api(
         subject,
