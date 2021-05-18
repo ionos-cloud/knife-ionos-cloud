@@ -2,18 +2,19 @@
 
 This operation deletes a specific S3 key.
 
-    knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
-
+```text
+knife ionoscloud s3key delete S3KEY_ID [S3KEY_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* user_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* user\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     user_id: --user USER_ID, -u USER_ID
         the ID of the user (required)
 
@@ -22,19 +23,13 @@ This operation deletes a specific S3 key.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud s3key delete S3KEY_ID 
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud s3key delete S3KEY_ID 
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

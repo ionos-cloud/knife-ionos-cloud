@@ -2,18 +2,19 @@
 
 Retrieve a list of load balancers within the virtual data center.
 
-    knife ionoscloud loadbalancer list (options)
-
+```text
+knife ionoscloud loadbalancer list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -22,19 +23,13 @@ Retrieve a list of load balancers within the virtual data center.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud loadbalancer list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud loadbalancer list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

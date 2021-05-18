@@ -2,18 +2,19 @@
 
 Deletes the specified load balancer.
 
-    knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (options)
-
+```text
+knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -22,19 +23,13 @@ Deletes the specified load balancer.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

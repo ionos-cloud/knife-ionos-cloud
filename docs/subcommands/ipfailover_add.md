@@ -1,32 +1,31 @@
 # IpfailoverAdd
 
 Successfully setting up an IP Failover group requires three steps:
+
 * Add a reserved IP address to a NIC that will become the IP Failover master.
 * Use PATCH or PUT to enable ipFailover by providing the relevant ip and nicUuid values.
 * Add the same reserved IP address to any other NICs that are a member of the same LAN. Those NICs will become IP Failover members.
 
-
 <<<<<<< HEAD
+
+=======
+>>>>>>> parent of 32dffce... changes for 5.1.0
 ```text
 knife ionoscloud ipfailover add (options)
 ```
-=======
-    knife ionoscloud ipfailover add (options)
-
->>>>>>> master
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* lan_id
-* ip
-* nic_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* lan\_id
+* ip
+* nic\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -44,19 +43,13 @@ knife ionoscloud ipfailover add (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

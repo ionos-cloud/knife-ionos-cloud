@@ -2,18 +2,19 @@
 
 Lists all available LANs under a data center.
 
-    knife ionoscloud lan list (options)
-
+```text
+knife ionoscloud lan list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
@@ -22,19 +23,13 @@ Lists all available LANs under a data center.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

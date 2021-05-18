@@ -2,20 +2,21 @@
 
 Create a new backup unit.
 
-    knife ionoscloud backupunit create (options)
-
+```text
+knife ionoscloud backupunit create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
+
 * name
 * password
 * email
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     name: --name NAME, -n NAME
         alphanumeric name you want assigned to the backup unit (required)
 
@@ -30,19 +31,13 @@ Create a new backup unit.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

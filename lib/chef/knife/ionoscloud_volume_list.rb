@@ -39,7 +39,7 @@ class Chef
           ui.color('Image', :bold),
           ui.color('Type', :bold),
           ui.color('Zone', :bold),
-          ui.color('Device Number', :bold),
+          ui.color('Device Number', :bold)
         ]
 
         opts = { depth: 1 }

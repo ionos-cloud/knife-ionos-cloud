@@ -2,19 +2,20 @@
 
 List all available NICs connected to a server.
 
-    knife ionoscloud nic list (options)
-
+```text
+knife ionoscloud nic list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* server_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* server\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the datacenter containing the NIC (required)
 
@@ -26,19 +27,13 @@ List all available NICs connected to a server.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud nic list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud nic list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

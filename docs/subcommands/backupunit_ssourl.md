@@ -1,19 +1,20 @@
 # BackupunitSsourl
 
-The ProfitBricks backup system features a web-based GUI. Once you have created a backup unit, you can access the GUI with a Single Sign On (SSO) URL that can be retrieved from the Cloud API using this request.
+The ProfitBricks backup system features a web-based GUI. Once you have created a backup unit, you can access the GUI with a Single Sign On \(SSO\) URL that can be retrieved from the Cloud API using this request.
 
-    knife ionoscloud backupunit ssourl (options)
-
+```text
+knife ionoscloud backupunit ssourl (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* backupunit_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* backupunit\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     backupunit_id: --backupunit-id BACKUPUNIT_ID, -B BACKUPUNIT_ID
         the ID of the Backup unit. (required)
 
@@ -22,19 +23,13 @@ The ProfitBricks backup system features a web-based GUI. Once you have created a
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

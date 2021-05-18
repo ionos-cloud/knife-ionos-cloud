@@ -1,20 +1,21 @@
 # IpblockCreate
 
-Reserves an IP block at a specified location that can be used by resources within any VDCs provisioned in that same location. An IP block consists of one or more static IP addresses. The IP block size (number of IP addresses) and location are required to reserve an IP block.
+Reserves an IP block at a specified location that can be used by resources within any VDCs provisioned in that same location. An IP block consists of one or more static IP addresses. The IP block size \(number of IP addresses\) and location are required to reserve an IP block.
 
-    knife ionoscloud ipblock create (options)
-
+```text
+knife ionoscloud ipblock create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
+
 * size
 * location
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     location: --location LOCATION, -l LOCATION
         location of the IP block (us/las, us/ewr, de/fra, de/fkb) (required)
 
@@ -29,19 +30,13 @@ Reserves an IP block at a specified location that can be used by resources withi
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

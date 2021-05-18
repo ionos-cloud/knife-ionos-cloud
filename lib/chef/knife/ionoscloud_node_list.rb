@@ -35,7 +35,6 @@ class Chef
           ui.color('ID', :bold),
           ui.color('Name', :bold),
           ui.color('Public IP', :bold),
-          ui.color('Private IP', :bold),
           ui.color('K8s Version', :bold),
           ui.color('State', :bold),
         ]
@@ -46,11 +45,10 @@ class Chef
           node_list << node.id
           node_list << node.properties.name
           node_list << node.properties.public_ip
-          node_list << node.properties.private_ip
           node_list << node.properties.k8s_version
           node_list << node.metadata.state
         end
-        puts ui.list(node_list, :uneven_columns_across, 6)
+        puts ui.list(node_list, :uneven_columns_across, 5)
       end
     end
   end

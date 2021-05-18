@@ -2,18 +2,19 @@
 
 Use this operation to create a new group and set group privileges.
 
-    knife ionoscloud group create (options)
-
+```text
+knife ionoscloud group create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* name
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* name
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     name: --name NAME, -N NAME
         mame of the group. (required)
 
@@ -49,19 +50,15 @@ Use this operation to create a new group and set group privileges.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
+<<<<<<< HEAD
 knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --username USERNAME --password PASSWORD
 ```
 =======
-    knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --username USERNAME --password PASSWORD
->>>>>>> master
+knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --username USERNAME --password PASSWORD
+```
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

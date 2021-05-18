@@ -2,18 +2,19 @@
 
 Retrieve the kubeconfig file for a given Kubernetes cluster.
 
-    knife ionoscloud kubeconfig get (options)
-
+```text
+knife ionoscloud kubeconfig get (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* cluster_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* cluster\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
         the ID of the Kubernetes cluster. (required)
 
@@ -22,19 +23,13 @@ Retrieve the kubeconfig file for a given Kubernetes cluster.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

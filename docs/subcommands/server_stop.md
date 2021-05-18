@@ -2,18 +2,19 @@
 
 This will stop a server. The machine will be forcefully powered off, billing will cease, and the public IP, if one is allocated, will be deallocated.
 
-    knife ionoscloud server stop SERVER_ID [SERVER_ID] (options)
-
+```text
+knife ionoscloud server stop SERVER_ID [SERVER_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 
@@ -22,19 +23,13 @@ This will stop a server. The machine will be forcefully powered off, billing wil
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud server stop SERVER_ID 
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud server stop SERVER_ID 
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

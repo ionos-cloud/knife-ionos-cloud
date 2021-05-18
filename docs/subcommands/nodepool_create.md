@@ -1,31 +1,32 @@
 # NodepoolCreate
 
-Creates a node pool into an existing Kubernetes cluster. The Kubernetes cluster must be in state &quot;ACTIVE&quot; before creating a node pool.
+Creates a node pool into an existing Kubernetes cluster. The Kubernetes cluster must be in state "ACTIVE" before creating a node pool.
 
 The worker nodes within the node pools will be deployed into an existing data centers.
 
-    knife ionoscloud nodepool create (options)
-
+```text
+knife ionoscloud nodepool create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* cluster_id
+
+* datacenter\_id
+* cluster\_id
 * name
 * version
-* node_count
-* cpu_family
+* node\_count
+* cpu\_family
 * cores
 * ram
-* availability_zone
-* storage_type
-* storage_size
-* ionoscloud_username
-* ionoscloud_password
+* availability\_zone
+* storage\_type
+* storage\_size
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the virtual datacenter (required)
 
@@ -79,19 +80,13 @@ The worker nodes within the node pools will be deployed into an existing data ce
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud nodepool create --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud nodepool create --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

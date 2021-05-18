@@ -2,35 +2,30 @@
 
 Retrieve a list of snapshots.
 
-    knife ionoscloud snapshot list
-
+```text
+knife ionoscloud snapshot list
+```
 
 ## Available options:
----
 
 ### Required options:
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud snapshot list--username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud snapshot list--username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

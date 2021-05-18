@@ -2,18 +2,19 @@
 
 Retrieve a list of all the S3 keys for a specific user.
 
-    knife ionoscloud s3key list (options)
-
+```text
+knife ionoscloud s3key list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* user_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* user\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     user_id: --user USER_ID, -u USER_ID
         the ID of the user (required)
 
@@ -22,19 +23,13 @@ Retrieve a list of all the S3 keys for a specific user.
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud s3key list --user USER_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud s3key list --user USER_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

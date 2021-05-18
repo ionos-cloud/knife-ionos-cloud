@@ -1,18 +1,19 @@
 # UserList
 
-Retrieve a list of all the users that have been created under a contract. You can retrieve a list of users who are members of the group by passing the *group_id* option.
+Retrieve a list of all the users that have been created under a contract. You can retrieve a list of users who are members of the group by passing the _group\_id_ option.
 
-    knife ionoscloud user list (options)
-
+```text
+knife ionoscloud user list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     group_id: --group-id GROUP_ID, -g GROUP_ID
         iD of the group.
 
@@ -21,19 +22,13 @@ Retrieve a list of all the users that have been created under a contract. You ca
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0

@@ -4,33 +4,31 @@ Unless you are planning to manage an existing Ionoscloud environment, the first 
 
 <<<<<<< HEAD
 	```text
+=======
+```text
+>>>>>>> parent of 32dffce... changes for 5.1.0
 knife ionoscloud location list
 ```
-=======
-	knife ionoscloud location list
->>>>>>> master
 
 Make a note of the desired location ID and now the data center can be created.
 
-
 <<<<<<< HEAD
+
+=======
+>>>>>>> parent of 32dffce... changes for 5.1.0
 ```text
 knife ionoscloud datacenter create (options)
 ```
-=======
-    knife ionoscloud datacenter create (options)
-
->>>>>>> master
 
 ## Available options:
----
 
 ### Required options:
-* location
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* location
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     name: --name NAME, -n NAME
         name of the data center
 
@@ -45,19 +43,13 @@ knife ionoscloud datacenter create (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-<<<<<<< HEAD
-=======
-
-```
->>>>>>> master
-
 ```
 ## Example
 
-<<<<<<< HEAD
 ```text
 knife ionoscloud datacenter create --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD
 ```
+<<<<<<< HEAD
 =======
-    knife ionoscloud datacenter create --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD
->>>>>>> master
+
+>>>>>>> parent of 32dffce... changes for 5.1.0
