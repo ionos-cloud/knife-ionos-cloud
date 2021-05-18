@@ -2,18 +2,17 @@
 
 This retrieves a full list of all groups.
 
-```text
-knife ionoscloud group list (options)
-```
+    knife ionoscloud group list (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* ionoscloud_username
+* ionoscloud_password
 
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     user_id: --user-id USER_ID, -u USER_ID
         iD of the user.
 
@@ -22,10 +21,19 @@ knife ionoscloud group list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+<<<<<<< HEAD
+=======
+
+```
+>>>>>>> master
 
 ```
 ## Example
 
+<<<<<<< HEAD
 ```text
 knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD
 ```
+=======
+    knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD
+>>>>>>> master

@@ -1,20 +1,19 @@
 # ServerStart
 
-This will start a server. If the server's public IP was deallocated then a new IP will be assigned.
+This will start a server. If the server&#39;s public IP was deallocated then a new IP will be assigned.
 
-```text
-knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
-```
+    knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
+
 
 ## Available options:
+---
 
 ### Required options:
+* datacenter_id
+* ionoscloud_username
+* ionoscloud_password
 
-* datacenter\_id
-* ionoscloud\_username
-* ionoscloud\_password
-
-```text
+```
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 
@@ -23,10 +22,19 @@ knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+<<<<<<< HEAD
+=======
+
+```
+>>>>>>> master
 
 ```
 ## Example
 
+<<<<<<< HEAD
 ```text
 knife ionoscloud server start SERVER_ID 
 ```
+=======
+    knife ionoscloud server start SERVER_ID 
+>>>>>>> master
