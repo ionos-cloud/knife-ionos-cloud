@@ -47,8 +47,8 @@ class Chef
           server_list << server.properties.ram.to_s
           server_list << server.properties.availability_zone
           server_list << server.properties.vm_state
-          server_list << server.properties.boot_volume || ''
-          server_list << server.properties.boot_cdrom || ''
+          server_list << (server.properties.boot_volume.nil? ? '' : server.properties.boot_volume.id)
+          server_list << (server.properties.boot_cdrom.nil? ? '' : server.properties.boot_cdrom.id)
         end
 
         puts ui.list(server_list, :uneven_columns_across, 9)
