@@ -6,21 +6,22 @@ Successfully setting up an IP Failover group requires three steps:
 * Add the same reserved IP address to any other NICs that are a member of the same LAN. Those NICs will become IP Failover members.
 
 
-    knife ionoscloud ipfailover add (options)
-
+```text
+knife ionoscloud ipfailover add (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* lan_id
-* ip
-* nic_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* lan\_id
+* ip
+* nic\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 

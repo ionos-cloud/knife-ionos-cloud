@@ -2,18 +2,19 @@
 
 Waits until a request status is either DONE or FAILED.
 
-    knife ionoscloud request wait (options)
-
+```text
+knife ionoscloud request wait (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* request_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* request\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     request_id: --request-id REQUEST_ID, -R REQUEST_ID
         the ID of the Backup unit. (required)
 

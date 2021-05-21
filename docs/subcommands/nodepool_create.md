@@ -1,31 +1,32 @@
 # NodepoolCreate
 
-Creates a node pool into an existing Kubernetes cluster. The Kubernetes cluster must be in state &quot;ACTIVE&quot; before creating a node pool.
+Creates a node pool into an existing Kubernetes cluster. The Kubernetes cluster must be in state "ACTIVE" before creating a node pool.
 
 The worker nodes within the node pools will be deployed into an existing data centers.
 
-    knife ionoscloud nodepool create (options)
-
+```text
+knife ionoscloud nodepool create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* cluster_id
+
+* datacenter\_id
+* cluster\_id
 * name
 * version
-* node_count
-* cpu_family
+* node\_count
+* cpu\_family
 * cores
 * ram
-* availability_zone
-* storage_type
-* storage_size
-* ionoscloud_username
-* ionoscloud_password
+* availability\_zone
+* storage\_type
+* storage\_size
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the virtual datacenter (required)
 

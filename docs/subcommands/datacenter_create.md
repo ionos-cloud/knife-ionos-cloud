@@ -9,18 +9,19 @@ knife ionoscloud location list
 Make a note of the desired location ID and now the data center can be created.
 
 
-    knife ionoscloud datacenter create (options)
-
+```text
+knife ionoscloud datacenter create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* location
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* location
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     name: --name NAME, -n NAME
         name of the data center
 

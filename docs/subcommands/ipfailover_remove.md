@@ -2,21 +2,22 @@
 
 Remove IP Failover from LAN
 
-    knife ionoscloud ipfailover remove (options)
-
+```text
+knife ionoscloud ipfailover remove (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* lan_id
-* ip
-* nic_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* lan\_id
+* ip
+* nic\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 

@@ -2,17 +2,18 @@
 
 Lists information about available contract resources.
 
-    knife ionoscloud contract list
-
+```text
+knife ionoscloud contract list
+```
 
 ## Available options:
----
 
 ### Required options:
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 

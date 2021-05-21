@@ -2,19 +2,20 @@
 
 Remove a Label from a Resource.
 
-    knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
-
+```text
+knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* type
-* resource_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* type
+* resource\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE
         type of the resource to be labeled. (required)
 

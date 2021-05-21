@@ -2,18 +2,19 @@
 
 Retrieves a full list of all the resources that are shared through this group and lists the permissions granted to the group members for each shared resource.
 
-    knife ionoscloud share list (options)
-
+```text
+knife ionoscloud share list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* group_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* group\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
 

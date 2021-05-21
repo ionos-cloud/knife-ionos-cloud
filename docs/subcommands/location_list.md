@@ -2,17 +2,18 @@
 
 List available physical locations where resources can reside.
 
-    knife ionoscloud location list
-
+```text
+knife ionoscloud location list
+```
 
 ## Available options:
----
 
 ### Required options:
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 

@@ -2,19 +2,20 @@
 
 This will attach a pre-existing storage volume to the server.
 
-    knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
-
+```text
+knife ionoscloud volume attach VOLUME_ID [VOLUME_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* server_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* server\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 

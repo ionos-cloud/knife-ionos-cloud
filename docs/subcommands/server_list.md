@@ -2,18 +2,19 @@
 
 List all available servers under a specified data center.
 
-    knife ionoscloud server list (options)
-
+```text
+knife ionoscloud server list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the datacenter containing the server (required)
 

@@ -2,18 +2,19 @@
 
 Retrieve a list of load balancers within the virtual data center.
 
-    knife ionoscloud loadbalancer list (options)
-
+```text
+knife ionoscloud loadbalancer list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 

@@ -2,20 +2,21 @@
 
 Creates a new firewall rule on an existing NIC.
 
-    knife ionoscloud firewall create (options)
-
+```text
+knife ionoscloud firewall create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
-* server_id
-* nic_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* datacenter\_id
+* server\_id
+* nic\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 

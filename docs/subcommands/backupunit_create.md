@@ -2,20 +2,21 @@
 
 Create a new backup unit.
 
-    knife ionoscloud backupunit create (options)
-
+```text
+knife ionoscloud backupunit create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
+
 * name
 * password
 * email
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     name: --name NAME, -n NAME
         alphanumeric name you want assigned to the backup unit (required)
 

@@ -2,18 +2,19 @@
 
 Use this operation to create a new group and set group privileges.
 
-    knife ionoscloud group create (options)
-
+```text
+knife ionoscloud group create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* name
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* name
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     name: --name NAME, -N NAME
         mame of the group. (required)
 

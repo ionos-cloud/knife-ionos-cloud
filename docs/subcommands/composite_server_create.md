@@ -2,14 +2,15 @@
 
 This creates a new composite server with an attached volume and NIC in a specified virtual data center.
 
-    knife ionoscloud composite server create (options)
-
+```text
+knife ionoscloud composite server create (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* datacenter_id
+
+* datacenter\_id
 * name
 * cores
 * ram
@@ -17,10 +18,10 @@ This creates a new composite server with an attached volume and NIC in a specifi
 * type
 * dhcp
 * lan
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the virtual datacenter (required)
 

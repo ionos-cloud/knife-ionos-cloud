@@ -2,21 +2,22 @@
 
 Add a Label to a Resource.
 
-    knife ionoscloud label add (options)
-
+```text
+knife ionoscloud label add (options)
+```
 
 ## Available options:
----
 
 ### Required options:
+
 * type
-* resource_id
+* resource\_id
 * key
 * value
-* ionoscloud_username
-* ionoscloud_password
+* ionoscloud\_username
+* ionoscloud\_password
 
-```
+```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE
         type of the resource to be labeled. Must be one of [datacenter, server, volume, ipblock, snapshot] (required)
 

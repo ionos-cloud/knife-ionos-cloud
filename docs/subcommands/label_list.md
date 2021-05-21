@@ -2,17 +2,18 @@
 
 List all Labels available to the user. Specify the type and required resource ID to list labels for a specific resource instead.
 
-    knife ionoscloud label list (options)
-
+```text
+knife ionoscloud label list (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     type: --resource-type RESOURCE_TYPE, -T RESOURCE_TYPE
         type of the resource to be labeled.
 

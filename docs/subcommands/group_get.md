@@ -2,18 +2,19 @@
 
 Retrieves detailed information about a specific group. This will also retrieve a list of users who are members of the group.
 
-    knife ionoscloud group get (options)
-
+```text
+knife ionoscloud group get (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* group_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* group\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
 

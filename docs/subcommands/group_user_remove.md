@@ -2,18 +2,19 @@
 
 Use this operation to remove a user from a group.
 
-    knife ionoscloud group user remove USER_ID [USER_ID] (options)
-
+```text
+knife ionoscloud group user remove USER_ID [USER_ID] (options)
+```
 
 ## Available options:
----
 
 ### Required options:
-* group_id
-* ionoscloud_username
-* ionoscloud_password
 
-```
+* group\_id
+* ionoscloud\_username
+* ionoscloud\_password
+
+```text
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
 
