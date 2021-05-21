@@ -28,7 +28,8 @@ Retrieves the attributes of a given load balancer. This will also retrieve a lis
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer get --datacenter-id DATACENTER_ID --loadbalancer-id LOADBALANCER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud loadbalancer get --datacenter-id DATACENTER_ID --loadbalancer-id LOADBALANCER_ID --username USERNAME --password PASSWORD
+```

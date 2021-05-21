@@ -24,7 +24,8 @@ Retrieves a full list of all the resources that are shared through this group an
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud share list --group-id GROUP_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud share list --group-id GROUP_ID --username USERNAME --password PASSWORD
+```

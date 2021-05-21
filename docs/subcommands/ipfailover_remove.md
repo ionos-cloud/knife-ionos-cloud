@@ -36,7 +36,8 @@ Remove IP Failover from LAN
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud ipfailover remove --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud ipfailover remove --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
+```

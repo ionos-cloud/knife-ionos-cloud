@@ -32,7 +32,8 @@ This will restore a snapshot onto a volume. A snapshot is created as just anothe
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud snapshot restore --datacenter DATACENTER_ID --volume VOLUME_ID --snapshot SNAPSHOT_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud snapshot restore --datacenter DATACENTER_ID --volume VOLUME_ID --snapshot SNAPSHOT_ID --username USERNAME --password PASSWORD
+```

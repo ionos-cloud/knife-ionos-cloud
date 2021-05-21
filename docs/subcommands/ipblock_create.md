@@ -31,7 +31,8 @@ Reserves an IP block at a specified location that can be used by resources withi
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD
+```text
+knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD
+```

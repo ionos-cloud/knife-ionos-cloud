@@ -24,7 +24,8 @@ Retrieve a list of all node pools contained in a selected Kubernetes cluster.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud nodepool list--cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud nodepool list--cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
+```

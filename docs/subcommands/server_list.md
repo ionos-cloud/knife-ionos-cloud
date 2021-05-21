@@ -24,7 +24,8 @@ List all available servers under a specified data center.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud server list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```

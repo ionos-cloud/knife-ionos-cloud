@@ -23,7 +23,8 @@ This retrieves a full list of all groups.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD
+```

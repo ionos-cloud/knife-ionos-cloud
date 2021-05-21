@@ -26,7 +26,8 @@ This will remove a server from a VDC.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server delete SERVER_ID 
+```text
+knife ionoscloud server delete SERVER_ID 
+```

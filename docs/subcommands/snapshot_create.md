@@ -21,6 +21,18 @@ Creates a snapshot of a volume within the virtual data center. You can use a sna
     volume_id: --volume VOLUME_ID, -V VOLUME_ID
         iD of the Volume (required)
 
+    name: --name SNAPSHOT_NAME, -n SNAPSHOT_NAME
+        name of the snapshot
+
+    description: --description SNAPSHOT_DESCRIPTION
+        description of the snapshot
+
+    sec_auth_protection: --sec-auth
+        flag representing if extra protection is enabled on snapshot e.g. Two Factor protection etc.
+
+    licence_type: --licence LICENCE_TYPE, -l LICENCE_TYPE
+        the OS type of this Snapshot
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
@@ -28,7 +40,8 @@ Creates a snapshot of a volume within the virtual data center. You can use a sna
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud snapshot create --datacenter DATACENTER_ID --volume VOLUME_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud snapshot create --datacenter DATACENTER_ID --volume VOLUME_ID --name SNAPSHOT_NAME --description SNAPSHOT_DESCRIPTION --sec-auth --licence LICENCE_TYPE --username USERNAME --password PASSWORD
+```

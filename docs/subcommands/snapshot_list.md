@@ -20,7 +20,8 @@ Retrieve a list of snapshots.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud snapshot list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud snapshot list--username USERNAME --password PASSWORD
+```

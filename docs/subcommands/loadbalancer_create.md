@@ -37,7 +37,8 @@ Creates a load balancer within the VDC. Load balancers can be used for public or
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
+```text
+knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD
+```

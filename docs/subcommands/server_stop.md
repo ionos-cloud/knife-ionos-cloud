@@ -24,7 +24,8 @@ This will stop a server. The machine will be forcefully powered off, billing wil
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server stop SERVER_ID 
+```text
+knife ionoscloud server stop SERVER_ID 
+```

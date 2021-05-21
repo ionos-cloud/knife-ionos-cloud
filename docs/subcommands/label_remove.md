@@ -31,7 +31,8 @@ Remove a Label from a Resource.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud label remove LABEL_KEY 
+```text
+knife ionoscloud label remove LABEL_KEY 
+```

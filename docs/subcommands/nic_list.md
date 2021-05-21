@@ -28,7 +28,8 @@ List all available NICs connected to a server.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud nic list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud nic list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
+```

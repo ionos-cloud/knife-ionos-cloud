@@ -32,7 +32,8 @@ Deletes a firewall rule from an existing NIC.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud firewall delete FIREWALL_ID 
+```text
+knife ionoscloud firewall delete FIREWALL_ID 
+```

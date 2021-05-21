@@ -28,7 +28,8 @@ This will attach a pre-existing storage volume to the server.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud volume attach VOLUME_ID 
+```text
+knife ionoscloud volume attach VOLUME_ID 
+```

@@ -24,7 +24,8 @@ Creates a new S3 key for a particular user.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud s3key create --user USER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud s3key create --user USER_ID --username USERNAME --password PASSWORD
+```

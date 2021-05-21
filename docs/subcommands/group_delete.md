@@ -20,7 +20,8 @@ Use this operation to delete a single group. Resources that are assigned to the 
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group delete GROUP_ID [GROUP_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud group delete GROUP_ID [GROUP_ID]--username USERNAME --password PASSWORD
+```

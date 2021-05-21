@@ -20,7 +20,8 @@ You will want to exercise a bit of caution here. Removing a data center will des
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]--username USERNAME --password PASSWORD
+```

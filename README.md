@@ -1,6 +1,7 @@
+# Knife Plugin for IONOS Cloud
 
 ![CI](https://github.com/ionos-cloud/knife-ionos-cloud/workflows/CI/badge.svg) 
-[![Gem Version](https://img.shields.io/gem/v/knife-ionoscloud)](https://rubygems.org/gems/knife-ionoscloud) 
+[![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud) 
 [![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=alert_status)](https://sonarcloud.io/dashboard?id=knife-plugin)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=bugs)](https://sonarcloud.io/dashboard?id=knife-plugin)
@@ -8,10 +9,6 @@
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=knife-plugin)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=security_rating)](https://sonarcloud.io/dashboard?id=knife-plugin)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=knife-plugin&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=knife-plugin)
-
-![Alt text](.github/IONOS.CLOUD.BLU.svg?raw=true "Title")
-
-# Knife Plugin for IONOS Cloud
 
 ## Overview
 

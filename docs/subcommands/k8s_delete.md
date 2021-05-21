@@ -20,7 +20,8 @@ Deletes a Kubernetes cluster. The cluster cannot contain any node pools when del
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]--username USERNAME --password PASSWORD
+```

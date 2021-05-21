@@ -24,7 +24,8 @@ This operation deletes a specific S3 key.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud s3key delete S3KEY_ID 
+```text
+knife ionoscloud s3key delete S3KEY_ID 
+```

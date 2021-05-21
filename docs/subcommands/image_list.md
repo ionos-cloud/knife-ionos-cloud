@@ -20,7 +20,8 @@ A list of disk and ISO images are available from Ionoscloud for immediate use. M
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud image list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud image list--username USERNAME --password PASSWORD
+```

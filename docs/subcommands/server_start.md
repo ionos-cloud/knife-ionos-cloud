@@ -24,7 +24,8 @@ This will start a server. If the server&#39;s public IP was deallocated then a n
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server start SERVER_ID 
+```text
+knife ionoscloud server start SERVER_ID 
+```

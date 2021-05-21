@@ -30,7 +30,8 @@ This will NOT delete the volume from your virtual data center. You will need to 
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud volume detach VOLUME_ID 
+```text
+knife ionoscloud volume detach VOLUME_ID 
+```

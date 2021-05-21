@@ -24,7 +24,8 @@ Retrieves the status of a specific request based on the supplied request id.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
+```

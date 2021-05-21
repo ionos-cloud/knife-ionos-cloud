@@ -32,7 +32,8 @@ Create a new backup unit.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD
+```text
+knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD
+```

@@ -45,7 +45,8 @@ The Ionoscloud platform supports adding multiple NICs to a server. These NICs ca
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
+```text
+knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
+```

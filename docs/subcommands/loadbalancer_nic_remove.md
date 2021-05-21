@@ -28,7 +28,8 @@ Removes the association of a NIC with a load balancer.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer nic remove NIC_ID 
+```text
+knife ionoscloud loadbalancer nic remove NIC_ID 
+```

@@ -4,8 +4,9 @@ No option: Retrieves a list of all resources and optionally their group associat
 
 
 
-    knife ionoscloud resource list (options)
-
+```text
+knife ionoscloud resource list (options)
+```
 
 ## Available options:
 ---
@@ -28,7 +29,8 @@ No option: Retrieves a list of all resources and optionally their group associat
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud resource list --resource-type RESOURCE_TYPE --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud resource list --resource-type RESOURCE_TYPE --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```

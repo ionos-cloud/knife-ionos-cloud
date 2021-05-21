@@ -20,7 +20,8 @@ Lists all available IP blocks.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud ipblock list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud ipblock list--username USERNAME --password PASSWORD
+```

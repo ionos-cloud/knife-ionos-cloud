@@ -39,7 +39,8 @@ Creates a new Managed Kubernetes cluster.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud k8s create --name NAME --version VERSION --private --gateway GATEWAY_IP --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --username USERNAME --password PASSWORD
+```text
+knife ionoscloud k8s create --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --username USERNAME --password PASSWORD
+```

@@ -24,7 +24,8 @@ Deletes the specified load balancer.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
+```text
+knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
+```

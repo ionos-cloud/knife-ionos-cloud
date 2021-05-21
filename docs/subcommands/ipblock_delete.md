@@ -20,7 +20,8 @@ Releases a currently assigned IP block.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]--username USERNAME --password PASSWORD
+```

@@ -24,7 +24,8 @@ Deletes an existing LAN.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud lan delete LAN_ID 
+```text
+knife ionoscloud lan delete LAN_ID 
+```

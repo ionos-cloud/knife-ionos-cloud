@@ -32,7 +32,8 @@ Creates a Private Cross-Connect.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud pcc create --name NAME --description DESCRIPTION --peers LAN_ID [LAN_ID] --datacenters DATACENTER_IS [DATACENTER_IS] --username USERNAME --password PASSWORD
+```text
+knife ionoscloud pcc create --name NAME --description DESCRIPTION --peers LAN_ID [LAN_ID] --datacenters DATACENTER_IS [DATACENTER_IS] --username USERNAME --password PASSWORD
+```

@@ -20,7 +20,8 @@ Deletes a Private Cross-Connect.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud pcc delete PCC_ID [PCC_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud pcc delete PCC_ID [PCC_ID]--username USERNAME --password PASSWORD
+```

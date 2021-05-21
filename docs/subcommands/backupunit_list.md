@@ -20,7 +20,8 @@ Retrieve a list of all the backup units the supplied credentials have access to.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud backupunit list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud backupunit list--username USERNAME --password PASSWORD
+```

@@ -20,7 +20,8 @@ Blacklists the user, disabling them. The user is not completely purged, therefor
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud user delete USER_ID [USER_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud user delete USER_ID [USER_ID]--username USERNAME --password PASSWORD
+```

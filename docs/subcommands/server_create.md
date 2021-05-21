@@ -49,7 +49,8 @@ Note: *The memory parameter value must be a multiple of 256, e.g. 256, 512, 768,
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --boot-volume VOLUME_ID --boot-cdrom CDROM_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --boot-volume VOLUME_ID --boot-cdrom CDROM_ID --username USERNAME --password PASSWORD
+```

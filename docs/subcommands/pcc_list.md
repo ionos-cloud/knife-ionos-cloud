@@ -20,7 +20,8 @@ Lists all Private Cross-Connect instances.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud pcc list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud pcc list--username USERNAME --password PASSWORD
+```

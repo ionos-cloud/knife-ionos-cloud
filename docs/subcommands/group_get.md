@@ -24,7 +24,8 @@ Retrieves detailed information about a specific group. This will also retrieve a
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group get --group-id GROUP_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud group get --group-id GROUP_ID --username USERNAME --password PASSWORD
+```

@@ -39,7 +39,8 @@ Add a Label to a Resource.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud label add --resource-type RESOURCE_TYPE --key KEY --value VALUE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud label add --resource-type RESOURCE_TYPE --key KEY --value VALUE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```

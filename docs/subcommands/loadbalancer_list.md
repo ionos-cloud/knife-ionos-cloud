@@ -24,7 +24,8 @@ Retrieve a list of load balancers within the virtual data center.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud loadbalancer list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```

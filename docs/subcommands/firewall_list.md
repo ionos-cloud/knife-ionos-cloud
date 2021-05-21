@@ -32,7 +32,8 @@ Lists all available firewall rules assigned to a NIC.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud firewall list --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud firewall list --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD
+```

@@ -24,7 +24,8 @@ Use this operation to remove a user from a group.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group user remove USER_ID 
+```text
+knife ionoscloud group user remove USER_ID 
+```

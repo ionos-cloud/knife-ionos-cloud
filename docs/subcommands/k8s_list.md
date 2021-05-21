@@ -20,7 +20,8 @@ Retrieve a list of Kubernetes clusters.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud k8s list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud k8s list--username USERNAME --password PASSWORD
+```

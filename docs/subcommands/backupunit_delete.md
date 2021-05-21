@@ -20,7 +20,8 @@ A backup unit may be deleted using a DELETE request. Deleting a backup unit is a
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]--username USERNAME --password PASSWORD
+```

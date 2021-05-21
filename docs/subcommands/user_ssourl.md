@@ -24,7 +24,8 @@ Retrieve S3 object storage single signon URL for the given user.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud user ssourl --user-id USER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud user ssourl --user-id USER_ID --username USERNAME --password PASSWORD
+```

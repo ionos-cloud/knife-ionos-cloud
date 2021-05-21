@@ -32,7 +32,8 @@ This operation allows you to retrieve a list of requests. Cloud API calls genera
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud request list --limit LIMIT --offset OFFSET --status STATUS --method METHOD --username USERNAME --password PASSWORD
+```text
+knife ionoscloud request list --limit LIMIT --offset OFFSET --username USERNAME --password PASSWORD
+```

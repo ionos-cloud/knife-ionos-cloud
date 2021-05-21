@@ -20,7 +20,8 @@ Deletes the specified snapshot.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]--username USERNAME --password PASSWORD
+```text
+knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]--username USERNAME --password PASSWORD
+```

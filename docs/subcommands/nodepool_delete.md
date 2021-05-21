@@ -24,7 +24,8 @@ Deletes a node pool within an existing Kubernetes cluster.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud nodepool delete NODEPOOL_ID 
+```text
+knife ionoscloud nodepool delete NODEPOOL_ID 
+```

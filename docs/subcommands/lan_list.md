@@ -24,7 +24,8 @@ Lists all available LANs under a data center.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+```

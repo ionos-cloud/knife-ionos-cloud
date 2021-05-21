@@ -24,7 +24,8 @@ Use this operation to add an existing user to a group.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group user add USER_ID 
+```text
+knife ionoscloud group user add USER_ID 
+```

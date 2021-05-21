@@ -20,7 +20,8 @@ Lists information about available contract resources.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud contract list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud contract list--username USERNAME --password PASSWORD
+```

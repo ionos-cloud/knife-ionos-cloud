@@ -24,7 +24,8 @@ Retrieve the kubeconfig file for a given Kubernetes cluster.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
+```

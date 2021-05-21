@@ -28,7 +28,8 @@ Adds the association of a NIC with a load balancer.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud loadbalancer nic add NIC_ID 
+```text
+knife ionoscloud loadbalancer nic add NIC_ID 
+```

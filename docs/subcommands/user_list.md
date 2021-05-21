@@ -23,7 +23,8 @@ Retrieve a list of all the users that have been created under a contract. You ca
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
+```

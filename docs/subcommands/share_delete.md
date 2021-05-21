@@ -24,7 +24,8 @@ Removes a resource share from a specified group.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server delete SHARE_ID 
+```text
+knife ionoscloud server delete SHARE_ID 
+```

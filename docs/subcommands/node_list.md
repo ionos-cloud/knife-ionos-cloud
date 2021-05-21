@@ -28,7 +28,8 @@ Retrieve a list of Kubernetes Nodes in a Nodepool.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud node list--cluster-id CLUSTER_ID --nodepool-id NODEPOOL_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud node list--cluster-id CLUSTER_ID --nodepool-id NODEPOOL_ID --username USERNAME --password PASSWORD
+```

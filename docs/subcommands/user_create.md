@@ -33,7 +33,7 @@ Creates a new user under a particular contract.
     administrator: --admin ADMIN, -a ADMIN
         assigns the user have administrative rights.
 
-    force_sec_auth: --sec-auth SEC_AUTH
+    force_sec_auth: --sec-auth
         indicates if secure (two-factor) authentication should be forced for the user.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -43,7 +43,8 @@ Creates a new user under a particular contract.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth SEC_AUTH --username USERNAME --password PASSWORD
+```text
+knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth --username USERNAME --password PASSWORD
+```

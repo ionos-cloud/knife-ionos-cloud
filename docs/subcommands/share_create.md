@@ -34,7 +34,8 @@ Adds a specific resource share to a group and optionally allows the setting of p
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD
+```text
+knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD
+```

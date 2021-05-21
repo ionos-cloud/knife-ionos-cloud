@@ -27,7 +27,8 @@ List all available volumes under a data center. You can also list all volumes at
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud volume list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud volume list --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD
+```

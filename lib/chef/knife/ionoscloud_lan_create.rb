@@ -25,6 +25,10 @@ class Chef
               description: 'Boolean indicating if the LAN faces the public ' \
                           'Internet or not; defaults to false'
 
+      option :pcc,
+              long: '--pcc PCC_ID',
+              description: 'ID of the PCC to connect the LAN to'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -48,6 +52,7 @@ class Chef
             properties: {
               name: config[:name],
               public: config[:public],
+              pcc: config[:pcc],
             }
           },
         )
@@ -61,6 +66,7 @@ class Chef
         puts "#{ui.color('ID', :cyan)}: #{lan.id}"
         puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
         puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
+        puts "#{ui.color('PCC', :cyan)}: #{lan.properties.pcc}"
 
         puts 'done'
       end

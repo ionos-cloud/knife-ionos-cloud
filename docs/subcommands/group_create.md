@@ -35,6 +35,15 @@ Use this operation to create a new group and set group privileges.
     create_backup_unit: --create-backupunit, -b
         the group will be able to manage backup units.
 
+    create_k8s_cluster: --create-k8s-cluster
+        the group will be able to create kubernetes clusters.
+
+    create_pcc: --create-pcc
+        the group will be able to manage pccs.
+
+    create_internet_access: --create-internet-access
+        the group will be have internet access privilege.
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
@@ -42,7 +51,8 @@ Use this operation to create a new group and set group privileges.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --username USERNAME --password PASSWORD
+```text
+knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --username USERNAME --password PASSWORD
+```

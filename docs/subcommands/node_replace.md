@@ -30,7 +30,8 @@ Managed Kubernetes starts a process which based on the nodepool&#39;s template c
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud node replace NODE_ID 
+```text
+knife ionoscloud node replace NODE_ID 
+```

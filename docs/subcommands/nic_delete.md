@@ -28,7 +28,8 @@ Deletes an existing NIC from a server.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud nic delete NIC_ID 
+```text
+knife ionoscloud nic delete NIC_ID 
+```

@@ -59,7 +59,8 @@ Creates a new firewall rule on an existing NIC.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --username USERNAME --password PASSWORD
+```text
+knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --username USERNAME --password PASSWORD
+```

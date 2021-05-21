@@ -30,7 +30,8 @@ Creates a new LAN under a data center.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --username USERNAME --password PASSWORD
+```text
+knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --username USERNAME --password PASSWORD
+```

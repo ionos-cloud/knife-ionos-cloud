@@ -29,7 +29,8 @@ List all Labels available to the user. Specify the type and required resource ID
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud label list --resource-type RESOURCE_TYPE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud label list --resource-type RESOURCE_TYPE --datacenter-id DATACENTER_ID --resource-id RESOURCE_ID --username USERNAME --password PASSWORD
+```

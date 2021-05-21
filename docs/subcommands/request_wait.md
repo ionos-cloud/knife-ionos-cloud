@@ -24,7 +24,8 @@ Waits until a request status is either DONE or FAILED.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud request wait --request-id REQUEST_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud request wait --request-id REQUEST_ID --username USERNAME --password PASSWORD
+```

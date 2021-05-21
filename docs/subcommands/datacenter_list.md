@@ -20,7 +20,8 @@ Ionoscloud introduces the concept of virtual data centers. These are logically s
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud datacenter list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud datacenter list--username USERNAME --password PASSWORD
+```

@@ -24,7 +24,8 @@ Retrieve a list of all the S3 keys for a specific user.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud s3key list --user USER_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud s3key list --user USER_ID --username USERNAME --password PASSWORD
+```

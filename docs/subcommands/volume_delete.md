@@ -24,7 +24,8 @@ Deletes the specified volume. This will result in the volume being removed from 
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud volume delete SERVER_ID 
+```text
+knife ionoscloud volume delete SERVER_ID 
+```

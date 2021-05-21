@@ -24,7 +24,8 @@ The ProfitBricks backup system features a web-based GUI. Once you have created a
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud backupunit ssourl --backupunit-id BACKUPUNIT_ID --username USERNAME --password PASSWORD
+```

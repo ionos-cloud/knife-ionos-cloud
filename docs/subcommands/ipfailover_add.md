@@ -40,7 +40,8 @@ Successfully setting up an IP Failover group requires three steps:
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
+```text
+knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD
+```

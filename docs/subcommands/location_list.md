@@ -20,7 +20,8 @@ List available physical locations where resources can reside.
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud location list--username USERNAME --password PASSWORD
+```text
+knife ionoscloud location list--username USERNAME --password PASSWORD
+```

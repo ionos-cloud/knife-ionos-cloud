@@ -24,7 +24,8 @@ This will force a hard reboot of the server. Do not use this method if you want 
         your Ionoscloud password (required)
 
 ```
-
 ## Example
 
-    knife ionoscloud server reboot SERVER_ID 
+```text
+knife ionoscloud server reboot SERVER_ID 
+```

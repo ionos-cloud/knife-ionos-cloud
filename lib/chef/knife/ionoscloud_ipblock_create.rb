@@ -29,7 +29,7 @@ class Chef
         @description =
         'Reserves an IP block at a specified location that can be used by resources '\
         'within any VDCs provisioned in that same location. An IP block consists of '\
-        'one or more static IP addresses. The IP block size (number of IP addresses) '\
+        'one or more static IP addresses. The IP block size \(number of IP addresses\) '\
         'and location are required to reserve an IP block.'
         @required_options = [:size, :location, :ionoscloud_username, :ionoscloud_password]
       end
