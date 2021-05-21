@@ -10,17 +10,22 @@ class Chef
       option :limit,
               short: '-l LIMIT',
               long: '--limit LIMIT',
-              description: 'The maximum number of results.'
+              description: 'The maximum number of requests to look into.'
 
       option :offset,
               short: '-o OFFSET',
               long: '--offset OFFSET',
               description: 'The request number from which to return results.'
 
-      # option :status,
-      #         short: '-s STATUS',
-      #         long: '--status STATUS',
-      #         description: 'Request status filter to fetch all the request based on a particular status [QUEUED, RUNNING, DONE, FAILED]'
+      option :status,
+              short: '-s STATUS',
+              long: '--status STATUS',
+              description: 'Request status filter to fetch all the request based on a particular status [QUEUED, RUNNING, DONE, FAILED]'
+
+      option :method,
+              short: '-m METHOD',
+              long: '--method METHOD',
+              description: 'Request method filter to fetch all the request based on a particular method [POST, PUT, PATCH, DELETE]'
 
       attr_reader :description, :required_options
 
@@ -72,13 +77,21 @@ class Chef
           offset: config[:offset],
         }
 
-        # if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-        #   opts[:status] = config[:status]
-        # end
+        if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
+          opts[:filter_request_status] = config[:status]
+        end
 
-        # if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-        #   ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]')
-        # end
+        if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
+          ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]')
+        end
+
+        if config[:method] && ['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
+          opts[:filter_method] = config[:method]
+        end
+
+        if config[:method] && !['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
+          ui.warn('method should be one of [POST, PUT, PATCH, DELETE]')
+        end
 
         request_api.requests_get(opts).items.each do |request|
           request_list << request.id

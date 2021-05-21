@@ -19,6 +19,7 @@ knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 ## Example
 

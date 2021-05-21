@@ -15,19 +15,26 @@ knife ionoscloud request list (options)
 
 ```text
     limit: --limit LIMIT, -l LIMIT
-        the maximum number of results.
+        the maximum number of requests to look into.
 
     offset: --offset OFFSET, -o OFFSET
         the request number from which to return results.
+
+    status: --status STATUS, -s STATUS
+        request status filter to fetch all the request based on a particular status [QUEUED, RUNNING, DONE, FAILED]
+
+    method: --method METHOD, -m METHOD
+        request method filter to fetch all the request based on a particular method [POST, PUT, PATCH, DELETE]
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 ## Example
 
 ```text
-knife ionoscloud request list --limit LIMIT --offset OFFSET --username USERNAME --password PASSWORD
+knife ionoscloud request list --limit LIMIT --offset OFFSET --status STATUS --method METHOD --username USERNAME --password PASSWORD
 ```

@@ -27,6 +27,7 @@ knife ionoscloud loadbalancer nic add NIC_ID [NIC_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
+
 ```
 ## Example
 
