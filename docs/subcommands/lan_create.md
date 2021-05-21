@@ -30,10 +30,8 @@ knife ionoscloud lan create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --username USERNAME --password PASSWORD
 ```
-

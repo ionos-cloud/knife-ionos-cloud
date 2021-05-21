@@ -24,10 +24,8 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud server delete SHARE_ID 
 ```
-

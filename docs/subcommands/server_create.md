@@ -49,10 +49,8 @@ knife ionoscloud server create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud server create --datacenter-id DATACENTER_ID --name NAME --cores CORES --cpu-family CPU_FAMILY --ram RAM --availability-zone AVAILABILITY_ZONE --boot-volume VOLUME_ID --boot-cdrom CDROM_ID --username USERNAME --password PASSWORD
 ```
-

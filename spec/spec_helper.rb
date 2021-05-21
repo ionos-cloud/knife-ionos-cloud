@@ -198,6 +198,7 @@ def lan_mock(opts = {})
     properties: Ionoscloud::LanProperties.new(
       name: opts[:name] || 'lan_name',
       public: opts[:public] || true,
+      pcc: opts[:pcc] || SecureRandom.uuid,
       ip_failover: opts[:ip_failover] || [],
     ),
   )
@@ -559,6 +560,7 @@ def snapshot_mock(opts = {})
       name: opts[:name] || 'snapshot_name',
       description: opts[:description] || 'snapshot_description',
       licence_type: opts[:licence_type] || 'LINUX',
+      sec_auth_protection: opts[:sec_auth_protection] || true,
       location: opts[:location] || 'de/fra',
       size: opts[:size] || 10.0,
     ),
@@ -584,6 +586,9 @@ def group_mock(opts = {})
       access_activity_log: opts[:access_activity_log] || true,
       s3_privilege: opts[:s3_privilege] || true,
       create_backup_unit: opts[:create_backup_unit] || true,
+      create_k8s_cluster: opts[:create_k8s_cluster] || true,
+      create_pcc: opts[:create_pcc] || true,
+      create_internet_access: opts[:create_internet_access] || true,
     ),
     entities: Ionoscloud::GroupEntities.new(
       users: group_members_mock,

@@ -20,10 +20,8 @@ knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]--username USERNAME --password PASSWORD
 ```
-

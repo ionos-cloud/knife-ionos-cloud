@@ -24,10 +24,8 @@ knife ionoscloud kubeconfig get (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud kubeconfig get --cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
 ```
-

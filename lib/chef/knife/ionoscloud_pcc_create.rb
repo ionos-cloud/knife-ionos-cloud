@@ -18,12 +18,8 @@ class Chef
               description: 'Description of the data center'
 
       option :peers,
-              long: '--peers LAN_ID [LAN_ID]',
+              long: '--peers DATACENTER_ID,LAN_ID [DATACENTER_ID,LAN_ID]',
               description: 'An array of LANs joined to this private cross connect'
-
-      option :datacenters,
-              long: '--datacenters DATACENTER_IS [DATACENTER_IS]',
-              description: 'An array of datacenters joined to this private cross connect'
 
       attr_reader :description, :required_options
 
@@ -41,9 +37,12 @@ class Chef
         print "#{ui.color('Creating private cross connect...', :magenta)}"
 
         pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
+        config[:peers] = config[:peers].split(',') unless config[:peers].nil?
 
-        config[:peers] = config[:peers].split(',').map { |peer| { id: peer } } unless config[:peers].nil?
-        config[:datacenters] = config[:datacenters].split(',').map { |datacenter| { id: datacenter } } unless config[:datacenters].nil?
+        if config[:peers] && config[:peers].length % 2 != 0
+          ui.error('Each Lan ID should correspond to one Datacenter ID!')
+          exit(1)
+        end
 
         pcc, _, headers  = pcc_api.pccs_post_with_http_info({
           properties: {
@@ -54,6 +53,34 @@ class Chef
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
+
+        pcc = pcc_api.pccs_find_by_id(pcc.id)
+
+        if config[:peers]
+          lan_api = Ionoscloud::LanApi.new(api_client)
+
+          header_list = []
+          allowed_datacenters_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
+          config[:peers].each_slice(2) do |datacenter_id, lan_id|
+            if !allowed_datacenters_ids.include? datacenter_id
+              ui.error("Datacenter ID #{datacenter_id} is not allowed")
+              exit(1)
+            end
+            _, _, headers = lan_api.datacenters_lans_patch_with_http_info(
+              datacenter_id,
+              lan_id,
+              { pcc: pcc.id },
+            )
+            header_list << headers
+          end
+
+          header_list.each do |headers|
+            dot = ui.color('.', :magenta)
+            api_client.wait_for { print dot; is_done? get_request_id headers }
+          end
+        end
+
+        pcc = pcc_api.pccs_find_by_id(pcc.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{pcc.id}"

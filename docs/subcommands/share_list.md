@@ -24,10 +24,8 @@ knife ionoscloud share list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud share list --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
-

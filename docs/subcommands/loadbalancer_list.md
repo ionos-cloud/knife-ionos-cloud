@@ -24,10 +24,8 @@ knife ionoscloud loadbalancer list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud loadbalancer list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
 ```
-

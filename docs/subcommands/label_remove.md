@@ -31,10 +31,8 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud label remove LABEL_KEY 
 ```
-

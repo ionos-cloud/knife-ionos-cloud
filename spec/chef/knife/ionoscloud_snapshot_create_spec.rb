@@ -19,6 +19,10 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         volume_id: 'volume_id',
+        name: snapshot_mock.properties.name,
+        description: snapshot_mock.properties.description,
+        licence_type: snapshot_mock.properties.licence_type,
+        sec_auth_protection: snapshot_mock.properties.sec_auth_protection,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -39,6 +43,12 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
             operation: :'VolumeApi.datacenters_volumes_create_snapshot_post',
             return_type: 'Snapshot',
             result: snapshot,
+            form_params: {
+              'name' => snapshot_mock.properties.name,
+              'description' => snapshot_mock.properties.description,
+              'licenceType' => snapshot_mock.properties.licence_type,
+              'secAuthProtection' => snapshot_mock.properties.sec_auth_protection,
+            },
           },
           {
             method: 'GET',

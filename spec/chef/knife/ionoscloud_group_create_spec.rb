@@ -24,6 +24,9 @@ describe Chef::Knife::IonoscloudGroupCreate do
         access_activity_log: group.properties.access_activity_log,
         s3_privilege: group.properties.s3_privilege,
         create_backup_unit: group.properties.create_backup_unit,
+        create_k8s_cluster: group.properties.create_k8s_cluster,
+        create_pcc: group.properties.create_pcc,
+        create_internet_access: group.properties.create_internet_access,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -36,6 +39,9 @@ describe Chef::Knife::IonoscloudGroupCreate do
       expect(subject).to receive(:puts).with("Access Activity Log: #{group.properties.access_activity_log.to_s}")
       expect(subject).to receive(:puts).with("S3 Privilege: #{group.properties.s3_privilege.to_s}")
       expect(subject).to receive(:puts).with("Create Backup Unit: #{group.properties.create_backup_unit.to_s}")
+      expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
+      expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
+      expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
 
       mock_wait_for(subject)
       mock_call_api(

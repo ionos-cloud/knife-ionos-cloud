@@ -32,10 +32,8 @@ knife ionoscloud pcc create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud pcc create --name NAME --description DESCRIPTION --peers LAN_ID [LAN_ID] --datacenters DATACENTER_IS [DATACENTER_IS] --username USERNAME --password PASSWORD
 ```
-

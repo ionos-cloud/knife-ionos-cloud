@@ -20,10 +20,8 @@ knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]--username USERNAME --password PASSWORD
 ```
-

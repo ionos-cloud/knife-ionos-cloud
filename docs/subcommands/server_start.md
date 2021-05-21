@@ -24,10 +24,8 @@ knife ionoscloud server start SERVER_ID [SERVER_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud server start SERVER_ID 
 ```
-

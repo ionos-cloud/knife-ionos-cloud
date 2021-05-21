@@ -24,10 +24,8 @@ knife ionoscloud s3key create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud s3key create --user USER_ID --username USERNAME --password PASSWORD
 ```
-

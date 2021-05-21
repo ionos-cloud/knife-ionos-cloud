@@ -24,10 +24,8 @@ knife ionoscloud request wait (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud request wait --request-id REQUEST_ID --username USERNAME --password PASSWORD
 ```
-

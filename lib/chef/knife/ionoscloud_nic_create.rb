@@ -48,8 +48,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        "Creates a NIC on the specified server.\n"\
-        "The Ionoscloud platform supports adding multiple NICs to a server. These NICs "\
+        "Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs "\
         "can be used to create different, segmented networks on the platform."
         @required_options = [:datacenter_id, :server_id, :lan, :ionoscloud_username, :ionoscloud_password]
       end

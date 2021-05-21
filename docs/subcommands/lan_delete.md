@@ -24,10 +24,8 @@ knife ionoscloud lan delete LAN_ID [LAN_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud lan delete LAN_ID 
 ```
-

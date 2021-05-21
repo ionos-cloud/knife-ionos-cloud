@@ -20,10 +20,8 @@ knife ionoscloud snapshot list
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud snapshot list--username USERNAME --password PASSWORD
 ```
-

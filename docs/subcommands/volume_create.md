@@ -57,10 +57,8 @@ knife ionoscloud volume create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --username USERNAME --password PASSWORD
 ```
-

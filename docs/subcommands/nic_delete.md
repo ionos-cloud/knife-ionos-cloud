@@ -28,10 +28,8 @@ knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud nic delete NIC_ID 
 ```
-

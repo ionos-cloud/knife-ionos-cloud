@@ -17,6 +17,24 @@ class Chef
               long: '--volume VOLUME_ID',
               description: 'ID of the Volume'
 
+      option :name,
+              short: '-n SNAPSHOT_NAME',
+              long: '--name SNAPSHOT_NAME',
+              description: 'Name of the snapshot'
+
+      option :description,
+              long: '--description SNAPSHOT_DESCRIPTION',
+              description: 'Description of the snapshot'
+
+      option :sec_auth_protection,
+              long: '--sec-auth',
+              description: 'Flag representing if extra protection is enabled on snapshot e.g. Two Factor protection etc.'
+
+      option :licence_type,
+              short: '-l LICENCE_TYPE',
+              long: '--licence LICENCE_TYPE',
+              description: 'The OS type of this Snapshot'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -38,6 +56,12 @@ class Chef
         snapshot, _, headers  = volume_api.datacenters_volumes_create_snapshot_post_with_http_info(
           config[:datacenter_id],
           config[:volume_id],
+          {
+            name: config[:name],
+            description: config[:description],
+            sec_auth_protection: config[:sec_auth_protection],
+            licence_type: config[:licence_type],
+          }.compact,
         )
 
         dot = ui.color('.', :magenta)

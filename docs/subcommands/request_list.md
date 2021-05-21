@@ -26,10 +26,8 @@ knife ionoscloud request list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 ```
-
 ## Example
 
 ```text
 knife ionoscloud request list --limit LIMIT --offset OFFSET --username USERNAME --password PASSWORD
 ```
-

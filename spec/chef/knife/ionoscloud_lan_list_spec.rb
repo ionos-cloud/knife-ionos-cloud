@@ -26,15 +26,17 @@ describe Chef::Knife::IonoscloudLanList do
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
         subject.ui.color('Public', :bold),
+        subject.ui.color('PCC', :bold),
       ]
 
       lans.items.each do |lan|
         lan_list << lan.id
         lan_list << lan.properties.name
         lan_list << lan.properties.public.to_s
+        lan_list << lan.properties.pcc
       end
 
-      expect(subject.ui).to receive(:list).with(lan_list, :uneven_columns_across, 3)
+      expect(subject.ui).to receive(:list).with(lan_list, :uneven_columns_across, 4)
 
       mock_call_api(
         subject,

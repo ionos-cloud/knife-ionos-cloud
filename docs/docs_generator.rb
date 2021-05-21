@@ -69,7 +69,7 @@ def generate_subcommand_doc(subcommand)
         options,
         description,
         subcommand_name,
-        subcommand.required_options,
+        subcommand.required_options.map { |el| el.to_s.gsub '_', '\_' },
       ).render,
     )
   }
