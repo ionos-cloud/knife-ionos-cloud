@@ -103,7 +103,10 @@ describe Chef::Knife::IonoscloudK8sDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster.id]
 
-      expect(subject.ui).to receive(:error).with("K8s Cluster ID #{k8s_cluster.id} is not active. Skipping.")
+      expect(subject.ui).to receive(:error).with(
+        "K8s Cluster #{k8s_cluster.id} state must be one of ['ACTIVE', 'TERMINATED'], "\
+        "actual state is '#{k8s_cluster.metadata.state}'. Skipping."
+      )
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
