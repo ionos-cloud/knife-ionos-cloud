@@ -51,7 +51,7 @@ class Chef
 
         print "#{ui.color('Creating Snapshot...', :magenta)}"
 
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
+        volume_api = Ionoscloud::VolumesApi.new(api_client)
 
         snapshot, _, headers  = volume_api.datacenters_volumes_create_snapshot_post_with_http_info(
           config[:datacenter_id],
@@ -67,7 +67,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        snapshot = Ionoscloud::SnapshotApi.new(api_client).snapshots_find_by_id(snapshot.id)
+        snapshot = Ionoscloud::SnapshotsApi.new(api_client).snapshots_find_by_id(snapshot.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{snapshot.id}"

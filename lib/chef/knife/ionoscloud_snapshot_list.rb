@@ -28,7 +28,7 @@ class Chef
           ui.color('Size', :bold)
         ]
 
-        snapshot_api = Ionoscloud::SnapshotApi.new(api_client)
+        snapshot_api = Ionoscloud::SnapshotsApi.new(api_client)
 
         snapshot_api.snapshots_get({ depth: 1 }).items.each do |snapshot|
           snapshot_list << snapshot.id

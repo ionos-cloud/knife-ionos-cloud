@@ -28,7 +28,7 @@ describe Chef::Knife::IonoscloudRequestList do
   end
 
   describe '#run' do
-    it 'should call RequestApi.resources_get with default options when nothing is set' do
+    it 'should call RequestsApi.resources_get with default options when nothing is set' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: 20, offset: 0 },
             return_type: 'Requests',
             result: @requests,
@@ -55,7 +55,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with set options if present' do
+    it 'should call RequestsApi.resources_get with set options if present' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -73,7 +73,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: subject_config[:offset] },
             return_type: 'Requests',
             result: @requests,
@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with default limit if it is not an Integer' do
+    it 'should call RequestsApi.resources_get with default limit if it is not an Integer' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -103,7 +103,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: 20, offset: subject_config[:offset] },
             return_type: 'Requests',
             result: @requests,
@@ -114,7 +114,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with default offset if it is not an Integers' do
+    it 'should call RequestsApi.resources_get with default offset if it is not an Integers' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -133,7 +133,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
             result: @requests,
@@ -144,7 +144,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with the expected status when set' do
+    it 'should call RequestsApi.resources_get with the expected status when set' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -162,7 +162,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_request_status: subject_config[:status] },
             return_type: 'Requests',
             result: @requests,
@@ -173,7 +173,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with no status when set wrong' do
+    it 'should call RequestsApi.resources_get with no status when set wrong' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -192,7 +192,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
             result: @requests,
@@ -204,7 +204,7 @@ describe Chef::Knife::IonoscloudRequestList do
     end
 
 
-    it 'should call RequestApi.resources_get with the expected method when set' do
+    it 'should call RequestsApi.resources_get with the expected method when set' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -222,7 +222,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_method: subject_config[:method] },
             return_type: 'Requests',
             result: @requests,
@@ -233,7 +233,7 @@ describe Chef::Knife::IonoscloudRequestList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call RequestApi.resources_get with no method when set wrong' do
+    it 'should call RequestsApi.resources_get with no method when set wrong' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -252,7 +252,7 @@ describe Chef::Knife::IonoscloudRequestList do
           {
             method: 'GET',
             path: '/requests',
-            operation: :'RequestApi.requests_get',
+            operation: :'RequestsApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
             result: @requests,

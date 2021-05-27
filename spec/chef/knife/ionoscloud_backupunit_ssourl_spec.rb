@@ -7,7 +7,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
   subject { Chef::Knife::IonoscloudBackupunitSsourl.new }
 
   describe '#run' do
-    it 'should call BackupUnitApi.backupunits_ssourl_get and output the received url when the user ID is valid' do
+    it 'should call BackupUnitsApi.backupunits_ssourl_get and output the received url when the user ID is valid' do
       backupunit = backupunit_mock
       backupunit_sso = backupunit_sso_mock
       subject_config = {
@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
           {
             method: 'GET',
             path: "/backupunits/#{backupunit.id}/ssourl",
-            operation: :'BackupUnitApi.backupunits_ssourl_get',
+            operation: :'BackupUnitsApi.backupunits_ssourl_get',
             return_type: 'BackupUnitSSO',
             result: backupunit_sso,
           },
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudBackupunitSsourl do
           {
             method: 'GET',
             path: "/backupunits/#{backupunit_id}/ssourl",
-            operation: :'BackupUnitApi.backupunits_ssourl_get',
+            operation: :'BackupUnitsApi.backupunits_ssourl_get',
             return_type: 'BackupUnitSSO',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

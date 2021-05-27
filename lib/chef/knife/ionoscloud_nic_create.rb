@@ -39,10 +39,6 @@ class Chef
               long: '--lan ID',
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
-      option :nat,
-              long: '--nat',
-              description: 'Set to enable NAT on the NIC'
-
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -68,10 +64,9 @@ class Chef
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
-          nat: !config[:nat].nil?,
         }
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
+        nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
 
         nic, _, headers = nic_api.datacenters_servers_nics_post_with_http_info(
           config[:datacenter_id],
@@ -94,7 +89,6 @@ class Chef
         puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
         puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
         puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
-        puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"
 
         puts 'done'
       end

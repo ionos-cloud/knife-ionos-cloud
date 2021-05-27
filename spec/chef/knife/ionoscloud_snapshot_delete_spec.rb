@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
   end
 
   describe '#run' do
-    it 'should call SnapshotApi.snapshots_delete when the ID is valid' do
+    it 'should call SnapshotsApi.snapshots_delete when the ID is valid' do
       snapshot = snapshot_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -38,14 +38,14 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
           {
             method: 'GET',
             path: "/snapshots/#{snapshot.id}",
-            operation: :'SnapshotApi.snapshots_find_by_id',
+            operation: :'SnapshotsApi.snapshots_find_by_id',
             return_type: 'Snapshot',
             result: snapshot,
           },
           {
             method: 'DELETE',
             path: "/snapshots/#{snapshot.id}",
-            operation: :'SnapshotApi.snapshots_delete',
+            operation: :'SnapshotsApi.snapshots_delete',
           },
         ],
       )
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call SnapshotApi.snapshots_delete when the user ID is not valid' do
+    it 'should not call SnapshotsApi.snapshots_delete when the user ID is not valid' do
       snapshot_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudSnapshotDelete do
           {
             method: 'GET',
             path: "/snapshots/#{snapshot_id}",
-            operation: :'SnapshotApi.snapshots_find_by_id',
+            operation: :'SnapshotsApi.snapshots_find_by_id',
             return_type: 'Snapshot',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

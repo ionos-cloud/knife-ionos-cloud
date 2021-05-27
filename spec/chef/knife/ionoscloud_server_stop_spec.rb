@@ -34,8 +34,7 @@ describe Chef::Knife::IonoscloudServerStop do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/stop",
-            operation: :'ServerApi.datacenters_servers_stop_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_stop_post',
             result: server,
           },
         ],
@@ -64,8 +63,7 @@ describe Chef::Knife::IonoscloudServerStop do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/stop",
-            operation: :'ServerApi.datacenters_servers_stop_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_stop_post',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

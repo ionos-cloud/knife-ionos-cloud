@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudLabelList do
   end
 
   describe '#run' do
-    it 'should call LabelApi.datacenters_labels_get when the type is datacenter and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_labels_get when the type is datacenter and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -65,7 +65,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_labels_get',
+            operation: :'LabelsApi.datacenters_labels_get',
             return_type: 'LabelResources',
             result: @label_resources,
           },
@@ -75,7 +75,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_servers_labels_get when the type is server and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_servers_labels_get when the type is server and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -97,7 +97,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_servers_labels_get',
+            operation: :'LabelsApi.datacenters_servers_labels_get',
             return_type: 'LabelResources',
             result: @label_resources,
           },
@@ -107,7 +107,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_volumes_labels_get when the type is volume and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_volumes_labels_get when the type is volume and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -129,7 +129,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_volumes_labels_get',
+            operation: :'LabelsApi.datacenters_volumes_labels_get',
             return_type: 'LabelResources',
             result: @label_resources,
           },
@@ -139,7 +139,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.ipblocks_labels_get when the type is ipblock and output based on what it receives' do
+    it 'should call LabelsApi.ipblocks_labels_get when the type is ipblock and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -160,7 +160,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: "/ipblocks/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.ipblocks_labels_get',
+            operation: :'LabelsApi.ipblocks_labels_get',
             return_type: 'LabelResources',
             result: @label_resources,
           },
@@ -170,7 +170,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.snapshots_labels_get when the type is snapshot and output based on what it receives' do
+    it 'should call LabelsApi.snapshots_labels_get when the type is snapshot and output based on what it receives' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -191,7 +191,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: "/snapshots/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.snapshots_labels_get',
+            operation: :'LabelsApi.snapshots_labels_get',
             return_type: 'LabelResources',
             result: @label_resources,
           },
@@ -201,7 +201,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.labels_get when the type is not one of [datacenter, server, volume, ipblock, snapshot]' do
+    it 'should call LabelsApi.labels_get when the type is not one of [datacenter, server, volume, ipblock, snapshot]' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -221,7 +221,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: '/labels',
-            operation: :'LabelApi.labels_get',
+            operation: :'LabelsApi.labels_get',
             return_type: 'Labels',
             result: @labels,
           },
@@ -231,7 +231,7 @@ describe Chef::Knife::IonoscloudLabelList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.labels_get when the type is missing' do
+    it 'should call LabelsApi.labels_get when the type is missing' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -249,7 +249,7 @@ describe Chef::Knife::IonoscloudLabelList do
           {
             method: 'GET',
             path: '/labels',
-            operation: :'LabelApi.labels_get',
+            operation: :'LabelsApi.labels_get',
             return_type: 'Labels',
             result: @labels,
           },

@@ -26,7 +26,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         begin
-          puts Ionoscloud::RequestApi.new(api_client).requests_status_get(config[:request_id]).metadata.status
+          puts Ionoscloud::RequestsApi.new(api_client).requests_status_get(config[:request_id]).metadata.status
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
           ui.error("Request ID #{config[:request_id]} not found.")

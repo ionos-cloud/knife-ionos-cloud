@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudContractList do
   end
 
   describe '#run' do
-    it 'should call ContractApi.contracts_get' do
+    it 'should call ContractResourcesApi.contracts_get' do
       contract = contract_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -50,8 +50,8 @@ describe Chef::Knife::IonoscloudContractList do
           {
             method: 'GET',
             path: '/contracts',
-            operation: :'ContractApi.contracts_get',
-            return_type: 'Contract',
+            operation: :'ContractResourcesApi.contracts_get',
+            return_type: 'Contracts',
             result: contract,
           },
         ],

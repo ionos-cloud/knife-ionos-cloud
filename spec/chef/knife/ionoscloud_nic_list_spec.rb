@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudNicList do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_get' do
+    it 'should call NetworkInterfacesApi.datacenters_servers_nics_get' do
       nics = nics_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -34,17 +34,15 @@ describe Chef::Knife::IonoscloudNicList do
         nics.items.first.properties.name,
         nics.items.first.properties.ips.to_s,
         nics.items.first.properties.dhcp.to_s,
-        nics.items.first.properties.nat.to_s,
         nics.items.first.properties.lan.to_s,
         nics.items[1].id,
         nics.items[1].properties.name,
         nics.items[1].properties.ips.to_s,
         nics.items[1].properties.dhcp.to_s,
-        nics.items[1].properties.nat.to_s,
         nics.items[1].properties.lan.to_s,
       ]
 
-      expect(subject.ui).to receive(:list).with(nic_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(nic_list, :uneven_columns_across, 5)
 
       mock_call_api(
         subject,
@@ -52,7 +50,7 @@ describe Chef::Knife::IonoscloudNicList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics",
-            operation: :'NicApi.datacenters_servers_nics_get',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_get',
             return_type: 'Nics',
             result: nics,
           },

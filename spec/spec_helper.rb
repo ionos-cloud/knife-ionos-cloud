@@ -148,7 +148,6 @@ end
 def label_resources_mock(opts = {})
   Ionoscloud::LabelResources.new(
     id: 'labelresources',
-    type: 'collection',
     items: [label_resource_mock, label_resource_mock],
   )
 end
@@ -168,7 +167,6 @@ end
 def labels_mock(opts = {})
   Ionoscloud::Labels.new(
     id: 'labels',
-    type: 'collection',
     items: [label_mock, label_mock],
   )
 end
@@ -187,7 +185,6 @@ end
 def backupunits_mock(opts = {})
   Ionoscloud::BackupUnits.new(
     id: 'backupunits',
-    type: 'collection',
     items: [backupunit_mock, backupunit_mock],
   )
 end
@@ -218,7 +215,6 @@ def nic_mock(opts = {})
     properties: Ionoscloud::NicProperties.new(
       name: opts[:name] || 'nic_name',
       ips: opts[:ips] || ['1.1.1.1', '1.1.1.2'],
-      nat: opts[:nat] || true,
       dhcp: opts[:dhcp] || true,
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
@@ -355,12 +351,7 @@ def auto_scaling_mock(opts = {})
 end
 
 def kubeconfig_mock(opts = {})
-  Ionoscloud::KubernetesConfig.new(
-    id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::KubernetesConfigProperties.new(
-      kubeconfig: opts[:kubeconfig] || 'kubeconfig_file_data',
-    ),
-  )
+  'kubeconfig_file_data'
 end
 
 def k8s_cluster_mock(opts = {})
@@ -692,7 +683,7 @@ def mock_call_api(subject, rules)
       expect(path).to eq(rule[:path])
       expect(opts[:operation]).to eq(rule[:operation])
       expect(opts[:form_params]).to eq(rule[:form_params] || {})
-      expect(opts[:return_type]).to eq(rule[:return_type] || 'Object')
+      expect(opts[:return_type]).to eq(rule[:return_type] || nil)
       expect(received_body).to eq(rule[:body] || nil)
       expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
 

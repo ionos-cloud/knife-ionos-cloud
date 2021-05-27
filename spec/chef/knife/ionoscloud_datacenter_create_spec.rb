@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
   end
 
   describe '#run' do
-    it 'should call DataCenterApi.datacenters_post with the expected arguments and output based on what it receives' do
+    it 'should call DataCentersApi.datacenters_post with the expected arguments and output based on what it receives' do
       datacenter = datacenter_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -40,7 +40,7 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
           {
             method: 'POST',
             path: '/datacenters',
-            operation: :'DataCenterApi.datacenters_post',
+            operation: :'DataCentersApi.datacenters_post',
             return_type: 'Datacenter',
             body: { properties: expected_body },
             result: datacenter,

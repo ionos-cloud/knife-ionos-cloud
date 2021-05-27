@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
   end
 
   describe '#run' do
-    it 'should call VolumeApi.datacenters_volumes_post with the expected arguments and output based on what it receives' do
+    it 'should call VolumesApi.datacenters_volumes_post with the expected arguments and output based on what it receives' do
       volume = volume_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes",
-            operation: :'VolumeApi.datacenters_volumes_post',
+            operation: :'VolumesApi.datacenters_volumes_post',
             return_type: 'Volume',
             body: { properties: expected_body },
             result: volume,
@@ -60,7 +60,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume.id}",
-            operation: :'VolumeApi.datacenters_volumes_find_by_id',
+            operation: :'VolumesApi.datacenters_volumes_find_by_id',
             return_type: 'Volume',
             result: volume,
           },

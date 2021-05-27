@@ -41,7 +41,7 @@ describe Chef::Knife::IonoscloudVolumeList do
   end
 
   describe '#run' do
-    it 'should call VolumeApi.datacenters_volumes_get when no server_id is set' do
+    it 'should call VolumesApi.datacenters_volumes_get when no server_id is set' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -58,7 +58,7 @@ describe Chef::Knife::IonoscloudVolumeList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes",
-            operation: :'VolumeApi.datacenters_volumes_get',
+            operation: :'VolumesApi.datacenters_volumes_get',
             return_type: 'Volumes',
             result: @volumes,
           },
@@ -68,7 +68,7 @@ describe Chef::Knife::IonoscloudVolumeList do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call ServerApi.datacenters_servers_volumes_get when server_id is set' do
+    it 'should call ServersApi.datacenters_servers_volumes_get when server_id is set' do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -87,7 +87,7 @@ describe Chef::Knife::IonoscloudVolumeList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
-            operation: :'ServerApi.datacenters_servers_volumes_get',
+            operation: :'ServersApi.datacenters_servers_volumes_get',
             return_type: 'AttachedVolumes',
             result: @volumes,
           },

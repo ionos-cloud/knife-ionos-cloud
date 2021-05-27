@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanCreate do
   end
 
   describe '#run' do
-    it 'should call LanApi.datacenters_lans_post with the expected arguments and output based on what it receives' do
+    it 'should call LansApi.datacenters_lans_post with the expected arguments and output based on what it receives' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -40,7 +40,7 @@ describe Chef::Knife::IonoscloudLanCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans",
-            operation: :'LanApi.datacenters_lans_post',
+            operation: :'LansApi.datacenters_lans_post',
             return_type: 'LanPost',
             body: { properties: expected_body },
             result: lan,
@@ -48,7 +48,7 @@ describe Chef::Knife::IonoscloudLanCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_find_by_id',
+            operation: :'LansApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },

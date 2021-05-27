@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanDelete do
   end
 
   describe '#run' do
-    it 'should call LanApi.datacenters_lans_delete when the ID is valid' do
+    it 'should call LansApi.datacenters_lans_delete when the ID is valid' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -37,14 +37,14 @@ describe Chef::Knife::IonoscloudLanDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_find_by_id',
+            operation: :'LansApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_delete',
+            operation: :'LansApi.datacenters_lans_delete',
           },
         ],
       )
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudLanDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call LanApi.datacenters_lans_delete when the user ID is not valid' do
+    it 'should not call LansApi.datacenters_lans_delete when the user ID is not valid' do
       lan_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudLanDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan_id}",
-            operation: :'LanApi.datacenters_lans_find_by_id',
+            operation: :'LansApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

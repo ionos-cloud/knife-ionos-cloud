@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudNicDelete do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_delete when the ID is valid' do
+    it 'should call NetworkInterfacesApi.datacenters_servers_nics_delete when the ID is valid' do
       nic = nic_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -30,7 +30,6 @@ describe Chef::Knife::IonoscloudNicDelete do
       expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
       expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
       expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
-      expect(subject).to receive(:puts).with("NAT: #{nic.properties.nat}")
       expect(subject.ui).to receive(:warn).with("Deleted Nic #{nic.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
@@ -41,14 +40,14 @@ describe Chef::Knife::IonoscloudNicDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{nic.id}",
-            operation: :'NicApi.datacenters_servers_nics_find_by_id',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_find_by_id',
             return_type: 'Nic',
             result: nic,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{nic.id}",
-            operation: :'NicApi.datacenters_servers_nics_delete',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_delete',
           },
         ],
       )
@@ -56,7 +55,7 @@ describe Chef::Knife::IonoscloudNicDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call NicApi.datacenters_servers_nics_delete when the user ID is not valid' do
+    it 'should not call NetworkInterfacesApi.datacenters_servers_nics_delete when the user ID is not valid' do
       nic_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -77,7 +76,7 @@ describe Chef::Knife::IonoscloudNicDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{nic_id}",
-            operation: :'NicApi.datacenters_servers_nics_find_by_id',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_find_by_id',
             return_type: 'Nic',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

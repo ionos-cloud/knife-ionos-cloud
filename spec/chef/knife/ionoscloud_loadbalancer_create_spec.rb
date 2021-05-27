@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudLoadbalancerCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_post',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_post',
             return_type: 'Loadbalancer',
             body: { properties: load_balancer.properties.to_hash, entities: expected_entities },
             result: load_balancer,
@@ -51,7 +51,7 @@ describe Chef::Knife::IonoscloudLoadbalancerCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
             result: load_balancer,
           },

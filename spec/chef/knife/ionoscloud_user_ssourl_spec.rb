@@ -7,7 +7,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
   subject { Chef::Knife::IonoscloudUserSsourl.new }
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_ssourl_get and output the received url when the user ID is valid' do
+    it 'should call UserS3KeysApi.um_users_ssourl_get and output the received url when the user ID is valid' do
       user = user_mock
       sso_url = sso_url_mock
       subject_config = {
@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
           {
             method: 'GET',
             path: "/um/users/#{user.id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
+            operation: :'UserS3KeysApi.um_users_s3ssourl_get',
             return_type: 'S3ObjectStorageSSO',
             result: sso_url,
           },
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudUserSsourl do
           {
             method: 'GET',
             path: "/um/users/#{user_id}/s3ssourl",
-            operation: :'UserManagementApi.um_users_s3ssourl_get',
+            operation: :'UserS3KeysApi.um_users_s3ssourl_get',
             return_type: 'S3ObjectStorageSSO',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

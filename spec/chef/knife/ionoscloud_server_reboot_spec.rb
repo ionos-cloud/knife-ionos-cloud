@@ -34,8 +34,7 @@ describe Chef::Knife::IonoscloudServerReboot do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/reboot",
-            operation: :'ServerApi.datacenters_servers_reboot_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_reboot_post',
             result: server,
           },
         ],
@@ -64,8 +63,7 @@ describe Chef::Knife::IonoscloudServerReboot do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/reboot",
-            operation: :'ServerApi.datacenters_servers_reboot_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_reboot_post',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

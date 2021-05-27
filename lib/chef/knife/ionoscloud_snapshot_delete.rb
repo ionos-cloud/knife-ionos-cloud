@@ -20,7 +20,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        snapshot_api = Ionoscloud::SnapshotApi.new(api_client)
+        snapshot_api = Ionoscloud::SnapshotsApi.new(api_client)
 
         @name_args.each do |snapshot_id|
           begin

@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
   end
 
   describe '#run' do
-    it 'should call VolumeApi.datacenters_volumes_create_snapshot_post with the expected arguments and output based on what it receives' do
+    it 'should call VolumesApi.datacenters_volumes_create_snapshot_post with the expected arguments and output based on what it receives' do
       snapshot = snapshot_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -40,7 +40,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:volume_id]}/create-snapshot",
-            operation: :'VolumeApi.datacenters_volumes_create_snapshot_post',
+            operation: :'VolumesApi.datacenters_volumes_create_snapshot_post',
             return_type: 'Snapshot',
             result: snapshot,
             form_params: {
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudSnapshotCreate do
           {
             method: 'GET',
             path: "/snapshots/#{snapshot.id}",
-            operation: :'SnapshotApi.snapshots_find_by_id',
+            operation: :'SnapshotsApi.snapshots_find_by_id',
             return_type: 'Snapshot',
             result: snapshot,
           },

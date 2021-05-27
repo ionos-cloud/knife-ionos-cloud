@@ -41,7 +41,7 @@ describe Chef::Knife::IonoscloudBackupunitList do
           {
             method: 'GET',
             path: '/backupunits',
-            operation: :'BackupUnitApi.backupunits_get',
+            operation: :'BackupUnitsApi.backupunits_get',
             return_type: 'BackupUnits',
             result: backupunits,
           },

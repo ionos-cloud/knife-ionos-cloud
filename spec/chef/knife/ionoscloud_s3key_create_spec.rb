@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudS3keyCreate do
   end
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_s3keys_post with the expected arguments and output based on what it receives' do
+    it 'should call UserS3KeysApi.um_users_s3keys_post with the expected arguments and output based on what it receives' do
       s3_key = s3_key_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudS3keyCreate do
           {
             method: 'POST',
             path: "/um/users/#{subject_config[:user_id]}/s3keys",
-            operation: :'UserManagementApi.um_users_s3keys_post',
+            operation: :'UserS3KeysApi.um_users_s3keys_post',
             return_type: 'S3Key',
             result: s3_key,
           },

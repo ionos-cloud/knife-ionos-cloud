@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudFirewallList do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_firewallrules_get' do
+    it 'should call FirewallRulesApi.datacenters_servers_nics_firewallrules_get' do
       firewalls = firewalls_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudFirewallList do
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/"\
                   "nics/#{subject_config[:nic_id]}/firewallrules",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_get',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_get',
             return_type: 'FirewallRules',
             result: firewalls,
           },

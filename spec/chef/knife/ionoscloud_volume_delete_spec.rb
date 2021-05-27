@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudVolumeDelete do
   end
 
   describe '#run' do
-    it 'should call VolumeApi.datacenters_volumes_delete when the ID is valid' do
+    it 'should call VolumesApi.datacenters_volumes_delete when the ID is valid' do
       volume = volume_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -42,14 +42,14 @@ describe Chef::Knife::IonoscloudVolumeDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume.id}",
-            operation: :'VolumeApi.datacenters_volumes_find_by_id',
+            operation: :'VolumesApi.datacenters_volumes_find_by_id',
             return_type: 'Volume',
             result: volume,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume.id}",
-            operation: :'VolumeApi.datacenters_volumes_delete',
+            operation: :'VolumesApi.datacenters_volumes_delete',
           },
         ],
       )
@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudVolumeDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call VolumeApi.datacenters_volumes_delete when the ID is not valid' do
+    it 'should not call VolumesApi.datacenters_volumes_delete when the ID is not valid' do
       volume_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -77,7 +77,7 @@ describe Chef::Knife::IonoscloudVolumeDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume_id}",
-            operation: :'VolumeApi.datacenters_volumes_find_by_id',
+            operation: :'VolumesApi.datacenters_volumes_find_by_id',
             return_type: 'Volume',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

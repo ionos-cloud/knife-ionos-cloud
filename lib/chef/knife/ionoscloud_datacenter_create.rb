@@ -41,7 +41,7 @@ class Chef
 
         print "#{ui.color('Creating data center...', :magenta)}"
 
-        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
+        datacenter_api = Ionoscloud::DataCentersApi.new(api_client)
 
         datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
           properties: {

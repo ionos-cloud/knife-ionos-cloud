@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudBackupunitCreate do
   end
 
   describe '#run' do
-    it 'should call BackupUnitApi.backupunits_post with the expected arguments and output based on what it receives' do
+    it 'should call BackupUnitsApi.backupunits_post with the expected arguments and output based on what it receives' do
       backupunit = backupunit_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudBackupunitCreate do
           {
             method: 'POST',
             path: '/backupunits',
-            operation: :'BackupUnitApi.backupunits_post',
+            operation: :'BackupUnitsApi.backupunits_post',
             return_type: 'BackupUnit',
             body: { properties: backupunit.properties.to_hash },
             result: backupunit,

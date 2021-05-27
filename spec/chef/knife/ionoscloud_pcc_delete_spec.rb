@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudPccDelete do
   end
 
   describe '#run' do
-    it 'should call PrivateCrossConnectApi.pccs_delete when the ID is valid' do
+    it 'should call PrivateCrossConnectsApi.pccs_delete when the ID is valid' do
       pcc = pcc_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -41,14 +41,14 @@ describe Chef::Knife::IonoscloudPccDelete do
           {
             method: 'GET',
             path: "/pccs/#{pcc.id}",
-            operation: :'PrivateCrossConnectApi.pccs_find_by_id',
+            operation: :'PrivateCrossConnectsApi.pccs_find_by_id',
             return_type: 'PrivateCrossConnect',
             result: pcc,
           },
           {
             method: 'DELETE',
             path: "/pccs/#{pcc.id}",
-            operation: :'PrivateCrossConnectApi.pccs_delete',
+            operation: :'PrivateCrossConnectsApi.pccs_delete',
           },
         ],
       )
@@ -56,7 +56,7 @@ describe Chef::Knife::IonoscloudPccDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call PrivateCrossConnectApi.pccs_delete when the ID is not valid' do
+    it 'should not call PrivateCrossConnectsApi.pccs_delete when the ID is not valid' do
       pcc_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -75,7 +75,7 @@ describe Chef::Knife::IonoscloudPccDelete do
           {
             method: 'GET',
             path: "/pccs/#{pcc_id}",
-            operation: :'PrivateCrossConnectApi.pccs_find_by_id',
+            operation: :'PrivateCrossConnectsApi.pccs_find_by_id',
             return_type: 'PrivateCrossConnect',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

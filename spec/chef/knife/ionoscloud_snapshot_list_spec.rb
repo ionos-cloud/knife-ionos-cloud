@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudSnapshotList do
   end
 
   describe '#run' do
-    it 'should call SnapshotApi.snapshots_get' do
+    it 'should call SnapshotsApi.snapshots_get' do
       snapshots = snapshots_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -42,7 +42,7 @@ describe Chef::Knife::IonoscloudSnapshotList do
           {
             method: 'GET',
             path: '/snapshots',
-            operation: :'SnapshotApi.snapshots_get',
+            operation: :'SnapshotsApi.snapshots_get',
             return_type: 'Snapshots',
             result: snapshots,
           },

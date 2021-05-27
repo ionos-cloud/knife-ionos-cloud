@@ -35,11 +35,11 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
+        firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
 
         @name_args.each do |firewall_id|
           begin
-            firewall = nic_api.datacenters_servers_nics_firewallrules_find_by_id(
+            firewall = firewallrules_api.datacenters_servers_nics_firewallrules_find_by_id(
               config[:datacenter_id], config[:server_id], config[:nic_id], firewall_id,
             )
           rescue Ionoscloud::ApiError => err
@@ -65,7 +65,7 @@ class Chef
             next
           end
 
-          _, _, headers = nic_api.datacenters_servers_nics_firewallrules_delete_with_http_info(
+          _, _, headers = firewallrules_api.datacenters_servers_nics_firewallrules_delete_with_http_info(
             config[:datacenter_id], config[:server_id], config[:nic_id], firewall_id,
           )
           ui.warn("Deleted Firewall rule #{firewall.id}. Request ID: #{get_request_id headers}")

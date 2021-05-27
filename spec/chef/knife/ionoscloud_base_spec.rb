@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudBaseTest do
           {
             method: 'GET',
             path: "/requests/#{request_id}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             result: request_status,
           },
@@ -47,7 +47,7 @@ describe Chef::Knife::IonoscloudBaseTest do
           {
             method: 'GET',
             path: "/requests/#{request_id}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             result: request_status,
           },
@@ -67,7 +67,7 @@ describe Chef::Knife::IonoscloudBaseTest do
           {
             method: 'GET',
             path: "/requests/#{request_id}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             result: request_status,
           },
@@ -89,7 +89,7 @@ describe Chef::Knife::IonoscloudBaseTest do
           {
             method: 'GET',
             path: "/requests/#{request_id}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             result: request_status,
           },

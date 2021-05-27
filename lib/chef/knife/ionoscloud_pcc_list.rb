@@ -26,7 +26,7 @@ class Chef
           ui.color('Description', :bold),
         ]
 
-        pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
+        pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
 
         pcc_api.pccs_get({ depth: 1 }).items.each do |pcc|
           pcc_list << pcc.id

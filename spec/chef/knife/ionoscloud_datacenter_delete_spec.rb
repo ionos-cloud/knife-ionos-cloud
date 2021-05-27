@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudDatacenterDelete do
   end
 
   describe '#run' do
-    it 'should call DataCenterApi.datacenters_delete when the ID is valid' do
+    it 'should call DataCentersApi.datacenters_delete when the ID is valid' do
       datacenter = datacenter_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -37,14 +37,14 @@ describe Chef::Knife::IonoscloudDatacenterDelete do
           {
             method: 'GET',
             path: "/datacenters/#{datacenter.id}",
-            operation: :'DataCenterApi.datacenters_find_by_id',
+            operation: :'DataCentersApi.datacenters_find_by_id',
             return_type: 'Datacenter',
             result: datacenter,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{datacenter.id}",
-            operation: :'DataCenterApi.datacenters_delete',
+            operation: :'DataCentersApi.datacenters_delete',
           },
         ],
       )
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudDatacenterDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call DataCenterApi.datacenters_delete when the user ID is not valid' do
+    it 'should not call DataCentersApi.datacenters_delete when the user ID is not valid' do
       datacenter_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -71,7 +71,7 @@ describe Chef::Knife::IonoscloudDatacenterDelete do
           {
             method: 'GET',
             path: "/datacenters/#{datacenter_id}",
-            operation: :'DataCenterApi.datacenters_find_by_id',
+            operation: :'DataCentersApi.datacenters_find_by_id',
             return_type: 'Datacenter',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

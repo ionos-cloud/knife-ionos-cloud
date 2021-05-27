@@ -98,9 +98,9 @@ class Chef
           icmp_code: config[:icmp_code],
         }
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
+        firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
 
-        firewall, _, headers = nic_api.datacenters_servers_nics_firewallrules_post_with_http_info(
+        firewall, _, headers = firewallrules_api.datacenters_servers_nics_firewallrules_post_with_http_info(
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],
@@ -110,7 +110,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        firewall = nic_api.datacenters_servers_nics_firewallrules_find_by_id(
+        firewall = firewallrules_api.datacenters_servers_nics_firewallrules_find_by_id(
           config[:datacenter_id],
           config[:server_id],
           config[:nic_id],

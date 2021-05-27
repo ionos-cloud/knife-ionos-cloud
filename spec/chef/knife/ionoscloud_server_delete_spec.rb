@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudServerDelete do
   end
 
   describe '#run' do
-    it 'should call ServerApi.datacenters_servers_delete when the ID is valid' do
+    it 'should call ServersApi.datacenters_servers_delete when the ID is valid' do
       server = server_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -42,14 +42,14 @@ describe Chef::Knife::IonoscloudServerDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}",
-            operation: :'ServerApi.datacenters_servers_find_by_id',
+            operation: :'ServersApi.datacenters_servers_find_by_id',
             return_type: 'Server',
             result: server,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}",
-            operation: :'ServerApi.datacenters_servers_delete',
+            operation: :'ServersApi.datacenters_servers_delete',
           },
         ],
       )
@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudServerDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call ServerApi.datacenters_servers_delete when the user ID is not valid' do
+    it 'should not call ServersApi.datacenters_servers_delete when the user ID is not valid' do
       server_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -77,7 +77,7 @@ describe Chef::Knife::IonoscloudServerDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}",
-            operation: :'ServerApi.datacenters_servers_find_by_id',
+            operation: :'ServersApi.datacenters_servers_find_by_id',
             return_type: 'Server',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

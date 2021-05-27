@@ -108,10 +108,6 @@ class Chef
               long: '--lan ID',
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
-      option :nat,
-              long: '--nat',
-              description: 'Set to enable NAT on the NIC'
-
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -168,10 +164,8 @@ class Chef
             ips: config[:ips],
             dhcp: config[:dhcp],
             lan: config[:lan],
-            nat: !config[:nat].nil?,
           }.compact)
         )
-
 
         server = Ionoscloud::Server.new(
           properties: Ionoscloud::ServerProperties.new({
@@ -191,7 +185,7 @@ class Chef
           ),
         )
 
-        server_api = Ionoscloud::ServerApi.new(api_client)
+        server_api = Ionoscloud::ServersApi.new(api_client)
 
         server, _, headers = server_api.datacenters_servers_post_with_http_info(config[:datacenter_id], server)
 

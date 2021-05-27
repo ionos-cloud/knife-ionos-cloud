@@ -38,7 +38,7 @@ class Chef
 
         print "#{ui.color('Restoring Snapshot...', :magenta)}"
 
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
+        volume_api = Ionoscloud::VolumesApi.new(api_client)
 
         _, _, headers  = volume_api.datacenters_volumes_restore_snapshot_post_with_http_info(
           config[:datacenter_id],
@@ -49,7 +49,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
+        volume_api = Ionoscloud::VolumesApi.new(api_client)
 
         volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], config[:volume_id])
 

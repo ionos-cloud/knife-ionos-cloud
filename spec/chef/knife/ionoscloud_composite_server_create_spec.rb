@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
   end
 
   describe '#run' do
-    it 'should call ServerApi.datacenters_servers_post with the expected arguments and output based on what it receives' do
+    it 'should call ServersApi.datacenters_servers_post with the expected arguments and output based on what it receives' do
       server = server_mock({ volumes: Ionoscloud::Volumes.new(items: [volume_mock]), nics: Ionoscloud::Nics.new(items: [nic_mock]) })
       subject_config = {
         ionoscloud_username: 'email',
@@ -31,14 +31,13 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
         bus: server.entities.volumes.items.first.properties.bus,
         volume_availability_zone: server.entities.volumes.items.first.properties.availability_zone,
         licence_type: server.entities.volumes.items.first.properties.licence_type,
-        image_alias: 'debian:latest',
+        image: SecureRandom.uuid,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
 
         lan: server.entities.nics.items.first.properties.lan,
         nic_name: server.entities.nics.items.first.properties.name,
         dhcp: server.entities.nics.items.first.properties.dhcp,
         ips: server.entities.nics.items.first.properties.ips.join(','),
-        nat: server.entities.nics.items.first.properties.nat,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -56,13 +55,12 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
 
       expected_entities = server.entities.to_hash
       expected_entities[:volumes][:items][0].delete(:id)
-      expected_entities[:volumes][:items][0][:properties].delete(:image)
       expected_entities[:nics][:items][0].delete(:id)
       expected_entities[:nics][:items][0].delete(:entities)
       expected_entities[:nics][:items][0][:properties].delete(:mac)
       expected_entities[:nics][:items][0][:properties].delete(:firewallActive)
 
-      expected_entities[:volumes][:items][0][:properties][:imageAlias] = subject_config[:image_alias]
+      expected_entities[:volumes][:items][0][:properties][:image] = subject_config[:image]
       expected_entities[:volumes][:items][0][:properties][:imagePassword] = subject_config[:image_password]
 
       mock_wait_for(subject)
@@ -72,7 +70,7 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers",
-            operation: :'ServerApi.datacenters_servers_post',
+            operation: :'ServersApi.datacenters_servers_post',
             return_type: 'Server',
             body: { properties: expected_properties, entities: expected_entities },
             result: server,
@@ -80,7 +78,7 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}",
-            operation: :'ServerApi.datacenters_servers_find_by_id',
+            operation: :'ServersApi.datacenters_servers_find_by_id',
             return_type: 'Server',
             result: server,
           },

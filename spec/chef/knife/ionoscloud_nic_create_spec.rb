@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudNicCreate do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_post with the expected arguments and output based on what it receives' do
+    it 'should call NetworkInterfacesApi.datacenters_servers_nics_post with the expected arguments and output based on what it receives' do
       nic = nic_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -23,7 +23,6 @@ describe Chef::Knife::IonoscloudNicCreate do
         name: nic.properties.name,
         dhcp: nic.properties.dhcp,
         ips: nic.properties.ips.join(','),
-        nat: nic.properties.nat,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -37,7 +36,6 @@ describe Chef::Knife::IonoscloudNicCreate do
       expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
       expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
       expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
-      expect(subject).to receive(:puts).with("NAT: #{nic.properties.nat}")
 
       mock_wait_for(subject)
       mock_call_api(
@@ -46,7 +44,7 @@ describe Chef::Knife::IonoscloudNicCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics",
-            operation: :'NicApi.datacenters_servers_nics_post',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_post',
             return_type: 'Nic',
             body: { properties: expected_body },
             result: nic,
@@ -54,7 +52,7 @@ describe Chef::Knife::IonoscloudNicCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{nic.id}",
-            operation: :'NicApi.datacenters_servers_nics_find_by_id',
+            operation: :'NetworkInterfacesApi.datacenters_servers_nics_find_by_id',
             return_type: 'Nic',
             result: nic,
           },

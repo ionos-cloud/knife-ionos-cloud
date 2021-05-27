@@ -20,7 +20,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
+        pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
 
         @name_args.each do |pcc_id|
           begin

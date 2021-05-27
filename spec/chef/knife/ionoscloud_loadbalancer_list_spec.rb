@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLoadbalancerList do
   end
 
   describe '#run' do
-    it 'should call LoadBalancerApi.datacenters_loadbalancers_get' do
+    it 'should call LoadBalancersApi.datacenters_loadbalancers_get' do
       load_balancers = load_balancers_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudLoadbalancerList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_get',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_get',
             return_type: 'Loadbalancers',
             result: load_balancers,
           },

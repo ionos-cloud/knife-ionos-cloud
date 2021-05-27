@@ -26,7 +26,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
+        volume_api = Ionoscloud::VolumesApi.new(api_client)
 
         @name_args.each do |volume_id|
           begin

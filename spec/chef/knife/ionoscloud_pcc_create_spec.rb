@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudPccCreate do
   end
 
   describe '#run' do
-    it 'should call PrivateCrossConnectApi.pccs_post with the expected arguments and output based on what it receives' do
+    it 'should call PrivateCrossConnectsApi.pccs_post with the expected arguments and output based on what it receives' do
       pcc = pcc_mock
       datacenter_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
       lan_ids = pcc.properties.peers.map { |peer| peer.id }
@@ -39,7 +39,7 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'POST',
             path: '/pccs',
-            operation: :'PrivateCrossConnectApi.pccs_post',
+            operation: :'PrivateCrossConnectsApi.pccs_post',
             return_type: 'PrivateCrossConnect',
             body: { properties: { name: pcc.properties.name, description: pcc.properties.description } },
             result: pcc,
@@ -47,14 +47,14 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'GET',
             path: "/pccs/#{pcc.id}",
-            operation: :'PrivateCrossConnectApi.pccs_find_by_id',
+            operation: :'PrivateCrossConnectsApi.pccs_find_by_id',
             return_type: 'PrivateCrossConnect',
             result: pcc,
           },
           {
             method: 'PATCH',
             path: "/datacenters/#{pcc.properties.connectable_datacenters[0].id}/lans/#{pcc.properties.peers[0].id}",
-            operation: :'LanApi.datacenters_lans_patch',
+            operation: :'LansApi.datacenters_lans_patch',
             return_type: 'Lan',
             body: { pcc: pcc.id },
             result: pcc.properties.peers[0],
@@ -62,7 +62,7 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'PATCH',
             path: "/datacenters/#{pcc.properties.connectable_datacenters[1].id}/lans/#{pcc.properties.peers[1].id}",
-            operation: :'LanApi.datacenters_lans_patch',
+            operation: :'LansApi.datacenters_lans_patch',
             return_type: 'Lan',
             body: { pcc: pcc.id },
             result: pcc.properties.peers[1],
@@ -70,7 +70,7 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'GET',
             path: "/pccs/#{pcc.id}",
-            operation: :'PrivateCrossConnectApi.pccs_find_by_id',
+            operation: :'PrivateCrossConnectsApi.pccs_find_by_id',
             return_type: 'PrivateCrossConnect',
             result: pcc,
           },

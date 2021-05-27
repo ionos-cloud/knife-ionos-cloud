@@ -45,10 +45,10 @@ class Chef
         opts = { depth: 1 }
 
         if config[:server_id]
-          server_api = Ionoscloud::ServerApi.new(api_client)
+          server_api = Ionoscloud::ServersApi.new(api_client)
           volumes = server_api.datacenters_servers_volumes_get(config[:datacenter_id], config[:server_id], opts)
         else
-          volume_api = Ionoscloud::VolumeApi.new(api_client)
+          volume_api = Ionoscloud::VolumesApi.new(api_client)
           volumes = volume_api.datacenters_volumes_get(config[:datacenter_id], opts)
         end
 

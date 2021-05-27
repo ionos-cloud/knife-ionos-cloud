@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
   end
 
   describe '#run' do
-    it 'should call VolumeApi.datacenters_volumes_create_snapshot_post with the expected arguments and output based on what it receives' do
+    it 'should call VolumesApi.datacenters_volumes_create_snapshot_post with the expected arguments and output based on what it receives' do
       snapshot = snapshot_mock
       volume = volume_mock
       subject_config = {
@@ -41,13 +41,13 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume.id}/restore-snapshot",
-            operation: :'VolumeApi.datacenters_volumes_restore_snapshot_post',
+            operation: :'VolumesApi.datacenters_volumes_restore_snapshot_post',
             form_params: { 'snapshotId' => snapshot.id },
           },
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{volume.id}",
-            operation: :'VolumeApi.datacenters_volumes_find_by_id',
+            operation: :'VolumesApi.datacenters_volumes_find_by_id',
             return_type: 'Volume',
             result: volume,
           },

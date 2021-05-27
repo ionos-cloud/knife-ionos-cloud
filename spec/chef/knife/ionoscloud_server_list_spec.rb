@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudServerList do
   end
 
   describe '#run' do
-    it 'should call ServerApi.datacenters_servers_get' do
+    it 'should call ServersApi.datacenters_servers_get' do
       servers = servers_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -54,7 +54,7 @@ describe Chef::Knife::IonoscloudServerList do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers",
-            operation: :'ServerApi.datacenters_servers_get',
+            operation: :'ServersApi.datacenters_servers_get',
             return_type: 'Servers',
             result: servers,
           },

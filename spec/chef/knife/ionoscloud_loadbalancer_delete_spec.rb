@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
   end
 
   describe '#run' do
-    it 'should call LoadBalancerApi.datacenters_loadbalancers_delete when the ID is valid' do
+    it 'should call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is valid' do
       load_balancer = load_balancer_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -41,14 +41,14 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
             result: load_balancer,
           },
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_delete',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_delete',
           },
         ],
       )
@@ -56,7 +56,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call LoadBalancerApi.datacenters_loadbalancers_delete when the ID is not valid' do
+    it 'should not call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is not valid' do
       load_balancer_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -76,7 +76,7 @@ describe Chef::Knife::IonoscloudLoadbalancerDelete do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer_id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

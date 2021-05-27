@@ -75,7 +75,7 @@ class Chef
         params[:bootCdrom] = { id: config[:boot_cdrom] } unless config[:boot_cdrom].nil?
         params[:bootVolume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
 
-        server_api = Ionoscloud::ServerApi.new(api_client)
+        server_api = Ionoscloud::ServersApi.new(api_client)
 
         server, _, headers = server_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],

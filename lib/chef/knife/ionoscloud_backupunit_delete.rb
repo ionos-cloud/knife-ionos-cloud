@@ -23,7 +23,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        backupunit_api = Ionoscloud::BackupUnitApi.new(api_client)
+        backupunit_api = Ionoscloud::BackupUnitsApi.new(api_client)
 
         @name_args.each do |backupunit_id|
           begin

@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
   end
 
   describe '#run' do
-    it 'should call LabelApi.datacenters_labels_delete when the type is datacenter and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_labels_delete when the type is datacenter and output based on what it receives' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -34,7 +34,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_labels_delete',
+            operation: :'LabelsApi.datacenters_labels_delete',
             result: label,
           },
         ],
@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print when LabelApi.datacenters_labels_delete returns 404' do
+    it 'should print when LabelsApi.datacenters_labels_delete returns 404' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -65,7 +65,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_labels_delete',
+            operation: :'LabelsApi.datacenters_labels_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_servers_labels_delete when the type is datacenter and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_servers_labels_delete when the type is datacenter and output based on what it receives' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -97,7 +97,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_servers_labels_delete',
+            operation: :'LabelsApi.datacenters_servers_labels_delete',
             result: label,
           },
         ],
@@ -106,7 +106,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print when LabelApi.datacenters_servers_labels_delete returns 404' do
+    it 'should print when LabelsApi.datacenters_servers_labels_delete returns 404' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -129,7 +129,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_servers_labels_delete',
+            operation: :'LabelsApi.datacenters_servers_labels_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -138,7 +138,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_volumes_labels_delete when the type is datacenter and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_volumes_labels_delete when the type is datacenter and output based on what it receives' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -161,7 +161,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_volumes_labels_delete',
+            operation: :'LabelsApi.datacenters_volumes_labels_delete',
             result: label,
           },
         ],
@@ -170,7 +170,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print when LabelApi.datacenters_volumes_labels_delete returns 404' do
+    it 'should print when LabelsApi.datacenters_volumes_labels_delete returns 404' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -193,7 +193,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.datacenters_volumes_labels_delete',
+            operation: :'LabelsApi.datacenters_volumes_labels_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -201,7 +201,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
 
       expect { subject.run }.not_to raise_error(Exception)
     end
-    it 'should call LabelApi.ipblocks_labels_delete when the type is ipblock and output based on what it receives' do
+    it 'should call LabelsApi.ipblocks_labels_delete when the type is ipblock and output based on what it receives' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -223,7 +223,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/ipblocks/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.ipblocks_labels_delete',
+            operation: :'LabelsApi.ipblocks_labels_delete',
             result: label,
           },
         ],
@@ -232,7 +232,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print when LabelApi.ipblocks_labels_delete returns 404' do
+    it 'should print when LabelsApi.ipblocks_labels_delete returns 404' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -254,7 +254,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/ipblocks/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.ipblocks_labels_delete',
+            operation: :'LabelsApi.ipblocks_labels_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -263,7 +263,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.snapshots_labels_delete when the type is snapshot and output based on what it receives' do
+    it 'should call LabelsApi.snapshots_labels_delete when the type is snapshot and output based on what it receives' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -285,7 +285,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/snapshots/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.snapshots_labels_delete',
+            operation: :'LabelsApi.snapshots_labels_delete',
             result: label,
           },
         ],
@@ -294,7 +294,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should print when LabelApi.snapshots_labels_delete returns 404' do
+    it 'should print when LabelsApi.snapshots_labels_delete returns 404' do
       label = label_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -316,7 +316,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
           {
             method: 'DELETE',
             path: "/snapshots/#{subject_config[:resource_id]}/labels/#{label.id}",
-            operation: :'LabelApi.snapshots_labels_delete',
+            operation: :'LabelsApi.snapshots_labels_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

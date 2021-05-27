@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudS3keyDelete do
   end
 
   describe '#run' do
-    it 'should call UserManagementApi.um_users_s3keys_delete when the ID is valid' do
+    it 'should call UserS3KeysApi.um_users_s3keys_delete when the ID is valid' do
       s3_key = s3_key_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -37,14 +37,14 @@ describe Chef::Knife::IonoscloudS3keyDelete do
           {
             method: 'GET',
             path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key.id}",
-            operation: :'UserManagementApi.um_users_s3keys_find_by_key_id',
+            operation: :'UserS3KeysApi.um_users_s3keys_find_by_key_id',
             return_type: 'S3Key',
             result: s3_key,
           },
           {
             method: 'DELETE',
             path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key.id}",
-            operation: :'UserManagementApi.um_users_s3keys_delete',
+            operation: :'UserS3KeysApi.um_users_s3keys_delete',
           },
         ],
       )
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudS3keyDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call UserManagementApi.um_users_s3keys_delete when the ID is not valid' do
+    it 'should not call UserS3KeysApi.um_users_s3keys_delete when the ID is not valid' do
       s3_key_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudS3keyDelete do
           {
             method: 'GET',
             path: "/um/users/#{subject_config[:user_id]}/s3keys/#{s3_key_id}",
-            operation: :'UserManagementApi.um_users_s3keys_find_by_key_id',
+            operation: :'UserS3KeysApi.um_users_s3keys_find_by_key_id',
             return_type: 'S3Key',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

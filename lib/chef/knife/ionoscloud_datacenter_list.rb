@@ -33,7 +33,7 @@ class Chef
           ui.color('Version', :bold),
         ]
 
-        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
+        datacenter_api = Ionoscloud::DataCentersApi.new(api_client)
 
         datacenter_api.datacenters_get({ depth: 1 }).items.each do |datacenter|
           datacenter_list << datacenter.id

@@ -48,9 +48,9 @@ class Chef
           ui.color('ICMP CODE', :bold),
         ]
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
+        firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
 
-        nic_api.datacenters_servers_nics_firewallrules_get(
+        firewallrules_api.datacenters_servers_nics_firewallrules_get(
           config[:datacenter_id], config[:server_id], config[:nic_id], { depth: 1 }
         ).items.each do |firewall|
           firewall_list << firewall.id

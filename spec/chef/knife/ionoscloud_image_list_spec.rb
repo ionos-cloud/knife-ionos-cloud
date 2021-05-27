@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudImageList do
   end
 
   describe '#run' do
-    it 'should call ImageApi.images_get' do
+    it 'should call ImagesApi.images_get' do
       images = images_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudImageList do
           {
             method: 'GET',
             path: '/images',
-            operation: :'ImageApi.images_get',
+            operation: :'ImagesApi.images_get',
             return_type: 'Images',
             result: images,
           },

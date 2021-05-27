@@ -30,7 +30,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        nic_api = Ionoscloud::NicApi.new(api_client)
+        nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
         @name_args.each do |nic_id|
           begin
             nic = nic_api.datacenters_servers_nics_find_by_id(config[:datacenter_id], config[:server_id], nic_id)
@@ -45,7 +45,6 @@ class Chef
           msg_pair('IPs', nic.properties.ips)
           msg_pair('DHCP', nic.properties.dhcp)
           msg_pair('LAN', nic.properties.lan)
-          msg_pair('NAT', nic.properties.nat)
 
           begin
             confirm('Do you really want to delete this Nic')

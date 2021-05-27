@@ -37,7 +37,7 @@ class Chef
 
         print "#{ui.color('Creating Backup unit...', :magenta)}"
 
-        backupunit_api = Ionoscloud::BackupUnitApi.new(api_client)
+        backupunit_api = Ionoscloud::BackupUnitsApi.new(api_client)
 
         backupunit, _, headers  = backupunit_api.backupunits_post_with_http_info({
           properties: {

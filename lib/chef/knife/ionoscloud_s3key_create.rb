@@ -27,9 +27,9 @@ class Chef
 
         print "#{ui.color('Creating S3key...', :magenta)}"
 
-        user_management_api = Ionoscloud::UserManagementApi.new(api_client)
+        user_s3keys_api = Ionoscloud::UserS3KeysApi.new(api_client)
 
-        s3_key, _, headers  = user_management_api.um_users_s3keys_post_with_http_info(config[:user_id])
+        s3_key, _, headers  = user_s3keys_api.um_users_s3keys_post_with_http_info(config[:user_id])
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }

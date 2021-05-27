@@ -25,7 +25,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        lan_api = Ionoscloud::LanApi.new(api_client)
+        lan_api = Ionoscloud::LansApi.new(api_client)
         @name_args.each do |lan_id|
           begin
             lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan_id)

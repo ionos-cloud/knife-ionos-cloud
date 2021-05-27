@@ -30,7 +30,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
+        load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)
 
         load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
           config[:datacenter_id],

@@ -25,11 +25,11 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        user_management_api = Ionoscloud::UserManagementApi.new(api_client)
+        user_s3keys_api = Ionoscloud::UserS3KeysApi.new(api_client)
 
         @name_args.each do |s3key_id|
           begin
-            s3_key = user_management_api.um_users_s3keys_find_by_key_id(config[:user_id], s3key_id)
+            s3_key = user_s3keys_api.um_users_s3keys_find_by_key_id(config[:user_id], s3key_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("S3 key ID #{s3key_id} not found. Skipping.")
@@ -48,7 +48,7 @@ class Chef
             next
           end
 
-          _, _, headers = user_management_api.um_users_s3keys_delete_with_http_info(config[:user_id], s3key_id)
+          _, _, headers = user_s3keys_api.um_users_s3keys_delete_with_http_info(config[:user_id], s3key_id)
           ui.warn("Deleted S3 key #{s3_key.id}. Request ID: #{get_request_id headers}")
         end
       end

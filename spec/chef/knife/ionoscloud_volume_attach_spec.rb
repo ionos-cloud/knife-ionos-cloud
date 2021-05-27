@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudVolumeAttach do
   end
 
   describe '#run' do
-    it 'should call ServerApi.datacenters_servers_volumes_post when the ID is valid' do
+    it 'should call ServersApi.datacenters_servers_volumes_post when the ID is valid' do
       volume = volume_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -35,7 +35,7 @@ describe Chef::Knife::IonoscloudVolumeAttach do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
-            operation: :'ServerApi.datacenters_servers_volumes_post',
+            operation: :'ServersApi.datacenters_servers_volumes_post',
             body: { id: volume.id },
             return_type: 'Volume',
             result: volume,
@@ -46,7 +46,7 @@ describe Chef::Knife::IonoscloudVolumeAttach do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call ServerApi.datacenters_servers_volumes_post when the ID is not valid' do
+    it 'should not call ServersApi.datacenters_servers_volumes_post when the ID is not valid' do
       volume_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -67,7 +67,7 @@ describe Chef::Knife::IonoscloudVolumeAttach do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/volumes",
-            operation: :'ServerApi.datacenters_servers_volumes_post',
+            operation: :'ServersApi.datacenters_servers_volumes_post',
             body: { id: volume_id },
             return_type: 'Volume',
             exception: Ionoscloud::ApiError.new(code: 404),

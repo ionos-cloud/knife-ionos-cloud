@@ -57,7 +57,7 @@ class Chef
       end
 
       def is_done?(request_id)
-        response = Ionoscloud::RequestApi.new(api_client).requests_status_get(request_id)
+        response = Ionoscloud::RequestsApi.new(api_client).requests_status_get(request_id)
         if response.metadata.status == 'FAILED'
           puts "\nRequest #{request_id} failed\n#{response.metadata.message.to_s}"
           exit(1)

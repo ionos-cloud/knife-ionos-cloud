@@ -34,8 +34,7 @@ describe Chef::Knife::IonoscloudServerStart do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/start",
-            operation: :'ServerApi.datacenters_servers_start_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_start_post',
             result: server,
           },
         ],
@@ -64,8 +63,7 @@ describe Chef::Knife::IonoscloudServerStart do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/start",
-            operation: :'ServerApi.datacenters_servers_start_post',
-            return_type: 'Object',
+            operation: :'ServersApi.datacenters_servers_start_post',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

@@ -51,7 +51,7 @@ class Chef
           ui.color('Targets', :bold),
         ]
 
-        request_api = Ionoscloud::RequestApi.new(api_client)
+        request_api = Ionoscloud::RequestsApi.new(api_client)
 
         begin
           config[:limit] = Integer(config[:limit])

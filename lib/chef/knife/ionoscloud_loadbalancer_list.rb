@@ -33,7 +33,7 @@ class Chef
           ui.color('NICs count', :bold),
         ]
 
-        load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
+        load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)
 
         load_balancer_api.datacenters_loadbalancers_get(config[:datacenter_id], { depth: 2 }).items.each do |load_balancer|
           load_balancers_list << load_balancer.id

@@ -49,7 +49,7 @@ class Chef
           config[:nics] = config[:nics].split(',').map! { |nic| { id: nic } }
         end
 
-        load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
+        load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)
 
         load_balancer, _, headers  = load_balancer_api.datacenters_loadbalancers_post_with_http_info(
           config[:datacenter_id],

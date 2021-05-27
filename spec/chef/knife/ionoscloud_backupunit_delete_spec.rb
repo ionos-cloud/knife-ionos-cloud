@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
   end
 
   describe '#run' do
-    it 'should call BackupUnitApi.backupunits_delete when the ID is valid' do
+    it 'should call BackupUnitsApi.backupunits_delete when the ID is valid' do
       backupunit = backupunit_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -36,14 +36,14 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
           {
             method: 'GET',
             path: "/backupunits/#{backupunit.id}",
-            operation: :'BackupUnitApi.backupunits_find_by_id',
+            operation: :'BackupUnitsApi.backupunits_find_by_id',
             return_type: 'BackupUnit',
             result: backupunit,
           },
           {
             method: 'DELETE',
             path: "/backupunits/#{backupunit.id}",
-            operation: :'BackupUnitApi.backupunits_delete',
+            operation: :'BackupUnitsApi.backupunits_delete',
           },
         ],
       )
@@ -51,7 +51,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call BackupUnitApi.backupunits_delete when the ID is not valid' do
+    it 'should not call BackupUnitsApi.backupunits_delete when the ID is not valid' do
       backup_unit = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -70,7 +70,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
           {
             method: 'GET',
             path: "/backupunits/#{backup_unit}",
-            operation: :'BackupUnitApi.backupunits_find_by_id',
+            operation: :'BackupUnitsApi.backupunits_find_by_id',
             return_type: 'BackupUnit',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

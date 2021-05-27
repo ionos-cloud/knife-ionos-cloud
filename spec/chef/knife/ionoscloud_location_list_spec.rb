@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLocationList do
   end
 
   describe '#run' do
-    it 'should call LocationApi.locations_get' do
+    it 'should call LocationsApi.locations_get' do
       locations = locations_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -36,7 +36,7 @@ describe Chef::Knife::IonoscloudLocationList do
           {
             method: 'GET',
             path: '/locations',
-            operation: :'LocationApi.locations_get',
+            operation: :'LocationsApi.locations_get',
             return_type: 'Locations',
             result: locations,
           },

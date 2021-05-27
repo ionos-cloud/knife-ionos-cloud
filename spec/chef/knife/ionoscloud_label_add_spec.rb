@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
   end
 
   describe '#run' do
-    it 'should call LabelApi.datacenters_labels_post when the type is datacenter and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_labels_post when the type is datacenter and output based on what it receives' do
       label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -42,7 +42,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_labels_post',
+            operation: :'LabelsApi.datacenters_labels_post',
             return_type: 'LabelResource',
             body: { properties: expected_body },
             result: label,
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_servers_labels_post when the type is server and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_servers_labels_post when the type is server and output based on what it receives' do
       label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_servers_labels_post',
+            operation: :'LabelsApi.datacenters_servers_labels_post',
             return_type: 'LabelResource',
             body: { properties: expected_body },
             result: label,
@@ -95,7 +95,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.datacenters_volumes_labels_post when the type is volume and output based on what it receives' do
+    it 'should call LabelsApi.datacenters_volumes_labels_post when the type is volume and output based on what it receives' do
       label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -126,7 +126,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_volumes_labels_post',
+            operation: :'LabelsApi.datacenters_volumes_labels_post',
             return_type: 'LabelResource',
             body: { properties: expected_body },
             result: label,
@@ -137,7 +137,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.ipblocks_labels_post when the type is ipblock and output based on what it receives' do
+    it 'should call LabelsApi.ipblocks_labels_post when the type is ipblock and output based on what it receives' do
       label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -167,7 +167,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
           {
             method: 'POST',
             path: "/ipblocks/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.ipblocks_labels_post',
+            operation: :'LabelsApi.ipblocks_labels_post',
             return_type: 'LabelResource',
             body: { properties: expected_body },
             result: label,
@@ -178,7 +178,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LabelApi.snapshots_labels_post when the type is snapshot and output based on what it receives' do
+    it 'should call LabelsApi.snapshots_labels_post when the type is snapshot and output based on what it receives' do
       label = label_resource_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -208,7 +208,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
           {
             method: 'POST',
             path: "/snapshots/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.snapshots_labels_post',
+            operation: :'LabelsApi.snapshots_labels_post',
             return_type: 'LabelResource',
             body: { properties: expected_body },
             result: label,

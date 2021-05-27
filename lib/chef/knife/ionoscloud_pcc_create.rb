@@ -36,7 +36,7 @@ class Chef
 
         print "#{ui.color('Creating private cross connect...', :magenta)}"
 
-        pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
+        pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
         config[:peers] = config[:peers].split(',') unless config[:peers].nil?
 
         if config[:peers] && config[:peers].length % 2 != 0
@@ -57,7 +57,7 @@ class Chef
         pcc = pcc_api.pccs_find_by_id(pcc.id)
 
         if config[:peers]
-          lan_api = Ionoscloud::LanApi.new(api_client)
+          lan_api = Ionoscloud::LansApi.new(api_client)
 
           header_list = []
           allowed_datacenters_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }

@@ -22,7 +22,7 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
+        datacenter_api = Ionoscloud::DataCentersApi.new(api_client)
 
         @name_args.each do |datacenter_id|
           begin

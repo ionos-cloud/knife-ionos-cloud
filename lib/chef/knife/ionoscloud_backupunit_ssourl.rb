@@ -28,7 +28,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         begin
-          puts Ionoscloud::BackupUnitApi.new(api_client).backupunits_ssourl_get(config[:backupunit_id]).sso_url
+          puts Ionoscloud::BackupUnitsApi.new(api_client).backupunits_ssourl_get(config[:backupunit_id]).sso_url
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
           ui.error("Backup unit ID #{config[:backupunit_id]} not found.")

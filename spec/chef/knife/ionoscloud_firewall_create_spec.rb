@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_firewallrules_post with the expected arguments and output based on what it receives' do
+    it 'should call FirewallRulesApi.datacenters_servers_nics_firewallrules_post with the expected arguments and output based on what it receives' do
       firewall = firewall_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -51,7 +51,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{subject_config[:nic_id]}/firewallrules",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_post',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_post',
             return_type: 'FirewallRule',
             body: { properties: firewall.properties.to_hash },
             result: firewall,
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/nics/#{subject_config[:nic_id]}/firewallrules/#{firewall.id}",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_find_by_id',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_find_by_id',
             return_type: 'FirewallRule',
             result: firewall,
           },

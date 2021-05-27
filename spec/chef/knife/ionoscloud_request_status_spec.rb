@@ -7,7 +7,7 @@ describe Chef::Knife::IonoscloudRequestStatus do
   subject { Chef::Knife::IonoscloudRequestStatus.new }
 
   describe '#run' do
-    it 'should call RequestApi.requests_status_get and output the received status when the request ID is valid' do
+    it 'should call RequestsApi.requests_status_get and output the received status when the request ID is valid' do
       request_status = request_status_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -26,7 +26,7 @@ describe Chef::Knife::IonoscloudRequestStatus do
           {
             method: 'GET',
             path: "/requests/#{subject_config[:request_id]}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             result: request_status,
           },
@@ -58,7 +58,7 @@ describe Chef::Knife::IonoscloudRequestStatus do
           {
             method: 'GET',
             path: "/requests/#{request_id}/status",
-            operation: :'RequestApi.requests_status_get',
+            operation: :'RequestsApi.requests_status_get',
             return_type: 'RequestStatus',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

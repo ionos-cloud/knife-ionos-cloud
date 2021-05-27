@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudServerCreate do
   end
 
   describe '#run' do
-    it 'should call ServerApi.datacenters_servers_post with the expected arguments and output based on what it receives' do
+    it 'should call ServersApi.datacenters_servers_post with the expected arguments and output based on what it receives' do
       server = server_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -45,7 +45,7 @@ describe Chef::Knife::IonoscloudServerCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers",
-            operation: :'ServerApi.datacenters_servers_post',
+            operation: :'ServersApi.datacenters_servers_post',
             return_type: 'Server',
             body: { properties: server.properties.to_hash },
             result: server,
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudServerCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}",
-            operation: :'ServerApi.datacenters_servers_find_by_id',
+            operation: :'ServersApi.datacenters_servers_find_by_id',
             return_type: 'Server',
             result: server,
           },

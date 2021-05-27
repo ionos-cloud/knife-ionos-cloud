@@ -92,7 +92,7 @@ class Chef
 
         print "#{ui.color('Creating volume...', :magenta)}"
 
-        volume_api = Ionoscloud::VolumeApi.new(api_client)
+        volume_api = Ionoscloud::VolumesApi.new(api_client)
 
         volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
           config[:datacenter_id],

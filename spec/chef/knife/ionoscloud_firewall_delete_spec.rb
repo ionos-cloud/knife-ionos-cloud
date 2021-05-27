@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
   end
 
   describe '#run' do
-    it 'should call NicApi.datacenters_servers_nics_firewallrules_firewallrules_delete when the ID is valid' do
+    it 'should call FirewallRulesApi.datacenters_servers_nics_firewallrules_firewallrules_delete when the ID is valid' do
       firewall = firewall_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -47,7 +47,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/"\
                   "nics/#{subject_config[:nic_id]}/firewallrules/#{firewall.id}",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_find_by_id',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_find_by_id',
             return_type: 'FirewallRule',
             result: firewall,
           },
@@ -55,7 +55,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/"\
                   "nics/#{subject_config[:nic_id]}/firewallrules/#{firewall.id}",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_delete',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_delete',
           },
         ],
       )
@@ -63,7 +63,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call NicApi.datacenters_servers_nics_firewallrules_delete when the user ID is not valid' do
+    it 'should not call FirewallRulesApi.datacenters_servers_nics_firewallrules_delete when the user ID is not valid' do
       firewall_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
@@ -86,7 +86,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:server_id]}/"\
                   "nics/#{subject_config[:nic_id]}/firewallrules/#{firewall_id}",
-            operation: :'NicApi.datacenters_servers_nics_firewallrules_find_by_id',
+            operation: :'FirewallRulesApi.datacenters_servers_nics_firewallrules_find_by_id',
             return_type: 'FirewallRule',
             exception: Ionoscloud::ApiError.new(code: 404),
           },

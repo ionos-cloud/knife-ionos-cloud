@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
   end
 
   describe '#run' do
-    it 'should call LoadBalancerApi.datacenters_loadbalancers_delete when the ID is valid' do
+    it 'should call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is valid' do
       load_balancer = load_balancer_mock
       nic = nic_mock
       subject_config = {
@@ -43,12 +43,12 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}/balancednics/#{nic.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_balancednics_delete',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_balancednics_delete',
           },
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
             result: load_balancer,
           },
@@ -58,7 +58,7 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call LoadBalancerApi.datacenters_loadbalancers_delete when the ID is not valid' do
+    it 'should not call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is not valid' do
       load_balancer = load_balancer_mock
       nic_id = 'invalid_id'
       subject_config = {
@@ -87,13 +87,13 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
           {
             method: 'DELETE',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{subject_config[:loadbalancer_id]}/balancednics/#{nic_id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_balancednics_delete',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_balancednics_delete',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+            operation: :'LoadBalancersApi.datacenters_loadbalancers_find_by_id',
             return_type: 'Loadbalancer',
             result: load_balancer,
           },

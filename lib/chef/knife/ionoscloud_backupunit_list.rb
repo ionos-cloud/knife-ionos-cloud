@@ -26,7 +26,7 @@ class Chef
           ui.color('Email', :bold),
         ]
 
-        backupunit_api = Ionoscloud::BackupUnitApi.new(api_client)
+        backupunit_api = Ionoscloud::BackupUnitsApi.new(api_client)
 
         backupunit_api.backupunits_get({ depth: 1 }).items.each do |backupunit|
           backupunit_list << backupunit.id

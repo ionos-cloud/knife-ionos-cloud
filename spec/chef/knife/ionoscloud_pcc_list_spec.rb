@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudPccList do
   end
 
   describe '#run' do
-    it 'should call PrivateCrossConnectApi.pccs_get' do
+    it 'should call PrivateCrossConnectsApi.pccs_get' do
       pccs = pccs_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -38,7 +38,7 @@ describe Chef::Knife::IonoscloudPccList do
           {
             method: 'GET',
             path: '/pccs',
-            operation: :'PrivateCrossConnectApi.pccs_get',
+            operation: :'PrivateCrossConnectsApi.pccs_get',
             return_type: 'PrivateCrossConnects',
             result: pccs,
           },
