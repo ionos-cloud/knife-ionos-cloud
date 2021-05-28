@@ -28,6 +28,8 @@ class Chef
         server_list = [
           ui.color('ID', :bold),
           ui.color('Name', :bold),
+          ui.color('Type', :bold),
+          ui.color('Template', :bold),
           ui.color('Cores', :bold),
           ui.color('CPU Family', :bold),
           ui.color('RAM', :bold),
@@ -42,6 +44,8 @@ class Chef
         server_api.datacenters_servers_get(config[:datacenter_id], { depth: 1 }).items.each do |server|
           server_list << server.id
           server_list << server.properties.name
+          server_list << server.properties.type
+          server_list << server.properties.template_uuid
           server_list << server.properties.cores.to_s
           server_list << server.properties.cpu_family
           server_list << server.properties.ram.to_s
@@ -51,7 +55,7 @@ class Chef
           server_list << (server.properties.boot_cdrom.nil? ? '' : server.properties.boot_cdrom.id)
         end
 
-        puts ui.list(server_list, :uneven_columns_across, 9)
+        puts ui.list(server_list, :uneven_columns_across, 11)
       end
     end
   end
