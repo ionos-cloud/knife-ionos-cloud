@@ -123,19 +123,27 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !config[:image] && !config[:image_alias]
-          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
+        if !(!!config[:image] ^ !!config[:licence_type])
+          ui.error('Either \'--image\' or \'--licence_type\' parameter must be provided (not both)')
           exit(1)
         end
 
-        if !config[:ssh_keys] && !config[:image_password]
-          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
-          exit(1)
+        if config[:image]
+          if !config[:ssh_keys] && !config[:image_password]
+            ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided when image is set')
+            exit(1)
+          end
+  
+          if config[:ssh_keys]
+            config[:ssh_keys] = config[:ssh_keys].split(',')
+          end
+        else
+          if config[:ssh_keys] || config[:image_password]
+            ui.error('Neither \'--image-password\' nor \'--ssh-keys\' parameters should be provided when image is not set')
+            exit(1)
+          end
         end
 
-        if config[:ssh_keys]
-          config[:ssh_keys] = config[:ssh_keys].split(',')
-        end
 
         if config[:ips]
           config[:ips] = config[:ips].split(',')

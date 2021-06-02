@@ -25,10 +25,11 @@ describe Chef::Knife::IonoscloudServerList do
       server_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
+        subject.ui.color('Type', :bold),
+        subject.ui.color('Template', :bold),
         subject.ui.color('Cores', :bold),
         subject.ui.color('CPU Family', :bold),
         subject.ui.color('RAM', :bold),
-        subject.ui.color('Availability Zone', :bold),
         subject.ui.color('VM State', :bold),
         subject.ui.color('Boot Volume', :bold),
         subject.ui.color('Boot CDROM', :bold),
@@ -37,16 +38,17 @@ describe Chef::Knife::IonoscloudServerList do
       servers.items.each do |server|
         server_list << server.id
         server_list << server.properties.name
+        server_list << server.properties.type
+        server_list << server.properties.template_uuid
         server_list << server.properties.cores.to_s
         server_list << server.properties.cpu_family
         server_list << server.properties.ram.to_s
-        server_list << server.properties.availability_zone
         server_list << server.properties.vm_state
         server_list << (server.properties.boot_volume.nil? ? '' : server.properties.boot_volume.id)
         server_list << (server.properties.boot_cdrom.nil? ? '' : server.properties.boot_cdrom.id)
       end
 
-      expect(subject.ui).to receive(:list).with(server_list, :uneven_columns_across, 9)
+      expect(subject.ui).to receive(:list).with(server_list, :uneven_columns_across, 10)
 
       mock_call_api(
         subject,

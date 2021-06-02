@@ -30,7 +30,6 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
         type: server.entities.volumes.items.first.properties.type,
         bus: server.entities.volumes.items.first.properties.bus,
         volume_availability_zone: server.entities.volumes.items.first.properties.availability_zone,
-        licence_type: server.entities.volumes.items.first.properties.licence_type,
         image: SecureRandom.uuid,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
 
@@ -60,6 +59,7 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
       expected_entities[:nics][:items][0][:properties].delete(:mac)
       expected_entities[:nics][:items][0][:properties].delete(:firewallActive)
 
+      expected_entities[:volumes][:items][0][:properties].delete(:licenceType)
       expected_entities[:volumes][:items][0][:properties][:image] = subject_config[:image]
       expected_entities[:volumes][:items][0][:properties][:imagePassword] = subject_config[:image_password]
 

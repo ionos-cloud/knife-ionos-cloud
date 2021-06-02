@@ -57,11 +57,6 @@ class Chef
               long: '--image-password PASSWORD',
               description: 'The password set on the image for the "root" or "Administrator" user'
 
-      option :volume_availability_zone,
-              short: '-Z AVAILABILITY_ZONE',
-              long: '--volume-availability-zone AVAILABILITY_ZONE',
-              description: 'The volume availability zone of the server'
-
       option :ssh_keys,
               short: '-K SSHKEY[,SSHKEY,...]',
               long: '--ssh-keys SSHKEY1,SSHKEY2,...',
@@ -144,7 +139,6 @@ class Chef
             image_password: config[:image_password],
             type: 'DAS',
             licence_type: config[:licence_type],
-            availability_zone: config[:volume_availability_zone],
           }.compact)
         )
 
