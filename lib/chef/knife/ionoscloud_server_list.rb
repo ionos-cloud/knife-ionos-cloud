@@ -12,6 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'The ID of the datacenter containing the server'
 
+      option :upgrade_needed,
+              short: '-u',
+              long: '--upgrade-needed',
+              description: 'It can be used to filter which servers can be upgraded'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -33,7 +38,6 @@ class Chef
           ui.color('Cores', :bold),
           ui.color('CPU Family', :bold),
           ui.color('RAM', :bold),
-          ui.color('Availability Zone', :bold),
           ui.color('VM State', :bold),
           ui.color('Boot Volume', :bold),
           ui.color('Boot CDROM', :bold),
@@ -41,7 +45,11 @@ class Chef
 
         server_api = Ionoscloud::ServersApi.new(api_client)
 
-        server_api.datacenters_servers_get(config[:datacenter_id], { depth: 1 }).items.each do |server|
+        opts = { depth: 1 }
+
+        opts[:upgrade_needed] = config[:upgrade_needed] if config[:upgrade_needed]
+
+        server_api.datacenters_servers_get(config[:datacenter_id], opts).items.each do |server|
           server_list << server.id
           server_list << server.properties.name
           server_list << server.properties.type
@@ -49,13 +57,12 @@ class Chef
           server_list << server.properties.cores.to_s
           server_list << server.properties.cpu_family
           server_list << server.properties.ram.to_s
-          server_list << server.properties.availability_zone
           server_list << server.properties.vm_state
           server_list << (server.properties.boot_volume.nil? ? '' : server.properties.boot_volume.id)
           server_list << (server.properties.boot_cdrom.nil? ? '' : server.properties.boot_cdrom.id)
         end
 
-        puts ui.list(server_list, :uneven_columns_across, 11)
+        puts ui.list(server_list, :uneven_columns_across, 10)
       end
     end
   end
