@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudServerStart do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should output failure when the user ID is not valid' do
+    it 'should output failure when the server ID is not valid' do
       server_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',

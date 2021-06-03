@@ -1,41 +1,37 @@
 require 'spec_helper'
-require 'ionoscloud_server_stop'
+require 'ionoscloud_server_console'
 
-Chef::Knife::IonoscloudServerStop.load_deps
+Chef::Knife::IonoscloudServerConsole.load_deps
 
-describe Chef::Knife::IonoscloudServerStop do
-  before :each do
-    subject { Chef::Knife::IonoscloudServerStop.new }
-
-    allow(subject).to receive(:puts)
-    allow(subject).to receive(:print)
-  end
+describe Chef::Knife::IonoscloudServerConsole do
+  subject { Chef::Knife::IonoscloudServerConsole.new }
 
   describe '#run' do
-    it 'should output success when the ID is valid' do
+    it 'should call ServersApi.datacenters_servers_remote_console_get and output the received url when the server ID is valid' do
+      datacenter = datacenter_mock
       server = server_mock
+      console = console_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        datacenter_id: 'datacenter_id',
-        yes: true,
+        datacenter_id: datacenter.id,
+        server_id: server.id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [server.id]
 
-      expect(subject.ui).to receive(:warn).with("Server #{server.id} is stopping. Request ID: ")
+      expect(subject).to receive(:puts).with(console.url)
 
       expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject).to receive(:get_request_id).once
       mock_call_api(
         subject,
         [
           {
-            method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
-            result: server,
+            method: 'GET',
+            path: "/datacenters/#{datacenter.id}/servers/#{server.id}/remoteconsole",
+            operation: :'ServersApi.datacenters_servers_remote_console_get',
+            return_type: 'RemoteConsoleUrl',
+            result: console,
           },
         ],
       )
@@ -43,27 +39,32 @@ describe Chef::Knife::IonoscloudServerStop do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should output failure when the server ID is not valid' do
+    it 'should output an error when the server is not found' do
+      datacenter = datacenter_mock
       server_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        datacenter_id: 'datacenter_id',
+        datacenter_id: datacenter.id,
+        server_id: server_id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [server_id]
 
-      expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found. Skipping.")
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
+
+      expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
         subject,
         [
           {
-            method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
+            method: 'GET',
+            path: "/datacenters/#{datacenter.id}/servers/#{server_id}/remoteconsole",
+            operation: :'ServersApi.datacenters_servers_remote_console_get',
+            return_type: 'RemoteConsoleUrl',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
@@ -74,8 +75,11 @@ describe Chef::Knife::IonoscloudServerStop do
 
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
+      allow(subject).to receive(:puts)
+      allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each do |test_case|
+      arrays_without_one_element(required_options).each {
+        |test_case|
 
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
@@ -87,7 +91,7 @@ describe Chef::Knife::IonoscloudServerStop do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      end
+      }
     end
   end
 end

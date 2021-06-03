@@ -32,7 +32,8 @@ class Chef
         validate_required_params(@required_options, config)
 
         begin
-          Ionoscloud::ServersApi.new(api_client).datacenters_servers_upgrade_post(config[:datacenter_id], config[:server_id])
+          _, _, headers = Ionoscloud::ServersApi.new(api_client).datacenters_servers_upgrade_post(config[:datacenter_id], config[:server_id])
+          ui.info("Server #{config[:server_id]} is being upgraded. Request ID: #{get_request_id headers}")
         rescue Ionoscloud::ApiError => err
           raise err unless err.code == 404
           ui.error("Server ID #{config[:server_id]} not found.")

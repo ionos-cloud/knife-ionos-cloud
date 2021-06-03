@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_server_stop'
+require 'ionoscloud_server_resume'
 
-Chef::Knife::IonoscloudServerStop.load_deps
+Chef::Knife::IonoscloudServerResume.load_deps
 
-describe Chef::Knife::IonoscloudServerStop do
+describe Chef::Knife::IonoscloudServerResume do
   before :each do
-    subject { Chef::Knife::IonoscloudServerStop.new }
+    subject { Chef::Knife::IonoscloudServerResume.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -24,7 +24,7 @@ describe Chef::Knife::IonoscloudServerStop do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [server.id]
 
-      expect(subject.ui).to receive(:warn).with("Server #{server.id} is stopping. Request ID: ")
+      expect(subject.ui).to receive(:info).with("Server #{server.id} is resuming. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -33,8 +33,8 @@ describe Chef::Knife::IonoscloudServerStop do
         [
           {
             method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/resume",
+            operation: :'ServersApi.datacenters_servers_resume_post',
             result: server,
           },
         ],
@@ -62,8 +62,8 @@ describe Chef::Knife::IonoscloudServerStop do
         [
           {
             method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/resume",
+            operation: :'ServersApi.datacenters_servers_resume_post',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

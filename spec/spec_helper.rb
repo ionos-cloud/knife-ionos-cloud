@@ -112,6 +112,18 @@ def servers_mock(opts = {})
   )
 end
 
+def token_mock
+  Ionoscloud::Token.new(
+    token: 'test_token'
+  )
+end
+
+def console_mock
+  Ionoscloud::RemoteConsoleUrl.new(
+    url: 'test_url'
+  )
+end
+
 def volume_mock(opts = {})
   Ionoscloud::Volume.new(
     id: opts[:id] || SecureRandom.uuid,
