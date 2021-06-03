@@ -663,6 +663,27 @@ def requests_mock(opts = {})
   )
 end
 
+def template_mock(opts = {})
+  Ionoscloud::Template.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::TemplateProperties.new(
+      name: opts[:name] || 'template_name',
+      cores: opts[:cores] || 2.0,
+      ram: opts[:ram] || 2048.0,
+      storage_size: opts[:storage_size] || 100.0,
+    ),
+  )
+end
+
+def templates_mock(opts = {})
+  Ionoscloud::Templates.new(
+    id: 'templates',
+    type: 'collection',
+    items: [template_mock, template_mock],
+  )
+end
+
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
