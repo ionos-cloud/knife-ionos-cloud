@@ -12,6 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'The ID of the data center'
 
+      option :type,
+              short: '-t FLOWLOG_TYPE',
+              long: '--type FLOWLOG_TYPE',
+              description: 'The object to which the flow log will be attached'
+
       option :server_id,
               short: '-S SERVER_ID',
               long: '--server-id SERVER_ID',
@@ -22,13 +27,23 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'ID of the NIC'
 
+      option :nat_gateway_id,
+              short: '-G NAT_GATEWAY_ID',
+              long: '--nat-gateway NAT_GATEWAY_ID',
+              description: 'ID of the NAT Gateway'
+
+      option :network_loadbalancer_id,
+              short: '-L NETWORK_LOADBALANCER',
+              long: '--network-loadbalancer NETWORK_LOADBALANCER',
+              description: 'ID of the Network Load Balancer'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
         super(args)
         @description =
         'Removes the specified Flow Logs.'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -37,11 +52,30 @@ class Chef
 
         flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
 
+        case config[:type]
+        when 'nic'
+          flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
+          delete_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_delete_with_http_info)
+          get_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_find_by_id)
+          args = [config[:datacenter_id], config[:server_id], config[:nic_id]]
+        when 'gateway'
+          flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
+          delete_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_delete_with_http_info)
+          get_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_find_by_id)
+          args = [config[:datacenter_id], config[:nat_gateway_id]]
+        when 'loadbalancer'
+          flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
+          delete_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_delete_with_http_info)
+          get_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_find_by_id)
+          args = [config[:datacenter_id], config[:network_loadbalancer_id]]
+        else
+          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'gateway', 'loadbalancer']"
+          exit(1)
+        end
+
         @name_args.each do |flowlog_id|
           begin
-            firewall = flowlogs_api.datacenters_servers_nics_flowlogs_find_by_id(
-              config[:datacenter_id], config[:server_id], config[:nic_id], flowlog_id,
-            )
+            firewall = get_method.call(*args, flowlog_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("Flow log ID #{flowlog_id} not found. Skipping.")
@@ -60,9 +94,7 @@ class Chef
             next
           end
 
-          _, _, headers = flowlogs_api.datacenters_servers_nics_flowlogs_delete_with_http_info(
-            config[:datacenter_id], config[:server_id], config[:nic_id], flowlog_id,
-          )
+          _, _, headers = delete_method.call(*args, flowlog_id)
           ui.warn("Deleted flow log #{firewall.id}. Request ID: #{get_request_id headers}")
         end
       end

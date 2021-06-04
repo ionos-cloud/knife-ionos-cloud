@@ -12,6 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center'
 
+      option :type,
+              short: '-t FLOWLOG_TYPE',
+              long: '--type FLOWLOG_TYPE',
+              description: 'The object to which the flow log will be attached'
+
       option :server_id,
               short: '-S SERVER_ID',
               long: '--server-id SERVER_ID',
@@ -21,6 +26,16 @@ class Chef
               short: '-N NIC_ID',
               long: '--nic-id NIC_ID',
               description: 'ID of the NIC'
+
+      option :nat_gateway_id,
+              short: '-G NAT_GATEWAY_ID',
+              long: '--nat-gateway NAT_GATEWAY_ID',
+              description: 'ID of the NAT Gateway'
+
+      option :network_loadbalancer_id,
+              short: '-L NETWORK_LOADBALANCER',
+              long: '--network-loadbalancer NETWORK_LOADBALANCER',
+              description: 'ID of the Network Load Balancer'
 
       option :name,
               short: '-n NAME',
@@ -49,8 +64,8 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'This will add a Flow Log to the network interface.'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        'This will add a Flow Log to the network interface, NAT Gateway or Network Load Balancer.'
+        @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -59,33 +74,38 @@ class Chef
 
         print "#{ui.color('Creating flow log...', :magenta)}"
 
+        case config[:type]
+        when 'nic'
+          flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
+          method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_post_with_http_info)
+          args = [config[:datacenter_id], config[:server_id], config[:nic_id]]
+        when 'gateway'
+          flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
+          method = flowlogs_api.method(:datacenters_natgateways_flowlogs_post_with_http_info)
+          args = [config[:datacenter_id], config[:nat_gateway_id]]
+        when 'loadbalancer'
+          flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
+          method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_post_with_http_info)
+          args = [config[:datacenter_id], config[:network_loadbalancer_id]]
+        else
+          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'gateway', 'loadbalancer']"
+          exit(1)
+        end
+
         flowlog = Ionoscloud::FlowLog.new(
           properties: Ionoscloud::FlowLogProperties.new({
             name: config[:name],
             action: config[:action],
             direction: config[:direction],
-            bucket: config[:action],
+            bucket: config[:bucket],
           }.compact),
         )
 
-        flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
-
-        flowlog, _, headers = flowlogs_api.datacenters_servers_nics_flowlogs_post_with_http_info(
-          config[:datacenter_id],
-          config[:server_id],
-          config[:nic_id],
-          flowlog,
-        )
+        puts flowlog
+        flowlog, _, headers = method.call(*args, flowlog)
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
-
-        flowlog = flowlogs_api.datacenters_servers_nics_flowlogs_find_by_id(
-          config[:datacenter_id],
-          config[:server_id],
-          config[:nic_id],
-          flowlog.id,
-        )
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{flowlog.id}"
