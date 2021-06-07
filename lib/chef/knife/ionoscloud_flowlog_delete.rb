@@ -58,7 +58,7 @@ class Chef
           delete_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_delete_with_http_info)
           get_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_find_by_id)
           args = [config[:datacenter_id], config[:server_id], config[:nic_id]]
-        when 'gateway'
+        when 'natgateway'
           flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
           delete_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_delete_with_http_info)
           get_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_find_by_id)
@@ -69,7 +69,7 @@ class Chef
           get_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_find_by_id)
           args = [config[:datacenter_id], config[:network_loadbalancer_id]]
         else
-          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'gateway', 'loadbalancer']"
+          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']"
           exit(1)
         end
 
