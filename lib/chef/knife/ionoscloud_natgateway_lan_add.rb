@@ -62,13 +62,13 @@ class Chef
           )
         end
 
-        natgateway, _, headers = natgateways_api.datacenters_natgateways_patch_with_http_info(config[:datacenter_id], config[:natgateway_id], natgateway.properties)
+        _, _, headers = natgateways_api.datacenters_natgateways_patch_with_http_info(config[:datacenter_id], config[:natgateway_id], natgateway.properties)
 
         print "#{ui.color('Adding the LAN to the Nat Gateway...', :magenta)}"
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway.id)
+        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id])
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"

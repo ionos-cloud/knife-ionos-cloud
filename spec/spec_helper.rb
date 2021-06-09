@@ -711,7 +711,7 @@ end
 def natgateway_lan_mock(opts = {})
   Ionoscloud::NatGatewayLanProperties.new(
     id: opts[:lan_id] || 1,
-    gateway_ips: opts[:gateway_ips] || ['192.168.0.12'],
+    gateway_ips: opts[:gateway_ips] || ['10.8.152.227/24', '10.8.152.227/24'],
   )
 end
 
