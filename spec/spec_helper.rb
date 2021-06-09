@@ -683,6 +683,59 @@ def templates_mock(opts = {})
   )
 end
 
+def natgateway_rule_mock(opts = {})
+  Ionoscloud::NatGatewayRule.new(
+    properties: Ionoscloud::NatGatewayRuleProperties.new(
+      name: opts[:name] || 'test',
+      type: opts[:type] || 'test',
+      protocol: opts[:protocol] || 'test',
+      public_ip: opts[:public_ip] || '1.1.1.1',
+      source_subnet: opts[:source_subnet] || '1.1.1.1/24',
+      target_subnet: opts[:target_subnet] || '1.1.1.1/24',
+      target_port_range: Ionoscloud::TargetPortRange.new(
+        start: opts[:target_port_range_start] || 10,
+        _end: opts[:target_port_range_end] || 20,
+      ),
+    ),
+  )
+end
+
+def natgateway_rules_mock(opts = {})
+  Ionoscloud::NatGatewayRules.new(
+    id: 'rules',
+    type: 'collection',
+    items: [natgateway_rule_mock, natgateway_rule_mock],
+  )
+end
+
+def natgateway_lan_mock(opts = {})
+  Ionoscloud::NatGatewayLanProperties.new(
+    id: opts[:lan_id] || 1,
+    gateway_ips: opts[:gateway_ips] || ['192.168.0.12'],
+  )
+end
+
+def natgateway_mock(opts = {})
+  Ionoscloud::NatGateway.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NatGatewayProperties.new(
+      name: opts[:name] || 'test',
+      public_ips: opts[:ips] || ['1.1.1.1'],
+      lans: opts[:lans] || [natgateway_lan_mock],
+    ),
+    entities: Ionoscloud::NatGatewayEntities.new(
+      rules: natgateway_rules_mock,
+    ),
+  )
+end
+
+def natgateways_mock(opts = {})
+  Ionoscloud::NatGateways.new(
+    id: 'natgateways',
+    type: 'collection',
+    items: [natgateway_mock, natgateway_mock],
+  )
+end
 
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]

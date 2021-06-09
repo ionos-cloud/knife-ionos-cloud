@@ -28,7 +28,7 @@ class Chef
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
         @name_args.each do |natgateway_id|
           begin
-            natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway_id)
+            natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway_id, depth: 2)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
             ui.error("NAT Gateway ID #{natgateway_id} not found. Skipping.")
@@ -39,6 +39,20 @@ class Chef
           msg_pair('Name', natgateway.properties.name)
           msg_pair('IPS', natgateway.properties.public_ips)
           msg_pair('LANS', natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } })
+          msg_pair('Rules', natgateway.entities.rules.items.map do |el|
+              {
+                id: el.id,
+                name: el.properties.name,
+                type: el.properties.type,
+                protocol: el.properties.protocol,
+                public_ip: el.properties.public_ip,
+                source_subnet: el.properties.source_subnet,
+                target_subnet: el.properties.target_subnet,
+                target_port_range_start: el.properties.target_port_range ? el.properties.target_port_range.start : '',
+                target_port_range_end: el.properties.target_port_range ? el.properties.target_port_range._end : '',
+              }
+            end
+          )
 
           begin
             confirm('Do you really want to delete this NAT Gateway')

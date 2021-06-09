@@ -74,7 +74,7 @@ class Chef
         puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"
         puts "#{ui.color('Name', :cyan)}: #{natgateway.properties.name}"
         puts "#{ui.color('IPS', :cyan)}: #{natgateway.properties.public_ips}"
-        puts "#{ui.color('PCC', :cyan)}: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}"
+        puts "#{ui.color('LANS', :cyan)}: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}"
         puts 'done'
       end
     end
