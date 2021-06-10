@@ -56,7 +56,7 @@ class Chef
         else
           natgateway.properties.lans.append(
             Ionoscloud::NatGatewayLanProperties.new(
-              id: config[:lan_id],
+              id: Integer(config[:lan_id]),
               gateway_ips: config[:gateway_ips],
             ),
           )
