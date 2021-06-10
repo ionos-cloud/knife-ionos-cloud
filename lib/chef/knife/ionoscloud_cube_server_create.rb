@@ -92,7 +92,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
+        'This creates a new cube server with an attached volume and NIC in a specified virtual data center.'
         @required_options = [
           :datacenter_id, :name, :template, :ionoscloud_username, :ionoscloud_password,
         ]
@@ -130,7 +130,7 @@ class Chef
 
         print ui.color('Creating cube server...', :magenta).to_s
 
-        volume = Ionoscloud::Volume.new(
+        volumes = [Ionoscloud::Volume.new(
           properties: Ionoscloud::VolumeProperties.new({
             name: config[:volume_name],
             bus: config[:bus] || 'VIRTIO',
@@ -140,7 +140,7 @@ class Chef
             type: 'DAS',
             licence_type: config[:licence_type],
           }.compact)
-        )
+        )]
 
         nics = []
 
@@ -168,7 +168,7 @@ class Chef
           }.compact),
           entities: Ionoscloud::ServerEntities.new(
             volumes: {
-               items: [volume],
+               items: volumes,
             },
             nics: {
               items: nics,
@@ -185,14 +185,16 @@ class Chef
 
         server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
 
-        changes = Ionoscloud::ServerProperties.new(boot_volume: { id: server.entities.volumes.items[0].id })
-        _, _, headers = server_api.datacenters_servers_patch_with_http_info(
-          config[:datacenter_id], server.id, changes,
-        )
-    
-        api_client.wait_for { is_done? get_request_id headers }
+        if config[:set_boot]
+          changes = Ionoscloud::ServerProperties.new(boot_volume: { id: server.entities.volumes.items[0].id })
+          _, _, headers = server_api.datacenters_servers_patch_with_http_info(
+            config[:datacenter_id], server.id, changes,
+          )
+      
+          api_client.wait_for { is_done? get_request_id headers }
 
-        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
+          server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
+        end
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"
