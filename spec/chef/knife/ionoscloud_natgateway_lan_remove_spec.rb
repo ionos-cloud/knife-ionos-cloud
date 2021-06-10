@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudNatgatewayLanRemove do
       expect(subject).to receive(:puts).with("ID: #{natgateway.id}")
       expect(subject).to receive(:puts).with("Name: #{natgateway.properties.name}")
       expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
-      expect(subject).to receive(:puts).with("LANS: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips }}}")
+      expect(subject).to receive(:puts).with("LANS: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}")
 
       expected_properties = natgateway.properties.to_hash
 
