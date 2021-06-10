@@ -685,6 +685,7 @@ end
 
 def natgateway_rule_mock(opts = {})
   Ionoscloud::NatGatewayRule.new(
+    id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NatGatewayRuleProperties.new(
       name: opts[:name] || 'test',
       type: opts[:type] || 'test',
@@ -704,7 +705,7 @@ def natgateway_rules_mock(opts = {})
   Ionoscloud::NatGatewayRules.new(
     id: 'rules',
     type: 'collection',
-    items: [natgateway_rule_mock, natgateway_rule_mock],
+    items: [natgateway_rule_mock, natgateway_rule_mock] || opts[:rules],
   )
 end
 
@@ -724,7 +725,7 @@ def natgateway_mock(opts = {})
       lans: opts[:lans] || [natgateway_lan_mock],
     ),
     entities: Ionoscloud::NatGatewayEntities.new(
-      rules: natgateway_rules_mock,
+      rules: natgateway_rules_mock || opts[:rules],
     ),
   )
 end

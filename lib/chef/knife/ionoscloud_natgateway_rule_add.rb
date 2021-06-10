@@ -74,12 +74,6 @@ class Chef
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
 
-        if config[:gateway_ips]
-          config[:gateway_ips] = config[:gateway_ips].split(',')
-        end
-
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id])
-
         natgateway_rule = Ionoscloud::NatGatewayRule.new(
           properties: Ionoscloud::NatGatewayRuleProperties.new(
             name: config[:name],
@@ -103,7 +97,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway.id, depth: 2)
+        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id], depth: 2)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"

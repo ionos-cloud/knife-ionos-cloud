@@ -35,7 +35,6 @@ class Chef
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
 
         headers_to_wait = []
-
         @name_args.each do |rule_id|
           _, _, headers = natgateways_api.datacenters_natgateways_rules_delete_with_http_info(config[:datacenter_id], config[:natgateway_id], rule_id)
           headers_to_wait << headers

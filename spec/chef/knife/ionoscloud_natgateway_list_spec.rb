@@ -7,8 +7,8 @@ describe Chef::Knife::IonoscloudNatgatewayList do
   before :each do
     subject { Chef::Knife::IonoscloudNatgatewayList.new }
 
-    # allow(subject).to receive(:puts)
-    # allow(subject).to receive(:print)
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
   end
 
   describe '#run' do
