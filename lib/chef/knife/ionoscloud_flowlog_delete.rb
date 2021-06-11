@@ -27,7 +27,7 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'ID of the NIC'
 
-      option :nat_gateway_id,
+      option :natgateway_id,
               short: '-G NAT_GATEWAY_ID',
               long: '--nat-gateway NAT_GATEWAY_ID',
               description: 'ID of the NAT Gateway'
@@ -54,19 +54,22 @@ class Chef
 
         case config[:type]
         when 'nic'
+          validate_required_params([:server_id, :nic_id], config)
           flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
           delete_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_delete_with_http_info)
           get_method = flowlogs_api.method(:datacenters_servers_nics_flowlogs_find_by_id)
           args = [config[:datacenter_id], config[:server_id], config[:nic_id]]
         when 'natgateway'
+          validate_required_params([:natgateway_id], config)
           flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
           delete_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_delete_with_http_info)
-          get_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_find_by_id)
-          args = [config[:datacenter_id], config[:nat_gateway_id]]
+          get_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_find_by_flow_log_id)
+          args = [config[:datacenter_id], config[:natgateway_id]]
         when 'loadbalancer'
+          validate_required_params([:network_loadbalancer_id], config)
           flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
           delete_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_delete_with_http_info)
-          get_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_find_by_id)
+          get_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_find_by_flow_log_id)
           args = [config[:datacenter_id], config[:network_loadbalancer_id]]
         else
           ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']"

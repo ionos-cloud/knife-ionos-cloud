@@ -683,6 +683,25 @@ def templates_mock(opts = {})
   )
 end
 
+def flowlog_mock(opts = {})
+  Ionoscloud::FlowLog.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::FlowLogProperties.new({
+      name: opts[:name] || 'flowlog_name',
+      action: opts[:action] || 'ACCEPTED',
+      direction: opts[:direction] || 'INGRESS',
+      bucket: opts[:bucket] || 'bucket_name',
+    }),
+  )
+end
+
+def flowlogs_mock(opts = {})
+  Ionoscloud::FlowLogs.new(
+    id: 'flowlogs',
+    type: 'collection',
+    items: [flowlog_mock, flowlog_mock],
+  )
+end
 
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
