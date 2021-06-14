@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudNatgatewayRuleList < Knife
+    class IonoscloudNetworkloadbalancerRuleList < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud natgateway rule list (options)'
+      banner 'knife ionoscloud networkloadbalancer rule list (options)'
 
       option :datacenter_id,
               short: '-D DATACENTER_ID',
@@ -38,8 +38,8 @@ class Chef
           ui.color('Protocol', :bold),
           ui.color('Listener IP', :bold),
           ui.color('Listener Port', :bold),
-          ui.color('Health Check', :bold),
           ui.color('Targets', :bold),
+          ui.color('Health Check', :bold),
         ]
         network_loadbalancers_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
 
@@ -52,8 +52,8 @@ class Chef
           network_loadbalancer_rule_list << network_loadbalancer_rule.properties.protocol
           network_loadbalancer_rule_list << network_loadbalancer_rule.properties.listener_ip
           network_loadbalancer_rule_list << network_loadbalancer_rule.properties.listener_port
+          network_loadbalancer_rule_list << network_loadbalancer_rule.properties.targets.length
           network_loadbalancer_rule_list << network_loadbalancer_rule.properties.health_check
-          network_loadbalancer_rule_list << network_loadbalancer_rule.properties.targets
         end
 
         puts ui.list(network_loadbalancer_rule_list, :uneven_columns_across, 8)

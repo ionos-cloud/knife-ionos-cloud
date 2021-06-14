@@ -1,4 +1,4 @@
-equire_relative 'ionoscloud_base'
+require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
@@ -10,7 +10,7 @@ class Chef
       option :datacenter_id,
               short: '-D DATACENTER_ID',
               long: '--datacenter-id DATACENTER_ID',
-              description: 'Name of the data center'
+              description: 'The ID of the data center'
 
       option :network_loadbalancer_id,
               short: '-L NETWORK_LOADBALANCER_ID',
@@ -36,7 +36,7 @@ class Chef
 
         headers_to_wait = []
         @name_args.each do |rule_id|
-          _, _, headers = network_loadbalancers_api.datacenters_networkloadbalancers_rules_delete_with_http_info(
+          _, _, headers = network_loadbalancers_api.datacenters_networkloadbalancers_forwardingrules_delete_with_http_info(
             config[:datacenter_id], config[:network_loadbalancer_id], rule_id,
           )
           headers_to_wait << headers

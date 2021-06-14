@@ -80,7 +80,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Adds a LAN to a Nat Gateway under a data center.'
+        'Adds a Forwarding Rule to a Network Load Balancer under a data center.'
         @required_options = [:datacenter_id, :network_loadbalancer_id, :name, :listener_ip, :listener_port, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -120,7 +120,7 @@ class Chef
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
         network_load_balancer = network_loadbalancers_api.datacenters_networkloadbalancers_find_by_network_load_balancer_id(
-          config[:datacenter_id], config[:network_loadbalancer_id],
+          config[:datacenter_id], config[:network_loadbalancer_id], depth: 2,
         )
 
         puts "\n"
