@@ -692,12 +692,16 @@ def network_loadbalancer_mock(opts = {})
       listener_lan: opts[:listener_lan] || 1,
       target_lan: opts[:target_lan] || 2,
       lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
-      targets: opts[:targets] || [],
     }),
-    entities: Ionoscloud::NetworkLoadBalancerProperties.new({
+    entities: Ionoscloud::NetworkLoadBalancerEntities.new({
       forwardingrules: opts[:rules] || network_loadbalancer_rules_mock,
+      flowlogs: opts[:flowlogs] || Ionoscloud::FlowLogs.new(
+        id: 'flowlogs',
+        type: 'collection',
+        items: [],
+      ),
     })
-  ),
+  )
 end
 
 def network_loadbalancers_mock(opts = {})
@@ -713,8 +717,8 @@ def network_loadbalancer_rule_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NetworkLoadBalancerForwardingRuleProperties.new(
       name: opts[:name] || 'network_loadbalancer_rule_name',
-      algorithm: opts[:algorithm] || 'algorithm',
-      protocol: opts[:protocol] || 'protocoll',
+      algorithm: opts[:algorithm] || 'ROUND_ROBIN',
+      protocol: opts[:protocol] || 'TCP',
       listener_ip: opts[:listener_ip] || '123.123.123.123',
       listener_port: opts[:listener_port] || 123,
       health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(

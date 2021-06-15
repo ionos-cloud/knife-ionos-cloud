@@ -59,7 +59,7 @@ class Chef
               }
             end
           )
-          msg_pair('Flowlogs', network_load_balancer.entities.flowlogs.items.map { |flowlog| flowlog.id })
+          # msg_pair('Flowlogs', network_load_balancer.entities.flowlogs.items.map { |flowlog| flowlog.id })
 
           puts "\n"
 
