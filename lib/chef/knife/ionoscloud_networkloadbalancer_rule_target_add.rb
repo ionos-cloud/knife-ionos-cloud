@@ -124,7 +124,16 @@ class Chef
         puts "#{ui.color('Listener IP', :cyan)}: #{network_load_balancer_rule.properties.listener_ip}"
         puts "#{ui.color('Listener Port', :cyan)}: #{network_load_balancer_rule.properties.listener_port}"
         puts "#{ui.color('Health Check', :cyan)}: #{network_load_balancer_rule.properties.health_check}"
-        puts "#{ui.color('Targets', :cyan)}: #{network_load_balancer_rule.properties.targets}"
+        puts "#{ui.color('Targets', :cyan)}: #{network_load_balancer_rule.properties.targets.map do |target|
+          {
+            ip: target.ip,
+            port: target.port,
+            weight: target.weight,
+            check: target.health_check.check,
+            check_interval: target.health_check.check_interval,
+            maintenance: target.health_check.maintenance,
+          }
+        end}"
         puts 'done'
       end
     end

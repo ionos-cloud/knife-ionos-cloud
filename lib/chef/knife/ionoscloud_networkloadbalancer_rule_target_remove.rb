@@ -56,10 +56,10 @@ class Chef
 
         initial_length = network_load_balancer_rule.properties.targets.length
 
-        network_load_balancer_rule.properties.targets = network_load_balancer_rule.properties.targets.reject { |target| 
-          puts [target.ip, target.ip.class, config[:ip], config[:ip].class].to_s
-          puts [target.port, target.port.class, config[:port], config[:port].class].to_s
-          target.ip == config[:ip] && target.port == Integer(config[:port])}
+        network_load_balancer_rule.properties.targets = network_load_balancer_rule.properties.targets.reject do
+          |target| 
+          target.ip == config[:ip] && target.port == Integer(config[:port])
+        end
 
         if initial_length > network_load_balancer_rule.properties.targets.length
           _, _, headers  = network_loadbalancers_api.datacenters_networkloadbalancers_forwardingrules_patch_with_http_info(
@@ -88,7 +88,16 @@ class Chef
         puts "#{ui.color('Listener IP', :cyan)}: #{network_load_balancer_rule.properties.listener_ip}"
         puts "#{ui.color('Listener Port', :cyan)}: #{network_load_balancer_rule.properties.listener_port}"
         puts "#{ui.color('Health Check', :cyan)}: #{network_load_balancer_rule.properties.health_check}"
-        puts "#{ui.color('Targets', :cyan)}: #{network_load_balancer_rule.properties.targets}"
+        puts "#{ui.color('Targets', :cyan)}: #{network_load_balancer_rule.properties.targets.map do |target|
+          {
+            ip: target.ip,
+            port: target.port,
+            weight: target.weight,
+            check: target.health_check.check,
+            check_interval: target.health_check.check_interval,
+            maintenance: target.health_check.maintenance,
+          }
+        end}"
         puts 'done'
       end
     end
