@@ -69,7 +69,7 @@ class Chef
             health_check: rule.properties.health_check,
             targets: rule.properties.targets,
           }
-        end}}"
+        end}"
         puts "#{ui.color('Flowlogs', :cyan)}: #{network_load_balancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}"
         puts 'done'
       end
