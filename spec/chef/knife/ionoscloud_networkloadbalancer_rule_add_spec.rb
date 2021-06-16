@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleAdd do
           },
         ],
       )
-      
+
       expect { subject.run }.not_to raise_error(Exception)
     end
 

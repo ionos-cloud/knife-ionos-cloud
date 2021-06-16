@@ -71,7 +71,7 @@ class Chef
         @description =
         'Adds a target to a Network Load Balancer Forwarding Rule under a data center.'
         @required_options = [
-          :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ip, :port, :weight, :ionoscloud_username,:ionoscloud_password,
+          :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ip, :port, :weight, :ionoscloud_username, :ionoscloud_password,
         ]
       end
 
@@ -139,4 +139,3 @@ class Chef
     end
   end
 end
-

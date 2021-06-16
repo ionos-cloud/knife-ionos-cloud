@@ -29,7 +29,7 @@ class Chef
         @description =
         'Lists all targets of a Network Loadbalancer Forwarding Rule under a data center.'
         @required_options = [
-          :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ionoscloud_username,:ionoscloud_password,
+          :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ionoscloud_username, :ionoscloud_password,
         ]
       end
 

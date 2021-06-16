@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
       }
 
       remaining_targets = network_loadbalancer_rule.properties.targets.reject do
-        |target| 
+        |target|
         target.ip == subject_config[:ip] && target.port == subject_config[:port]
       end
 
@@ -118,7 +118,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
       }
 
       remaining_targets = network_loadbalancer_rule.properties.targets.reject do
-        |target| 
+        |target|
         target.ip == subject_config[:ip] && target.port == subject_config[:port]
       end
 
