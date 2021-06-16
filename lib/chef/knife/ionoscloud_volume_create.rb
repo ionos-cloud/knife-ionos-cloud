@@ -44,7 +44,7 @@ class Chef
       option :type,
               short: '-t TYPE',
               long: '--type TYPE',
-              description: 'The disk type (HDD OR SSD)'
+              description: 'The disk type (HDD, SSD, SSD Standard, SSD Premium, DAS)'
 
       option :licence_type,
               short: '-l LICENCE',
@@ -59,8 +59,21 @@ class Chef
       option :availability_zone,
               short: '-Z AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The volume availability zone of the server',
-              required: false
+              description: 'The volume availability zone of the server'
+
+      option :backupunit_id,
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit BACKUPUNIT_ID',
+              description: 'The uuid of the Backup Unit that user has access to. The property is immutable and is only allowed '\
+              'to be set on a new volume creation. It is mandatory to provide either \'public image\' or \'imageAlias\' in '\
+              'conjunction with this property.'
+
+      option :user_data,
+              short: '-u USER_DATA',
+              long: '--user-data USER_DATA',
+              description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
+              'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
+              'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
 
       attr_reader :description, :required_options
 
@@ -108,6 +121,8 @@ class Chef
               sshKeys: config[:sshKeys],
               imagePassword: config[:image_password],
               availabilityZone: config[:availability_zone],
+              backupunit_id: config[:backupunit_id],
+              user_data: config[:user_data],
             }.compact
           },
         )
