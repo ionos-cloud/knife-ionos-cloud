@@ -123,31 +123,8 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !(!!config[:image] ^ !!config[:licence_type])
-          ui.error('Either \'--image\' or \'--licence_type\' parameter must be provided (not both)')
-          exit(1)
-        end
-
-        if config[:image]
-          if !config[:ssh_keys] && !config[:image_password]
-            ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided when image is set')
-            exit(1)
-          end
-
-          if config[:ssh_keys]
-            config[:ssh_keys] = config[:ssh_keys].split(',')
-          end
-        else
-          if config[:ssh_keys] || config[:image_password]
-            ui.error('Neither \'--image-password\' nor \'--ssh-keys\' parameters should be provided when image is not set')
-            exit(1)
-          end
-        end
-
-
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
+        config[:ips] = config[:ips].split(',') if config[:ips]
 
         print ui.color('Creating composite server...', :magenta).to_s
 
