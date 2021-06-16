@@ -45,6 +45,14 @@ def contract_mock(opts = {})
   )
 end
 
+def contracts_mock(opts = {})
+  Ionoscloud::IpBlocks.new(
+    id: 'contracts',
+    type: 'collection',
+    items: [contract_mock],
+  )
+end
+
 def ipblock_mock(opts = {})
   Ionoscloud::IpBlock.new(
     id: opts[:id] || SecureRandom.uuid,
