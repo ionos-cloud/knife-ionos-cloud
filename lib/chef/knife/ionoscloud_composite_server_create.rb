@@ -133,7 +133,7 @@ class Chef
             ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided when image is set')
             exit(1)
           end
-  
+
           if config[:ssh_keys]
             config[:ssh_keys] = config[:ssh_keys].split(',')
           end

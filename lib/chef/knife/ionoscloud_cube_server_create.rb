@@ -113,7 +113,7 @@ class Chef
             ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided when image is set')
             exit(1)
           end
-  
+
           if config[:ssh_keys]
             config[:ssh_keys] = config[:ssh_keys].split(',')
           end
@@ -190,7 +190,7 @@ class Chef
           _, _, headers = server_api.datacenters_servers_patch_with_http_info(
             config[:datacenter_id], server.id, changes,
           )
-      
+
           api_client.wait_for { is_done? get_request_id headers }
 
           server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
