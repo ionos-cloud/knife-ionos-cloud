@@ -333,23 +333,7 @@ def location_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::LocationProperties.new(
       name: opts[:name] || 'location_name',
-    ),
-  )
-end
-
-def locations_mock(opts = {})
-  Ionoscloud::Locations.new(
-    id: 'locations',
-    type: 'collection',
-    items: [location_mock],
-  )
-end
-
-def location_mock(opts = {})
-  Ionoscloud::Location.new(
-    id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::LocationProperties.new(
-      name: opts[:name] || 'location_name',
+      cpu_architecture: opts[:cpu_architecture] || [Ionoscloud::CpuArchitectureProperties.new(cpu_family: 'INTEL_SKYLAKE')],
     ),
   )
 end
