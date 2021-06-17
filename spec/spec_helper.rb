@@ -242,11 +242,8 @@ def nic_mock(opts = {})
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
       firewall_type: opts[:firewall_type] || 'INGRESS',
-<<<<<<< HEAD
-=======
       device_number: opts[:device_number] || 3,
       pci_slot: opts[:pci_slot] || 6,
->>>>>>> add-missing-properties
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
