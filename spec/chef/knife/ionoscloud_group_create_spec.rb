@@ -27,6 +27,9 @@ describe Chef::Knife::IonoscloudGroupCreate do
         create_k8s_cluster: group.properties.create_k8s_cluster,
         create_pcc: group.properties.create_pcc,
         create_internet_access: group.properties.create_internet_access,
+        create_flow_log: group.properties.create_flow_log,
+        access_and_manage_monitoring: group.properties.access_and_manage_monitoring,
+        access_and_manage_certificates: group.properties.access_and_manage_certificates,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -42,6 +45,9 @@ describe Chef::Knife::IonoscloudGroupCreate do
       expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
       expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
       expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
+      expect(subject).to receive(:puts).with("Create Flow Logs: #{group.properties.create_flow_log.to_s}")
+      expect(subject).to receive(:puts).with("Access and Manage Monitoring: #{group.properties.access_and_manage_monitoring.to_s}")
+      expect(subject).to receive(:puts).with("Access and Manage Certificates: #{group.properties.access_and_manage_certificates.to_s}")
 
       mock_wait_for(subject)
       mock_call_api(
