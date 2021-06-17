@@ -62,6 +62,20 @@ class Chef
               long: '--ssh-keys SSHKEY1,SSHKEY2,...',
               description: 'A list of public SSH keys to include'
 
+      option :backupunit_id,
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit BACKUPUNIT_ID',
+              description: 'The uuid of the Backup Unit that user has access to. The property is immutable and is only allowed '\
+              'to be set on a new volume creation. It is mandatory to provide either \'public image\' or \'imageAlias\' in '\
+              'conjunction with this property.'
+
+      option :user_data,
+              short: '-u USER_DATA',
+              long: '--user-data USER_DATA',
+              description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
+              'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
+              'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
+
       option :set_boot,
               long: '--set-boot',
               description: 'Whether to set the volume as the boot volume'
@@ -116,6 +130,8 @@ class Chef
             image_password: config[:image_password],
             type: 'DAS',
             licence_type: config[:licence_type],
+            backupunit_id: config[:backupunit_id],
+            user_data: config[:user_data],
           }.compact)
         )]
 

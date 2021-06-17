@@ -38,6 +38,8 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
         bus: server.entities.volumes.items.first.properties.bus,
         image: SecureRandom.uuid,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
+        backupunit_id: server.entities.volumes.items.first.properties.backupunit_id,
+        user_data: server.entities.volumes.items.first.properties.user_data,
 
         set_boot: true,
 
@@ -149,6 +151,8 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
         bus: server.entities.volumes.items.first.properties.bus,
         image: SecureRandom.uuid,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
+        backupunit_id: server.entities.volumes.items.first.properties.backupunit_id,
+        user_data: server.entities.volumes.items.first.properties.user_data,
 
         set_boot: false,
 

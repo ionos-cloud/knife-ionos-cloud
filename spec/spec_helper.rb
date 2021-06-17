@@ -135,6 +135,8 @@ def volume_mock(opts = {})
       availability_zone: opts[:availability_zone] || 'AUTO',
       licence_type: opts[:licence_type] || 'LINUX',
       image: opts[:image] || SecureRandom.uuid,
+      backupunit_id: opts[:backupunit_id] || SecureRandom.uuid,
+      user_data: opts[:user_data] || 'user_data',
     ),
   )
 end
