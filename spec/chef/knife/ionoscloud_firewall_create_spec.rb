@@ -29,6 +29,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
         port_range_end: firewall.properties.port_range_end,
         icmp_type: firewall.properties.icmp_type,
         icmp_code: firewall.properties.icmp_code,
+        type: firewall.properties.type,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -43,6 +44,7 @@ describe Chef::Knife::IonoscloudFirewallCreate do
       expect(subject).to receive(:puts).with("Port Range End: #{firewall.properties.port_range_end}")
       expect(subject).to receive(:puts).with("ICMP Type: #{firewall.properties.icmp_type}")
       expect(subject).to receive(:puts).with("ICMP Code: #{firewall.properties.icmp_code}")
+      expect(subject).to receive(:puts).with("Type: #{firewall.properties.type}")
 
       mock_wait_for(subject)
       mock_call_api(

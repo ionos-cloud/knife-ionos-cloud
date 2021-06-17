@@ -229,6 +229,9 @@ def nic_mock(opts = {})
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
+      firewall_type: opts[:firewall_type] || 'INGRESS',
+      device_number: opts[:device_number] || 3,
+      pci_slot: opts[:pci_slot] || 6,
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
@@ -257,6 +260,7 @@ def firewall_mock(opts = {})
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
       icmp_code: opts[:icmp_code] || 7,
+      type: opts[:type] || 'INGRESS',
     ),
   )
 end

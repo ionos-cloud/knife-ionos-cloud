@@ -28,21 +28,29 @@ describe Chef::Knife::IonoscloudNicList do
         subject.ui.color('Name', :bold),
         subject.ui.color('IPs', :bold),
         subject.ui.color('DHCP', :bold),
-        subject.ui.color('NAT', :bold),
         subject.ui.color('LAN', :bold),
+        subject.ui.color('Firewall Type', :bold),
+        subject.ui.color('Device Number', :bold),
+        subject.ui.color('PCI Slot', :bold),
         nics.items.first.id,
         nics.items.first.properties.name,
         nics.items.first.properties.ips.to_s,
         nics.items.first.properties.dhcp.to_s,
         nics.items.first.properties.lan.to_s,
+        nics.items.first.properties.firewall_type.to_s,
+        nics.items.first.properties.device_number.to_s,
+        nics.items.first.properties.pci_slot.to_s,
         nics.items[1].id,
         nics.items[1].properties.name,
         nics.items[1].properties.ips.to_s,
         nics.items[1].properties.dhcp.to_s,
         nics.items[1].properties.lan.to_s,
+        nics.items[1].properties.firewall_type.to_s,
+        nics.items[1].properties.device_number.to_s,
+        nics.items[1].properties.pci_slot.to_s,
       ]
 
-      expect(subject.ui).to receive(:list).with(nic_list, :uneven_columns_across, 5)
+      expect(subject.ui).to receive(:list).with(nic_list, :uneven_columns_across, 8)
 
       mock_call_api(
         subject,
