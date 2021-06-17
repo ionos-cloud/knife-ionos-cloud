@@ -30,14 +30,10 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
         type: server.entities.volumes.items.first.properties.type,
         bus: server.entities.volumes.items.first.properties.bus,
         volume_availability_zone: server.entities.volumes.items.first.properties.availability_zone,
-<<<<<<< HEAD
-        image: SecureRandom.uuid,
-=======
         licence_type: server.entities.volumes.items.first.properties.licence_type,
         image: server.entities.volumes.items.first.properties.image,
         backupunit_id: server.entities.volumes.items.first.properties.backupunit_id,
         user_data: server.entities.volumes.items.first.properties.user_data,
->>>>>>> add-missing-properties
         image_password: 'K3tTj8G14a3EgKyNeeiY',
 
         lan: server.entities.nics.items.first.properties.lan,
