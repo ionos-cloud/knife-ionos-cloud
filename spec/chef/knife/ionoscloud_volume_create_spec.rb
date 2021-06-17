@@ -66,7 +66,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
           },
         ],
       )
-      subject.run
+
       expect { subject.run }.not_to raise_error(Exception)
     end
 

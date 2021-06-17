@@ -78,6 +78,8 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
       expected_entities[:nics][:items][0].delete(:entities)
       expected_entities[:nics][:items][0][:properties].delete(:mac)
       expected_entities[:nics][:items][0][:properties].delete(:firewallActive)
+      expected_entities[:nics][:items][0][:properties].delete(:deviceNumber)
+      expected_entities[:nics][:items][0][:properties].delete(:pciSlot)
 
       expected_entities[:volumes][:items][0][:properties].delete(:licenceType)
       expected_entities[:volumes][:items][0][:properties][:image] = subject_config[:image]
@@ -161,6 +163,7 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
         nic_name: server.entities.nics.items.first.properties.name,
         dhcp: server.entities.nics.items.first.properties.dhcp,
         ips: server.entities.nics.items.first.properties.ips.join(','),
+        firewall_type: server.entities.nics.items.first.properties.firewall_type,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -191,6 +194,8 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
       expected_entities[:nics][:items][0].delete(:entities)
       expected_entities[:nics][:items][0][:properties].delete(:mac)
       expected_entities[:nics][:items][0][:properties].delete(:firewallActive)
+      expected_entities[:nics][:items][0][:properties].delete(:deviceNumber)
+      expected_entities[:nics][:items][0][:properties].delete(:pciSlot)
 
       expected_entities[:volumes][:items][0][:properties].delete(:licenceType)
       expected_entities[:volumes][:items][0][:properties][:image] = subject_config[:image]
