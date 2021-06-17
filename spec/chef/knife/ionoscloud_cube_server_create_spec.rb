@@ -47,6 +47,7 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
         nic_name: server.entities.nics.items.first.properties.name,
         dhcp: server.entities.nics.items.first.properties.dhcp,
         ips: server.entities.nics.items.first.properties.ips.join(','),
+        firewall_type: server.entities.nics.items.first.properties.firewall_type,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
