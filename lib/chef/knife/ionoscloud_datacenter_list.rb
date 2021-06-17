@@ -30,6 +30,7 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Description', :bold),
           ui.color('Location', :bold),
+          ui.color('CPU Architectures', :bold),
           ui.color('Version', :bold),
         ]
 
@@ -40,10 +41,11 @@ class Chef
           datacenter_list << datacenter.properties.name
           datacenter_list << datacenter.properties.description || ''
           datacenter_list << datacenter.properties.location
+          datacenter_list << datacenter.properties.cpu_architecture.map { |arch| arch.cpu_family }
           datacenter_list << datacenter.properties.version.to_s
         end
 
-        puts ui.list(datacenter_list, :uneven_columns_across, 5)
+        puts ui.list(datacenter_list, :uneven_columns_across, 6)
       end
     end
   end

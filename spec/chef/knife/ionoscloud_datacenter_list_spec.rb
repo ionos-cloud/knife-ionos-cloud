@@ -26,6 +26,7 @@ describe Chef::Knife::IonoscloudDatacenterList do
         subject.ui.color('Name', :bold),
         subject.ui.color('Description', :bold),
         subject.ui.color('Location', :bold),
+        subject.ui.color('CPU Architectures', :bold),
         subject.ui.color('Version', :bold),
       ]
 
@@ -34,10 +35,11 @@ describe Chef::Knife::IonoscloudDatacenterList do
         datacenter_list << datacenter.properties.name
         datacenter_list << datacenter.properties.description
         datacenter_list << datacenter.properties.location
+        datacenter_list << datacenter.properties.cpu_architecture.map { |arch| arch.cpu_family }
         datacenter_list << datacenter.properties.version.to_s
       end
 
-      expect(subject.ui).to receive(:list).with(datacenter_list, :uneven_columns_across, 5)
+      expect(subject.ui).to receive(:list).with(datacenter_list, :uneven_columns_across, 6)
 
       mock_call_api(
         subject,

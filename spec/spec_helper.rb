@@ -131,6 +131,8 @@ def volume_mock(opts = {})
       availability_zone: opts[:availability_zone] || 'AUTO',
       licence_type: opts[:licence_type] || 'LINUX',
       image: opts[:image] || SecureRandom.uuid,
+      backupunit_id: opts[:backupunit_id] || SecureRandom.uuid,
+      user_data: opts[:user_data] || 'user_data',
     ),
   )
 end
@@ -447,6 +449,15 @@ def k8s_nodes_mock(opts = {})
   )
 end
 
+def cpu_architecture_mock(opts = {})
+  Ionoscloud::CpuArchitectureProperties.new(
+    cpu_family: opts[:cpu_family] || 'INTEL_SKYLAKE',
+    max_cores: opts[:max_cores] || 4,
+    max_ram: opts[:max_ram] || 4096,
+    vendor: opts[:vendor] || 'AuthenticAMD',
+  )
+end
+
 def datacenter_mock(opts = {})
   Ionoscloud::Datacenter.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -454,6 +465,7 @@ def datacenter_mock(opts = {})
       name: opts[:name] || 'datacenter_name',
       description: opts[:description] || 'datacenter_description',
       location: opts[:location] || 'de/fra',
+      cpu_architecture: opts[:cpu_architecture] || [cpu_architecture_mock],
     ),
   )
 end
