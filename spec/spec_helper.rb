@@ -45,6 +45,14 @@ def contract_mock(opts = {})
   )
 end
 
+def contracts_mock(opts = {})
+  Ionoscloud::IpBlocks.new(
+    id: 'contracts',
+    type: 'collection',
+    items: [contract_mock],
+  )
+end
+
 def ipblock_mock(opts = {})
   Ionoscloud::IpBlock.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -234,6 +242,11 @@ def nic_mock(opts = {})
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
       firewall_type: opts[:firewall_type] || 'INGRESS',
+<<<<<<< HEAD
+=======
+      device_number: opts[:device_number] || 3,
+      pci_slot: opts[:pci_slot] || 6,
+>>>>>>> add-missing-properties
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
@@ -262,6 +275,7 @@ def firewall_mock(opts = {})
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
       icmp_code: opts[:icmp_code] || 7,
+      type: opts[:type] || 'INGRESS',
     ),
   )
 end
@@ -454,6 +468,15 @@ def k8s_nodes_mock(opts = {})
   )
 end
 
+def cpu_architecture_mock(opts = {})
+  Ionoscloud::CpuArchitectureProperties.new(
+    cpu_family: opts[:cpu_family] || 'INTEL_SKYLAKE',
+    max_cores: opts[:max_cores] || 4,
+    max_ram: opts[:max_ram] || 4096,
+    vendor: opts[:vendor] || 'AuthenticAMD',
+  )
+end
+
 def datacenter_mock(opts = {})
   Ionoscloud::Datacenter.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -461,6 +484,7 @@ def datacenter_mock(opts = {})
       name: opts[:name] || 'datacenter_name',
       description: opts[:description] || 'datacenter_description',
       location: opts[:location] || 'de/fra',
+      cpu_architecture: opts[:cpu_architecture] || [cpu_architecture_mock],
     ),
   )
 end

@@ -57,7 +57,6 @@ class Chef
               description: 'Defines the start range of the allowed port(s)'
 
       option :port_range_end,
-              short: '-t PORT',
               long: '--port-range-end PORT',
               description: 'Defines the end range of the allowed port(s)'
 
@@ -70,6 +69,12 @@ class Chef
               long: '--icmp-code INT',
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
+
+      option :type,
+              short: '--t TYPE',
+              long: '--type TYPE',
+              description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS',
+              default: 'INGRESS'
 
       attr_reader :description, :required_options
 
@@ -96,6 +101,7 @@ class Chef
           port_range_end: config[:port_range_end],
           icmp_type: config[:icmp_type],
           icmp_code: config[:icmp_code],
+          type: config[:type]
         }
 
         firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
@@ -128,6 +134,7 @@ class Chef
         puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties.port_range_end}"
         puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties.icmp_type}"
         puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties.icmp_code}"
+        puts "#{ui.color('Type', :cyan)}: #{firewall.properties.type}"
         puts 'done'
       end
     end

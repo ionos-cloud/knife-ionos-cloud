@@ -87,6 +87,20 @@ class Chef
               long: '--ssh-keys SSHKEY1,SSHKEY2,...',
               description: 'A list of public SSH keys to include'
 
+      option :backupunit_id,
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit BACKUPUNIT_ID',
+              description: 'The uuid of the Backup Unit that user has access to. The property is immutable and is only allowed '\
+              'to be set on a new volume creation. It is mandatory to provide either \'public image\' or \'imageAlias\' in '\
+              'conjunction with this property.'
+
+      option :user_data,
+              short: '-u USER_DATA',
+              long: '--user-data USER_DATA',
+              description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
+              'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
+              'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
+
       option :nic_name,
               long: '--nic-name NAME',
               description: 'Name of the NIC'
@@ -107,6 +121,12 @@ class Chef
               short: '-L ID',
               long: '--lan ID',
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
+
+      option :firewall_type,
+              long: '--firewall-type FIREWALL_TYPE',
+              description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
+              'default value INGRESS',
+              default: 'INGRESS'
 
       attr_reader :description, :required_options
 
@@ -140,6 +160,8 @@ class Chef
             type: config[:type],
             licence_type: config[:licence_type],
             availability_zone: config[:volume_availability_zone],
+            backupunit_id: config[:backupunit_id],
+            user_data: config[:user_data],
           }.compact)
         )
 
@@ -149,6 +171,7 @@ class Chef
             ips: config[:ips],
             dhcp: config[:dhcp],
             lan: config[:lan],
+            firewall_type: config[:firewall_type],
           }.compact)
         )
 

@@ -35,6 +35,7 @@ describe Chef::Knife::IonoscloudFirewallList do
         subject.ui.color('Port Range End', :bold),
         subject.ui.color('ICMP Type', :bold),
         subject.ui.color('ICMP CODE', :bold),
+        subject.ui.color('Type', :bold),
       ]
 
       firewalls.items.each do |firewall|
@@ -48,9 +49,10 @@ describe Chef::Knife::IonoscloudFirewallList do
         firewall_list << firewall.properties.port_range_end.to_s
         firewall_list << firewall.properties.icmp_type.to_s
         firewall_list << firewall.properties.icmp_code.to_s
+        firewall_list << firewall.properties.type.to_s
       end
 
-      expect(subject.ui).to receive(:list).with(firewall_list, :uneven_columns_across, 10)
+      expect(subject.ui).to receive(:list).with(firewall_list, :uneven_columns_across, 11)
 
       mock_call_api(
         subject,
