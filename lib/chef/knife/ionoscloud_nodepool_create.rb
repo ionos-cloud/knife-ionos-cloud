@@ -152,6 +152,20 @@ class Chef
         puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
         puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
         puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
+        puts "#{ui.color('Lans', :cyan)}: #{nodepool.properties.lans.map do
+          |lan|
+          {
+            id: lan.id,
+            dhcp: lan.dhcp,
+            routes: lan.routes ? lan.routes.map do
+              |route|
+              {
+                network: route.network,
+                gateway_ip: route.gateway_ip,
+              }
+            end : []
+          }
+        end}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
         puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
