@@ -86,7 +86,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call KubernetesApi.k8s_delete when the cluster is not active' do
+    it 'should not call KubernetesApi.k8s_delete when the cluster is not one of ["ACTIVE", "TERMINATED"]' do
       k8s_cluster = k8s_cluster_mock(
         {
           state: 'DEPLOYING',
