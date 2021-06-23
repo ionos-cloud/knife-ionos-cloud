@@ -84,6 +84,13 @@ class Chef
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes'
 
+      option :public_ips,
+              long: '--ips PUBLIC_IP [PUBLIC_IP]',
+              description: 'Optional array of reserved public IP addresses to be used by the nodes. '\
+              'IPs must be from same location as the data center used for the node pool. The array '\
+              'must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed '\
+              'node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -106,6 +113,8 @@ class Chef
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
+        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips]
+
         nodepool_properties = {
           name: config[:name],
           k8sVersion: config[:version],
@@ -117,6 +126,7 @@ class Chef
           availabilityZone: config[:availability_zone],
           storageType: config[:storage_type],
           storageSize: config[:storage_size],
+          publicIps: config[:public_ips],
         }
 
         if config[:maintenance_day] && config[:maintenance_time]
