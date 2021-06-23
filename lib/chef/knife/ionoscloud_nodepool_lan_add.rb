@@ -22,9 +22,10 @@ class Chef
               long: '--lan LAN_ID',
               description: 'The ID of the LAN'
 
-      option :dhcp,
-              short: '-d DHCP',
-              long: '--dhcp DHCP',
+      option :no_dhcp,
+              long: '--nodhcp',
+              boolean: true,
+              default: false,
               description: 'Indicates if the Kubernetes Node Pool LAN will reserve an IP using DHCP'
 
       option :routes,
@@ -65,9 +66,11 @@ class Chef
 
         new_lan = Ionoscloud::KubernetesNodePoolLan.new(
           id: Integer(config[:lan_id]),
-          dhcp: config[:dhcp],
+          dhcp: !config[:no_dhcp],
           routes: routes,
         )
+
+        puts new_lan
 
         existing = nodepool.properties.lans.select { |lan| lan.id == new_lan.id }
 

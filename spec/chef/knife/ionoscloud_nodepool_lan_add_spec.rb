@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
         cluster_id: 'cluster_id',
         nodepool_id: nodepool.id,
         lan_id: nodepool_lan.id,
-        dhcp: nodepool_lan.dhcp,
+        no_dhcp: !nodepool_lan.dhcp,
         routes: [nodepool_lan.routes.first.network, nodepool_lan.routes.first.gateway_ip].join(','),
         yes: true,
       }
@@ -101,7 +101,7 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
         cluster_id: 'cluster_id',
         nodepool_id: nodepool.id,
         lan_id: nodepool_lan.id,
-        dhcp: nodepool_lan.dhcp,
+        no_dhcp: !nodepool_lan.dhcp,
         routes: [nodepool_lan.routes.first.network, nodepool_lan.routes.first.gateway_ip].join(','),
         yes: true,
       }
@@ -167,7 +167,6 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
           },
         ],
       )
-
       expect { subject.run }.not_to raise_error(Exception)
     end
 
