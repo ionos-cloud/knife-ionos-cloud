@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
         min_node_count: nodepool.properties.auto_scaling.min_node_count,
         max_node_count: nodepool.properties.auto_scaling.max_node_count,
         lans: nodepool.properties.lans.map { |lan| lan.id }.join(','),
-        private_ips: nodepool.properties.private_ips.join(','),
+        public_ips: nodepool.properties.public_ips.join(','),
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
