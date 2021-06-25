@@ -19,10 +19,11 @@ knife ionoscloud group delete GROUP_ID [GROUP_ID]
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud group delete GROUP_ID [GROUP_ID]--username USERNAME --password PASSWORD
 ```
+

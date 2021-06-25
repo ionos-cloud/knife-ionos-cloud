@@ -19,10 +19,11 @@ knife ionoscloud image list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud image list--username USERNAME --password PASSWORD
 ```
+

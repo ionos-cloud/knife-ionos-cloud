@@ -19,10 +19,11 @@ knife ionoscloud ipblock list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud ipblock list--username USERNAME --password PASSWORD
 ```
+

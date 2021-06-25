@@ -22,10 +22,11 @@ knife ionoscloud user list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud user list --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
+

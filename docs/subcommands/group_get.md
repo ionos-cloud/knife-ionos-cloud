@@ -23,10 +23,11 @@ knife ionoscloud group get (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud group get --group-id GROUP_ID --username USERNAME --password PASSWORD
 ```
+

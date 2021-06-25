@@ -23,10 +23,11 @@ knife ionoscloud request status (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD
 ```
+

@@ -23,10 +23,11 @@ knife ionoscloud group user add USER_ID [USER_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
-knife ionoscloud group user add USER_ID 
+knife ionoscloud group user add USER_ID
 ```
+

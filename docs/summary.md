@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Introduction](README.md)
+* [Knife plugin](README.md)
 * [Changelog](changelog.md)
 
 ## Subcommands
@@ -87,3 +87,4 @@
 * [VolumeDelete](subcommands/volume_delete.md)
 * [VolumeDetach](subcommands/volume_detach.md)
 * [VolumeList](subcommands/volume_list.md)
+

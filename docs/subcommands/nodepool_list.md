@@ -23,10 +23,11 @@ knife ionoscloud nodepool list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud nodepool list--cluster-id CLUSTER_ID --username USERNAME --password PASSWORD
 ```
+

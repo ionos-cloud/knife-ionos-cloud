@@ -31,10 +31,11 @@ knife ionoscloud firewall delete FIREWALL_ID [FIREWALL_ID] (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-
 ```
+
 ## Example
 
 ```text
-knife ionoscloud firewall delete FIREWALL_ID 
+knife ionoscloud firewall delete FIREWALL_ID
 ```
+
