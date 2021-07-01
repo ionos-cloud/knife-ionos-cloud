@@ -381,6 +381,20 @@ def k8s_clusters_mock(opts = {})
   )
 end
 
+
+def nodepool_lan_mock(opts = {})
+  Ionoscloud::KubernetesNodePoolLan.new(
+    id: opts[:id] || 1,
+    dhcp: opts[:dhcp] || false,
+    routes: opts[:routes] || [
+      Ionoscloud::KubernetesNodePoolLanRoutes.new(
+        network: opts[:network] || '1.2.3.4/24',
+        gateway_ip: opts[:gateway_ip] || '10.1.5.16',
+      ),
+    ],
+  )
+end
+
 def k8s_nodepool_mock(opts = {})
   Ionoscloud::KubernetesNodePool.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -397,7 +411,7 @@ def k8s_nodepool_mock(opts = {})
       k8s_version: opts[:k8s_version] || '1.15.4',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
-      lans: opts[:lans] || [lan_mock, lan_mock],
+      lans: opts[:lans] || [nodepool_lan_mock(id: 12), nodepool_lan_mock(id: 15)],
       labels: opts[:labels] || nil,
       annotations: opts[:annotations] || nil,
       public_ips: opts[:public_ips] || ['81.173.1.2', '82.231.2.5', '92.221.2.4'],
