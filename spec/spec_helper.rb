@@ -594,6 +594,9 @@ def group_mock(opts = {})
       create_k8s_cluster: opts[:create_k8s_cluster] || true,
       create_pcc: opts[:create_pcc] || true,
       create_internet_access: opts[:create_internet_access] || true,
+      create_flow_log: opts[:create_flow_log] || true,
+      access_and_manage_monitoring: opts[:access_and_manage_monitoring] || true,
+      access_and_manage_certificates: opts[:access_and_manage_certificates] || true,
     ),
     entities: Ionoscloud::GroupEntities.new(
       users: group_members_mock,
