@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudCompositeServerCreate < Knife
+    class IonoscloudCubeServerCreate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud composite server create (options)'
+      banner 'knife ionoscloud cube server create (options)'
 
       option :datacenter_id,
               short: '-D DATACENTER_ID',
@@ -17,21 +17,15 @@ class Chef
               long: '--name NAME',
               description: '(required) Name of the server'
 
-      option :cores,
-              short: '-C CORES',
-              long: '--cores CORES',
-              description: '(required) The number of processor cores'
+      option :template,
+              long: '--template TEMPLATE_UUID',
+              description: 'The UUID of the template for creating a CUBE server; the available templates for CUBE servers can be found on the templates resource'
 
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
               description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)',
               default: 'INTEL_SKYLAKE'
-
-      option :ram,
-              short: '-r RAM',
-              long: '--ram RAM',
-              description: '(required) The amount of RAM in MB'
 
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
@@ -43,11 +37,6 @@ class Chef
               long: '--volume-name NAME',
               description: 'Name of the volume'
 
-      option :size,
-              short: '-S SIZE',
-              long: '--size SIZE',
-              description: '(required) The size of the volume in GB'
-
       option :bus,
               short: '-b BUS',
               long: '--bus BUS',
@@ -58,15 +47,6 @@ class Chef
               long: '--image ID',
               description: '(required) The image or snapshot ID'
 
-      option :image_alias,
-              long: '--image-alias IMAGE_ALIAS',
-              description: '(required) The image alias'
-
-      option :type,
-              short: '-t TYPE',
-              long: '--type TYPE',
-              description: '(required) The disk type (HDD or SSD)'
-
       option :licence_type,
               short: '-l LICENCE',
               long: '--licence-type LICENCE',
@@ -76,11 +56,6 @@ class Chef
               short: '-P PASSWORD',
               long: '--image-password PASSWORD',
               description: 'The password set on the image for the "root" or "Administrator" user'
-
-      option :volume_availability_zone,
-              short: '-Z AVAILABILITY_ZONE',
-              long: '--volume-availability-zone AVAILABILITY_ZONE',
-              description: 'The volume availability zone of the server'
 
       option :ssh_keys,
               short: '-K SSHKEY[,SSHKEY,...]',
@@ -100,6 +75,10 @@ class Chef
               description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
               'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
               'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
+
+      option :set_boot,
+              long: '--set-boot',
+              description: 'Whether to set the volume as the boot volume'
 
       option :nic_name,
               long: '--nic-name NAME',
@@ -123,6 +102,7 @@ class Chef
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
       option :firewall_type,
+              short: '-t FIREWALL_TYPE',
               long: '--firewall-type FIREWALL_TYPE',
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
               'default value INGRESS',
@@ -133,9 +113,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
+        'This creates a new cube server with an attached volume and NIC in a specified virtual data center.'
         @required_options = [
-          :datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan, :ionoscloud_username, :ionoscloud_password,
+          :datacenter_id, :name, :template, :ionoscloud_username, :ionoscloud_password,
         ]
       end
 
@@ -146,49 +126,53 @@ class Chef
         config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
         config[:ips] = config[:ips].split(',') if config[:ips]
 
-        print ui.color('Creating composite server...', :magenta).to_s
+        print ui.color('Creating cube server...', :magenta).to_s
 
-        volume = Ionoscloud::Volume.new(
+        volumes = [Ionoscloud::Volume.new(
           properties: Ionoscloud::VolumeProperties.new({
             name: config[:volume_name],
-            size: config[:size],
             bus: config[:bus] || 'VIRTIO',
             image: config[:image],
-            image_alias: config[:image_alias],
             ssh_keys: config[:ssh_keys],
             image_password: config[:image_password],
-            type: config[:type],
+            type: 'DAS',
             licence_type: config[:licence_type],
-            availability_zone: config[:volume_availability_zone],
             backupunit_id: config[:backupunit_id],
             user_data: config[:user_data],
           }.compact)
-        )
+        )]
 
-        nic = Ionoscloud::Nic.new(
-          properties: Ionoscloud::NicProperties.new({
-            name: config[:nic_name],
-            ips: config[:ips],
-            dhcp: config[:dhcp],
-            lan: config[:lan],
-            firewall_type: config[:firewall_type],
-          }.compact)
-        )
+        nics = []
+
+        if config[:nic_name] || config[:ips] || config[:dhcp] || config[:lan]
+          nics = [
+            Ionoscloud::Nic.new(
+              properties: Ionoscloud::NicProperties.new({
+                name: config[:nic_name],
+                ips: config[:ips],
+                dhcp: config[:dhcp],
+                lan: config[:lan],
+                firewall_type: config[:firewall_type],
+              }.compact)
+            )
+          ]
+        end
 
         server = Ionoscloud::Server.new(
           properties: Ionoscloud::ServerProperties.new({
             name: config[:name],
-            cores: config[:cores],
+            type: 'CUBE',
+            template_uuid: config[:template],
             cpu_family: config[:cpu_family],
             ram: config[:ram],
             availability_zone: config[:availability_zone],
           }.compact),
           entities: Ionoscloud::ServerEntities.new(
             volumes: {
-               items: [volume],
+               items: volumes,
             },
             nics: {
-              items: [nic],
+              items: nics,
             },
           ),
         )
@@ -200,11 +184,23 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
+        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
+
+        if config[:set_boot]
+          changes = Ionoscloud::ServerProperties.new(boot_volume: { id: server.entities.volumes.items[0].id })
+          _, _, headers = server_api.datacenters_servers_patch_with_http_info(
+            config[:datacenter_id], server.id, changes,
+          )
+
+          api_client.wait_for { is_done? get_request_id headers }
+
+          server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id, depth: 1)
+        end
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"
         puts "#{ui.color('Name', :cyan)}: #{server.properties.name}"
+        puts "#{ui.color('Type', :cyan)}: #{server.properties.type}"
         puts "#{ui.color('Cores', :cyan)}: #{server.properties.cores}"
         puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
         puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"

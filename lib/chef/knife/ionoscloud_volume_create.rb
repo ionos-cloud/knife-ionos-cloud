@@ -32,10 +32,6 @@ class Chef
               long: '--image ID',
               description: 'The image or snapshot ID'
 
-      option :image_alias,
-              long: '--image-alias IMAGE_ALIAS',
-              description: '(required) The image alias'
-
       option :image_password,
               short: '-P PASSWORD',
               long: '--image-password PASSWORD',
@@ -44,7 +40,7 @@ class Chef
       option :type,
               short: '-t TYPE',
               long: '--type TYPE',
-              description: 'The disk type (HDD OR SSD)'
+              description: 'The disk type (HDD, SSD, SSD Standard, SSD Premium, DAS)'
 
       option :licence_type,
               short: '-l LICENCE',
@@ -59,8 +55,21 @@ class Chef
       option :availability_zone,
               short: '-Z AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The volume availability zone of the server',
-              required: false
+              description: 'The volume availability zone of the server'
+
+      option :backupunit_id,
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit BACKUPUNIT_ID',
+              description: 'The uuid of the Backup Unit that user has access to. The property is immutable and is only allowed '\
+              'to be set on a new volume creation. It is mandatory to provide either \'public image\' or \'imageAlias\' in '\
+              'conjunction with this property.'
+
+      option :user_data,
+              short: '-u USER_DATA',
+              long: '--user-data USER_DATA',
+              description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
+              'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
+              'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
 
       attr_reader :description, :required_options
 
@@ -76,40 +85,29 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !config[:image] && !config[:image_alias]
-          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
-          exit(1)
-        end
-
-        if !config[:ssh_keys] && !config[:image_password]
-          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
-          exit(1)
-        end
-
-        if config[:ssh_keys]
-          config[:ssh_keys] = config[:ssh_keys].split(',')
-        end
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
 
         print "#{ui.color('Creating volume...', :magenta)}"
 
         volume_api = Ionoscloud::VolumesApi.new(api_client)
 
+        volume_properties = {
+          name: config[:name],
+          size: config[:size],
+          bus: config[:bus] || 'VIRTIO',
+          type: config[:type],
+          licence_type: config[:licence_type],
+          image: config[:image],
+          ssh_keys: config[:ssh_keys],
+          image_password: config[:image_password],
+          availability_zone: config[:availability_zone],
+          backupunit_id: config[:backupunit_id],
+          user_data: config[:user_data],
+        }.compact
+
         volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
           config[:datacenter_id],
-          {
-            properties: {
-              name: config[:name],
-              size: config[:size],
-              bus: config[:bus] || 'VIRTIO',
-              type: config[:type],
-              licenceType: config[:licence_type],
-              image: config[:image],
-              imageAlias: config[:image_alias],
-              sshKeys: config[:sshKeys],
-              imagePassword: config[:image_password],
-              availabilityZone: config[:availability_zone],
-            }.compact
-          },
+          Ionoscloud::Volume.new(properties: Ionoscloud::VolumeProperties.new(**volume_properties)),
         )
 
         dot = ui.color('.', :magenta)

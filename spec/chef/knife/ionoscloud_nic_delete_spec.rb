@@ -30,6 +30,9 @@ describe Chef::Knife::IonoscloudNicDelete do
       expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
       expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
       expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
+      expect(subject).to receive(:puts).with("Firewall Type: #{nic.properties.firewall_type}")
+      expect(subject).to receive(:puts).with("Device Number: #{nic.properties.device_number}")
+      expect(subject).to receive(:puts).with("PCI Slot: #{nic.properties.pci_slot}")
       expect(subject.ui).to receive(:warn).with("Deleted Nic #{nic.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

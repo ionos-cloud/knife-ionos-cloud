@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_server_stop'
+require 'ionoscloud_server_upgrade'
 
-Chef::Knife::IonoscloudServerStop.load_deps
+Chef::Knife::IonoscloudServerUpgrade.load_deps
 
-describe Chef::Knife::IonoscloudServerStop do
+describe Chef::Knife::IonoscloudServerUpgrade do
   before :each do
-    subject { Chef::Knife::IonoscloudServerStop.new }
+    subject { Chef::Knife::IonoscloudServerUpgrade.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -18,23 +18,25 @@ describe Chef::Knife::IonoscloudServerStop do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
+        server_id: server.id,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [server.id]
 
-      expect(subject.ui).to receive(:warn).with("Server #{server.id} is stopping. Request ID: ")
+      expect(subject.ui).to receive(:info).with("Server #{server.id} is being upgraded. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
+
       mock_call_api(
         subject,
         [
           {
             method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/upgrade",
+            operation: :'ServersApi.datacenters_servers_upgrade_post',
             result: server,
           },
         ],
@@ -49,12 +51,13 @@ describe Chef::Knife::IonoscloudServerStop do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
+        server_id: server_id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [server_id]
 
-      expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -62,8 +65,8 @@ describe Chef::Knife::IonoscloudServerStop do
         [
           {
             method: 'POST',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/stop",
-            operation: :'ServersApi.datacenters_servers_stop_post',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/upgrade",
+            operation: :'ServersApi.datacenters_servers_upgrade_post',
             exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],

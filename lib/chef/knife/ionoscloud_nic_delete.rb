@@ -45,6 +45,9 @@ class Chef
           msg_pair('IPs', nic.properties.ips)
           msg_pair('DHCP', nic.properties.dhcp)
           msg_pair('LAN', nic.properties.lan)
+          msg_pair('Firewall Type', nic.properties.firewall_type)
+          msg_pair('Device Number', nic.properties.device_number)
+          msg_pair('PCI Slot', nic.properties.pci_slot)
 
           begin
             confirm('Do you really want to delete this Nic')

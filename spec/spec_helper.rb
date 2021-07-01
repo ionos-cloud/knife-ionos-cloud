@@ -45,6 +45,14 @@ def contract_mock(opts = {})
   )
 end
 
+def contracts_mock(opts = {})
+  Ionoscloud::IpBlocks.new(
+    id: 'contracts',
+    type: 'collection',
+    items: [contract_mock],
+  )
+end
+
 def ipblock_mock(opts = {})
   Ionoscloud::IpBlock.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -112,6 +120,18 @@ def servers_mock(opts = {})
   )
 end
 
+def token_mock
+  Ionoscloud::Token.new(
+    token: 'test_token'
+  )
+end
+
+def console_mock
+  Ionoscloud::RemoteConsoleUrl.new(
+    url: 'test_url'
+  )
+end
+
 def volume_mock(opts = {})
   Ionoscloud::Volume.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -123,6 +143,8 @@ def volume_mock(opts = {})
       availability_zone: opts[:availability_zone] || 'AUTO',
       licence_type: opts[:licence_type] || 'LINUX',
       image: opts[:image] || SecureRandom.uuid,
+      backupunit_id: opts[:backupunit_id] || SecureRandom.uuid,
+      user_data: opts[:user_data] || 'user_data',
     ),
   )
 end
@@ -219,6 +241,9 @@ def nic_mock(opts = {})
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
+      firewall_type: opts[:firewall_type] || 'INGRESS',
+      device_number: opts[:device_number] || 3,
+      pci_slot: opts[:pci_slot] || 6,
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
@@ -247,6 +272,7 @@ def firewall_mock(opts = {})
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
       icmp_code: opts[:icmp_code] || 7,
+      type: opts[:type] || 'INGRESS',
     ),
   )
 end
@@ -307,23 +333,7 @@ def location_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::LocationProperties.new(
       name: opts[:name] || 'location_name',
-    ),
-  )
-end
-
-def locations_mock(opts = {})
-  Ionoscloud::Locations.new(
-    id: 'locations',
-    type: 'collection',
-    items: [location_mock],
-  )
-end
-
-def location_mock(opts = {})
-  Ionoscloud::Location.new(
-    id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::LocationProperties.new(
-      name: opts[:name] || 'location_name',
+      cpu_architecture: opts[:cpu_architecture] || [Ionoscloud::CpuArchitectureProperties.new(cpu_family: 'INTEL_SKYLAKE')],
     ),
   )
 end
@@ -453,6 +463,15 @@ def k8s_nodes_mock(opts = {})
   )
 end
 
+def cpu_architecture_mock(opts = {})
+  Ionoscloud::CpuArchitectureProperties.new(
+    cpu_family: opts[:cpu_family] || 'INTEL_SKYLAKE',
+    max_cores: opts[:max_cores] || 4,
+    max_ram: opts[:max_ram] || 4096,
+    vendor: opts[:vendor] || 'AuthenticAMD',
+  )
+end
+
 def datacenter_mock(opts = {})
   Ionoscloud::Datacenter.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -460,6 +479,7 @@ def datacenter_mock(opts = {})
       name: opts[:name] || 'datacenter_name',
       description: opts[:description] || 'datacenter_description',
       location: opts[:location] || 'de/fra',
+      cpu_architecture: opts[:cpu_architecture] || [cpu_architecture_mock],
     ),
   )
 end

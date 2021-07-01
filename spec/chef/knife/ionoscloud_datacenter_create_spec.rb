@@ -32,6 +32,7 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
 
       expected_body = datacenter.properties.to_hash
       expected_body.delete(:version)
+      expected_body.delete(:cpuArchitecture)
 
       mock_wait_for(subject)
       mock_call_api(

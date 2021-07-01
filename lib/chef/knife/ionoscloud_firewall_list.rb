@@ -46,6 +46,7 @@ class Chef
           ui.color('Port Range End', :bold),
           ui.color('ICMP Type', :bold),
           ui.color('ICMP CODE', :bold),
+          ui.color('Type', :bold),
         ]
 
         firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
@@ -63,9 +64,10 @@ class Chef
           firewall_list << firewall.properties.port_range_end.to_s
           firewall_list << firewall.properties.icmp_type.to_s
           firewall_list << firewall.properties.icmp_code.to_s
+          firewall_list << firewall.properties.type.to_s
         end
 
-        puts ui.list(firewall_list, :uneven_columns_across, 10)
+        puts ui.list(firewall_list, :uneven_columns_across, 11)
       end
     end
   end
