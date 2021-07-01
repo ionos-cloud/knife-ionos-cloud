@@ -86,7 +86,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call KubernetesApi.k8s_delete when the cluster is not active' do
+    it 'should not call KubernetesApi.k8s_delete when the cluster is not one of ["ACTIVE", "TERMINATED"]' do
       k8s_cluster = k8s_cluster_mock(
         {
           state: 'DEPLOYING',
@@ -103,7 +103,10 @@ describe Chef::Knife::IonoscloudK8sDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [k8s_cluster.id]
 
-      expect(subject.ui).to receive(:error).with("K8s Cluster ID #{k8s_cluster.id} is not active. Skipping.")
+      expect(subject.ui).to receive(:error).with(
+        "K8s Cluster #{k8s_cluster.id} state must be one of ['ACTIVE', 'TERMINATED'], "\
+        "actual state is '#{k8s_cluster.metadata.state}'. Skipping."
+      )
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
