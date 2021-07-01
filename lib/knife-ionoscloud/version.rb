@@ -1,6 +1,6 @@
 module Knife
   module Ionoscloud
-    VERSION = '5.1.0'
+    VERSION = 'v6.0.0-alpha.1'
     MAJOR, MINOR, TINY = VERSION.split('.')
   end
 end
