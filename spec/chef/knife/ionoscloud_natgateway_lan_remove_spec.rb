@@ -1,0 +1,194 @@
+require 'spec_helper'
+require 'ionoscloud_natgateway_lan_remove'
+
+Chef::Knife::IonoscloudNatgatewayLanRemove.load_deps
+
+describe Chef::Knife::IonoscloudNatgatewayLanRemove do
+  before :each do
+    subject { Chef::Knife::IonoscloudNatgatewayLanRemove.new }
+
+    allow(subject).to receive(:puts)
+    allow(subject).to receive(:print)
+  end
+
+  describe '#run' do
+    it 'should call NATGatewaysApi.datacenters_natgateways_patch and remove lans' do
+      natgateway = natgateway_mock
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        natgateway_id: natgateway.id,
+        yes: true,
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = natgateway.properties.lans.map { |el| el.id }
+
+      expect(subject).to receive(:puts).with("ID: #{natgateway.id}")
+      expect(subject).to receive(:puts).with("Name: #{natgateway.properties.name}")
+      expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANS: #{[]}")
+
+      expected_properties = natgateway.properties.to_hash
+      expected_properties[:lans] = []
+
+      mock_wait_for(subject)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'PATCH',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_patch',
+            body: expected_properties,
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+        ],
+      )
+
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should call NATGatewaysApi.datacenters_natgateways_patch and remove only wanted lans' do
+      lan1 = natgateway_lan_mock(lan_id: 1)
+      lan2 = natgateway_lan_mock(lan_id: 4)
+      lan3 = natgateway_lan_mock(lan_id: 3)
+      natgateway = natgateway_mock(lans: [lan1, lan2])
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        natgateway_id: natgateway.id,
+        yes: true,
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [lan3.id]
+
+      expect(subject).to receive(:puts).with("ID: #{natgateway.id}")
+      expect(subject).to receive(:puts).with("Name: #{natgateway.properties.name}")
+      expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANS: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}")
+
+      expected_properties = natgateway.properties.to_hash
+
+      mock_wait_for(subject)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'PATCH',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_patch',
+            body: expected_properties,
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+        ],
+      )
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should call NATGatewaysApi.datacenters_natgateways_patch and remove only wanted lans 2' do
+      lan1 = natgateway_lan_mock(lan_id: 1)
+      lan2 = natgateway_lan_mock(lan_id: 4)
+      natgateway = natgateway_mock(lans: [lan1, lan2])
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+        datacenter_id: 'datacenter_id',
+        natgateway_id: natgateway.id,
+        yes: true,
+      }
+
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [lan2.id]
+
+      expect(subject).to receive(:puts).with("ID: #{natgateway.id}")
+      expect(subject).to receive(:puts).with("Name: #{natgateway.properties.name}")
+      expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANS: #{[{ id: lan1.id, gateway_ips: lan1.gateway_ips }]}")
+
+      expected_properties = natgateway.properties.to_hash
+      expected_properties[:lans] = [lan1.to_hash]
+
+      mock_wait_for(subject)
+      mock_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'PATCH',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_patch',
+            body: expected_properties,
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+          {
+            method: 'GET',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/natgateways/#{natgateway.id}",
+            operation: :'NATGatewaysApi.datacenters_natgateways_find_by_nat_gateway_id',
+            return_type: 'NatGateway',
+            result: natgateway,
+          },
+        ],
+      )
+      expect { subject.run }.not_to raise_error(Exception)
+    end
+
+    it 'should not make any call if any required option is missing' do
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
+        end
+
+        required_options.each { |value| subject.config[value] = nil }
+      end
+    end
+  end
+end
