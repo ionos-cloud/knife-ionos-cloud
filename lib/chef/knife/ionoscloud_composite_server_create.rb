@@ -127,23 +127,8 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !config[:image] && !config[:image_alias]
-          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
-          exit(1)
-        end
-
-        if !config[:ssh_keys] && !config[:image_password]
-          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
-          exit(1)
-        end
-
-        if config[:ssh_keys]
-          config[:ssh_keys] = config[:ssh_keys].split(',')
-        end
-
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
+        config[:ips] = config[:ips].split(',') if config[:ips]
 
         print ui.color('Creating composite server...', :magenta).to_s
 
