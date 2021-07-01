@@ -33,6 +33,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
         min_node_count: nodepool.properties.auto_scaling.min_node_count,
         max_node_count: nodepool.properties.auto_scaling.max_node_count,
         lans: nodepool.properties.lans.map { |lan| lan.id }.join(','),
+        public_ips: nodepool.properties.public_ips.join(','),
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -42,7 +43,6 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
 
       expected_body = nodepool.properties.to_hash
       expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }
-      expected_body.delete(:publicIps)
       expected_body.delete(:availableUpgradeVersions)
 
       expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
