@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudServerDelete do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should not call ServersApi.datacenters_servers_delete when the user ID is not valid' do
+    it 'should not call ServersApi.datacenters_servers_delete when the server ID is not valid' do
       server_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',

@@ -39,6 +39,12 @@ class Chef
         puts "#{ui.color('Access Activity Log', :cyan)}: #{group.properties.access_activity_log.to_s}"
         puts "#{ui.color('S3 Privilege', :cyan)}: #{group.properties.s3_privilege.to_s}"
         puts "#{ui.color('Create Backup Unit', :cyan)}: #{group.properties.create_backup_unit.to_s}"
+        puts "#{ui.color('Create K8s Clusters', :cyan)}: #{group.properties.create_k8s_cluster.to_s}"
+        puts "#{ui.color('Create PCC', :cyan)}: #{group.properties.create_pcc.to_s}"
+        puts "#{ui.color('Create Internet Acess', :cyan)}: #{group.properties.create_internet_access.to_s}"
+        puts "#{ui.color('Create Flow Logs', :cyan)}: #{group.properties.create_flow_log.to_s}"
+        puts "#{ui.color('Access and Manage Monitoring', :cyan)}: #{group.properties.access_and_manage_monitoring.to_s}"
+        puts "#{ui.color('Access and Manage Certificates', :cyan)}: #{group.properties.access_and_manage_certificates.to_s}"
         puts "#{ui.color('Users', :cyan)}: #{users.to_s}"
       end
     end

@@ -39,6 +39,13 @@ class Chef
               long: '--lan ID',
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
+      option :firewall_type,
+              short: '-t FIREWALL_TYPE',
+              long: '--firewall-type FIREWALL_TYPE',
+              description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
+              'default value INGRESS',
+              default: 'INGRESS'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -59,19 +66,20 @@ class Chef
           config[:ips] = config[:ips].split(',')
         end
 
-        params = {
+        nic_properties = {
           name: config[:name],
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
-        }
+          firewall_type: config[:firewall_type]
+        }.compact
 
         nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
 
         nic, _, headers = nic_api.datacenters_servers_nics_post_with_http_info(
           config[:datacenter_id],
           config[:server_id],
-          { properties: params.compact },
+          Ionoscloud::Nic.new(properties: Ionoscloud::NicProperties.new(**nic_properties)),
         )
 
         dot = ui.color('.', :magenta)
@@ -89,6 +97,9 @@ class Chef
         puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
         puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
         puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
+        puts "#{ui.color('Firewall Type', :cyan)}: #{nic.properties.firewall_type}"
+        puts "#{ui.color('Device Number', :cyan)}: #{nic.properties.device_number}"
+        puts "#{ui.color('PCI Slot', :cyan)}: #{nic.properties.pci_slot}"
 
         puts 'done'
       end

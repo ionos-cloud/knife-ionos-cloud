@@ -12,7 +12,6 @@ class Chef
               long: '--cluster-id CLUSTER_ID',
               description: 'The ID of the K8s Cluster'
 
-
       option :nodepool_id,
               short: '-P NODEPOOL_ID',
               long: '--nodepool-id NODEPOOL_ID',

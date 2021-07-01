@@ -67,25 +67,25 @@ class Chef
         params = {
           name: config[:name],
           cores: config[:cores],
-          cpuFamily: config[:cpu_family],
+          cpu_family: config[:cpu_family],
           ram: config[:ram],
-          availabilityZone: config[:availability_zone]
+          availability_zone: config[:availability_zone],
         }
 
-        params[:bootCdrom] = { id: config[:boot_cdrom] } unless config[:boot_cdrom].nil?
-        params[:bootVolume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
+        params[:boot_cdrom] = { id: config[:boot_cdrom] } unless config[:boot_cdrom].nil?
+        params[:boot_volume] = { id: config[:boot_volume] } unless config[:boot_volume].nil?
 
-        server_api = Ionoscloud::ServersApi.new(api_client)
+        servers_api = Ionoscloud::ServersApi.new(api_client)
 
-        server, _, headers = server_api.datacenters_servers_post_with_http_info(
+        server, _, headers = servers_api.datacenters_servers_post_with_http_info(
           config[:datacenter_id],
-          { properties: params.compact },
+          Ionoscloud::Server.new(properties: Ionoscloud::ServerProperties.new(params.compact)),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
+        server = servers_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{server.id}"

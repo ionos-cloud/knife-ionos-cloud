@@ -45,6 +45,14 @@ def contract_mock(opts = {})
   )
 end
 
+def contracts_mock(opts = {})
+  Ionoscloud::IpBlocks.new(
+    id: 'contracts',
+    type: 'collection',
+    items: [contract_mock],
+  )
+end
+
 def ipblock_mock(opts = {})
   Ionoscloud::IpBlock.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -112,6 +120,18 @@ def servers_mock(opts = {})
   )
 end
 
+def token_mock
+  Ionoscloud::Token.new(
+    token: 'test_token'
+  )
+end
+
+def console_mock
+  Ionoscloud::RemoteConsoleUrl.new(
+    url: 'test_url'
+  )
+end
+
 def volume_mock(opts = {})
   Ionoscloud::Volume.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -123,6 +143,8 @@ def volume_mock(opts = {})
       availability_zone: opts[:availability_zone] || 'AUTO',
       licence_type: opts[:licence_type] || 'LINUX',
       image: opts[:image] || SecureRandom.uuid,
+      backupunit_id: opts[:backupunit_id] || SecureRandom.uuid,
+      user_data: opts[:user_data] || 'user_data',
     ),
   )
 end
@@ -219,6 +241,9 @@ def nic_mock(opts = {})
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
       lan: opts[:lan] || 1,
+      firewall_type: opts[:firewall_type] || 'INGRESS',
+      device_number: opts[:device_number] || 3,
+      pci_slot: opts[:pci_slot] || 6,
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
@@ -247,6 +272,7 @@ def firewall_mock(opts = {})
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
       icmp_code: opts[:icmp_code] || 7,
+      type: opts[:type] || 'INGRESS',
     ),
   )
 end
@@ -307,23 +333,7 @@ def location_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::LocationProperties.new(
       name: opts[:name] || 'location_name',
-    ),
-  )
-end
-
-def locations_mock(opts = {})
-  Ionoscloud::Locations.new(
-    id: 'locations',
-    type: 'collection',
-    items: [location_mock],
-  )
-end
-
-def location_mock(opts = {})
-  Ionoscloud::Location.new(
-    id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::LocationProperties.new(
-      name: opts[:name] || 'location_name',
+      cpu_architecture: opts[:cpu_architecture] || [Ionoscloud::CpuArchitectureProperties.new(cpu_family: 'INTEL_SKYLAKE')],
     ),
   )
 end
@@ -381,6 +391,20 @@ def k8s_clusters_mock(opts = {})
   )
 end
 
+
+def nodepool_lan_mock(opts = {})
+  Ionoscloud::KubernetesNodePoolLan.new(
+    id: opts[:id] || 1,
+    dhcp: opts[:dhcp] || false,
+    routes: opts[:routes] || [
+      Ionoscloud::KubernetesNodePoolLanRoutes.new(
+        network: opts[:network] || '1.2.3.4/24',
+        gateway_ip: opts[:gateway_ip] || '10.1.5.16',
+      ),
+    ],
+  )
+end
+
 def k8s_nodepool_mock(opts = {})
   Ionoscloud::KubernetesNodePool.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -397,7 +421,7 @@ def k8s_nodepool_mock(opts = {})
       k8s_version: opts[:k8s_version] || '1.15.4',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
-      lans: opts[:lans] || [lan_mock, lan_mock],
+      lans: opts[:lans] || [nodepool_lan_mock(id: 12), nodepool_lan_mock(id: 15)],
       labels: opts[:labels] || nil,
       annotations: opts[:annotations] || nil,
       public_ips: opts[:public_ips] || ['81.173.1.2', '82.231.2.5', '92.221.2.4'],
@@ -439,6 +463,15 @@ def k8s_nodes_mock(opts = {})
   )
 end
 
+def cpu_architecture_mock(opts = {})
+  Ionoscloud::CpuArchitectureProperties.new(
+    cpu_family: opts[:cpu_family] || 'INTEL_SKYLAKE',
+    max_cores: opts[:max_cores] || 4,
+    max_ram: opts[:max_ram] || 4096,
+    vendor: opts[:vendor] || 'AuthenticAMD',
+  )
+end
+
 def datacenter_mock(opts = {})
   Ionoscloud::Datacenter.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -446,6 +479,7 @@ def datacenter_mock(opts = {})
       name: opts[:name] || 'datacenter_name',
       description: opts[:description] || 'datacenter_description',
       location: opts[:location] || 'de/fra',
+      cpu_architecture: opts[:cpu_architecture] || [cpu_architecture_mock],
     ),
   )
 end
@@ -580,6 +614,9 @@ def group_mock(opts = {})
       create_k8s_cluster: opts[:create_k8s_cluster] || true,
       create_pcc: opts[:create_pcc] || true,
       create_internet_access: opts[:create_internet_access] || true,
+      create_flow_log: opts[:create_flow_log] || true,
+      access_and_manage_monitoring: opts[:access_and_manage_monitoring] || true,
+      access_and_manage_certificates: opts[:access_and_manage_certificates] || true,
     ),
     entities: Ionoscloud::GroupEntities.new(
       users: group_members_mock,
@@ -700,6 +737,74 @@ def flowlogs_mock(opts = {})
     id: 'flowlogs',
     type: 'collection',
     items: [flowlog_mock, flowlog_mock],
+def network_loadbalancer_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancer.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NetworkLoadBalancerProperties.new({
+      name: opts[:name] || 'network_loadbalancer_name',
+      ips: opts[:ips] || ['123.123.123.123'],
+      listener_lan: opts[:listener_lan] || 1,
+      target_lan: opts[:target_lan] || 2,
+      lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
+    }),
+    entities: Ionoscloud::NetworkLoadBalancerEntities.new({
+      forwardingrules: opts[:rules] || network_loadbalancer_rules_mock,
+      flowlogs: opts[:flowlogs] || Ionoscloud::FlowLogs.new(
+        id: 'flowlogs',
+        type: 'collection',
+        items: [],
+      ),
+    })
+  )
+end
+
+def network_loadbalancers_mock(opts = {})
+  Ionoscloud::Templates.new(
+    id: 'network_loadbalancers',
+    type: 'collection',
+    items: [network_loadbalancer_mock, network_loadbalancer_mock],
+  )
+end
+
+def network_loadbalancer_rule_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRule.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NetworkLoadBalancerForwardingRuleProperties.new(
+      name: opts[:name] || 'network_loadbalancer_rule_name',
+      algorithm: opts[:algorithm] || 'ROUND_ROBIN',
+      protocol: opts[:protocol] || 'TCP',
+      listener_ip: opts[:listener_ip] || '123.123.123.123',
+      listener_port: opts[:listener_port] || 123,
+      health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
+        client_timeout: opts[:client_timeout] || 100,
+        check_timeout: opts[:check_timeout] || 200,
+        connect_timeout: opts[:connect_timeout] || 300,
+        target_timeout: opts[:target_timeout] || 400,
+        retries: opts[:retries] || 3,
+      ),
+      targets: opts[:targets] || [network_loadbalancer_rule_target_mock, network_loadbalancer_rule_target_mock],
+    ),
+  )
+end
+
+def network_loadbalancer_rules_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRules.new(
+    id: 'network_loadbalancers_forwarding_rules',
+    type: 'collection',
+    items: [network_loadbalancer_rule_mock, network_loadbalancer_rule_mock],
+  )
+end
+
+def network_loadbalancer_rule_target_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
+    ip: opts[:ip] || '123.123.123.123',
+    port: opts[:port] || 3,
+    weight: opts[:weight] || 10,
+    health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleTargetHealthCheck.new(
+      check: opts[:check] || true,
+      check_interval: opts[:check_interval] || 100,
+      maintenance: opts[:maintenance] || false,
+    ),
   )
 end
 

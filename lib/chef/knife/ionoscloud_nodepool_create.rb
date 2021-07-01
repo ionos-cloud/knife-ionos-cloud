@@ -84,6 +84,13 @@ class Chef
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes'
 
+      option :public_ips,
+              long: '--ips PUBLIC_IP [PUBLIC_IP]',
+              description: 'Optional array of reserved public IP addresses to be used by the nodes. '\
+              'IPs must be from same location as the data center used for the node pool. The array '\
+              'must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed '\
+              'node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -106,37 +113,42 @@ class Chef
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
+        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips]
+
         nodepool_properties = {
           name: config[:name],
-          k8sVersion: config[:version],
-          datacenterId: config[:datacenter_id],
-          nodeCount: config[:node_count],
-          cpuFamily: config[:cpu_family],
-          coresCount: config[:cores],
-          ramSize: config[:ram],
-          availabilityZone: config[:availability_zone],
-          storageType: config[:storage_type],
-          storageSize: config[:storage_size],
+          k8s_version: config[:version],
+          datacenter_id: config[:datacenter_id],
+          node_count: config[:node_count],
+          cpu_family: config[:cpu_family],
+          cores_count: config[:cores],
+          ram_size: config[:ram],
+          availability_zone: config[:availability_zone],
+          storage_type: config[:storage_type],
+          storage_size: config[:storage_size],
+          public_ips: config[:public_ips],
         }
 
         if config[:maintenance_day] && config[:maintenance_time]
-          nodepool_properties[:maintenanceWindow] = {
-            dayOfTheWeek: config[:maintenance_day],
+          nodepool_properties[:maintenance_window] = Ionoscloud::KubernetesMaintenanceWindow.new(
+            day_of_the_week: config[:maintenance_day],
             time: config[:maintenance_time],
-          }
+          )
         end
 
         if config[:min_node_count] || config[:max_node_count]
-          nodepool_properties[:autoScaling] = {}
-          nodepool_properties[:autoScaling][:minNodeCount] = config[:min_node_count] unless config[:min_node_count].nil?
-          nodepool_properties[:autoScaling][:maxNodeCount] = config[:max_node_count] unless config[:max_node_count].nil?
+          nodepool_properties[:auto_scaling] = Ionoscloud::KubernetesAutoScaling.new()
+          nodepool_properties[:auto_scaling].min_node_count = config[:min_node_count] unless config[:min_node_count].nil?
+          nodepool_properties[:auto_scaling].max_node_count = config[:max_node_count] unless config[:max_node_count].nil?
         end
 
         if config[:lans]
           nodepool_properties[:lans] = config[:lans].split(',').map! { |lan| { id: Integer(lan) } }
         end
 
-        nodepool = kubernetes_api.k8s_nodepools_post(config[:cluster_id], { properties: nodepool_properties })
+        nodepool = Ionoscloud::KubernetesNodePool.new(properties: Ionoscloud::KubernetesNodePoolPropertiesForPost.new(nodepool_properties))
+
+        nodepool = kubernetes_api.k8s_nodepools_post(config[:cluster_id], nodepool)
 
         auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
         maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
@@ -152,6 +164,20 @@ class Chef
         puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
         puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
         puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
+        puts "#{ui.color('Lans', :cyan)}: #{nodepool.properties.lans.map do
+          |lan|
+          {
+            id: lan.id,
+            dhcp: lan.dhcp,
+            routes: lan.routes ? lan.routes.map do
+              |route|
+              {
+                network: route.network,
+                gateway_ip: route.gateway_ip,
+              }
+            end : []
+          }
+        end}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
         puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"

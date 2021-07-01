@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLoadbalancerCreate do
   end
 
   describe '#run' do
-    it 'should call KubernetesApi.k8s_nodepools_post with the expected arguments and output based on what it receives' do
+    it 'should call LoadBalancersApi.datacenters_loadbalancers_post with the expected arguments and output based on what it receives' do
       load_balancer = load_balancer_mock
       subject_config = {
         ionoscloud_username: 'email',

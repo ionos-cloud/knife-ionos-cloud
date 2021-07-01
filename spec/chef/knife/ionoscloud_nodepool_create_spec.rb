@@ -41,7 +41,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
 
       expected_body = nodepool.properties.to_hash
-      expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }
+      expected_body[:lans].map! { |lan| lan.delete(:dhcp); lan.delete(:routes); lan[:id] = Integer(lan[:id]); lan }
       expected_body.delete(:publicIps)
       expected_body.delete(:availableUpgradeVersions)
 
@@ -55,6 +55,20 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Lans: #{nodepool.properties.lans.map do
+        |lan|
+        {
+          id: lan.id,
+          dhcp: lan.dhcp,
+          routes: lan.routes ? lan.routes.map do
+            |route|
+            {
+              network: route.network,
+              gateway_ip: route.gateway_ip,
+            }
+          end : []
+        }
+      end}")
       expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")

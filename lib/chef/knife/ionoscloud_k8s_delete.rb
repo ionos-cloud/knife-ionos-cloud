@@ -31,8 +31,11 @@ class Chef
             next
           end
 
-          if cluster.metadata.state != 'ACTIVE'
-            ui.error("K8s Cluster ID #{cluster_id} is not active. Skipping.")
+          unless ['ACTIVE', 'TERMINATED'].include? cluster.metadata.state
+            ui.error(
+              "K8s Cluster #{cluster_id} state must be one of ['ACTIVE', 'TERMINATED'], "\
+              "actual state is '#{cluster.metadata.state}'. Skipping."
+            )
             next
           end
 

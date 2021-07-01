@@ -23,17 +23,17 @@ describe Chef::Knife::IonoscloudVolumeCreate do
         type: volume.properties.type,
         bus: volume.properties.bus,
         availability_zone: volume.properties.availability_zone,
-        image_alias: 'debian:latest',
         image_password: 'K3tTj8G14a3EgKyNeeiY',
+        image: volume.properties.image,
+        backupunit_id: volume.properties.backupunit_id,
+        user_data: volume.properties.user_data,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expected_body = volume.properties.to_hash
-      expected_body.delete(:image)
       expected_body.delete(:licenceType)
 
-      expected_body[:imageAlias] = subject_config[:image_alias]
       expected_body[:imagePassword] = subject_config[:image_password]
 
       expect(subject).to receive(:puts).with("ID: #{volume.id}")
@@ -68,58 +68,6 @@ describe Chef::Knife::IonoscloudVolumeCreate do
       )
 
       expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should not call anything when neither image not image-alias is provided' do
-      volume = volume_mock
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        cluster_id: 'cluster_id',
-        datacenter_id: 'datacenter_id',
-        name: volume.properties.name,
-        size: volume.properties.size,
-        type: volume.properties.type,
-        bus: volume.properties.bus,
-        availability_zone: volume.properties.availability_zone,
-        image_password: 'K3tTj8G14a3EgKyNeeiY',
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-      expect(subject.ui).to receive(:error).with('Either \'--image\' or \'--image-alias\' parameter must be provided')
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject.api_client).not_to receive(:call_api)
-
-      expect { subject.run }.to raise_error(SystemExit) do |error|
-        expect(error.status).to eq(1)
-      end
-    end
-
-    it 'should not call anything when neither image not image-alias is provided' do
-      volume = volume_mock
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        cluster_id: 'cluster_id',
-        datacenter_id: 'datacenter_id',
-        name: volume.properties.name,
-        size: volume.properties.size,
-        type: volume.properties.type,
-        bus: volume.properties.bus,
-        availability_zone: volume.properties.availability_zone,
-        image_alias: 'debian:latest',
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-      expect(subject.ui).to receive(:error).with('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject.api_client).not_to receive(:call_api)
-
-      expect { subject.run }.to raise_error(SystemExit) do |error|
-        expect(error.status).to eq(1)
-      end
     end
 
     it 'should not make any call if any required option is missing' do

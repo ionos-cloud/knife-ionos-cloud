@@ -24,11 +24,13 @@ describe Chef::Knife::IonoscloudLocationList do
       location_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
+        subject.ui.color('CPU Architectures', :bold),
         locations.items.first.id,
         locations.items.first.properties.name,
+        locations.items.first.properties.cpu_architecture.map { |arch| arch.cpu_family }
       ]
 
-      expect(subject.ui).to receive(:list).with(location_list, :uneven_columns_across, 2)
+      expect(subject.ui).to receive(:list).with(location_list, :uneven_columns_across, 3)
 
       mock_call_api(
         subject,

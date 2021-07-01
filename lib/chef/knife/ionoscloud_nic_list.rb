@@ -35,8 +35,10 @@ class Chef
           ui.color('Name', :bold),
           ui.color('IPs', :bold),
           ui.color('DHCP', :bold),
-          ui.color('NAT', :bold),
-          ui.color('LAN', :bold)
+          ui.color('LAN', :bold),
+          ui.color('Firewall Type', :bold),
+          ui.color('Device Number', :bold),
+          ui.color('PCI Slot', :bold),
         ]
 
         nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
@@ -47,9 +49,12 @@ class Chef
           nic_list << nic.properties.ips.to_s
           nic_list << nic.properties.dhcp.to_s
           nic_list << nic.properties.lan.to_s
+          nic_list << nic.properties.firewall_type.to_s
+          nic_list << nic.properties.device_number.to_s
+          nic_list << nic.properties.pci_slot.to_s
         end
 
-        puts ui.list(nic_list, :uneven_columns_across, 5)
+        puts ui.list(nic_list, :uneven_columns_across, 8)
       end
     end
   end

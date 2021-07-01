@@ -58,6 +58,7 @@ class Chef
           msg_pair('Port Range End', firewall.properties.port_range_end)
           msg_pair('ICMP Type', firewall.properties.icmp_type)
           msg_pair('ICMP Code', firewall.properties.icmp_code)
+          msg_pair('Type', firewall.properties.type)
 
           begin
             confirm('Do you really want to delete this firewall rule')
