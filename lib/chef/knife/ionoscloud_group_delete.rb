@@ -43,6 +43,13 @@ class Chef
           msg_pair('Access Activity Log', group.properties.access_activity_log.to_s)
           msg_pair('S3 Privilege', group.properties.s3_privilege.to_s)
           msg_pair('Create Backup Unit', group.properties.create_backup_unit.to_s)
+          msg_pair('Create K8s Clusters', group.properties.create_k8s_cluster.to_s)
+          msg_pair('Create PCC', group.properties.create_pcc.to_s)
+          msg_pair('Create Internet Acess', group.properties.create_internet_access.to_s)
+          msg_pair('Create Flow Logs', group.properties.create_flow_log.to_s)
+          msg_pair('Access and Manage Monitoring', group.properties.access_and_manage_monitoring.to_s)
+          msg_pair('Access and Manage Certificates', group.properties.access_and_manage_certificates.to_s)
+
           msg_pair('Users', users.to_s)
           puts "\n"
 

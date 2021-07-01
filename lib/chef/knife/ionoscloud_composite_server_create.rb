@@ -87,6 +87,20 @@ class Chef
               long: '--ssh-keys SSHKEY1,SSHKEY2,...',
               description: 'A list of public SSH keys to include'
 
+      option :backupunit_id,
+              short: '-B BACKUPUNIT_ID',
+              long: '--backupunit BACKUPUNIT_ID',
+              description: 'The uuid of the Backup Unit that user has access to. The property is immutable and is only allowed '\
+              'to be set on a new volume creation. It is mandatory to provide either \'public image\' or \'imageAlias\' in '\
+              'conjunction with this property.'
+
+      option :user_data,
+              short: '-u USER_DATA',
+              long: '--user-data USER_DATA',
+              description: 'The cloud-init configuration for the volume as base64 encoded string. The property is '\
+              'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
+              'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
+
       option :nic_name,
               long: '--nic-name NAME',
               description: 'Name of the NIC'
@@ -108,6 +122,12 @@ class Chef
               long: '--lan ID',
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
+      option :firewall_type,
+              long: '--firewall-type FIREWALL_TYPE',
+              description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
+              'default value INGRESS',
+              default: 'INGRESS'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -123,23 +143,8 @@ class Chef
         $stdout.sync = true
         validate_required_params(@required_options, config)
 
-        if !config[:image] && !config[:image_alias]
-          ui.error('Either \'--image\' or \'--image-alias\' parameter must be provided')
-          exit(1)
-        end
-
-        if !config[:ssh_keys] && !config[:image_password]
-          ui.error('Either \'--image-password\' or \'--ssh-keys\' parameter must be provided')
-          exit(1)
-        end
-
-        if config[:ssh_keys]
-          config[:ssh_keys] = config[:ssh_keys].split(',')
-        end
-
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
+        config[:ips] = config[:ips].split(',') if config[:ips]
 
         print ui.color('Creating composite server...', :magenta).to_s
 
@@ -155,6 +160,8 @@ class Chef
             type: config[:type],
             licence_type: config[:licence_type],
             availability_zone: config[:volume_availability_zone],
+            backupunit_id: config[:backupunit_id],
+            user_data: config[:user_data],
           }.compact)
         )
 
@@ -164,6 +171,7 @@ class Chef
             ips: config[:ips],
             dhcp: config[:dhcp],
             lan: config[:lan],
+            firewall_type: config[:firewall_type],
           }.compact)
         )
 

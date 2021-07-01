@@ -30,14 +30,16 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
         type: server.entities.volumes.items.first.properties.type,
         bus: server.entities.volumes.items.first.properties.bus,
         volume_availability_zone: server.entities.volumes.items.first.properties.availability_zone,
-        licence_type: server.entities.volumes.items.first.properties.licence_type,
-        image: SecureRandom.uuid,
+        image: server.entities.volumes.items.first.properties.image,
+        backupunit_id: server.entities.volumes.items.first.properties.backupunit_id,
+        user_data: server.entities.volumes.items.first.properties.user_data,
         image_password: 'K3tTj8G14a3EgKyNeeiY',
 
         lan: server.entities.nics.items.first.properties.lan,
         nic_name: server.entities.nics.items.first.properties.name,
         dhcp: server.entities.nics.items.first.properties.dhcp,
         ips: server.entities.nics.items.first.properties.ips.join(','),
+        firewall_type: server.entities.nics.items.first.properties.firewall_type,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -59,7 +61,10 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
       expected_entities[:nics][:items][0].delete(:entities)
       expected_entities[:nics][:items][0][:properties].delete(:mac)
       expected_entities[:nics][:items][0][:properties].delete(:firewallActive)
+      expected_entities[:nics][:items][0][:properties].delete(:deviceNumber)
+      expected_entities[:nics][:items][0][:properties].delete(:pciSlot)
 
+      expected_entities[:volumes][:items][0][:properties].delete(:licenceType)
       expected_entities[:volumes][:items][0][:properties][:image] = subject_config[:image]
       expected_entities[:volumes][:items][0][:properties][:imagePassword] = subject_config[:image_password]
 

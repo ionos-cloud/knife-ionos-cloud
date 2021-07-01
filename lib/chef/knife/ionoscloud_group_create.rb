@@ -53,6 +53,19 @@ class Chef
               long: '--create-internet-access',
               description: 'The group will be have internet access privilege.'
 
+      option :create_flow_log,
+              long: '--create-flow-log',
+              description: 'The group will be granted create Flow Logs privilege.'
+
+      option :access_and_manage_monitoring,
+              long: '--manage-monitoring',
+              description: 'Privilege for a group to access and manage monitoring '\
+              'related functionality (access metrics, CRUD on alarms, alarm-actions etc) using Monotoring-as-a-Service (MaaS).'
+
+      option :access_and_manage_certificates,
+              long: '--manage-certificates',
+              description: 'Privilege for a group to access and manage certificates.'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -70,20 +83,25 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        group, _, headers  = user_management_api.um_groups_post_with_http_info({
-          properties: {
-            name: config[:name],
-            createDataCenter: config[:create_data_center],
-            createSnapshot: config[:create_snapshot],
-            reserveIp: config[:reserve_ip],
-            accessActivityLog: config[:access_activity_log],
-            s3Privilege: config[:s3_privilege],
-            createBackupUnit: config[:create_backup_unit],
-            createK8sCluster: config[:create_k8s_cluster],
-            createPcc: config[:create_pcc],
-            createInternetAccess: config[:create_internet_access],
-          }.compact,
-        })
+        group_properties = {
+          name: config[:name],
+          create_data_center: config[:create_data_center],
+          create_snapshot: config[:create_snapshot],
+          reserve_ip: config[:reserve_ip],
+          access_activity_log: config[:access_activity_log],
+          s3_privilege: config[:s3_privilege],
+          create_backup_unit: config[:create_backup_unit],
+          create_k8s_cluster: config[:create_k8s_cluster],
+          create_pcc: config[:create_pcc],
+          create_internet_access: config[:create_internet_access],
+          create_flow_log: config[:create_flow_log],
+          access_and_manage_monitoring: config[:access_and_manage_monitoring],
+          access_and_manage_certificates: config[:access_and_manage_certificates],
+        }.compact
+
+        group, _, headers  = user_management_api.um_groups_post_with_http_info(
+          Ionoscloud::Group.new(properties: Ionoscloud::GroupProperties.new(**group_properties)),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
@@ -100,6 +118,9 @@ class Chef
         puts "#{ui.color('Create K8s Clusters', :cyan)}: #{group.properties.create_k8s_cluster.to_s}"
         puts "#{ui.color('Create PCC', :cyan)}: #{group.properties.create_pcc.to_s}"
         puts "#{ui.color('Create Internet Acess', :cyan)}: #{group.properties.create_internet_access.to_s}"
+        puts "#{ui.color('Create Flow Logs', :cyan)}: #{group.properties.create_flow_log.to_s}"
+        puts "#{ui.color('Access and Manage Monitoring', :cyan)}: #{group.properties.access_and_manage_monitoring.to_s}"
+        puts "#{ui.color('Access and Manage Certificates', :cyan)}: #{group.properties.access_and_manage_certificates.to_s}"
         puts 'done'
       end
     end
