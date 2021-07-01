@@ -720,6 +720,76 @@ def templates_mock(opts = {})
   )
 end
 
+def network_loadbalancer_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancer.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NetworkLoadBalancerProperties.new({
+      name: opts[:name] || 'network_loadbalancer_name',
+      ips: opts[:ips] || ['123.123.123.123'],
+      listener_lan: opts[:listener_lan] || 1,
+      target_lan: opts[:target_lan] || 2,
+      lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
+    }),
+    entities: Ionoscloud::NetworkLoadBalancerEntities.new({
+      forwardingrules: opts[:rules] || network_loadbalancer_rules_mock,
+      flowlogs: opts[:flowlogs] || Ionoscloud::FlowLogs.new(
+        id: 'flowlogs',
+        type: 'collection',
+        items: [],
+      ),
+    })
+  )
+end
+
+def network_loadbalancers_mock(opts = {})
+  Ionoscloud::Templates.new(
+    id: 'network_loadbalancers',
+    type: 'collection',
+    items: [network_loadbalancer_mock, network_loadbalancer_mock],
+  )
+end
+
+def network_loadbalancer_rule_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRule.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::NetworkLoadBalancerForwardingRuleProperties.new(
+      name: opts[:name] || 'network_loadbalancer_rule_name',
+      algorithm: opts[:algorithm] || 'ROUND_ROBIN',
+      protocol: opts[:protocol] || 'TCP',
+      listener_ip: opts[:listener_ip] || '123.123.123.123',
+      listener_port: opts[:listener_port] || 123,
+      health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
+        client_timeout: opts[:client_timeout] || 100,
+        check_timeout: opts[:check_timeout] || 200,
+        connect_timeout: opts[:connect_timeout] || 300,
+        target_timeout: opts[:target_timeout] || 400,
+        retries: opts[:retries] || 3,
+      ),
+      targets: opts[:targets] || [network_loadbalancer_rule_target_mock, network_loadbalancer_rule_target_mock],
+    ),
+  )
+end
+
+def network_loadbalancer_rules_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRules.new(
+    id: 'network_loadbalancers_forwarding_rules',
+    type: 'collection',
+    items: [network_loadbalancer_rule_mock, network_loadbalancer_rule_mock],
+  )
+end
+
+def network_loadbalancer_rule_target_mock(opts = {})
+  Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
+    ip: opts[:ip] || '123.123.123.123',
+    port: opts[:port] || 3,
+    weight: opts[:weight] || 10,
+    health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleTargetHealthCheck.new(
+      check: opts[:check] || true,
+      check_interval: opts[:check_interval] || 100,
+      maintenance: opts[:maintenance] || false,
+    ),
+  )
+end
 
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
