@@ -737,6 +737,9 @@ def flowlogs_mock(opts = {})
     id: 'flowlogs',
     type: 'collection',
     items: [flowlog_mock, flowlog_mock],
+  )
+end
+
 def network_loadbalancer_mock(opts = {})
   Ionoscloud::NetworkLoadBalancer.new(
     id: opts[:id] || SecureRandom.uuid,
