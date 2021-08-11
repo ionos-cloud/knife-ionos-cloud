@@ -26,7 +26,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleAdd do
         listener_ip: network_loadbalancer_rule.properties.listener_ip,
         listener_port: network_loadbalancer_rule.properties.listener_port,
         client_timeout: network_loadbalancer_rule.properties.health_check.client_timeout,
-        check_timeout: network_loadbalancer_rule.properties.health_check.check_timeout,
         connect_timeout: network_loadbalancer_rule.properties.health_check.connect_timeout,
         target_timeout: network_loadbalancer_rule.properties.health_check.target_timeout,
         retries: network_loadbalancer_rule.properties.health_check.retries,
