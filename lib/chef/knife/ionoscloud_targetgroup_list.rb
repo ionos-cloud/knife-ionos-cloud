@@ -29,7 +29,7 @@ class Chef
 
         target_group_api = Ionoscloud::TargetGroupsApi.new(api_client)
 
-        target_group_api.target_groups_get({ depth: 1 }).items.each do |target_group|
+        target_group_api.targetgroups_get({ depth: 1 }).items.each do |target_group|
           target_group_list << target_group.id
           target_group_list << target_group.properties.name
           target_group_list << target_group.properties.algorithm

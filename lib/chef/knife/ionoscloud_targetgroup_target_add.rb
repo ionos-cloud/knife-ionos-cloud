@@ -63,7 +63,7 @@ class Chef
 
         target_groups_api = Ionoscloud::TargetGroupsApi.new(api_client)
 
-        target_group = target_groups_api.target_groups_find_by_id(config[:target_group_id])
+        target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
 
         existing_target = target_group.properties.targets.find do
           |target|
@@ -76,13 +76,13 @@ class Chef
             check: config[:check] || existing_target.health_check.check,
             check_interval: config[:check_interval] || existing_target.health_check.check_interval,
             maintenance: config[:maintenance] || existing_target.health_check.maintenance,
-          ),
+          )
         else
-          target_group.targets.append(
+          target_group.properties.targets.append(
             Ionoscloud::TargetGroupTarget.new(
               ip: config[:ip],
-              port: config[:port],
-              weight: config[:weight],
+              port: Integer(config[:port]),
+              weight: Integer(config[:weight]),
               health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
                 check: config[:check],
                 check_interval: config[:check_interval],
@@ -92,51 +92,13 @@ class Chef
           )
         end
 
-        _, _, headers = target_groups_api.target_groups_patch_with_http_info(config[:target_group_id], target_group.properties)
+        _, _, headers = target_groups_api.targetgroups_patch_with_http_info(config[:target_group_id], target_group.properties)
 
         print "#{ui.color('Adding the Target to the Target Group...', :magenta)}"
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        target_group = target_groups_api.target_groups_find_by_id(config[:target_group_id])
-
-        health_check = {
-          check_timeout: target_group.properties.health_check.check_timeout,
-          connect_timeout: target_group.properties.health_check.connect_timeout,
-          target_timeout: target_group.properties.health_check.target_timeout,
-          retries: target_group.properties.health_check.retries,
-        }
-        http_health_check = {
-          path: target_group.properties.http_health_check.path,
-          method: target_group.properties.http_health_check.method,
-          match_type: target_group.properties.http_health_check.match_type,
-          response: target_group.properties.http_health_check.response,
-          regex: target_group.properties.http_health_check.regex,
-          negate: target_group.properties.http_health_check.negate,
-        }
-        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do
-          |target|
-          {
-            ip: target.ip,
-            port: target.port,
-            weight: target.weight,
-            health_check: target.health_check.nil? ? nil : Ionoscloud::TargetGroupTargetHealthCheck.new(
-              check: target.health_check.check,
-              check_interval: target.health_check.check_interval,
-              maintenance: target.health_check.maintenance,
-            )
-          }
-        end
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{target_group.id}"
-        puts "#{ui.color('Name', :cyan)}: #{target_group.properties.name}"
-        puts "#{ui.color('Algorithm', :cyan)}: #{target_group.properties.algorithm}"
-        puts "#{ui.color('Protocol', :cyan)}: #{target_group.properties.protocol}"
-        puts "#{ui.color('Health Check', :cyan)}: #{health_check}"
-        puts "#{ui.color('HTTP Health Check', :cyan)}: #{http_health_check}"
-        puts "#{ui.color('Targets', :cyan)}: #{targets}"
-        puts 'done'
+        print_target_group(target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id]))
       end
     end
   end

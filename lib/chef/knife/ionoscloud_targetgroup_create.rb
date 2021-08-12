@@ -7,11 +7,6 @@ class Chef
 
       banner 'knife ionoscloud targetgroup create (options)'
 
-      option :datacenter_id,
-              short: '-D DATACENTER_ID',
-              long: '--datacenter-id DATACENTER_ID',
-              description: 'Name of the data center'
-
       option :name,
               short: '-n NAME',
               long: '--name NAME',
@@ -80,7 +75,7 @@ class Chef
         super(args)
         @description =
         'Creates a new Target Group.'
-        @required_options = [:datacenter_id, :name, :algorithm, :protocol, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:name, :algorithm, :protocol, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -98,7 +93,7 @@ class Chef
             connect_timeout: config[:connect_timeout],
             target_timeout: config[:target_timeout],
             retries: config[:retries],
-          )
+          ),
           http_health_check: Ionoscloud::TargetGroupHttpHealthCheck.new(
             path: config[:path],
             method: config[:method],
@@ -106,7 +101,7 @@ class Chef
             response: config[:response],
             regex: config[:regex],
             negate: config[:negate],
-          )
+          ),
         }
 
         target_group = Ionoscloud::TargetGroup.new(
@@ -115,31 +110,15 @@ class Chef
           ),
         )
 
-        target_group, _, headers = target_groups_api.target_groups_post_with_http_info(
-          config[:datacenter_id],
-          target_group,
-        )
+        target_group, _, headers = target_groups_api.targetgroups_post_with_http_info(target_group)
 
         print "#{ui.color('Creating Target Group...', :magenta)}"
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        target_group = target_groups_api.target_groups_find_by_id(config[:datacenter_id], target_group.id)
+        target_group = target_groups_api.targetgroups_find_by_target_group_id(target_group.id)
 
-        health_check = {
-          check_timeout: target_group.properties.health_check.check_timeout,
-          connect_timeout: target_group.properties.health_check.connect_timeout,
-          target_timeout: target_group.properties.health_check.target_timeout,
-          retries: target_group.properties.health_check.retries,
-        }
-        http_health_check = {
-          path: target_group.properties.http_health_check.path,
-          method: target_group.properties.http_health_check.method,
-          match_type: target_group.properties.http_health_check.match_type,
-          response: target_group.properties.http_health_check.response,
-          regex: target_group.properties.http_health_check.regex,
-          negate: target_group.properties.http_health_check.negate,
-        }
+        health_check, http_health_check, _ = get_target_group_extended_properties(target_group)
 
         puts "\n"
         puts "#{ui.color('ID', :cyan)}: #{target_group.id}"

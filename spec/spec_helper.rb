@@ -865,6 +865,53 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
+def target_group_target_mock(opts = {})
+  Ionoscloud::TargetGroupTarget.new(
+    ip: opts[:ip] || '1.1.1.1',
+    port: opts[:port] || 20,
+    weight: opts[:weight] || 15,
+    health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
+      check: opts[:check] || true,
+      check_interval: opts[:check_interval] || 2000,
+      maintenance: opts[:maintenance] || false,
+    ),
+  )
+end
+
+def target_group_mock(opts = {})
+  Ionoscloud::TargetGroup.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::TargetGroupProperties.new(
+      name: opts[:name] || 'target_group_name',
+      algorithm: opts[:algorithm] || 'LEAST_CONNECTION',
+      protocol: opts[:protocol] || 'HTTP',
+      health_check: Ionoscloud::TargetGroupHealthCheck.new(
+        check_timeout: opts[:check_timeout] || 60,
+        connect_timeout: opts[:connect_timeout] || 4000,
+        target_timeout: opts[:target_timeout] || 50000,
+        retries: opts[:retries] || 3,
+      ),
+      http_health_check: Ionoscloud::TargetGroupHttpHealthCheck.new(
+        path: opts[:path] || '/.',
+        method: opts[:method] || 'GET',
+        match_type: opts[:match_type] || 'STATUS_CODE',
+        response: opts[:response] || 'response example',
+        regex: opts[:regex] || false,
+        negate: opts[:negate] || false,
+      ),
+      targets: opts[:targets] || [target_group_target_mock],
+    ),
+  )
+end
+
+def target_groups_mock(opts = {})
+  Ionoscloud::TargetGroups.new(
+    id: 'target_groups',
+    type: 'collection',
+    items: [target_group_mock, target_group_mock],
+  )
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
