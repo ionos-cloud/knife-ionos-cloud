@@ -38,18 +38,29 @@ class Chef
 
         target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
 
-        target_group.properties.targets = target_group.properties.targets.reject do
+        existing_target = target_group.properties.targets.find do
           |target|
           target.ip == config[:ip] && target.port == Integer(config[:port])
         end
 
-        _, _, headers = target_groups_api.targetgroups_patch_with_http_info(config[:target_group_id], target_group.properties)
+        if existing_target
+          target_group.properties.targets = target_group.properties.targets.reject do
+            |target|
+            target.ip == config[:ip] && target.port == Integer(config[:port])
+          end
 
-        print "#{ui.color('Removing the Target from the Target Group...', :magenta)}"
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+          _, _, headers = target_groups_api.targetgroups_patch_with_http_info(config[:target_group_id], target_group.properties)
+  
+          print "#{ui.color('Removing the Target from the Target Group...', :magenta)}"
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        print_target_group(target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id]))
+          target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
+        else
+          ui.warn("Specified target does not exist (#{config[:ip]} #{config[:port]}).")
+        end
+
+        print_target_group(target_group)
       end
     end
   end

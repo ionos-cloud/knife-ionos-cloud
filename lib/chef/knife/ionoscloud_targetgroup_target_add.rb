@@ -71,7 +71,7 @@ class Chef
         end
 
         if existing_target
-          existing_target.weigth = Integer(config[:weigth])
+          existing_target.weight = Integer(config[:weight])
           existing_target.health_check = Ionoscloud::TargetGroupTargetHealthCheck.new(
             check: config[:check] || existing_target.health_check.check,
             check_interval: config[:check_interval] || existing_target.health_check.check_interval,
