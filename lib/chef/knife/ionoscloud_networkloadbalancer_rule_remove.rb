@@ -42,7 +42,7 @@ class Chef
           headers_to_wait << headers
         end
 
-        print "#{ui.color("Removing rules #{@name_args} from the NAT Gateway...", :magenta)}"
+        print "#{ui.color("Removing rules #{@name_args} from the Network Loadbalancer...", :magenta)}"
         dot = ui.color('.', :magenta)
 
         headers_to_wait.each { |headers| api_client.wait_for { print dot; is_done? get_request_id headers } }

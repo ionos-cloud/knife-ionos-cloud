@@ -32,7 +32,7 @@ class Chef
             application_load_balancer = application_load_balancers_api.datacenters_applicationloadbalancers_find_by_application_load_balancer_id(
               config[:datacenter_id],
               application_load_balancer_id,
-              { depth: 1 },
+              { depth: 2 },
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404

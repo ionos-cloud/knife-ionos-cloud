@@ -96,7 +96,6 @@ class Chef
                     value: condition.value,
                   }
                 end
-              end
               }
             end
           }
