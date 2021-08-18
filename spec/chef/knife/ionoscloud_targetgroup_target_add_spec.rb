@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        check: target.health_check.check,
+        skip_check: !target.health_check.check,
         check_interval: target.health_check.check_interval,
         maintenance: target.health_check.maintenance,
         yes: true,
@@ -85,7 +85,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call TargetGroupsApi.targetgroups_patch and update a new target when needed' do
+    it 'should not call TargetGroupsApi.targetgroups_patch and notify the user when the target already exists' do
       target_group = target_group_mock
       target = target_group_target_mock(weight: 100, check: false, maintenance: true, check_interval: 3000)
 
@@ -96,7 +96,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        check: target.health_check.check,
+        skip_check: !target.health_check.check,
         check_interval: target.health_check.check_interval,
         maintenance: target.health_check.maintenance,
         yes: true,
@@ -106,6 +106,8 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
 
       health_check, http_health_check, targets = subject.get_target_group_extended_properties(target_group)
 
+      expect(subject.ui).to receive(:warn).with("Specified target already exists (#{target_group.properties.targets.first}).")
+
       expect(subject).to receive(:puts).with("ID: #{target_group.id}")
       expect(subject).to receive(:puts).with("Name: #{target_group.properties.name}")
       expect(subject).to receive(:puts).with("Algorithm: #{target_group.properties.algorithm}")
@@ -113,20 +115,17 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
       expect(subject).to receive(:puts).with("Health Check: #{health_check}")
       expect(subject).to receive(:puts).with("HTTP Health Check: #{http_health_check}")
       expect(subject).to receive(:puts).with("Targets: #{[{
-        ip: target.ip,
-        port: target.port,
-        weight: target.weight,
+        ip: target_group.properties.targets.first.ip,
+        port: target_group.properties.targets.first.port,
+        weight: target_group.properties.targets.first.weight,
         health_check: {
-          check: target.health_check.check,
-          check_interval: target.health_check.check_interval,
-          maintenance: target.health_check.maintenance,
-        },
+          check: target_group.properties.targets.first.health_check.check,
+          check_interval: target_group.properties.targets.first.health_check.check_interval,
+          maintenance: target_group.properties.targets.first.health_check.maintenance,
+        }
       }]}")
 
-      expected_properties = target_group.properties.to_hash
-      expected_properties[:targets] = [target.to_hash]
-
-      mock_wait_for(subject)
+      expect(subject).not_to receive(:wait_for)
       mock_call_api(
         subject,
         [
@@ -134,14 +133,6 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
             method: 'GET',
             path: "/targetgroups/#{target_group.id}",
             operation: :'TargetGroupsApi.targetgroups_find_by_target_group_id',
-            return_type: 'TargetGroup',
-            result: target_group,
-          },
-          {
-            method: 'PATCH',
-            path: "/targetgroups/#{target_group.id}",
-            operation: :'TargetGroupsApi.targetgroups_patch',
-            body: expected_properties,
             return_type: 'TargetGroup',
             result: target_group,
           },

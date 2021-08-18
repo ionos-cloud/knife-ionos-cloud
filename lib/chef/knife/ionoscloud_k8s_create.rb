@@ -84,10 +84,10 @@ class Chef
         end
 
         if config[:maintenance_day] && config[:maintenance_time]
-          cluster_properties[:maintenance_window] = {
+          cluster_properties[:maintenance_window] = Ionoscloud::KubernetesMaintenanceWindow.new(
             day_of_the_week: config[:maintenance_day],
             time: config[:maintenance_time],
-          }
+          )
         end
 
         k8s_cluster = Ionoscloud::KubernetesClusterForPost.new(

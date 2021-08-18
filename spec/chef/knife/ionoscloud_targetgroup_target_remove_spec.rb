@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetRemove do
       expect(subject).to receive(:puts).with("HTTP Health Check: #{http_health_check}")
       expect(subject).to receive(:puts).with("Targets: #{targets}")
 
-      expect(subject.ui).to receive(:warn).with("Specified target does not exist (#{subject_config[:ip]} #{subject_config[:port]}).")
+      expect(subject.ui).to receive(:warn).with("Specified target does not exist (#{subject_config[:ip]}:#{subject_config[:port]}).")
 
       expected_properties = target_group.properties.to_hash
 
