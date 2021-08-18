@@ -57,7 +57,7 @@ class Chef
 
           target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
         else
-          ui.warn("Specified target does not exist (#{config[:ip]} #{config[:port]}).")
+          ui.warn("Specified target does not exist (#{config[:ip]}:#{config[:port]}).")
         end
 
         print_target_group(target_group)
