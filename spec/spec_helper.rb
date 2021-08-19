@@ -7,7 +7,6 @@ require 'simplecov'
 RSpec.configure do |config|
   config.pattern = 'spec/chef/knife/*_spec.rb'
 end
-
 SimpleCov.start do
   add_group 'Commands', 'lib/chef/knife/'
   add_group 'Spec files', 'spec/chef/knife/'
