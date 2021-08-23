@@ -867,7 +867,7 @@ end
 
 def application_loadbalancer_rule_httprule_condition_mock(opts = {})
   Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(
-    type: opts[:type] || 'header',
+    type: opts[:type] || 'HEADER',
     condition: opts[:condition] || 'STARTS_WITH',
     negate: opts[:negate].nil? ? true : opts[:negate],
     key: opts[:key] || 'forward-at',
@@ -885,7 +885,7 @@ def application_loadbalancer_rule_httprule_mock(opts = {})
     status_code: opts[:status_code] || 303,
     response_message: opts[:response_message] || 'response_message',
     content_type: opts[:content_type] || 'content_type',
-    conditions: opts[:conditions] || [application_loadbalancer_rule_httprule_condition_mock],
+    conditions: opts.key?(:conditions) ? opts[:conditions] : [application_loadbalancer_rule_httprule_condition_mock],
   )
 end
 
@@ -901,7 +901,7 @@ def application_loadbalancer_rule_mock(opts = {})
         client_timeout: opts[:client_timeout] || 2000,
       ),
       server_certificates: opts[:server_certificates] || [],
-      http_rules: opts[:http_rules] || [application_loadbalancer_rule_httprule_mock]
+      http_rules: opts.key?(:http_rules) ? opts[:http_rules] : [application_loadbalancer_rule_httprule_mock]
     )
   )
 end
@@ -925,7 +925,7 @@ def application_loadbalancer_mock(opts = {})
       lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
     }),
     entities: Ionoscloud::ApplicationLoadBalancerEntities.new({
-      forwardingrules: opts[:rules] || application_loadbalancer_rules_mock,
+      forwardingrules: opts.key?(:rules) ? opts[:rules] : application_loadbalancer_rules_mock,
     })
   )
 end

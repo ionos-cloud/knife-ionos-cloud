@@ -30,6 +30,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         status_code: application_loadbalancer_rule_httprule.status_code,
         response_message: application_loadbalancer_rule_httprule.response_message,
         content_type: application_loadbalancer_rule_httprule.content_type,
+        conditions: application_loadbalancer_rule_httprule.conditions.map { |el| el.to_hash },
         yes: true,
       }
 
@@ -46,7 +47,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         status_code: application_loadbalancer_rule_httprule.status_code,
         response_message: application_loadbalancer_rule_httprule.response_message,
         content_type: application_loadbalancer_rule_httprule.content_type,
-        conditions: [],
+        conditions: application_loadbalancer_rule_httprule.conditions.map { |el| el.to_hash },
       }
       expect(subject).to receive(:puts).with("ID: #{application_loadbalancer.id}")
       expect(subject).to receive(:puts).with("Name: #{application_loadbalancer.properties.name}")
@@ -88,7 +89,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
       }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1]]}")
 
       expected_added_httprule_body = application_loadbalancer_rule_httprule.to_hash
-      expected_added_httprule_body.delete(:conditions)
 
       mock_wait_for(subject)
       mock_call_api(
@@ -139,6 +139,8 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         type: application_loadbalancer_rule_httprule.type,
         location: application_loadbalancer_rule_httprule.location,
         response_message: application_loadbalancer_rule_httprule.response_message,
+        conditions: "[" + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + 
+        ',' + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + "]",
         yes: true,
       }
 
@@ -182,20 +184,16 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
           status_code: application_loadbalancer_rule_httprule.status_code,
           response_message: application_loadbalancer_rule_httprule.response_message,
           content_type: application_loadbalancer_rule_httprule.content_type,
-          conditions: application_loadbalancer_rule_httprule.conditions.nil? ? [] : application_loadbalancer_rule_httprule.conditions.map do |condition|
-            {
-              type: condition.type,
-              condition: condition.condition,
-              negate: condition.negate,
-              key: condition.key,
-              value: condition.value,
-            }
-          end
+          conditions: [
+            application_loadbalancer_rule_httprule.conditions.first.to_hash,
+            application_loadbalancer_rule_httprule.conditions.first.to_hash,
+          ]
         }]
       }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1]]}")
 
       expected_added_httprule_body = application_loadbalancer_rule_httprule.to_hash
       expected_added_httprule_body[:targetGroup] = application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.first.target_group
+      expected_added_httprule_body[:conditions] << application_loadbalancer_rule_httprule.conditions.first.to_hash
 
       mock_wait_for(subject)
       mock_call_api(
@@ -228,7 +226,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
           },
         ],
       )
-    
+
       expect { subject.run }.not_to raise_error(Exception)
     end
 

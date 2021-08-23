@@ -18,12 +18,25 @@ class Chef
                   short: '-p PASSWORD',
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
+
+          option :extra_config_file,
+                  short: '-e EXTRA_CONFIG_FILE',
+                  long: '--extra-config EXTRA_CONFIG_FILE',
+                  description: 'Additional config file name'
         end
       end
 
       def msg_pair(label, value, color = :cyan)
         if !value.nil? && !value.to_s.empty?
           puts "#{ui.color(label, color)}: #{value}"
+        end
+      end
+
+      def handle_extra_config(standard_config)
+        return if standard_config[:extra_config_file].nil?
+        JSON[File.read(standard_config[:extra_config_file])].transform_keys(&:to_sym).each do
+          |key, value|
+          standard_config[key] = value unless standard_config.key?(key)
         end
       end
 

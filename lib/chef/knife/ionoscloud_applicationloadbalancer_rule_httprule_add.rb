@@ -60,6 +60,10 @@ class Chef
               long: '--content-type CONTENT_TYPE',
               description: 'Valid only for action STATIC'
 
+      option :conditions,
+              long: '--conditions CONDITIONS',
+              description: 'Array of conditions for the HTTP Rule'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -73,10 +77,10 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config(config)
         validate_required_params(@required_options, config)
 
         application_loadbalancers_api = Ionoscloud::ApplicationLoadBalancersApi.new(api_client)
-
 
         application_load_balancer_rule = application_loadbalancers_api.datacenters_applicationloadbalancers_forwardingrules_find_by_forwarding_rule_id(
           config[:datacenter_id], config[:application_loadbalancer_id], config[:forwarding_rule_id],
@@ -87,6 +91,18 @@ class Chef
           rule.name == config[:name]
         end
 
+        if config[:conditions].nil?
+          received_conditions = nil
+        else
+          if config[:conditions].instance_of?(String)
+            config[:conditions] = JSON[config[:conditions]]
+          end
+
+          received_conditions = config[:conditions].map do |condition|
+            Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(condition)
+          end
+        end
+
         if existing_http_rule
           existing_http_rule.type = config[:type] || existing_http_rule.type
           existing_http_rule.target_group = config[:target_group] || existing_http_rule.target_group
@@ -95,6 +111,7 @@ class Chef
           existing_http_rule.status_code = config[:status_code] || existing_http_rule.status_code
           existing_http_rule.response_message = config[:response_message] || existing_http_rule.response_message
           existing_http_rule.content_type = config[:content_type] || existing_http_rule.content_type
+          existing_http_rule.conditions = received_conditions || existing_http_rule.conditions
         else
           application_loadbalancer_forwarding_rule_httprule = Ionoscloud::ApplicationLoadBalancerHttpRule.new(
             name: config[:name],
@@ -105,6 +122,7 @@ class Chef
             status_code: config[:status_code],
             response_message: config[:response_message],
             content_type: config[:content_type],
+            conditions: received_conditions,
           )
 
           if application_load_balancer_rule.properties.http_rules.nil?
