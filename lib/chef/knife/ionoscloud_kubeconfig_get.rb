@@ -23,7 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         begin
           puts Ionoscloud::KubernetesApi.new(api_client).k8s_kubeconfig_get(config[:cluster_id])

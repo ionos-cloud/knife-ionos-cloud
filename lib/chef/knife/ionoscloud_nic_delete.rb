@@ -28,7 +28,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
         @name_args.each do |nic_id|

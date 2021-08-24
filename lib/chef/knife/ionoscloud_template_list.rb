@@ -18,7 +18,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         template_list = [
           ui.color('ID', :bold),

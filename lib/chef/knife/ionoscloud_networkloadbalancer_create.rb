@@ -51,7 +51,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         print "#{ui.color('Creating Network Load Balancer...', :magenta)}"
 

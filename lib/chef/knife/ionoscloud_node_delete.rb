@@ -29,7 +29,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 

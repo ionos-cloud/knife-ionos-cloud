@@ -3,6 +3,12 @@ require 'chef/knife'
 class Chef
   class Knife
     module IonoscloudBase
+      def initialize(args = [])
+        super(args)
+        @description = ''
+        @required_options = []
+      end
+
       def self.included(includer)
         includer.class_eval do
           deps do
@@ -32,17 +38,16 @@ class Chef
         end
       end
 
-      def handle_extra_config(standard_config)
-        return if standard_config[:extra_config_file].nil?
-        JSON[File.read(standard_config[:extra_config_file])].transform_keys(&:to_sym).each do
-          |key, value|
-          standard_config[key] = value unless standard_config.key?(key)
+      def handle_extra_config
+        return if config[:extra_config_file].nil?
+        JSON[File.read(config[:extra_config_file])].transform_keys(&:to_sym).each do |key, value|
+          config[key] = value unless config.key?(key)
         end
       end
 
-      def validate_required_params(required_params, params)
-        missing_params = required_params.select do |param|
-          params[param].nil?
+      def validate_required_params
+        missing_params = @required_options.select do |param|
+          config[param].nil?
         end
         if missing_params.any?
           puts "Missing required parameters #{missing_params}"

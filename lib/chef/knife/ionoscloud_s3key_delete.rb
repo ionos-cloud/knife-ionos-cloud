@@ -23,7 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         user_s3keys_api = Ionoscloud::UserS3KeysApi.new(api_client)
 

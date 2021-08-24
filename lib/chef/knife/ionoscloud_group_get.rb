@@ -24,7 +24,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
         group = user_management_api.um_groups_find_by_id(config[:group_id], { depth: 1 })

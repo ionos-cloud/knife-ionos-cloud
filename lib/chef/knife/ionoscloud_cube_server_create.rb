@@ -121,7 +121,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
         config[:ips] = config[:ips].split(',') if config[:ips]

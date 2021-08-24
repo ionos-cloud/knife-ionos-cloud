@@ -28,7 +28,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         begin
           puts Ionoscloud::ServersApi.new(api_client).datacenters_servers_remote_console_get(config[:datacenter_id], config[:server_id]).url

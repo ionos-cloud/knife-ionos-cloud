@@ -34,7 +34,7 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params(@required_options, config)
+        validate_required_params
 
         label_api = Ionoscloud::LabelsApi.new(api_client)
         opts = { depth: 1 }

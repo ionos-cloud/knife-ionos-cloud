@@ -132,24 +132,24 @@ describe Chef::Knife::IonoscloudBaseTest do
 
   describe '#validate_required_params' do
     it 'should do nothing when all required params are in params' do
-      required_params = [:param1, :param2]
-      params = {
+      subject.instance_variable_set(:@required_options, [:param1, :param2])
+      subject.config = {
         param1: 'value',
         param2: 'value',
       }
 
-      expect { subject.validate_required_params(required_params, params) }.not_to raise_error(Exception)
+      expect { subject.validate_required_params }.not_to raise_error(Exception)
     end
 
     it 'should raise an exception and output the missing params when there are missing params' do
-      required_params = [:param1, :param2]
-      params = {
+      subject.instance_variable_set(:@required_options, [:param1, :param2])
+      subject.config = {
         param1: 'value',
       }
 
       expect(subject).to receive(:puts).with("Missing required parameters #{[:param2]}")
 
-      expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
+      expect { subject.validate_required_params }.to raise_error(SystemExit) do |error|
         expect(error.status).to eq(1)
       end
     end
