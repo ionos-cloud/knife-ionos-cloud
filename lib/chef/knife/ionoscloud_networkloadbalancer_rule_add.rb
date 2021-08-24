@@ -86,6 +86,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         network_loadbalancers_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)

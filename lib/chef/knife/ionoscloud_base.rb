@@ -18,6 +18,11 @@ class Chef
                   short: '-p PASSWORD',
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
+
+          option :extra_config_file,
+                  short: '-e EXTRA_CONFIG_FILE',
+                  long: '--extra-config EXTRA_CONFIG_FILE',
+                  description: 'Additional config file name'
         end
       end
 
@@ -34,6 +39,13 @@ class Chef
         if missing_params.any?
           puts "Missing required parameters #{missing_params}"
           exit(1)
+        end
+      end
+
+      def handle_extra_config
+        return if config[:extra_config_file].nil?
+        JSON[File.read(config[:extra_config_file])].transform_keys(&:to_sym).each do |key, value|
+          config[key] = value unless config.key?(key)
         end
       end
 

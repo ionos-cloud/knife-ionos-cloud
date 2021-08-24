@@ -51,12 +51,13 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating Network Load Balancer...', :magenta)}"
 
-        config[:ips] = config[:ips].split(',') if config[:ips]
-        config[:lb_private_ips] = config[:lb_private_ips].split(',') if config[:lb_private_ips]
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
+        config[:lb_private_ips] = config[:lb_private_ips].split(',') if config[:lb_private_ips] && config[:lb_private_ips].instance_of?(String)
 
         network_load_balancers_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
 
