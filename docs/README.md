@@ -83,6 +83,9 @@ In order to make passing JSON or array arguments easier, we allow you to specify
 
 When using the command `knife ionoscloud datacenter create --extra-config EXTRA_CONFIG_FILE` where EXTRA_CONFIG_FILE is the name of the file containing the JSON above, the arguments described in the file will be used, however if any or them are set in any other way, the values from the file will be ignored. Running the command `knife ionoscloud datacenter create --location us/las --extra-config EXTRA_CONFIG_FILE` will create a datacenter in the 'us/las' location. In the same way if the values for ionoscloud_username and ionoscloud_password are already set in the knife.rb file, the contents from the JSON will be ignored.
 
+* Only Ionoscloud specific options may be altered using this option.
+* If an option is ignored because it is not on the available options list or if it is overwritten in another way then a warning message will be displayed.
+
 ## Feature Reference
 
 The IONOS Cloud plugin for Knife aims to offer access to all resources in the IONOS Cloud API and also offers some additional features that make the integration easier:
