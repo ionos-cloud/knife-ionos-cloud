@@ -46,6 +46,7 @@ class Chef
           )
         )
 
+        print "#{ui.color('Updating data center...', :magenta)}"
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
