@@ -40,12 +40,12 @@ knife ionoscloud ipfailover add (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud ipfailover add --datacenter-id DATACENTER_ID --lan-id LAN_ID --ip IP --nic-id NIC_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

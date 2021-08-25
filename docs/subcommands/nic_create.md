@@ -44,12 +44,12 @@ knife ionoscloud nic create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

@@ -40,12 +40,12 @@ knife ionoscloud networkloadbalancer rule target remove (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule target remove --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud networkloadbalancer rule target remove --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

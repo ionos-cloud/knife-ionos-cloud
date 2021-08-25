@@ -80,12 +80,12 @@ knife ionoscloud cube server create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud cube server create --datacenter-id DATACENTER_ID --name NAME --template TEMPLATE_UUID --cpu-family CPU_FAMILY --availability-zone AVAILABILITY_ZONE --volume-name NAME --bus BUS --image ID --licence-type LICENCE --image-password PASSWORD --ssh-keys SSHKEY1,SSHKEY2,... --backupunit BACKUPUNIT_ID --user-data USER_DATA --set-boot --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud cube server create --datacenter-id DATACENTER_ID --name NAME --template TEMPLATE_UUID --cpu-family CPU_FAMILY --availability-zone AVAILABILITY_ZONE --volume-name NAME --bus BUS --image ID --licence-type LICENCE --image-password PASSWORD --ssh-keys SSHKEY1,SSHKEY2,... --backupunit BACKUPUNIT_ID --user-data USER_DATA --set-boot --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

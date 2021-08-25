@@ -53,12 +53,12 @@ knife ionoscloud networkloadbalancer rule target add (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule target add --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --weight WEIGTH --check --check-interval CHECK_INTERVAL --maintenance MAINTENANCE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud networkloadbalancer rule target add --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --weight WEIGTH --check --check-interval CHECK_INTERVAL --maintenance MAINTENANCE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

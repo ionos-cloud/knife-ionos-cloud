@@ -40,12 +40,12 @@ knife ionoscloud flowlog list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud flowlog list --datacenter-id DATACENTER_ID --type FLOWLOG_TYPE --server-id SERVER_ID --nic-id NIC_ID --nat-gateway NAT_GATEWAY_ID --network-loadbalancer NETWORK_LOADBALANCER --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud flowlog list --datacenter-id DATACENTER_ID --type FLOWLOG_TYPE --server-id SERVER_ID --nic-id NIC_ID --nat-gateway NAT_GATEWAY_ID --network-loadbalancer NETWORK_LOADBALANCER --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

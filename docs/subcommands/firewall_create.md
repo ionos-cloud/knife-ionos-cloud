@@ -62,12 +62,12 @@ knife ionoscloud firewall create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --type TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --type TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
