@@ -97,7 +97,13 @@ class Chef
         puts "#{ui.color('Version', :cyan)}: #{datacenter.properties.version}"
         puts "#{ui.color('Features', :cyan)}: #{datacenter.properties.features}"
         puts "#{ui.color('Sec Auth Protection', :cyan)}: #{datacenter.properties.sec_auth_protection}"
-        puts 'done'
+      end
+
+      def print_backupunit(backupunit)
+        puts "\n"
+        puts "#{ui.color('ID', :cyan)}: #{backupunit.id}"
+        puts "#{ui.color('Name', :cyan)}: #{backupunit.properties.name}"
+        puts "#{ui.color('Email', :cyan)}: #{backupunit.properties.email}"
       end
     end
   end

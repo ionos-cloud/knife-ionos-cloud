@@ -35,7 +35,7 @@ class Chef
           end
           
           print_datacenter(datacenter)
-
+          puts "\n"
           begin
             confirm('Do you really want to delete this data center')
           rescue SystemExit => exc

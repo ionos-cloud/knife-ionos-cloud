@@ -29,6 +29,7 @@ class Chef
         @description =
         'Retries information about a Ionoscloud Datacenter.'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @updatable_fields = [:name, :description]
       end
 
       def run
@@ -38,19 +39,24 @@ class Chef
 
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
 
-        datacenter, _, headers  = datacenter_api.datacenters_patch_with_http_info(
-          config[:datacenter_id],
-          Ionoscloud::DatacenterProperties.new(
-            name: config[:name],
-            description: config[:description],
+        if @updatable_fields.map { |el| config[el] }.any?
+          print "#{ui.color('Updating data center...', :magenta)}"
+
+          datacenter, _, headers  = datacenter_api.datacenters_patch_with_http_info(
+            config[:datacenter_id],
+            Ionoscloud::DatacenterProperties.new(
+              name: config[:name],
+              description: config[:description],
+            )
           )
-        )
 
-        print "#{ui.color('Updating data center...', :magenta)}"
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
+        else
+          ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
+        end
 
-        print_datacenter(datacenter_api.datacenters_find_by_id(datacenter.id))
+        print_datacenter(datacenter_api.datacenters_find_by_id(config[:datacenter_id]))
       end
     end
   end
