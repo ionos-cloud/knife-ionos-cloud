@@ -55,13 +55,12 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         params = {
           name: config[:name],

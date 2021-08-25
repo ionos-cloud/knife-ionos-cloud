@@ -41,12 +41,14 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating Load Balancer...', :magenta)}"
 
         if config[:nics]
-          config[:nics] = config[:nics].split(',').map! { |nic| { id: nic } }
+          config[:nics] = config[:nics].split(',') if config[:nics].instance_of?(String)
+          config[:nics].map! { |nic| { id: nic } }
         end
 
         load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
