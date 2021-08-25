@@ -18,15 +18,21 @@ knife ionoscloud server list (options)
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the datacenter containing the server (required)
 
+    upgrade_needed: --upgrade-needed, -u
+        it can be used to filter which servers can be upgraded
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
+        additional config file name
+
 ```
 ## Example
 
 ```text
-knife ionoscloud server list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+knife ionoscloud server list --datacenter-id DATACENTER_ID --upgrade-needed --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
 ```

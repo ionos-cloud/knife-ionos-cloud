@@ -30,6 +30,9 @@ knife ionoscloud node replace NODE_ID [NODE_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
+        additional config file name
+
 ```
 ## Example
 

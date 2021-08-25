@@ -39,9 +39,12 @@ knife ionoscloud k8s create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
+        additional config file name
+
 ```
 ## Example
 
 ```text
-knife ionoscloud k8s create --name NAME --version VERSION --private --gateway GATEWAY_IP --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --username USERNAME --password PASSWORD
+knife ionoscloud k8s create --name NAME --version VERSION --private --gateway GATEWAY_IP --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
 ```
