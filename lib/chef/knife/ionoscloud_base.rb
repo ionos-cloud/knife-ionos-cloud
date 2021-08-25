@@ -87,6 +87,18 @@ class Chef
         end
         response.metadata.status == 'DONE'
       end
+
+      def print_datacenter(datacenter)
+        puts "\n"
+        puts "#{ui.color('ID', :cyan)}: #{datacenter.id}"
+        puts "#{ui.color('Name', :cyan)}: #{datacenter.properties.name}"
+        puts "#{ui.color('Description', :cyan)}: #{datacenter.properties.description}"
+        puts "#{ui.color('Location', :cyan)}: #{datacenter.properties.location}"
+        puts "#{ui.color('Version', :cyan)}: #{datacenter.properties.version}"
+        puts "#{ui.color('Features', :cyan)}: #{datacenter.properties.features}"
+        puts "#{ui.color('Sec Auth Protection', :cyan)}: #{datacenter.properties.sec_auth_protection}"
+        puts 'done'
+      end
     end
   end
 end
