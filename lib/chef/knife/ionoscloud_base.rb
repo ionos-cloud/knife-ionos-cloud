@@ -44,9 +44,20 @@ class Chef
 
       def handle_extra_config
         return if config[:extra_config_file].nil?
+
+        available_options = options.map { |key, _| key }
+        ionoscloud_options = available_options[available_options.find_index(:ionoscloud_username)..]
+        ignored_options = []
+
         JSON[File.read(config[:extra_config_file])].transform_keys(&:to_sym).each do |key, value|
-          config[key] = value unless config.key?(key)
+          if config.key?(key) || !ionoscloud_options.include?(key)
+            ignored_options << key
+          else
+            config[key] = value 
+          end
         end
+
+        ui.warn "The following options #{ignored_options} from the specified JSON file will be ignored." unless ignored_options.empty?
       end
 
       def api_client
