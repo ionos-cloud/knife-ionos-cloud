@@ -23,11 +23,13 @@ knife ionoscloud lan list (options)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-```
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
+        additional config file name
+
+```
 ## Example
 
 ```text
-knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD
+knife ionoscloud lan list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
 ```
-
