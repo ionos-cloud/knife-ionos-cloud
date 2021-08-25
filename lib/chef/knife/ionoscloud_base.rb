@@ -89,7 +89,7 @@ class Chef
       end
 
       def print_datacenter(datacenter)
-        puts "\n"
+        print "\n"
         puts "#{ui.color('ID', :cyan)}: #{datacenter.id}"
         puts "#{ui.color('Name', :cyan)}: #{datacenter.properties.name}"
         puts "#{ui.color('Description', :cyan)}: #{datacenter.properties.description}"
@@ -100,10 +100,24 @@ class Chef
       end
 
       def print_backupunit(backupunit)
-        puts "\n"
+        print "\n"
         puts "#{ui.color('ID', :cyan)}: #{backupunit.id}"
         puts "#{ui.color('Name', :cyan)}: #{backupunit.properties.name}"
         puts "#{ui.color('Email', :cyan)}: #{backupunit.properties.email}"
+      end
+
+      def print_firewall_rule(firewall)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{firewall.id}"
+        puts "#{ui.color('Name', :cyan)}: #{firewall.properties.name}"
+        puts "#{ui.color('Protocol', :cyan)}: #{firewall.properties.protocol}"
+        puts "#{ui.color('Source MAC', :cyan)}: #{firewall.properties.source_mac}"
+        puts "#{ui.color('Source IP', :cyan)}: #{firewall.properties.source_ip}"
+        puts "#{ui.color('Target IP', :cyan)}: #{firewall.properties.target_ip}"
+        puts "#{ui.color('Port Range Start', :cyan)}: #{firewall.properties.port_range_start}"
+        puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties.port_range_end}"
+        puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties.icmp_type}"
+        puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties.icmp_code}"
       end
     end
   end
