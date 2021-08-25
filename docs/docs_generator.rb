@@ -49,7 +49,7 @@ def generate_subcommand_doc(subcommand)
     value[:required] = subcommand.required_options.include? key
     value[:description][0] = value[:description][0].downcase
     value
-  }.rotate(2)
+  }.rotate(3)
 
   subcommand_name = subcommand.class.to_s
   subcommand_name.slice!('Chef::Knife::Ionoscloud')
