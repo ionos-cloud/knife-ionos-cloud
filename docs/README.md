@@ -70,7 +70,7 @@ $ rspec spec
 ### Getting input from a file
 
 In order to make passing JSON or array arguments easier, we allow you to specify a file which holds the arguments for a command. This is done with the
-`--extra-config EXTRA_CONFIG_FILE` or `-e EXTRA_CONFIG_FILE`. The file is expected to contain a JSON which should map the name of arguments to their expected values. Here is an example of such a file.
+`--extra-config EXTRA_CONFIG_FILE_PATH` or `-e EXTRA_CONFIG_FILE_PATH`. The file is expected to contain a JSON which should map the name of arguments to their expected values. Here is an example of such a file.
 
 ```json
 {
@@ -81,8 +81,9 @@ In order to make passing JSON or array arguments easier, we allow you to specify
 }
 ```
 
-When using the command `knife ionoscloud datacenter create --extra-config EXTRA_CONFIG_FILE` where EXTRA_CONFIG_FILE is the name of the file containing the JSON above, the arguments described in the file will be used, however if any or them are set in any other way, the values from the file will be ignored. Running the command `knife ionoscloud datacenter create --location us/las --extra-config EXTRA_CONFIG_FILE` will create a datacenter in the 'us/las' location. In the same way if the values for ionoscloud_username and ionoscloud_password are already set in the knife.rb file, the contents from the JSON will be ignored.
+When using the command `knife ionoscloud datacenter create --extra-config EXTRA_CONFIG_FILE_PATH` where EXTRA_CONFIG_FILE_PATH is the name of the file containing the JSON above, the arguments described in the file will be used. 
 
+* If any of the arguments are set in any other way, the values from the file will be ignored. Running the command `knife ionoscloud datacenter create --location us/las --extra-config EXTRA_CONFIG_FILE_PATH` will create a datacenter in the 'us/las' location. In the same way if the values for ionoscloud_username and ionoscloud_password are already set in the knife.rb file, the contents from the JSON will be ignored.
 * Only Ionoscloud specific options may be altered using this option.
 * If an option is ignored because it is not on the available options list or if it is overwritten in another way then a warning message will be displayed.
 

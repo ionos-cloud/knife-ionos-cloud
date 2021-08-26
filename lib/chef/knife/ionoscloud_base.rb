@@ -20,9 +20,9 @@ class Chef
                   description: 'Your Ionoscloud password'
 
           option :extra_config_file,
-                  short: '-e EXTRA_CONFIG_FILE',
-                  long: '--extra-config EXTRA_CONFIG_FILE',
-                  description: 'Additional config file name'
+                  short: '-e EXTRA_CONFIG_FILE_PATH',
+                  long: '--extra-config EXTRA_CONFIG_FILE_PATH',
+                  description: 'Path to the additional config file'
         end
       end
 
