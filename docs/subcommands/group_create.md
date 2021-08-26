@@ -51,12 +51,12 @@ knife ionoscloud group create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE, -e EXTRA_CONFIG_FILE
-        additional config file name
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
 
 ```
 ## Example
 
 ```text
-knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE
+knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
