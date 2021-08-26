@@ -23,11 +23,13 @@ knife ionoscloud loadbalancer delete LOAD_BALANCER_ID [LOAD_BALANCER_ID] (option
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-```
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
+```
 ## Example
 
 ```text
-knife ionoscloud loadbalancer delete LOAD_BALANCER_ID
+knife ionoscloud loadbalancer delete LOAD_BALANCER_ID 
 ```
-

@@ -19,11 +19,13 @@ knife ionoscloud datacenter list
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
-```
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
+```
 ## Example
 
 ```text
-knife ionoscloud datacenter list--username USERNAME --password PASSWORD
+knife ionoscloud datacenter list--username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-
