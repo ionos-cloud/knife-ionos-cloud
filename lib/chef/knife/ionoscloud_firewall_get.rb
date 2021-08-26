@@ -32,7 +32,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retries information about a Ionoscloud Firewall Rule.'
+        'Retrieves information about a Ionoscloud Firewall Rule.'
         @required_options = [:firewall_id, :datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

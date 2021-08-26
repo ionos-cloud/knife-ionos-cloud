@@ -1,6 +1,6 @@
 # DatacenterUpdate
 
-Retries information about a Ionoscloud Datacenter.
+Retrieves information about a Ionoscloud Datacenter.
 
 ```text
 knife ionoscloud datacenter update (options)

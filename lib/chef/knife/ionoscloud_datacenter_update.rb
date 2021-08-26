@@ -27,7 +27,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retries information about a Ionoscloud Datacenter.'
+        'Retrieves information about a Ionoscloud Datacenter.'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :description]
       end

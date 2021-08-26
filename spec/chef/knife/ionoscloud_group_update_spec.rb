@@ -1,46 +1,62 @@
 require 'spec_helper'
-require 'ionoscloud_group_delete'
+require 'ionoscloud_group_update'
 
-Chef::Knife::IonoscloudGroupDelete.load_deps
+Chef::Knife::IonoscloudGroupUpdate.load_deps
 
-describe Chef::Knife::IonoscloudGroupDelete do
+describe Chef::Knife::IonoscloudGroupUpdate do
   before :each do
-    subject { Chef::Knife::IonoscloudGroupDelete.new }
+    subject { Chef::Knife::IonoscloudGroupUpdate.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call UserManagementApi.um_groups_delete when the ID is valid' do
+    it 'should call UserManagementApi.um_groups_put' do
       group = group_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        group_id: group.id,
+        name: group.properties.name + '_edited',
+        create_snapshot: !group.properties.create_snapshot,
+        reserve_ip: group.properties.reserve_ip,
+        access_activity_log: !group.properties.access_activity_log,
+        create_backup_unit: !group.properties.create_backup_unit,
+        create_pcc: !group.properties.create_pcc,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [group.id]
-
-      users = group.entities.users.items.map { |el| el.id }
 
       expect(subject).to receive(:puts).with("ID: #{group.id}")
-      expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
+      expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
       expect(subject).to receive(:puts).with("Create Datacenter: #{group.properties.create_data_center.to_s}")
-      expect(subject).to receive(:puts).with("Create Snapshot: #{group.properties.create_snapshot.to_s}")
+      expect(subject).to receive(:puts).with("Create Snapshot: #{subject_config[:create_snapshot].to_s}")
       expect(subject).to receive(:puts).with("Reserve IP: #{group.properties.reserve_ip.to_s}")
-      expect(subject).to receive(:puts).with("Access Activity Log: #{group.properties.access_activity_log.to_s}")
+      expect(subject).to receive(:puts).with("Access Activity Log: #{subject_config[:access_activity_log].to_s}")
       expect(subject).to receive(:puts).with("S3 Privilege: #{group.properties.s3_privilege.to_s}")
-      expect(subject).to receive(:puts).with("Create Backup Unit: #{group.properties.create_backup_unit.to_s}")
+      expect(subject).to receive(:puts).with("Create Backup Unit: #{subject_config[:create_backup_unit].to_s}")
       expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
-      expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
+      expect(subject).to receive(:puts).with("Create PCC: #{subject_config[:create_pcc].to_s}")
       expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
-      expect(subject).to receive(:puts).with("Users: #{users.to_s}")
-      expect(subject.ui).to receive(:warn).with("Deleted Group #{group.id}. Request ID: ")
 
-      expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject).to receive(:get_request_id).once
+      group.properties.name = subject_config[:name]
+      group.properties.create_snapshot = subject_config[:create_snapshot]
+      group.properties.access_activity_log = subject_config[:access_activity_log]
+      group.properties.create_backup_unit = subject_config[:create_backup_unit]
+      group.properties.create_pcc = subject_config[:create_pcc]
+
+      expected_body = {
+        name: subject_config[:name],
+        createSnapshot: subject_config[:create_snapshot],
+        reserveIp: subject_config[:reserve_ip],
+        accessActivityLog: subject_config[:access_activity_log],
+        createBackupUnit: subject_config[:create_backup_unit],
+        createPcc: subject_config[:create_pcc],
+      }.merge(group.properties.to_hash)
+
+      mock_wait_for(subject)
       mock_call_api(
         subject,
         [
@@ -52,38 +68,19 @@ describe Chef::Knife::IonoscloudGroupDelete do
             result: group,
           },
           {
-            method: 'DELETE',
+            method: 'PUT',
             path: "/um/groups/#{group.id}",
-            operation: :'UserManagementApi.um_groups_delete',
+            operation: :'UserManagementApi.um_groups_put',
+            return_type: 'Group',
+            body: { properties: expected_body },
+            result: group,
           },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should not call UserManagementApi.um_groups_delete when the ID is not valid' do
-      group_id = 'invalid_id'
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [group_id]
-
-      expect(subject.ui).to receive(:error).with("Group ID #{group_id} not found. Skipping.")
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
           {
             method: 'GET',
-            path: "/um/groups/#{group_id}",
+            path: "/um/groups/#{group.id}",
             operation: :'UserManagementApi.um_groups_find_by_id',
             return_type: 'Group',
-            exception: Ionoscloud::ApiError.new(code: 404),
+            result: group,
           },
         ],
       )

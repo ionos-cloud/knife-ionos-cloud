@@ -50,6 +50,7 @@ class Chef
           end
 
           print_firewall_rule(firewall)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this firewall rule')

@@ -1,6 +1,6 @@
 # DatacenterGet
 
-Retries information about a Ionoscloud Datacenter.
+Retrieves information about a Ionoscloud Datacenter.
 
 ```text
 knife ionoscloud datacenter get (options)
