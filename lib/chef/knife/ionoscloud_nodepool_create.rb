@@ -107,13 +107,14 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating K8s Nodepool...', :magenta)}"
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
-        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips]
+        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
 
         nodepool_properties = {
           name: config[:name],

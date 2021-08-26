@@ -28,6 +28,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         return unless @name_args.length > 0

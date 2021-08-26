@@ -43,6 +43,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
@@ -56,7 +57,7 @@ class Chef
         end
 
         routes = []
-        config[:routes] = config[:routes].split(',') if config[:routes]
+        config[:routes] = config[:routes].split(',') if config[:routes] && config[:routes].instance_of?(String)
         config[:routes].each_slice(2) do |network, gateway_ip|
           routes << Ionoscloud::KubernetesNodePoolLanRoutes.new(
             network: network,
@@ -69,8 +70,6 @@ class Chef
           dhcp: !config[:no_dhcp],
           routes: routes,
         )
-
-        puts new_lan
 
         existing = nodepool.properties.lans.select { |lan| lan.id == new_lan.id }
 

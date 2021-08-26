@@ -33,13 +33,12 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
 
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         natgateway = Ionoscloud::NatGateway.new(
           properties: Ionoscloud::NatGatewayProperties.new(
