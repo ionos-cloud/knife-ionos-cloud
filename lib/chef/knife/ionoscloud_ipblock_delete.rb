@@ -31,10 +31,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', ipblock.id)
-          msg_pair('Name', ipblock.properties.name)
-          msg_pair('Location', ipblock.properties.location)
-          msg_pair('IP Addresses', ipblock.properties.ips)
+          print_ipblock(ipblock)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this IP block')

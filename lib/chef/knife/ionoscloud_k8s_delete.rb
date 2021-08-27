@@ -45,15 +45,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', cluster.id)
-          msg_pair('Name', cluster.properties.name)
-          msg_pair('Version', cluster.properties.k8s_version)
-          msg_pair(
-            'Maintenance Window',
-            "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}",
-          )
-          msg_pair('State', cluster.metadata.state)
-
+          print_k8s_cluster(cluster)
           puts "\n"
 
           begin

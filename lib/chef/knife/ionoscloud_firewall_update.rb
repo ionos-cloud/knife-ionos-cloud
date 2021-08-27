@@ -81,7 +81,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retrieves information about a Ionoscloud Firewall Rule.'
+        'Updates information about a Ionoscloud Firewall Rule.'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :protocol, :source_mac, :source_ip, :target_ip,

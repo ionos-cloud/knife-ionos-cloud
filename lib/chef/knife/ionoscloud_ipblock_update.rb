@@ -22,7 +22,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retrieves information about a Ionoscloud Datacenter.'
+        'Updates information about an IP Block.'
         @required_options = [:ipblock_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name]
       end

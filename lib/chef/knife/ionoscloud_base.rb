@@ -146,6 +146,23 @@ class Chef
         puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties.ips}"
         puts "#{ui.color('IP Consumers', :cyan)}: #{ip_consumers}"
       end
+
+      def print_k8s_cluster(cluster)
+        print "\n"
+        maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
+        s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
+        puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
+        puts "#{ui.color('Name', :cyan)}: #{cluster.properties.name}"
+        puts "#{ui.color('Public', :cyan)}: #{cluster.properties.public}"
+        puts "#{ui.color('Gateway IP', :cyan)}: #{cluster.properties.gateway_ip}"
+        puts "#{ui.color('k8s Version', :cyan)}: #{cluster.properties.k8s_version}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
+        puts "#{ui.color('State', :cyan)}: #{cluster.metadata.state}"
+        puts "#{ui.color('Api Subnet Allow List', :cyan)}: #{cluster.properties.api_subnet_allow_list}"
+        puts "#{ui.color('S3 Buckets', :cyan)}: #{s3_buckets}"
+        puts "#{ui.color('Available Upgrade Versions', :cyan)}: #{cluster.properties.available_upgrade_versions}"
+        puts "#{ui.color('Viable NodePool Versions', :cyan)}: #{cluster.properties.viable_node_pool_versions}"
+      end
     end
   end
 end

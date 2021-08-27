@@ -370,8 +370,18 @@ def k8s_cluster_mock(opts = {})
       name: opts[:name] || 'k8s_cluster_name',
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
+      api_subnet_allow_list: opts[:api_subnet_allow_list] || [
+        "1.2.3.4/32",
+        "2002::1234:abcd:ffff:c0a8:101/64",
+        "1.2.3.4",
+        "2002::1234:abcd:ffff:c0a8:101"
+      ],
+      s3_buckets: opts[:s3_buckets] || [
+        Ionoscloud::S3Bucket.new(name: 'test_name1'),
+        Ionoscloud::S3Bucket.new(name: 'test_name2'),
+      ],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
-      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2']
+      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2'],
     ),
     metadata: Ionoscloud::DatacenterElementMetadata.new(
       state: opts[:state] || 'ACTIVE',

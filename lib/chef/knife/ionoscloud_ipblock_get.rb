@@ -17,8 +17,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retrieves detailed information about a specific group. This will also '\
-        'retrieve a list of users who are members of the group.'
+        'Retrieves information about an IP Block.'
         @required_options = [:ipblock_id, :ionoscloud_username, :ionoscloud_password]
       end
 
