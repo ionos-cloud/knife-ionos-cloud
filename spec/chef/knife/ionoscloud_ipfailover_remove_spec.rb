@@ -29,6 +29,7 @@ describe Chef::Knife::IonoscloudIpfailoverRemove do
       expect(subject).to receive(:puts).with("ID: #{lan.id}")
       expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
+      expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
       expect(subject).to receive(:puts).with("IP Failover: #{[]}")
 
       lan_copy = Marshal.load(Marshal.dump(lan))

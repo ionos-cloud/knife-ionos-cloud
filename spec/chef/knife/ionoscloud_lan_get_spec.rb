@@ -1,26 +1,24 @@
 require 'spec_helper'
-require 'ionoscloud_ipfailover_add'
+require 'ionoscloud_lan_get'
 
-Chef::Knife::IonoscloudIpfailoverAdd.load_deps
+Chef::Knife::IonoscloudLanGet.load_deps
 
-describe Chef::Knife::IonoscloudIpfailoverAdd do
+describe Chef::Knife::IonoscloudLanGet do
   before :each do
-    subject { Chef::Knife::IonoscloudIpfailoverAdd.new }
+    subject { Chef::Knife::IonoscloudLanGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call Lan.datacenters_lans_patch when the ID is valid' do
+    it 'should call LanApi.datacenters_lans_find_by_id' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         lan_id: lan.id,
-        nic_id: 'nic_id',
-        ip: '1.1.1.1',
         yes: true,
       }
 
@@ -30,29 +28,15 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
       expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
       expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
-      expect(subject).to receive(:puts).with("IP Failover: #{[{ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] }]}")
+      expect(subject).to receive(:puts).with("IP Failover: #{[]}")
 
-      mock_wait_for(subject)
+      expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_find_by_id',
-            return_type: 'Lan',
-            result: lan,
-          },
-          {
-            method: 'PATCH',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_patch',
-            body: Ionoscloud::LanProperties.new({ ip_failover: [({ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] })] }).to_hash,
-            return_type: 'Lan',
-          },
-          {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
+            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
             operation: :'LanApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,

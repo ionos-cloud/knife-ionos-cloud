@@ -61,15 +61,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('PCC', :cyan)}: #{lan.properties.pcc}"
-
-        puts 'done'
+        print_lan(lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan.id))
       end
     end
   end

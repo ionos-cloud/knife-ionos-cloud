@@ -1,58 +1,61 @@
 require 'spec_helper'
-require 'ionoscloud_ipfailover_add'
+require 'ionoscloud_lan_update'
 
-Chef::Knife::IonoscloudIpfailoverAdd.load_deps
+Chef::Knife::IonoscloudLanUpdate.load_deps
 
-describe Chef::Knife::IonoscloudIpfailoverAdd do
+describe Chef::Knife::IonoscloudLanUpdate do
   before :each do
-    subject { Chef::Knife::IonoscloudIpfailoverAdd.new }
+    subject { Chef::Knife::IonoscloudLanUpdate.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call Lan.datacenters_lans_patch when the ID is valid' do
+    it 'should call DataCenterApi.datacenters_patch' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         lan_id: lan.id,
-        nic_id: 'nic_id',
-        ip: '1.1.1.1',
+        name: lan.properties.name + '_edited',
+        public: (!lan.properties.public).to_s,
+        pcc: 'pcc_id',
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{lan.id}")
-      expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
-      expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
-      expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
-      expect(subject).to receive(:puts).with("IP Failover: #{[{ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] }]}")
+      expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
+      expect(subject).to receive(:puts).with("Public: #{subject_config[:public]}")
+      expect(subject).to receive(:puts).with("PCC: #{subject_config[:pcc]}")
+      expect(subject).to receive(:puts).with("IP Failover: #{[]}")
+
+      lan.properties.name = subject_config[:name]
+      lan.properties.public = subject_config[:public].to_s.downcase == 'true'
+      lan.properties.pcc = subject_config[:pcc]
 
       mock_wait_for(subject)
       mock_call_api(
         subject,
         [
           {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_find_by_id',
+            method: 'PATCH',
+            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
+            operation: :'LanApi.datacenters_lans_patch',
             return_type: 'Lan',
+            body: {
+              name: subject_config[:name],
+              public: subject_config[:public].to_s.downcase == 'true',
+              pcc: subject_config[:pcc],
+            },
             result: lan,
           },
           {
-            method: 'PATCH',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LanApi.datacenters_lans_patch',
-            body: Ionoscloud::LanProperties.new({ ip_failover: [({ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] })] }).to_hash,
-            return_type: 'Lan',
-          },
-          {
             method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
+            path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
             operation: :'LanApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,

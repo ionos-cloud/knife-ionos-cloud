@@ -163,6 +163,16 @@ class Chef
         puts "#{ui.color('Available Upgrade Versions', :cyan)}: #{cluster.properties.available_upgrade_versions}"
         puts "#{ui.color('Viable NodePool Versions', :cyan)}: #{cluster.properties.viable_node_pool_versions}"
       end
+
+      def print_lan(lan)
+        print "\n"
+        ip_failovers = (lan.properties.ip_failover.nil? ? [] : lan.properties.ip_failover.map { |el| el.to_hash })
+        puts "#{ui.color('ID', :cyan)}: #{lan.id}"
+        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
+        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
+        puts "#{ui.color('PCC', :cyan)}: #{lan.properties.pcc}"
+        puts "#{ui.color('IP Failover', :cyan)}: #{ip_failovers}"
+      end
     end
   end
 end
