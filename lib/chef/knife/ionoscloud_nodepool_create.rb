@@ -115,6 +115,7 @@ class Chef
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
         config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
+        config[:lans] = config[:lans].split(',') if config[:lans] && config[:lans].instance_of?(String)
 
         nodepool_properties = {
           name: config[:name],
@@ -128,31 +129,22 @@ class Chef
           storage_type: config[:storage_type],
           storage_size: config[:storage_size],
           public_ips: config[:public_ips],
-        }
-
-        if config[:maintenance_day] && config[:maintenance_time]
-          nodepool_properties[:maintenance_window] = Ionoscloud::KubernetesMaintenanceWindow.new(
-            day_of_the_week: config[:maintenance_day],
-            time: config[:maintenance_time],
-          )
-        end
-
-        if config[:min_node_count] || config[:max_node_count]
-          nodepool_properties[:auto_scaling] = Ionoscloud::KubernetesAutoScaling.new(
+          lans: config.key?(:lans) ? config[:lans].map! { |lan| { id: Integer(lan) } } : nil,
+          auto_scaling: Ionoscloud::KubernetesAutoScaling.new(
             min_node_count: config[:min_node_count],
             max_node_count: config[:max_node_count],
-          )
-        end
-
-        if config[:lans]
-          nodepool_properties[:lans] = config[:lans].split(',').map! { |lan| { id: Integer(lan) } }
-        end
+          ),
+          maintenance_window: Ionoscloud::KubernetesMaintenanceWindow.new(
+            day_of_the_week: config[:maintenance_day],
+            time: config[:maintenance_time],
+          ),
+        }
 
         print_k8s_nodepool(
           kubernetes_api.k8s_nodepools_post(
             config[:cluster_id],
-            Ionoscloud::KubernetesNodePool.new(
-              properties: Ionoscloud::KubernetesNodePoolProperties.new(
+            Ionoscloud::KubernetesNodePoolForPost.new(
+              properties: Ionoscloud::KubernetesNodePoolPropertiesForPost.new(
                 **nodepool_properties,
               ),
             ),

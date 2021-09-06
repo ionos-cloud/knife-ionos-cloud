@@ -40,10 +40,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
 
       auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
       maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-
-      expected_body = nodepool.properties.to_hash
-      expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }
-      expected_body.delete(:availableUpgradeVersions)
+      lans = nodepool.properties.lans.map { |lan| { id: lan.id } }
 
       expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
       expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
@@ -55,10 +52,16 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANs: #{lans}")
       expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
+      
+      expected_body = nodepool.properties.to_hash
+      expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }
+      expected_body.delete(:availableUpgradeVersions)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

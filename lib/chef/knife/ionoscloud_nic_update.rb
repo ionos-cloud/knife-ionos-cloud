@@ -53,7 +53,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Load Balancer.'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
-        @updatable_fields = [:name, :ip, :dhcp]
+        @updatable_fields = [:name, :ips, :dhcp, :lan, :nat]
       end
 
       def run

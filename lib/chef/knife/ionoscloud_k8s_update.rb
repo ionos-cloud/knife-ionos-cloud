@@ -88,7 +88,7 @@ class Chef
             ),
           )
 
-          cluster, _, headers = kubernetes_api.k8s_put_with_http_info(config[:cluster_id], new_cluster)
+          kubernetes_api.k8s_put(config[:cluster_id], new_cluster)
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end

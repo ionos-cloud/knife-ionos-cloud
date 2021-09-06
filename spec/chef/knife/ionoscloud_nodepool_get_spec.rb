@@ -1,28 +1,28 @@
 require 'spec_helper'
-require 'ionoscloud_nodepool_delete'
+require 'ionoscloud_nodepool_get'
 
-Chef::Knife::IonoscloudNodepoolDelete.load_deps
+Chef::Knife::IonoscloudNodepoolGet.load_deps
 
-describe Chef::Knife::IonoscloudNodepoolDelete do
+describe Chef::Knife::IonoscloudNodepoolGet do
   before :each do
-    subject { Chef::Knife::IonoscloudNodepoolDelete.new }
+    subject { Chef::Knife::IonoscloudNodepoolGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call KubernetesApi.k8s_nodepools_delete when the ID is valid' do
+    it 'should call KubernetesApi.k8s_nodepools_nodes_find_by_id' do
       nodepool = k8s_nodepool_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
+        nodepool_id: nodepool.id,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [nodepool.id]
 
       auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
       maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
@@ -44,54 +44,17 @@ describe Chef::Knife::IonoscloudNodepoolDelete do
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
-      expect(subject.ui).to receive(:warn).with("Deleted K8s Nodepool #{nodepool.id}.")
 
       expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject).not_to receive(:get_request_id)
       mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{nodepool.id}",
+            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{subject_config[:nodepool_id]}",
             operation: :'KubernetesApi.k8s_nodepools_find_by_id',
             return_type: 'KubernetesNodePool',
             result: nodepool,
-          },
-          {
-            method: 'DELETE',
-            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{nodepool.id}",
-            operation: :'KubernetesApi.k8s_nodepools_delete',
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should not call KubernetesApi.k8s_nodepools_delete when the ID is not valid' do
-      k8s_nodepool_id = 'invalid_id'
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        cluster_id: 'cluster_id',
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [k8s_nodepool_id]
-
-      expect(subject.ui).to receive(:error).with("K8s Nodepool ID #{k8s_nodepool_id} not found. Skipping.")
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{k8s_nodepool_id}",
-            operation: :'KubernetesApi.k8s_nodepools_find_by_id',
-            return_type: 'KubernetesNodePool',
-            exception: Ionoscloud::ApiError.new(code: 404),
           },
         ],
       )

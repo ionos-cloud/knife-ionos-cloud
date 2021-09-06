@@ -208,6 +208,7 @@ class Chef
         print "\n"
         auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
         maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+        lans = nodepool.properties.lans.map { |lan| { id: lan.id } }
         puts "#{ui.color('ID', :cyan)}: #{nodepool.id}"
         puts "#{ui.color('Name', :cyan)}: #{nodepool.properties.name}"
         puts "#{ui.color('K8s Version', :cyan)}: #{nodepool.properties.k8s_version}"
@@ -218,6 +219,8 @@ class Chef
         puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
         puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
         puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
+        puts "#{ui.color('Public IPs', :cyan)}: #{nodepool.properties.public_ips}"
+        puts "#{ui.color('LANs', :cyan)}: #{lans}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
         puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
