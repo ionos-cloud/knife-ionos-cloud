@@ -173,6 +173,56 @@ class Chef
         puts "#{ui.color('PCC', :cyan)}: #{lan.properties.pcc}"
         puts "#{ui.color('IP Failover', :cyan)}: #{ip_failovers}"
       end
+
+      def print_load_balancer(load_balancer)
+        print "\n"
+        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
+        puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
+        puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
+        puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
+        puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
+        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
+      end
+
+      def print_nic(nic)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{nic.id}"
+        puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
+        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
+        puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
+        puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
+        puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"
+      end
+
+      def print_k8s_node(node)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{node.id}"
+        puts "#{ui.color('Name', :cyan)}: #{node.properties.name}"
+        puts "#{ui.color('Public IP', :cyan)}: #{node.properties.public_ip}"
+        puts "#{ui.color('Private IP', :cyan)}: #{node.properties.private_ip}"
+        puts "#{ui.color('K8s Version', :cyan)}: #{node.properties.k8s_version}"
+        puts "#{ui.color('State', :cyan)}: #{node.metadata.state}"
+      end
+
+      def print_k8s_nodepool(nodepool)
+        print "\n"
+        auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
+        maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+        puts "#{ui.color('ID', :cyan)}: #{nodepool.id}"
+        puts "#{ui.color('Name', :cyan)}: #{nodepool.properties.name}"
+        puts "#{ui.color('K8s Version', :cyan)}: #{nodepool.properties.k8s_version}"
+        puts "#{ui.color('Datacenter ID', :cyan)}: #{nodepool.properties.datacenter_id}"
+        puts "#{ui.color('Node Count', :cyan)}: #{nodepool.properties.node_count}"
+        puts "#{ui.color('CPU Family', :cyan)}: #{nodepool.properties.cpu_family}"
+        puts "#{ui.color('Cores Count', :cyan)}: #{nodepool.properties.cores_count}"
+        puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
+        puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
+        puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
+        puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
+        puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
+        puts "#{ui.color('State', :cyan)}: #{nodepool.metadata.state}"
+      end
     end
   end
 end

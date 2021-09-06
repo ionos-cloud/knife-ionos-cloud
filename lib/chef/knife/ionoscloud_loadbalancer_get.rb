@@ -31,21 +31,11 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        load_balancer_api = Ionoscloud::LoadBalancerApi.new(api_client)
-
-        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
+        print_load_balancer(Ionoscloud::LoadBalancerApi.new(api_client).datacenters_loadbalancers_find_by_id(
           config[:datacenter_id],
           config[:loadbalancer_id],
           { depth: 1 },
-        )
-
-        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
-
-        puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
-        puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
-        puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
-        puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
+        ))
       end
     end
   end

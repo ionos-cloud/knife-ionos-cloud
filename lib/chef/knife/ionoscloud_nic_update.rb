@@ -2,20 +2,25 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudNicCreate < Knife
+    class IonoscloudNicUpdate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud nic create (options)'
+      banner 'knife ionoscloud nic update (options)'
 
       option :datacenter_id,
               short: '-D DATACENTER_ID',
               long: '--datacenter-id DATACENTER_ID',
-              description: 'Name of the data center'
+              description: 'ID of the data center'
 
       option :server_id,
               short: '-S SERVER_ID',
               long: '--server-id SERVER_ID',
-              description: 'Name of the server'
+              description: 'The ID of the server to which the NIC is assigned'
+
+      option :nic_id,
+              short: '-N NIC_ID',
+              long: '--nic-id NIC_ID',
+              description: 'ID of the load balancer'
 
       option :name,
               short: '-n NAME',
@@ -46,9 +51,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        "Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs "\
-        "can be used to create different, segmented networks on the platform."
-        @required_options = [:datacenter_id, :server_id, :lan, :ionoscloud_username, :ionoscloud_password]
+        'Updates information about a Ionoscloud Load Balancer.'
+        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @updatable_fields = [:name, :ip, :dhcp]
       end
 
       def run
@@ -56,34 +61,33 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print "#{ui.color('Creating nic...', :magenta)}"
-
         config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         nic_api = Ionoscloud::NicApi.new(api_client)
 
-        nic, _, headers = nic_api.datacenters_servers_nics_post_with_http_info(
-          config[:datacenter_id],
-          config[:server_id],
-          Ionoscloud::Nic.new(
-            properties: Ionoscloud::NicProperties.new(
+        if @updatable_fields.map { |el| config[el] }.any?
+          print "#{ui.color('Updating NIC...', :magenta)}"
+
+          datacenter, _, headers  = nic_api.datacenters_servers_nics_patch_with_http_info(
+            config[:datacenter_id],
+            config[:server_id],
+            config[:nic_id],
+            Ionoscloud::NicProperties.new(
               name: config[:name],
               ips: config[:ips],
               dhcp: (config.key?(:dhcp) ? config[:dhcp].to_s.downcase == 'true' : nil),
               lan: config[:lan],
               nat: (config.key?(:nat) ? config[:nat].to_s.downcase == 'true' : nil),
             ),
-          ),
-        )
+          )
 
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
+        else
+          ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
+        end
 
-        print_nic(nic_api.datacenters_servers_nics_find_by_id(
-          config[:datacenter_id],
-          config[:server_id],
-          nic.id,
-        ))
+        print_nic(nic_api.datacenters_servers_nics_find_by_id(config[:datacenter_id], config[:server_id], config[:nic_id]))
       end
     end
   end

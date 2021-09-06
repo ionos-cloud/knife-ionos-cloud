@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
   end
 
   describe '#run' do
-    it 'should call DataCenterApi.datacenters_patch' do
+    it 'should call LanApi.datacenters_lans_patch' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',

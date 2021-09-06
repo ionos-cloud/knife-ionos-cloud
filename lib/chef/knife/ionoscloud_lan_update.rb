@@ -60,7 +60,7 @@ class Chef
               name: config[:name],
               public: (config.key?(:public) ? config[:public].to_s.downcase == 'true' : nil),
               pcc: config[:pcc],
-            )
+            ),
           )
 
           dot = ui.color('.', :magenta)
