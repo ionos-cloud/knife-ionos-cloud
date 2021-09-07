@@ -2,15 +2,20 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudServerCreate < Knife
+    class IonoscloudServerUpdate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud server create (options)'
+      banner 'knife ionoscloud server update (options)'
 
       option :datacenter_id,
               short: '-D DATACENTER_ID',
               long: '--datacenter-id DATACENTER_ID',
-              description: 'Name of the virtual datacenter'
+              description: 'ID of the data center'
+
+      option :server_id,
+              short: '-S SERVER_ID',
+              long: '--server-id SERVER_ID',
+              description: 'The ID of the server to which the NIC is assigned'
 
       option :name,
               short: '-n NAME',
@@ -25,8 +30,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-              default: 'INTEL_SKYLAKE'
+              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)'
 
       option :ram,
               short: '-r RAM',
@@ -36,8 +40,7 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the server',
-              default: 'AUTO'
+              description: 'The availability zone of the server'
 
       option :boot_volume,
               long: '--boot-volume VOLUME_ID',
@@ -52,11 +55,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        "One of the unique features of the Ionoscloud platform when compared "\
-        "with the other providers is that they allow you to define your own settings "\
-        "for cores, memory, and disk size without being tied to a particular size or flavor.\n\n"\
-        "Note: _The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth._"
-        @required_options = [:datacenter_id, :cores, :ram, :ionoscloud_username, :ionoscloud_password]
+        'Updates information about a Ionoscloud Server.'
+        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+        @updatable_fields = [:name, :cores, :cpu_family, :ram, :availability_zone, :boot_volume, :boot_cdrom]
       end
 
       def run
@@ -64,14 +65,15 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print "#{ui.color('Creating server...', :magenta)}"
-        
         server_api = Ionoscloud::ServerApi.new(api_client)
 
-        server, _, headers = server_api.datacenters_servers_post_with_http_info(
-          config[:datacenter_id],
-          Ionoscloud::Server.new(
-            properties: Ionoscloud::ServerProperties.new(
+        if @updatable_fields.map { |el| config[el] }.any?
+          print "#{ui.color('Updating Server...', :magenta)}"
+
+          _, _, headers  = server_api.datacenters_servers_patch_with_http_info(
+            config[:datacenter_id],
+            config[:server_id],
+            Ionoscloud::ServerProperties.new(
               name: config[:name],
               cores: config[:cores],
               cpu_family: config[:cpu_family],
@@ -80,13 +82,15 @@ class Chef
               boot_cdrom: config.key?(:boot_cdrom) ? { id: config[:boot_cdrom] } : nil,
               boot_volume: config.key?(:boot_volume) ? { id: config[:boot_volume] } : nil,
             ),
-          ),
-        )
+          )
 
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
+        else
+          ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
+        end
 
-        print_server(server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id))
+        print_server(server_api.datacenters_servers_find_by_id(config[:datacenter_id], config[:server_id]))
       end
     end
   end

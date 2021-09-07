@@ -53,7 +53,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating LAN...', :magenta)}"
 
-          datacenter, _, headers  = lan_api.datacenters_lans_patch_with_http_info(
+          _, _, headers  = lan_api.datacenters_lans_patch_with_http_info(
             config[:datacenter_id],
             config[:lan_id],
             Ionoscloud::LanProperties.new(

@@ -50,7 +50,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Updates information about a Ionoscloud Load Balancer.'
+        'Updates information about a Ionoscloud NIC.'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :ips, :dhcp, :lan, :nat]
       end
@@ -67,7 +67,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating NIC...', :magenta)}"
 
-          datacenter, _, headers  = nic_api.datacenters_servers_nics_patch_with_http_info(
+          _, _, headers  = nic_api.datacenters_servers_nics_patch_with_http_info(
             config[:datacenter_id],
             config[:server_id],
             config[:nic_id],

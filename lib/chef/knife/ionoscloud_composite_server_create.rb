@@ -183,19 +183,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        server = server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{server.id}"
-        puts "#{ui.color('Name', :cyan)}: #{server.properties.name}"
-        puts "#{ui.color('Cores', :cyan)}: #{server.properties.cores}"
-        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
-        puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
-        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
-        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume ? server.properties.boot_volume.id : ''}"
-        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom ? server.properties.boot_cdrom.id : ''}"
-
-        puts 'done'
+        print_server(server_api.datacenters_servers_find_by_id(config[:datacenter_id], server.id))
       end
     end
   end

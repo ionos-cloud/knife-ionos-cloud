@@ -50,7 +50,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating Load Balancer...', :magenta)}"
 
-          datacenter, _, headers  = load_balancer_api.datacenters_loadbalancers_patch_with_http_info(
+          _, _, headers  = load_balancer_api.datacenters_loadbalancers_patch_with_http_info(
             config[:datacenter_id],
             config[:loadbalancer_id],
             Ionoscloud::LoadbalancerProperties.new(

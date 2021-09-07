@@ -37,7 +37,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating IP block...', :magenta)}"
 
-          datacenter, _, headers  = ipblock_api.ipblocks_patch_with_http_info(
+          _, _, headers  = ipblock_api.ipblocks_patch_with_http_info(
             config[:ipblock_id],
             Ionoscloud::IpBlockProperties.new(
               name: config[:name],

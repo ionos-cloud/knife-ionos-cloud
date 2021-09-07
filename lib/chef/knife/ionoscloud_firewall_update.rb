@@ -111,7 +111,7 @@ class Chef
             icmp_code: config[:icmp_code],
           }
 
-          firewall, _, headers  = nic_api.datacenters_servers_nics_firewallrules_patch_with_http_info(
+          _, _, headers  = nic_api.datacenters_servers_nics_firewallrules_patch_with_http_info(
             config[:datacenter_id], config[:server_id], config[:nic_id], config[:firewall_id],
             Ionoscloud::FirewallruleProperties.new(params.compact),
           )

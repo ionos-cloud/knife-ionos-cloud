@@ -42,7 +42,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating Private Cross Connect...', :magenta)}"
 
-          datacenter, _, headers  = pcc_api.pccs_patch_with_http_info(
+          _, _, headers  = pcc_api.pccs_patch_with_http_info(
             config[:pcc_id],
             Ionoscloud::PrivateCrossConnectProperties.new(
               name: config[:name],

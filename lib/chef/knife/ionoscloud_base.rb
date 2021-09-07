@@ -244,6 +244,18 @@ class Chef
         puts "#{ui.color('Secret Key', :cyan)}: #{s3_key.properties.secret_key}"
         puts "#{ui.color('Active', :cyan)}: #{s3_key.properties.active}"
       end
+
+      def print_server(server)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{server.id}"
+        puts "#{ui.color('Name', :cyan)}: #{server.properties.name}"
+        puts "#{ui.color('Cores', :cyan)}: #{server.properties.cores}"
+        puts "#{ui.color('CPU Family', :cyan)}: #{server.properties.cpu_family}"
+        puts "#{ui.color('Ram', :cyan)}: #{server.properties.ram}"
+        puts "#{ui.color('Availability Zone', :cyan)}: #{server.properties.availability_zone}"
+        puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume ? server.properties.boot_volume.id : ''}"
+        puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom ? server.properties.boot_cdrom.id : ''}"
+      end
     end
   end
 end
