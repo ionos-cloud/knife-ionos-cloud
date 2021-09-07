@@ -2,15 +2,15 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDatacenterUpdate < Knife
+    class IonoscloudPccUpdate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud datacenter update (options)'
+      banner 'knife ionoscloud pcc update (options)'
 
-      option :datacenter_id,
-              short: '-D DATACENTER_ID',
-              long: '--datacenter-id DATACENTER_ID',
-              description: 'ID of the data center'
+      option :pcc_id,
+              short: '-P PRIVATE_CROSS_CONNECT_ID',
+              long: '--pcc-id PRIVATE_CROSS_CONNECT_ID',
+              description: 'ID of the Private Cross Connect'
 
       option :name,
               short: '-n NAME',
@@ -26,8 +26,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Updates information about a Ionoscloud Datacenter.'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        'Updates information about a Ionoscloud Private Cross Connect. In order to add LANs to the Private Cross Connect one should'\
+        'update the LAN and change the pcc property using the ```text\knife ionscloud lan update\n``` command.'
+        @required_options = [:pcc_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :description]
       end
 
@@ -36,14 +37,14 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
+        pcc_api = Ionoscloud::PrivateCrossConnectApi.new(api_client)
 
         if @updatable_fields.map { |el| config[el] }.any?
-          print "#{ui.color('Updating data center...', :magenta)}"
+          print "#{ui.color('Updating Private Cross Connect...', :magenta)}"
 
-          datacenter, _, headers  = datacenter_api.datacenters_patch_with_http_info(
-            config[:datacenter_id],
-            Ionoscloud::DatacenterProperties.new(
+          datacenter, _, headers  = pcc_api.pccs_patch_with_http_info(
+            config[:pcc_id],
+            Ionoscloud::PrivateCrossConnectProperties.new(
               name: config[:name],
               description: config[:description],
             )
@@ -55,7 +56,7 @@ class Chef
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end
 
-        print_datacenter(datacenter_api.datacenters_find_by_id(config[:datacenter_id]))
+        print_pcc(pcc_api.pccs_find_by_id(config[:pcc_id]))
       end
     end
   end

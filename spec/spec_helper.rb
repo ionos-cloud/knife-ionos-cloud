@@ -667,6 +667,9 @@ def request_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::RequestProperties.new(
       method: opts[:method] || 'POST',
+      url: opts[:url] || 'www.url.com',
+      body: opts[:body] || { 'test' => 'test'},
+      headers: opts[:headers] || { 'test2' => 'test2'},
     ),
     metadata: Ionoscloud::RequestMetadata.new(
       request_status: request_status_mock(opts)

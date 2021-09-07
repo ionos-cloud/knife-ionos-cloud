@@ -33,7 +33,6 @@ class Chef
               description: 'IPs assigned to the NIC'
 
       option :dhcp,
-              short: '-d DHCP',
               long: '--dhcp DHCP',
               description: 'Set to false if you wish to disable DHCP'
 

@@ -28,7 +28,6 @@ class Chef
               'not be provided otherwise.'
 
       option :maintenance_day,
-              short: '-d MAINTENANCE_DAY',
               long: '--maintenance-day MAINTENANCE_DAY',
               description: 'Day Of the week when to perform the maintenance.'
 

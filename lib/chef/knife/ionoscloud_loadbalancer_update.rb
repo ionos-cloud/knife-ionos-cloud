@@ -27,7 +27,6 @@ class Chef
               description: 'IPv4 address of the load balancer. All attached NICs will inherit this IP.'
 
       option :dhcp,
-              short: '-d DHCP',
               long: '--dhcp DHCP',
               description: 'Indicates if the load balancer will reserve an IP using DHCP.'
 

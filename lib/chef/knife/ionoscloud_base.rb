@@ -226,6 +226,24 @@ class Chef
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
         puts "#{ui.color('State', :cyan)}: #{nodepool.metadata.state}"
       end
+
+      def print_pcc(pcc)
+        peers = pcc.properties.peers.map { |peer| peer.id }
+        datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{pcc.id}"
+        puts "#{ui.color('Name', :cyan)}: #{pcc.properties.name}"
+        puts "#{ui.color('Description', :cyan)}: #{pcc.properties.description}"
+        puts "#{ui.color('Peers', :cyan)}: #{peers}"
+        puts "#{ui.color('Connectable Datacenters', :cyan)}: #{datacenters}"
+      end
+
+      def print_s3key(s3_key)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{s3_key.id}"
+        puts "#{ui.color('Secret Key', :cyan)}: #{s3_key.properties.secret_key}"
+        puts "#{ui.color('Active', :cyan)}: #{s3_key.properties.active}"
+      end
     end
   end
 end
