@@ -34,13 +34,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', user.id)
-          msg_pair('Firstname', user.properties.firstname)
-          msg_pair('Lastname', user.properties.lastname)
-          msg_pair('Email', user.properties.email)
-          msg_pair('Administrator', user.properties.administrator.to_s)
-          msg_pair('2-Factor Auth', user.properties.force_sec_auth.to_s)
-          puts "\n"
+          print_user(user)
 
           begin
             confirm('Do you really want to delete this User')

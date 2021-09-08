@@ -32,8 +32,16 @@ class Chef
               description: 'Assigns the user have administrative rights.'
 
       option :force_sec_auth,
-              long: '--sec-auth',
+              long: '--force-sec-auth',
               description: 'Indicates if secure (two-factor) authentication should be forced for the user.'
+
+      option :sec_auth_active,
+              long: '--sec-auth',
+              description: 'Indicates if secure authentication is active for the user or not.'
+
+      option :active,
+              long: '--active',
+              description: 'Indicates if the user is active.'
 
       attr_reader :description, :required_options
 
@@ -55,28 +63,25 @@ class Chef
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 
-        user, _, headers  = user_management_api.um_users_post_with_http_info({
-          properties: {
-            firstname: config[:firstname],
-            lastname: config[:lastname],
-            email: config[:email],
-            password: config[:password],
-            administrator: config[:administrator],
-            forceSecAuth: config[:force_sec_auth],
-          }.compact,
-        })
+        user, _, headers  = user_management_api.um_users_post_with_http_info(
+          Ionoscloud::UserPost.new(
+            properties: Ionoscloud::UserPropertiesPost.new(
+              firstname: config[:firstname],
+              lastname: config[:lastname],
+              email: config[:email],
+              password: config[:password],
+              administrator: config[:administrator],
+              force_sec_auth: config[:force_sec_auth],
+              sec_auth_active: config[:sec_auth_active],
+              active: config[:active],
+            ),
+          ),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{user.id}"
-        puts "#{ui.color('Firstname', :cyan)}: #{user.properties.firstname}"
-        puts "#{ui.color('Lastname', :cyan)}: #{user.properties.lastname}"
-        puts "#{ui.color('Email', :cyan)}: #{user.properties.email}"
-        puts "#{ui.color('Administrator', :cyan)}: #{user.properties.administrator.to_s}"
-        puts "#{ui.color('2-Factor Auth', :cyan)}: #{user.properties.force_sec_auth.to_s}"
-        puts 'done'
+        print_user(user)
       end
     end
   end

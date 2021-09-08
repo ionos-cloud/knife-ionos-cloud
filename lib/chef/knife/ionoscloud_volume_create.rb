@@ -25,7 +25,8 @@ class Chef
       option :bus,
               short: '-b BUS',
               long: '--bus BUS',
-              description: 'The bus type of the volume (VIRTIO or IDE)'
+              description: 'The bus type of the volume (VIRTIO or IDE)',
+              default: 'VIRTIO'
 
       option :image,
               short: '-N ID',
@@ -75,6 +76,30 @@ class Chef
               'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
               'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
 
+      option :cpu_hot_plug,
+              long: '--cpu-hot-plug CPU_HOT_PLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
+      option :ram_hot_plug,
+              long: '--ram-hot-plug RAM_HOT_PLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
+      option :nic_hot_plug,
+              long: '--nic-hot-plug NIC_HOT_PLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
+      option :nic_hot_unplug,
+              long: '--nic-hot-unplug NIC_HOT_UNPLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
+      option :disc_virtio_hot_plug,
+              long: '--disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
+      option :disc_virtio_hot_unplug,
+              long: '--disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG',
+              description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -98,39 +123,34 @@ class Chef
 
         volume, _, headers = volume_api.datacenters_volumes_post_with_http_info(
           config[:datacenter_id],
-          {
-            properties: {
+          Ionoscloud::Volume.new(
+            properties: Ionoscloud::VolumeProperties.new(
               name: config[:name],
               size: config[:size],
-              bus: config[:bus] || 'VIRTIO',
+              bus: config[:bus],
               type: config[:type],
-              licenceType: config[:licence_type],
+              licence_type: config[:licence_type],
               image: config[:image],
-              imageAlias: config[:image_alias],
-              sshKeys: config[:sshKeys],
-              imagePassword: config[:image_password],
-              availabilityZone: config[:availability_zone],
+              image_alias: config[:image_alias],
+              ssh_keys: config[:ssh_keys],
+              image_password: config[:image_password],
+              availability_zone: config[:availability_zone],
               backupunit_id: config[:backupunit_id],
               user_data: config[:user_data],
-            }.compact
-          },
+              cpu_hot_plug: (config.key?(:cpu_hot_plug) ? config[:cpu_hot_plug].to_s.downcase == 'true' : nil),
+              ram_hot_plug: (config.key?(:ram_hot_plug) ? config[:ram_hot_plug].to_s.downcase == 'true' : nil),
+              nic_hot_plug: (config.key?(:nic_hot_plug) ? config[:nic_hot_plug].to_s.downcase == 'true' : nil),
+              nic_hot_unplug: (config.key?(:nic_hot_unplug) ? config[:nic_hot_unplug].to_s.downcase == 'true' : nil),
+              disc_virtio_hot_plug: (config.key?(:disc_virtio_hot_plug) ? config[:disc_virtio_hot_plug].to_s.downcase == 'true' : nil),
+              disc_virtio_hot_unplug: (config.key?(:disc_virtio_hot_unplug) ? config[:disc_virtio_hot_unplug].to_s.downcase == 'true' : nil),
+            ),
+          ),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for(300) { print dot; is_done? get_request_id headers }
 
-        volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{volume.id}"
-        puts "#{ui.color('Name', :cyan)}: #{volume.properties.name}"
-        puts "#{ui.color('Size', :cyan)}: #{volume.properties.size}"
-        puts "#{ui.color('Bus', :cyan)}: #{volume.properties.bus}"
-        puts "#{ui.color('Image', :cyan)}: #{volume.properties.image}"
-        puts "#{ui.color('Type', :cyan)}: #{volume.properties.type}"
-        puts "#{ui.color('Licence Type', :cyan)}: #{volume.properties.licence_type}"
-        puts "#{ui.color('Zone', :cyan)}: #{volume.properties.availability_zone}"
-        puts 'done'
+        print_volume(volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id))
       end
     end
   end

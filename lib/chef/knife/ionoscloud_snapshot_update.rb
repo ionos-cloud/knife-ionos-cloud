@@ -10,7 +10,7 @@ class Chef
       option :snapshot_id,
               short: '-S SNAPSHOT_ID',
               long: '--snapshot-id SNAPSHOT_ID',
-              description: 'ID of the group.'
+              description: 'ID of the Snapshot.'
 
       option :name,
               short: '-n NAME',

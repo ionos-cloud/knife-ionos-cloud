@@ -26,12 +26,6 @@ class Chef
         end
       end
 
-      def msg_pair(label, value, color = :cyan)
-        if !value.nil? && !value.to_s.empty?
-          puts "#{ui.color(label, color)}: #{value}"
-        end
-      end
-
       def validate_required_params(required_params, params)
         missing_params = required_params.select do |param|
           params[param].nil?
@@ -121,7 +115,6 @@ class Chef
       end
 
       def print_group(group)
-        users = group.entities.users.items.map! { |el| el.id }
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{group.id}"
         puts "#{ui.color('Name', :cyan)}: #{group.properties.name}"
@@ -134,7 +127,7 @@ class Chef
         puts "#{ui.color('Create K8s Clusters', :cyan)}: #{group.properties.create_k8s_cluster.to_s}"
         puts "#{ui.color('Create PCC', :cyan)}: #{group.properties.create_pcc.to_s}"
         puts "#{ui.color('Create Internet Acess', :cyan)}: #{group.properties.create_internet_access.to_s}"
-        puts "#{ui.color('Users', :cyan)}: #{users.to_s}"
+        puts "#{ui.color('Users', :cyan)}: #{(group.entities.users.items.map { |el| el.id }).to_s}" unless group.entities.users.items.nil?
       end
 
       def print_ipblock(ipblock)
@@ -288,6 +281,40 @@ class Chef
 
         puts "#{ui.color('Disc Scsi Hot Plug', :cyan)}: #{snapshot.properties.disc_scsi_hot_plug}"
         puts "#{ui.color('Disc Scsi Hot Unplug', :cyan)}: #{snapshot.properties.disc_scsi_hot_unplug}"
+      end
+
+      def print_user(user)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{user.id}"
+        puts "#{ui.color('Firstname', :cyan)}: #{user.properties.firstname}"
+        puts "#{ui.color('Lastname', :cyan)}: #{user.properties.lastname}"
+        puts "#{ui.color('Email', :cyan)}: #{user.properties.email}"
+        puts "#{ui.color('Administrator', :cyan)}: #{user.properties.administrator.to_s}"
+        puts "#{ui.color('Force 2-Factor Auth', :cyan)}: #{user.properties.force_sec_auth.to_s}"
+        puts "#{ui.color('2-Factor Auth Active', :cyan)}: #{user.properties.sec_auth_active.to_s}"
+        puts "#{ui.color('Active', :cyan)}: #{user.properties.active.to_s}"
+        puts "#{ui.color('Groups', :cyan)}: #{(user.entities.groups.items.map { |el| el.id }).to_s}" unless user.entities.groups.items.nil?
+      end
+
+      def print_volume(volume)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{volume.id}"
+        puts "#{ui.color('Name', :cyan)}: #{volume.properties.name}"
+        puts "#{ui.color('Size', :cyan)}: #{volume.properties.size}"
+        puts "#{ui.color('Bus', :cyan)}: #{volume.properties.bus}"
+        puts "#{ui.color('Image', :cyan)}: #{volume.properties.image}"
+        puts "#{ui.color('Type', :cyan)}: #{volume.properties.type}"
+        puts "#{ui.color('Licence Type', :cyan)}: #{volume.properties.licence_type}"
+        puts "#{ui.color('Backupunit ID', :cyan)}: #{volume.properties.backupunit_id}"
+        puts "#{ui.color('User Data', :cyan)}: #{volume.properties.user_data}"
+        puts "#{ui.color('Zone', :cyan)}: #{volume.properties.availability_zone}"
+        puts "#{ui.color('CPU Hot Plug', :cyan)}: #{volume.properties.cpu_hot_plug}"
+        puts "#{ui.color('RAM Hot Plug', :cyan)}: #{volume.properties.ram_hot_plug}"
+        puts "#{ui.color('NIC Hot Plug', :cyan)}: #{volume.properties.nic_hot_plug}"
+        puts "#{ui.color('NIC Hot Unplug', :cyan)}: #{volume.properties.nic_hot_unplug}"
+        puts "#{ui.color('Disc Virtio Hot Plug', :cyan)}: #{volume.properties.disc_virtio_hot_plug}"
+        puts "#{ui.color('Disc Virtio Hot Unplug', :cyan)}: #{volume.properties.disc_virtio_hot_unplug}"
+        puts "#{ui.color('Device number', :cyan)}: #{volume.properties.device_number}"
       end
     end
   end
