@@ -18,7 +18,6 @@ class Chef
               description: 'Alphanumeric password you want assigned to the backup unit'
 
       option :email,
-              short: '-e EMAIL',
               long: '--email EMAIL',
               description: 'The e-mail address you want assigned to the backup unit.'
 

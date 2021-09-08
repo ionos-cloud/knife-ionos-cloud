@@ -18,7 +18,6 @@ class Chef
               description: 'Lastname of the user.'
 
       option :email,
-              short: '-e EMAIL',
               long: '--email EMAIL',
               description: 'An e-mail address for the user.'
 

@@ -5,7 +5,7 @@ class Chef
     class IonoscloudServerGet < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud nic get (options)'
+      banner 'knife ionoscloud server get (options)'
 
       option :datacenter_id,
               short: '-D DATACENTER_ID',

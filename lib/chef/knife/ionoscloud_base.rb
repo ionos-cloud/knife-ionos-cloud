@@ -256,6 +256,39 @@ class Chef
         puts "#{ui.color('Boot Volume', :cyan)}: #{server.properties.boot_volume ? server.properties.boot_volume.id : ''}"
         puts "#{ui.color('Boot CDROM', :cyan)}: #{server.properties.boot_cdrom ? server.properties.boot_cdrom.id : ''}"
       end
+
+      def print_share(share)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{share.id}"
+        puts "#{ui.color('Edit Privilege', :cyan)}: #{share.properties.edit_privilege.to_s}"
+        puts "#{ui.color('Share Privilege', :cyan)}: #{share.properties.share_privilege.to_s}"
+      end
+
+      def print_snapshot(snapshot)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{snapshot.id}"
+        puts "#{ui.color('Name', :cyan)}: #{snapshot.properties.name}"
+        puts "#{ui.color('Description', :cyan)}: #{snapshot.properties.description}"
+        puts "#{ui.color('Location', :cyan)}: #{snapshot.properties.location}"
+        puts "#{ui.color('Size', :cyan)}: #{snapshot.properties.size.to_s}"
+        puts "#{ui.color('Sec Auth Protection', :cyan)}: #{snapshot.properties.sec_auth_protection}"
+        puts "#{ui.color('License Type', :cyan)}: #{snapshot.properties.licence_type}"
+
+        puts "#{ui.color('CPU Hot Plug', :cyan)}: #{snapshot.properties.cpu_hot_plug}"
+        puts "#{ui.color('CPU Hot Unplug', :cyan)}: #{snapshot.properties.cpu_hot_unplug}"
+
+        puts "#{ui.color('RAM Hot Plug', :cyan)}: #{snapshot.properties.ram_hot_plug}"
+        puts "#{ui.color('RAM Hot Unplug', :cyan)}: #{snapshot.properties.ram_hot_unplug}"
+
+        puts "#{ui.color('NIC Hot Plug', :cyan)}: #{snapshot.properties.nic_hot_plug}"
+        puts "#{ui.color('NIC Hot Unplug', :cyan)}: #{snapshot.properties.nic_hot_unplug}"
+
+        puts "#{ui.color('Disc Virtio Hot Plug', :cyan)}: #{snapshot.properties.disc_virtio_hot_plug}"
+        puts "#{ui.color('Disc Virtio Hot Unplug', :cyan)}: #{snapshot.properties.disc_virtio_hot_unplug}"
+
+        puts "#{ui.color('Disc Scsi Hot Plug', :cyan)}: #{snapshot.properties.disc_scsi_hot_plug}"
+        puts "#{ui.color('Disc Scsi Hot Unplug', :cyan)}: #{snapshot.properties.disc_scsi_hot_unplug}"
+      end
     end
   end
 end
