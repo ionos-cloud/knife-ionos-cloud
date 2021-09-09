@@ -51,7 +51,7 @@ class Chef
           end
 
           _, _, headers = target_groups_api.targetgroups_patch_with_http_info(config[:target_group_id], target_group.properties)
-  
+
           print "#{ui.color('Removing the Target from the Target Group...', :magenta)}"
           dot = ui.color('.', :magenta)
           api_client.wait_for { print dot; is_done? get_request_id headers }

@@ -11,7 +11,7 @@ class Chef
 
       def initialize(args = [])
         super(args)
-        @description ='Lists all available Target Groups.'
+        @description = 'Lists all available Target Groups.'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

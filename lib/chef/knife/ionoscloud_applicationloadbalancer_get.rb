@@ -34,7 +34,7 @@ class Chef
         application_load_balancers_api = Ionoscloud::ApplicationLoadBalancersApi.new(api_client)
 
         print_application_loadbalancer(application_load_balancers_api.datacenters_applicationloadbalancers_find_by_application_load_balancer_id(
-          config[:datacenter_id], config[:application_loadbalancer_id], depth: 2,
+                                         config[:datacenter_id], config[:application_loadbalancer_id], depth: 2,
         ))
       end
     end

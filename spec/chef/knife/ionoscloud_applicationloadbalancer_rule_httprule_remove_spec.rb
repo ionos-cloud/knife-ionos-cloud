@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleRemove do
       expect(subject).to receive(:puts).with("Target LAN: #{application_loadbalancer.properties.target_lan}")
       expect(subject).to receive(:puts).with("Lb Private IPS: #{application_loadbalancer.properties.lb_private_ips}")
       expect(subject).to receive(:puts).with("Rules: #{[{
-        id:forwarding_rule.id,
+        id: forwarding_rule.id,
         name: forwarding_rule.properties.name,
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,

@@ -25,7 +25,7 @@ class Chef
       option :gateway_ip,
               long: '--gateway GATEWAY_IP',
               description: 'The IP address of the gateway used by the cluster. This is mandatory when `public` is set to `false` and should not be '
-              'provided otherwise.'
+      'provided otherwise.'
 
       option :maintenance_day,
               short: '-d MAINTENANCE_DAY',

@@ -56,7 +56,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
       expect(subject).to receive(:puts).with("Target LAN: #{application_loadbalancer.properties.target_lan}")
       expect(subject).to receive(:puts).with("Lb Private IPS: #{application_loadbalancer.properties.lb_private_ips}")
       expect(subject).to receive(:puts).with("Rules: #{[{
-        id:forwarding_rule.id,
+        id: forwarding_rule.id,
         name: forwarding_rule.properties.name,
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,
@@ -139,7 +139,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         type: application_loadbalancer_rule_httprule.type,
         location: application_loadbalancer_rule_httprule.location,
         response_message: application_loadbalancer_rule_httprule.response_message,
-        conditions: "[" + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + 
+        conditions: "[" + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] +
         ',' + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + "]",
         yes: true,
       }
@@ -166,7 +166,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
       expect(subject).to receive(:puts).with("Target LAN: #{application_loadbalancer.properties.target_lan}")
       expect(subject).to receive(:puts).with("Lb Private IPS: #{application_loadbalancer.properties.lb_private_ips}")
       expect(subject).to receive(:puts).with("Rules: #{[{
-        id:forwarding_rule.id,
+        id: forwarding_rule.id,
         name: forwarding_rule.properties.name,
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,
