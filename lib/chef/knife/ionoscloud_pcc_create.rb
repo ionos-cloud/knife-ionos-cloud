@@ -38,7 +38,7 @@ class Chef
         print "#{ui.color('Creating private cross connect...', :magenta)}"
 
         pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
-        config[:peers] = config[:peers].split(',') unless config[:peers].nil?
+        config[:peers] = config[:peers].split(',') if config[:peers] && config[:peers].instance_of?(String)
 
         if config[:peers] && config[:peers].length % 2 != 0
           ui.error('Each Lan ID should correspond to one Datacenter ID!')

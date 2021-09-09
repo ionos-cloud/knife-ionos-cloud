@@ -45,15 +45,27 @@ knife ionoscloud group create (options)
     create_internet_access: --create-internet-access
         the group will be have internet access privilege.
 
+    create_flow_log: --create-flow-log
+        the group will be granted create Flow Logs privilege.
+
+    access_and_manage_monitoring: --manage-monitoring
+        privilege for a group to access and manage monitoring related functionality (access metrics, CRUD on alarms, alarm-actions etc) using Monotoring-as-a-Service (MaaS).
+
+    access_and_manage_certificates: --manage-certificates
+        privilege for a group to access and manage certificates.
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
 ```
 ## Example
 
 ```text
-knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --username USERNAME --password PASSWORD
+knife ionoscloud group create --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --create-flow-log --manage-monitoring --manage-certificates --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

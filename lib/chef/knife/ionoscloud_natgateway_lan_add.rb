@@ -44,9 +44,7 @@ class Chef
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
 
-        if config[:gateway_ips]
-          config[:gateway_ips] = config[:gateway_ips].split(',')
-        end
+        config[:gateway_ips] = config[:gateway_ips].split(',') if config[:gateway_ips] && config[:gateway_ips].instance_of?(String)
 
         natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id])
 

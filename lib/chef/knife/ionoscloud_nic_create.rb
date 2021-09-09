@@ -63,9 +63,7 @@ class Chef
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         nic_properties = {
           name: config[:name],

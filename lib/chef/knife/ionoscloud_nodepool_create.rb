@@ -114,7 +114,7 @@ class Chef
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
-        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips]
+        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
 
         nodepool_properties = {
           name: config[:name],

@@ -47,7 +47,8 @@ class Chef
         print "#{ui.color('Creating Load Balancer...', :magenta)}"
 
         if config[:nics]
-          config[:nics] = config[:nics].split(',').map! { |nic| { id: nic } }
+          config[:nics] = config[:nics].split(',') if config[:nics].instance_of?(String)
+          config[:nics].map! { |nic| { id: nic } }
         end
 
         load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)

@@ -33,14 +33,11 @@ knife ionoscloud volume create (options)
     image: --image ID, -N ID
         the image or snapshot ID
 
-    image_alias: --image-alias IMAGE_ALIAS
-        (required) The image alias
-
     image_password: --image-password PASSWORD, -P PASSWORD
         the password set on the image for the "root" or "Administrator" user
 
     type: --type TYPE, -t TYPE
-        the disk type (HDD OR SSD) (required)
+        the disk type (HDD, SSD, SSD Standard, SSD Premium, DAS) (required)
 
     licence_type: --licence-type LICENCE, -l LICENCE
         the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
@@ -51,15 +48,24 @@ knife ionoscloud volume create (options)
     availability_zone: --availability-zone AVAILABILITY_ZONE, -Z AVAILABILITY_ZONE
         the volume availability zone of the server
 
+    backupunit_id: --backupunit BACKUPUNIT_ID, -B BACKUPUNIT_ID
+        the uuid of the Backup Unit that user has access to. The property is immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either 'public image' or 'imageAlias' in conjunction with this property.
+
+    user_data: --user-data USER_DATA, -u USER_DATA
+        the cloud-init configuration for the volume as base64 encoded string. The property is immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either 'public image' or 'imageAlias' that has cloud-init compatibility in conjunction with this property.
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
 ```
 ## Example
 
 ```text
-knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --username USERNAME --password PASSWORD
+knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --backupunit BACKUPUNIT_ID --user-data USER_DATA --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

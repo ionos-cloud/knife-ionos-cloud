@@ -45,8 +45,8 @@ class Chef
           msg_pair('CPU Family', server.properties.cpu_family)
           msg_pair('Ram', server.properties.ram)
           msg_pair('Availability Zone', server.properties.availability_zone)
-          msg_pair('Boot Volume', server.properties.boot_volume.id)
-          msg_pair('Boot CDROM', server.properties.boot_cdrom.id)
+          msg_pair('Boot Volume', (server.properties.boot_volume.nil? ? '' : server.properties.boot_volume.id))
+          msg_pair('Boot CDROM', (server.properties.boot_cdrom.nil? ? '' : server.properties.boot_cdrom.id))
 
           begin
             confirm('Do you really want to delete this server')
