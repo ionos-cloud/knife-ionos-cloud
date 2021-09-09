@@ -55,7 +55,10 @@ class Chef
             ),
           )
 
-          user_management_api.um_groups_shares_put_with_http_info(config[:group_id], config[:resource_id], new_share)
+          _,_, headers = user_management_api.um_groups_shares_put_with_http_info(config[:group_id], config[:resource_id], new_share)
+
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end

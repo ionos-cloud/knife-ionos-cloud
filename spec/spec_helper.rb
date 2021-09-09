@@ -573,6 +573,18 @@ def snapshot_mock(opts = {})
       sec_auth_protection: opts[:sec_auth_protection] || true,
       location: opts[:location] || 'de/fra',
       size: opts[:size] || 10.0,
+
+      cpu_hot_plug: opts[:cpu_hot_plug] || true,
+      cpu_hot_unplug: opts[:cpu_hot_unplug] || true,
+      ram_hot_plug: opts[:ram_hot_plug] || false,
+      ram_hot_unplug: opts[:ram_hot_unplug] || true,
+      nic_hot_plug: opts[:nic_hot_plug] || true,
+      nic_hot_unplug: opts[:nic_hot_unplug] || false,
+      disc_virtio_hot_plug: opts[:disc_virtio_hot_plug] || false,
+      disc_virtio_hot_unplug: opts[:disc_virtio_hot_unplug] || false,
+      disc_scsi_hot_plug: opts[:disc_scsi_hot_plug] || true,
+      disc_scsi_hot_unplug: opts[:disc_scsi_hot_unplug] || true,
+
     ),
   )
 end
