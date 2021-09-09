@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_k8s_nodepool(Ionoscloud::KubernetesApi.new(api_client).k8s_nodepools_find_by_id(
-          config[:cluster_id],
+                             config[:cluster_id],
           config[:nodepool_id],
         ))
       end

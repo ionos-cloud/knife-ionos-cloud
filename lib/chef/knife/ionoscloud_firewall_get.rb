@@ -42,7 +42,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_firewall_rule(Ionoscloud::NicApi.new(api_client).datacenters_servers_nics_firewallrules_find_by_id(
-          config[:datacenter_id], config[:server_id], config[:nic_id], config[:firewall_id],
+                              config[:datacenter_id], config[:server_id], config[:nic_id], config[:firewall_id],
         ))
       end
     end

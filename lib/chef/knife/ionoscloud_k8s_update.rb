@@ -73,7 +73,7 @@ class Chef
           end
 
           cluster = kubernetes_api.k8s_find_by_cluster_id(config[:cluster_id])
-          
+
           new_cluster = Ionoscloud::KubernetesCluster.new(
             properties: Ionoscloud::KubernetesClusterPropertiesForPut.new(
               name: config.key?(:name) ? config[:name] : cluster.properties.name,

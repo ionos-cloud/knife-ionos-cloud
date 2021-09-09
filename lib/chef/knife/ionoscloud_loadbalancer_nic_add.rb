@@ -56,7 +56,7 @@ class Chef
         request_ids_to_wait.each { |request_id| api_client.wait_for { is_done? request_id } }
 
         print_load_balancer(load_balancer_api.datacenters_loadbalancers_find_by_id(
-          config[:datacenter_id],
+                              config[:datacenter_id],
           config[:loadbalancer_id],
           { depth: 1 },
         ))

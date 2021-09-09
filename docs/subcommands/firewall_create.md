@@ -27,7 +27,7 @@ knife ionoscloud firewall create (options)
         iD of the NIC (required)
 
     name: --name NAME, -n NAME
-        name of the NIC
+        name of the Firewall Rule
 
     protocol: --protocol PROTOCOL, -P PROTOCOL
         the protocol of the firewall rule (TCP, UDP, ICMP, ANY)

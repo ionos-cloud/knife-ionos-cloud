@@ -24,7 +24,7 @@ knife ionoscloud user create (options)
     lastname: --lastname LASTNAME, -l LASTNAME
         lastname of the user. (required)
 
-    email: --email EMAIL, -e EMAIL
+    email: --email EMAIL
         an e-mail address for the user. (required)
 
     password: --password PASSWORD, -p PASSWORD
@@ -33,8 +33,14 @@ knife ionoscloud user create (options)
     administrator: --admin ADMIN, -a ADMIN
         assigns the user have administrative rights.
 
-    force_sec_auth: --sec-auth
+    force_sec_auth: --force-sec-auth
         indicates if secure (two-factor) authentication should be forced for the user.
+
+    sec_auth_active: --sec-auth
+        indicates if secure authentication is active for the user or not.
+
+    active: --active
+        indicates if the user is active.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -49,5 +55,5 @@ knife ionoscloud user create (options)
 ## Example
 
 ```text
-knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --sec-auth --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud user create --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --password PASSWORD --admin ADMIN --force-sec-auth --sec-auth --active --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

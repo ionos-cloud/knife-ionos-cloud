@@ -39,7 +39,7 @@ knife ionoscloud nodepool create (options)
     version: --version VERSION, -v VERSION
         the version for the Kubernetes cluster. (required)
 
-    maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
+    maintenance_day: --maintenance-day MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
     maintenance_time: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME

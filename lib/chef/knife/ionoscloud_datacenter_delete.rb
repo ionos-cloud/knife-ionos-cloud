@@ -33,7 +33,7 @@ class Chef
             ui.error("Data center ID #{datacenter_id} not found. Skipping.")
             next
           end
-          
+
           print_datacenter(datacenter)
           puts "\n"
           begin

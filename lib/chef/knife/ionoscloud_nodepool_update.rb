@@ -84,10 +84,10 @@ class Chef
 
           new_nodepool = Ionoscloud::KubernetesNodePoolForPut.new(
             properties: Ionoscloud::KubernetesNodePoolPropertiesForPut.new(
-              k8s_version: config.key?(:version) ? config[:version]: nodepool.properties.k8s_version,
-              node_count: config.key?(:node_count) ? config[:node_count]: nodepool.properties.node_count,
-              public_ips: config.key?(:public_ips) ? config[:public_ips]: nodepool.properties.public_ips,
-              lans: config.key?(:lans) ? config[:lans].map! { |lan| { id: Integer(lan) } }: nodepool.properties.lans,
+              k8s_version: config.key?(:version) ? config[:version] : nodepool.properties.k8s_version,
+              node_count: config.key?(:node_count) ? config[:node_count] : nodepool.properties.node_count,
+              public_ips: config.key?(:public_ips) ? config[:public_ips] : nodepool.properties.public_ips,
+              lans: config.key?(:lans) ? config[:lans].map! { |lan| { id: Integer(lan) } } : nodepool.properties.lans,
               maintenance_window: Ionoscloud::KubernetesMaintenanceWindow.new(
                 day_of_the_week: config.key?(:maintenance_day) ? config[:maintenance_day] : nodepool.properties.maintenance_window.day_of_the_week,
                 time: config.key?(:maintenance_time) ? config[:maintenance_time] : nodepool.properties.maintenance_window.time,

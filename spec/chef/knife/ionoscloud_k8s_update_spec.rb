@@ -60,7 +60,7 @@ describe Chef::Knife::IonoscloudK8sUpdate do
           time: subject_config[:maintenance_time],
         },
         apiSubnetAllowList: subject_config[:api_subnet_allow_list].split(','),
-        s3Buckets: subject_config[:s3_buckets].split(',').map { |el| { name: el} },
+        s3Buckets: subject_config[:s3_buckets].split(',').map { |el| { name: el } },
       }
 
       expect(subject.api_client).not_to receive(:wait_for)

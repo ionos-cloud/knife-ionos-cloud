@@ -65,7 +65,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating server...', :magenta)}"
-        
+
         server_api = Ionoscloud::ServerApi.new(api_client)
 
         server, _, headers = server_api.datacenters_servers_post_with_http_info(

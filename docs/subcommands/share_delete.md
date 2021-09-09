@@ -3,7 +3,7 @@
 Removes a resource share from a specified group.
 
 ```text
-knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
+knife ionoscloud server delete RESOURCE_ID [RESOURCE_ID] (options)
 ```
 
 ## Available options:
@@ -31,5 +31,5 @@ knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)
 ## Example
 
 ```text
-knife ionoscloud server delete SHARE_ID 
+knife ionoscloud server delete RESOURCE_ID 
 ```

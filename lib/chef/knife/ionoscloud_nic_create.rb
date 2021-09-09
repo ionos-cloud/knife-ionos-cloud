@@ -79,7 +79,7 @@ class Chef
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
         print_nic(nic_api.datacenters_servers_nics_find_by_id(
-          config[:datacenter_id],
+                    config[:datacenter_id],
           config[:server_id],
           nic.id,
         ))

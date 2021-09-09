@@ -50,8 +50,8 @@ class Chef
 
         failover_ips = lan.properties.ip_failover || []
         failover_ips.push(Ionoscloud::IPFailover.new(
-          ip: config[:ip],
-          nic_uuid: config[:nic_id],
+                            ip: config[:ip],
+                            nic_uuid: config[:nic_id],
         ))
 
         changes = Ionoscloud::LanProperties.new({ ip_failover: failover_ips })

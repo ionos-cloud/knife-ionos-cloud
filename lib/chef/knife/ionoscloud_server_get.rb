@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_server(Ionoscloud::ServerApi.new(api_client).datacenters_servers_find_by_id(
-          config[:datacenter_id],
+                       config[:datacenter_id],
           config[:server_id],
         ))
       end

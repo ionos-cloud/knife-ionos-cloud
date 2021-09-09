@@ -29,13 +29,13 @@ knife ionoscloud nic create (options)
     ips: --ips IP[,IP,...], -i IP[,IP,...]
         iPs assigned to the NIC
 
-    dhcp: --dhcp, -d
+    dhcp: --dhcp DHCP
         set to false if you wish to disable DHCP
 
     lan: --lan ID, -l ID
         the LAN ID the NIC will reside on; if the LAN ID does not exist it will be created (required)
 
-    nat: --nat
+    nat: --nat NAT
         set to enable NAT on the NIC
 
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -51,5 +51,5 @@ knife ionoscloud nic create (options)
 ## Example
 
 ```text
-knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp DHCP --lan ID --nat NAT --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

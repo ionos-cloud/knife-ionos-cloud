@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_load_balancer(Ionoscloud::LoadBalancerApi.new(api_client).datacenters_loadbalancers_find_by_id(
-          config[:datacenter_id],
+                              config[:datacenter_id],
           config[:loadbalancer_id],
           { depth: 1 },
         ))

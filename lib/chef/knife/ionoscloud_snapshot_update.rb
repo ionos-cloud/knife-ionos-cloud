@@ -29,43 +29,43 @@ class Chef
               short: '-l LICENCE',
               long: '--licence-type LICENCE',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-      
+
       option :cpu_hot_plug,
               long: '--cpu-hot-plug CPU_HOT_PLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :cpu_hot_unplug,
               long: '--cpu-hot-unplug CPU_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :ram_hot_plug,
               long: '--ram-hot-plug RAM_HOT_PLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :ram_hot_unplug,
               long: '--ram-hot-unplug RAM_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :nic_hot_plug,
               long: '--nic-hot-plug NIC_HOT_PLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :nic_hot_unplug,
               long: '--nic-hot-unplug NIC_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :disc_virtio_hot_plug,
               long: '--disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :disc_virtio_hot_unplug,
               long: '--disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :disc_scsi_hot_plug,
               long: '--disc-scsi-hot-plug DISC_SCSI_HOT_PLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
-            
+
       option :disc_scsi_hot_unplug,
               long: '--disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'

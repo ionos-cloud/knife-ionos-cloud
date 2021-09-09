@@ -85,7 +85,7 @@ class Chef
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :protocol, :source_mac, :source_ip, :target_ip,
-          :port_range_start,:port_range_end, :icmp_type, :icmp_code,
+          :port_range_start, :port_range_end, :icmp_type, :icmp_code,
         ]
       end
 
@@ -123,7 +123,7 @@ class Chef
         end
 
         print_firewall_rule(Ionoscloud::NicApi.new(api_client).datacenters_servers_nics_firewallrules_find_by_id(
-          config[:datacenter_id], config[:server_id], config[:nic_id], config[:firewall_id],
+                              config[:datacenter_id], config[:server_id], config[:nic_id], config[:firewall_id],
         ))
       end
     end

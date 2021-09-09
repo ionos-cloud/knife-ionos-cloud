@@ -81,7 +81,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating Group...', :magenta)}"
 
-          existing_group = user_management_api.um_groups_find_by_id(config[:group_id], depth: 1) 
+          existing_group = user_management_api.um_groups_find_by_id(config[:group_id], depth: 1)
 
           group, _, headers = user_management_api.um_groups_put_with_http_info(
             config[:group_id],
