@@ -834,7 +834,6 @@ def network_loadbalancer_rule_mock(opts = {})
       listener_port: opts[:listener_port] || 123,
       health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
         client_timeout: opts[:client_timeout] || 100,
-        check_timeout: opts[:check_timeout] || 200,
         connect_timeout: opts[:connect_timeout] || 300,
         target_timeout: opts[:target_timeout] || 400,
         retries: opts[:retries] || 3,
@@ -935,6 +934,50 @@ def application_loadbalancers_mock(opts = {})
     id: 'application_loadbalancers',
     type: 'collection',
     items: [application_loadbalancer_mock, application_loadbalancer_mock],
+def target_group_target_mock(opts = {})
+  Ionoscloud::TargetGroupTarget.new(
+    ip: opts[:ip] || '1.1.1.1',
+    port: opts[:port] || 20,
+    weight: opts[:weight] || 15,
+    health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
+      check: opts[:check] || true,
+      check_interval: opts[:check_interval] || 2000,
+      maintenance: opts[:maintenance] || false,
+    ),
+  )
+end
+
+def target_group_mock(opts = {})
+  Ionoscloud::TargetGroup.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::TargetGroupProperties.new(
+      name: opts[:name] || 'target_group_name',
+      algorithm: opts[:algorithm] || 'LEAST_CONNECTION',
+      protocol: opts[:protocol] || 'HTTP',
+      health_check: Ionoscloud::TargetGroupHealthCheck.new(
+        check_timeout: opts[:check_timeout] || 60,
+        connect_timeout: opts[:connect_timeout] || 4000,
+        target_timeout: opts[:target_timeout] || 50000,
+        retries: opts[:retries] || 3,
+      ),
+      http_health_check: Ionoscloud::TargetGroupHttpHealthCheck.new(
+        path: opts[:path] || '/.',
+        method: opts[:method] || 'GET',
+        match_type: opts[:match_type] || 'STATUS_CODE',
+        response: opts[:response] || 'response example',
+        regex: opts[:regex] || false,
+        negate: opts[:negate] || false,
+      ),
+      targets: opts[:targets] || [target_group_target_mock],
+    ),
+  )
+end
+
+def target_groups_mock(opts = {})
+  Ionoscloud::TargetGroups.new(
+    id: 'target_groups',
+    type: 'collection',
+    items: [target_group_mock, target_group_mock],
   )
 end
 

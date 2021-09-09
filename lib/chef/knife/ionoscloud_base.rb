@@ -131,6 +131,51 @@ class Chef
         puts "#{ui.color('IPS', :cyan)}: #{application_loadbalancer.properties.ips}"
         puts "#{ui.color('Lb Private IPS', :cyan)}: #{application_loadbalancer.properties.lb_private_ips}"
         puts "#{ui.color('Rules', :cyan)}: #{rules}"
+      end
+
+      def get_target_group_extended_properties(target_group)
+        health_check = target_group.properties.health_check.nil? ? nil : {
+          check_timeout: target_group.properties.health_check.check_timeout,
+          connect_timeout: target_group.properties.health_check.connect_timeout,
+          target_timeout: target_group.properties.health_check.target_timeout,
+          retries: target_group.properties.health_check.retries,
+        }
+        http_health_check = target_group.properties.http_health_check.nil? ? nil : {
+          path: target_group.properties.http_health_check.path,
+          method: target_group.properties.http_health_check.method,
+          match_type: target_group.properties.http_health_check.match_type,
+          response: target_group.properties.http_health_check.response,
+          regex: target_group.properties.http_health_check.regex,
+          negate: target_group.properties.http_health_check.negate,
+        }
+        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do
+          |target|
+          {
+            ip: target.ip,
+            port: target.port,
+            weight: target.weight,
+            health_check: target.health_check.nil? ? nil : {
+              check: target.health_check.check,
+              check_interval: target.health_check.check_interval,
+              maintenance: target.health_check.maintenance,
+            },
+          }
+        end
+
+        return health_check, http_health_check, targets
+      end
+
+      def print_target_group(target_group)
+        health_check, http_health_check, targets = get_target_group_extended_properties(target_group)
+
+        puts "\n"
+        puts "#{ui.color('ID', :cyan)}: #{target_group.id}"
+        puts "#{ui.color('Name', :cyan)}: #{target_group.properties.name}"
+        puts "#{ui.color('Algorithm', :cyan)}: #{target_group.properties.algorithm}"
+        puts "#{ui.color('Protocol', :cyan)}: #{target_group.properties.protocol}"
+        puts "#{ui.color('Health Check', :cyan)}: #{health_check}"
+        puts "#{ui.color('HTTP Health Check', :cyan)}: #{http_health_check}"
+        puts "#{ui.color('Targets', :cyan)}: #{targets}"
         puts 'done'
       end
     end
