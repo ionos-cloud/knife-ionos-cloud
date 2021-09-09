@@ -23,7 +23,8 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params
+        handle_extra_config
+        validate_required_params(@required_options, config)
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
 

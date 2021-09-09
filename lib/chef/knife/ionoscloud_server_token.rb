@@ -28,7 +28,8 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params
+        handle_extra_config
+        validate_required_params(@required_options, config)
 
         begin
           puts Ionoscloud::ServersApi.new(api_client).datacenters_servers_token_get(config[:datacenter_id], config[:server_id]).token

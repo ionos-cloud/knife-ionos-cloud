@@ -934,6 +934,9 @@ def application_loadbalancers_mock(opts = {})
     id: 'application_loadbalancers',
     type: 'collection',
     items: [application_loadbalancer_mock, application_loadbalancer_mock],
+  )
+end
+
 def target_group_target_mock(opts = {})
   Ionoscloud::TargetGroupTarget.new(
     ip: opts[:ip] || '1.1.1.1',

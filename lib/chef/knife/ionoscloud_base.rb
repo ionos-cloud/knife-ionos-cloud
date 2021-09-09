@@ -45,9 +45,9 @@ class Chef
         end
       end
 
-      def validate_required_params
-        missing_params = @required_options.select do |param|
-          config[param].nil?
+      def validate_required_params(required_params, params)
+        missing_params = required_params.select do |param|
+          params[param].nil?
         end
         if missing_params.any?
           puts "Missing required parameters #{missing_params}"

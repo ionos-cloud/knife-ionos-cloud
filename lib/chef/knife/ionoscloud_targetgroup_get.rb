@@ -23,6 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print_target_group(Ionoscloud::TargetGroupsApi.new(api_client).targetgroups_find_by_target_group_id(config[:target_group_id]))

@@ -23,7 +23,8 @@ class Chef
 
       def run
         $stdout.sync = true
-        validate_required_params
+        handle_extra_config
+        validate_required_params(@required_options, config)
 
         begin
           puts Ionoscloud::RequestsApi.new(api_client).requests_status_get(config[:request_id]).metadata.status
