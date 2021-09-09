@@ -633,6 +633,11 @@ def user_mock(opts = {})
       administrator: opts[:administrator] || false,
       force_sec_auth: opts[:force_sec_auth] || false,
     ),
+    entities: Ionoscloud::UsersEntities.new(
+      groups: Ionoscloud::Groups.new(
+        items: opts[:groups] || []
+      )
+    )
   )
 end
 
