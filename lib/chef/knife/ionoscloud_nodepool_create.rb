@@ -22,10 +22,10 @@ class Chef
               long: '--name NAME',
               description: 'Name of the Kubernetes node pool'
 
-      option :version,
+      option :k8s_version,
               short: '-v VERSION',
               long: '--version VERSION',
-              description: 'The version for the Kubernetes cluster.'
+              description: 'The version for the Kubernetes Nodepool.'
 
       option :maintenance_day,
               long: '--maintenance-day MAINTENANCE_DAY',
@@ -90,6 +90,14 @@ class Chef
               'must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed '\
               'node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.'
 
+      option :labels,
+              long: '--labels LABEL [LABEL]',
+              description: 'map of labels attached to node pool'
+
+      option :annotations,
+              long: '--annotations ANNOTATION [ANNOTATION]',
+              description: 'map of annotations attached to node pool'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -99,7 +107,7 @@ class Chef
         "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
         "The worker nodes within the node pools will be deployed into an existing data centers."
         @required_options = [
-          :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram,
+          :datacenter_id, :cluster_id, :name, :k8s_version, :node_count, :cpu_family, :cores, :ram,
           :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,
         ]
       end
@@ -115,10 +123,12 @@ class Chef
 
         config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
         config[:lans] = config[:lans].split(',') if config[:lans] && config[:lans].instance_of?(String)
+        config[:labels] = JSON[config[:labels]] if config[:labels] && config[:labels].instance_of?(String)
+        config[:annotations] = JSON[config[:annotations]] if config[:annotations] && config[:annotations].instance_of?(String)
 
         nodepool_properties = {
           name: config[:name],
-          k8s_version: config[:version],
+          k8s_version: config[:k8s_version],
           datacenter_id: config[:datacenter_id],
           node_count: config[:node_count],
           cpu_family: config[:cpu_family],
@@ -128,15 +138,17 @@ class Chef
           storage_type: config[:storage_type],
           storage_size: config[:storage_size],
           public_ips: config[:public_ips],
+          labels: config[:labels],
+          annotations: config[:annotations],
           lans: config.key?(:lans) ? config[:lans].map! { |lan| { id: Integer(lan) } } : nil,
           auto_scaling: Ionoscloud::KubernetesAutoScaling.new(
             min_node_count: config[:min_node_count],
             max_node_count: config[:max_node_count],
           ),
-          maintenance_window: Ionoscloud::KubernetesMaintenanceWindow.new(
+          maintenance_window: (config.key?(:maintenance_day) || config.key?(:maintenance_time)) ? Ionoscloud::KubernetesMaintenanceWindow.new(
             day_of_the_week: config[:maintenance_day],
             time: config[:maintenance_time],
-          ),
+          ) : nil,
         }
 
         print_k8s_nodepool(

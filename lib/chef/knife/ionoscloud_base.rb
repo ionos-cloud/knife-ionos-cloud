@@ -213,6 +213,8 @@ class Chef
         puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
         puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
         puts "#{ui.color('Public IPs', :cyan)}: #{nodepool.properties.public_ips}"
+        puts "#{ui.color('Labels', :cyan)}: #{nodepool.properties.labels}"
+        puts "#{ui.color('Annotations', :cyan)}: #{nodepool.properties.annotations}"
         puts "#{ui.color('LANs', :cyan)}: #{lans}"
         puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
         puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"

@@ -17,7 +17,7 @@ class Chef
               long: '--nodepool-id NODEPOOL_ID',
               description: 'ID of the Kubernetes nodepool'
 
-      option :version,
+      option :k8s_version,
               short: '-v VERSION',
               long: '--version VERSION',
               description: 'The version for the Kubernetes cluster.'
@@ -55,6 +55,14 @@ class Chef
               'must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed '\
               'node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.'
 
+      option :labels,
+              long: '--labels LABEL [LABEL]',
+              description: 'map of labels attached to node pool'
+
+      option :annotations,
+              long: '--annotations ANNOTATION [ANNOTATION]',
+              description: 'map of annotations attached to node pool'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -63,7 +71,8 @@ class Chef
         'Updates information about a Ionoscloud K8s Nodepool.'
         @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
-          :version, :node_count, :public_ips, :lans, :maintenance_day, :maintenance_time, :min_node_count, :max_node_count,
+          :k8s_version, :node_count, :public_ips, :lans, :maintenance_day, :maintenance_time,
+          :min_node_count, :max_node_count, :labels, :annotations,
         ]
       end
 
@@ -74,6 +83,8 @@ class Chef
 
         config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
         config[:lans] = config[:lans].split(',') if config[:lans] && config[:lans].instance_of?(String)
+        config[:labels] = JSON[config[:labels]] if config[:labels] && config[:labels].instance_of?(String)
+        config[:annotations] = JSON[config[:annotations]] if config[:annotations] && config[:annotations].instance_of?(String)
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
@@ -84,9 +95,11 @@ class Chef
 
           new_nodepool = Ionoscloud::KubernetesNodePoolForPut.new(
             properties: Ionoscloud::KubernetesNodePoolPropertiesForPut.new(
-              k8s_version: config.key?(:version) ? config[:version] : nodepool.properties.k8s_version,
+              k8s_version: config.key?(:k8s_version) ? config[:k8s_version] : nodepool.properties.k8s_version,
               node_count: config.key?(:node_count) ? config[:node_count] : nodepool.properties.node_count,
               public_ips: config.key?(:public_ips) ? config[:public_ips] : nodepool.properties.public_ips,
+              labels: config.key?(:labels) ? config[:labels] : nodepool.properties.labels,
+              annotations: config.key?(:annotations) ? config[:annotations] : nodepool.properties.annotations,
               lans: config.key?(:lans) ? config[:lans].map! { |lan| { id: Integer(lan) } } : nodepool.properties.lans,
               maintenance_window: Ionoscloud::KubernetesMaintenanceWindow.new(
                 day_of_the_week: config.key?(:maintenance_day) ? config[:maintenance_day] : nodepool.properties.maintenance_window.day_of_the_week,

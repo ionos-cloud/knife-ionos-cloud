@@ -20,7 +20,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
         cluster_id: 'cluster_id',
         datacenter_id: nodepool.properties.datacenter_id,
         name: nodepool.properties.name,
-        version: nodepool.properties.k8s_version,
+        k8s_version: nodepool.properties.k8s_version,
         maintenance_day: nodepool.properties.maintenance_window.day_of_the_week,
         maintenance_time: nodepool.properties.maintenance_window.time,
         node_count: nodepool.properties.node_count,
@@ -53,6 +53,8 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
       expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+      expect(subject).to receive(:puts).with("Labels: #{nodepool.properties.labels}")
+      expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")
       expect(subject).to receive(:puts).with("LANs: #{lans}")
       expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
@@ -62,6 +64,8 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expected_body = nodepool.properties.to_hash
       expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }
       expected_body.delete(:availableUpgradeVersions)
+      expected_body.delete(:labels)
+      expected_body.delete(:annotations)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
