@@ -49,10 +49,12 @@ class Chef
         lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
         failover_ips = lan.properties.ip_failover || []
-        failover_ips.push(Ionoscloud::IPFailover.new(
-                            ip: config[:ip],
-                            nic_uuid: config[:nic_id],
-        ))
+        failover_ips.push(
+          Ionoscloud::IPFailover.new(
+          ip: config[:ip],
+          nic_uuid: config[:nic_id],
+          ),
+        )
 
         changes = Ionoscloud::LanProperties.new({ ip_failover: failover_ips })
 

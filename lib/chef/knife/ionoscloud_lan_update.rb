@@ -33,6 +33,10 @@ class Chef
               long: '--pcc PCC_ID',
               description: 'ID of the PCC to connect the LAN to'
 
+      option :ip_failover,
+              long: '--ip-failover IPFAILOVER [IPFAILOVER]',
+              description: 'IP failover configurations for lan'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -40,7 +44,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud LAN.'
         @required_options = [:datacenter_id, :lan_id, :ionoscloud_username, :ionoscloud_password]
-        @updatable_fields = [:name, :public, :pcc, :description]
+        @updatable_fields = [:name, :public, :pcc, :description, :ip_failover]
       end
 
       def run
@@ -51,6 +55,12 @@ class Chef
         lan_api = Ionoscloud::LanApi.new(api_client)
 
         if @updatable_fields.map { |el| config[el] }.any?
+
+          unless config[:ip_failover].nil?
+            config[:ip_failover] = JSON[config[:ip_failover]] if config[:ip_failover].instance_of?(String)
+            config[:ip_failover].map! { |ip_failover| Ionoscloud::IPFailover.new(ip_failover) }
+          end
+
           print "#{ui.color('Updating LAN...', :magenta)}"
 
           _, _, headers  = lan_api.datacenters_lans_patch_with_http_info(
@@ -60,6 +70,7 @@ class Chef
               name: config[:name],
               public: (config.key?(:public) ? config[:public].to_s.downcase == 'true' : nil),
               pcc: config[:pcc],
+              ip_failover: config[:ip_failover],
             ),
           )
 

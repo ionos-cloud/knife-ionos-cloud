@@ -49,13 +49,13 @@ class Chef
 
         lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
           config[:datacenter_id],
-          {
-            properties: {
+          Ionoscloud::Lan.new(
+            properties: Ionoscloud::LanProperties.new(
               name: config[:name],
               public: config[:public],
               pcc: config[:pcc],
-            }
-          },
+            ),
+          ),
         )
 
         dot = ui.color('.', :magenta)
