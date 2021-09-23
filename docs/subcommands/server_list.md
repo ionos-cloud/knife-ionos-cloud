@@ -26,10 +26,11 @@ knife ionoscloud server list (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud server list --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
+

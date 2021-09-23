@@ -46,10 +46,11 @@ knife ionoscloud nic create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
+

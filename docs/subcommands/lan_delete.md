@@ -26,10 +26,11 @@ knife ionoscloud lan delete LAN_ID [LAN_ID] (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
-knife ionoscloud lan delete LAN_ID 
+knife ionoscloud lan delete LAN_ID
 ```
+

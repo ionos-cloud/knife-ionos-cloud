@@ -26,10 +26,11 @@ knife ionoscloud request status (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
+

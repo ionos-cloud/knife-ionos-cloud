@@ -33,10 +33,11 @@ knife ionoscloud label remove LABEL_KEY [LABEL_KEY] (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
-knife ionoscloud label remove LABEL_KEY 
+knife ionoscloud label remove LABEL_KEY
 ```
+

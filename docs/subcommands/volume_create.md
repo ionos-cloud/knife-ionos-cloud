@@ -65,10 +65,11 @@ knife ionoscloud volume create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --backupunit BACKUPUNIT_ID --user-data USER_DATA --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
+
