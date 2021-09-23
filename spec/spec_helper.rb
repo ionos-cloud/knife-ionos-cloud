@@ -884,6 +884,126 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
+def application_loadbalancer_rule_httprule_condition_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(
+    type: opts[:type] || 'HEADER',
+    condition: opts[:condition] || 'STARTS_WITH',
+    negate: opts[:negate].nil? ? true : opts[:negate],
+    key: opts[:key] || 'forward-at',
+    value: opts[:value] || 'Friday',
+  )
+end
+
+def application_loadbalancer_rule_httprule_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancerHttpRule.new(
+    name: opts[:name] || 'application_loadbalancer_rule_httprule_name',
+    type: opts[:type] || 'REDIRECT',
+    target_group: opts[:target_group] || SecureRandom.uuid,
+    drop_query: opts[:drop_query].nil? ? true : opts[:drop_query],
+    location: opts[:location] || 'www.ionos.com',
+    status_code: opts[:status_code] || 303,
+    response_message: opts[:response_message] || 'response_message',
+    content_type: opts[:content_type] || 'content_type',
+    conditions: opts.key?(:conditions) ? opts[:conditions] : [application_loadbalancer_rule_httprule_condition_mock],
+  )
+end
+
+def application_loadbalancer_rule_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancerForwardingRule.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::ApplicationLoadBalancerForwardingRuleProperties.new(
+      name: opts[:name] || 'application_loadbalancer_rule_name',
+      protocol: opts[:protocol] || 'HTTP',
+      listener_ip: opts[:listener_ip] || '1.1.1.1',
+      listener_port: opts[:listener_port] || '22',
+      health_check: Ionoscloud::ApplicationLoadBalancerForwardingRuleHealthCheck.new(
+        client_timeout: opts[:client_timeout] || 2000,
+      ),
+      server_certificates: opts[:server_certificates] || [],
+      http_rules: opts.key?(:http_rules) ? opts[:http_rules] : [application_loadbalancer_rule_httprule_mock]
+    )
+  )
+end
+
+def application_loadbalancer_rules_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancerForwardingRules.new(
+    id: 'application_loadbalancers_forwaringrules',
+    type: 'collection',
+    items: [application_loadbalancer_rule_mock, application_loadbalancer_rule_mock],
+  )
+end
+
+def application_loadbalancer_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancer.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::ApplicationLoadBalancerProperties.new({
+      name: opts[:name] || 'application_loadbalancer_name',
+      ips: opts[:ips] || ['123.123.123.123'],
+      listener_lan: opts[:listener_lan] || 1,
+      target_lan: opts[:target_lan] || 2,
+      lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
+    }),
+    entities: Ionoscloud::ApplicationLoadBalancerEntities.new({
+      forwardingrules: opts.key?(:rules) ? opts[:rules] : application_loadbalancer_rules_mock,
+    })
+  )
+end
+
+def application_loadbalancers_mock(opts = {})
+  Ionoscloud::ApplicationLoadBalancers.new(
+    id: 'application_loadbalancers',
+    type: 'collection',
+    items: [application_loadbalancer_mock, application_loadbalancer_mock],
+  )
+end
+
+def target_group_target_mock(opts = {})
+  Ionoscloud::TargetGroupTarget.new(
+    ip: opts[:ip] || '1.1.1.1',
+    port: opts[:port] || 20,
+    weight: opts[:weight] || 15,
+    health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
+      check: opts[:check] || true,
+      check_interval: opts[:check_interval] || 2000,
+      maintenance: opts[:maintenance] || false,
+    ),
+  )
+end
+
+def target_group_mock(opts = {})
+  Ionoscloud::TargetGroup.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: Ionoscloud::TargetGroupProperties.new(
+      name: opts[:name] || 'target_group_name',
+      algorithm: opts[:algorithm] || 'LEAST_CONNECTION',
+      protocol: opts[:protocol] || 'HTTP',
+      health_check: Ionoscloud::TargetGroupHealthCheck.new(
+        check_timeout: opts[:check_timeout] || 60,
+        connect_timeout: opts[:connect_timeout] || 4000,
+        target_timeout: opts[:target_timeout] || 50000,
+        retries: opts[:retries] || 3,
+      ),
+      http_health_check: Ionoscloud::TargetGroupHttpHealthCheck.new(
+        path: opts[:path] || '/.',
+        method: opts[:method] || 'GET',
+        match_type: opts[:match_type] || 'STATUS_CODE',
+        response: opts[:response] || 'response example',
+        regex: opts[:regex] || false,
+        negate: opts[:negate] || false,
+      ),
+      targets: opts[:targets] || [target_group_target_mock],
+    ),
+  )
+end
+
+def target_groups_mock(opts = {})
+  Ionoscloud::TargetGroups.new(
+    id: 'target_groups',
+    type: 'collection',
+    items: [target_group_mock, target_group_mock],
+  )
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
