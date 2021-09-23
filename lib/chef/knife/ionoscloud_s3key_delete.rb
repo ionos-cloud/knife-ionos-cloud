@@ -37,10 +37,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', s3_key.id)
-          msg_pair('Secret Key', s3_key.properties.secret_key)
-          msg_pair('Active', s3_key.properties.active.to_s)
-
+          print_s3key(s3_key)
           puts "\n"
 
           begin

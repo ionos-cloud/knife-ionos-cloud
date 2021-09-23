@@ -44,23 +44,20 @@ class Chef
 
         datacenter_api = Ionoscloud::DataCentersApi.new(api_client)
 
-        datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info({
-          properties: {
-            name: config[:name],
-            description: config[:description],
-            location: config[:location],
-          }.compact,
-        })
+        datacenter, _, headers  = datacenter_api.datacenters_post_with_http_info(
+          Ionoscloud::Datacenter.new(
+            properties: Ionoscloud::DatacenterProperties.new(
+              name: config[:name],
+              description: config[:description],
+              location: config[:location],
+            ),
+          ),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{datacenter.id}"
-        puts "#{ui.color('Name', :cyan)}: #{datacenter.properties.name}"
-        puts "#{ui.color('Description', :cyan)}: #{datacenter.properties.description}"
-        puts "#{ui.color('Location', :cyan)}: #{datacenter.properties.location}"
-        puts 'done'
+        print_datacenter(datacenter)
       end
     end
   end

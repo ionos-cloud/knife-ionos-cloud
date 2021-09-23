@@ -117,26 +117,14 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        firewall = firewallrules_api.datacenters_servers_nics_firewallrules_find_by_id(
-          config[:datacenter_id],
-          config[:server_id],
-          config[:nic_id],
-          firewall.id,
+        print_firewall_rule(
+          firewallrules_api.datacenters_servers_nics_firewallrules_find_by_id(
+            config[:datacenter_id],
+            config[:server_id],
+            config[:nic_id],
+            firewall.id,
+          ),
         )
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{firewall.id}"
-        puts "#{ui.color('Name', :cyan)}: #{firewall.properties.name}"
-        puts "#{ui.color('Protocol', :cyan)}: #{firewall.properties.protocol}"
-        puts "#{ui.color('Source MAC', :cyan)}: #{firewall.properties.source_mac}"
-        puts "#{ui.color('Source IP', :cyan)}: #{firewall.properties.source_ip}"
-        puts "#{ui.color('Target IP', :cyan)}: #{firewall.properties.target_ip}"
-        puts "#{ui.color('Port Range Start', :cyan)}: #{firewall.properties.port_range_start}"
-        puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties.port_range_end}"
-        puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties.icmp_type}"
-        puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties.icmp_code}"
-        puts "#{ui.color('Type', :cyan)}: #{firewall.properties.type}"
-        puts 'done'
       end
     end
   end

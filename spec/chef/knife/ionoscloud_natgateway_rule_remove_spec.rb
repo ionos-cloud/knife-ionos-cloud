@@ -31,6 +31,7 @@ describe Chef::Knife::IonoscloudNatgatewayRuleRemove do
       expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
       expect(subject).to receive(:puts).with("LANS: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}")
       expect(subject).to receive(:puts).with("Rules: #{[]}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{natgateway.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       mock_wait_for(subject)
       mock_call_api(

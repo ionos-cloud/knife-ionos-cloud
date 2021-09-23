@@ -40,24 +40,20 @@ class Chef
 
         backupunit_api = Ionoscloud::BackupUnitsApi.new(api_client)
 
-        backupunit, _, headers  = backupunit_api.backupunits_post_with_http_info({
-          properties: {
-            name: config[:name],
-            password: config[:password],
-            email: config[:email],
-          }.compact,
-        })
+        backupunit, _, headers  = backupunit_api.backupunits_post_with_http_info(
+          Ionoscloud::BackupUnit.new(
+            properties: Ionoscloud::BackupUnitProperties.new(
+              name: config[:name],
+              password: config[:password],
+              email: config[:email],
+            ),
+          ),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts backupunit
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{backupunit.id}"
-        puts "#{ui.color('Name', :cyan)}: #{backupunit.properties.name}"
-        puts "#{ui.color('Email', :cyan)}: #{backupunit.properties.email}"
-        puts 'done'
+        print_backupunit(backupunit)
       end
     end
   end

@@ -34,6 +34,8 @@ describe Chef::Knife::IonoscloudGroupCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
+      users = group.entities.users.items.map { |el| el.id }
+
       expect(subject).to receive(:puts).with("ID: #{group.id}")
       expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
       expect(subject).to receive(:puts).with("Create Datacenter: #{group.properties.create_data_center.to_s}")
@@ -48,6 +50,7 @@ describe Chef::Knife::IonoscloudGroupCreate do
       expect(subject).to receive(:puts).with("Create Flow Logs: #{group.properties.create_flow_log.to_s}")
       expect(subject).to receive(:puts).with("Access and Manage Monitoring: #{group.properties.access_and_manage_monitoring.to_s}")
       expect(subject).to receive(:puts).with("Access and Manage Certificates: #{group.properties.access_and_manage_certificates.to_s}")
+      expect(subject).to receive(:puts).with("Users: #{users.to_s}")
 
       mock_wait_for(subject)
       mock_call_api(

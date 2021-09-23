@@ -70,14 +70,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{user.id}"
-        puts "#{ui.color('Firstname', :cyan)}: #{user.properties.firstname}"
-        puts "#{ui.color('Lastname', :cyan)}: #{user.properties.lastname}"
-        puts "#{ui.color('Email', :cyan)}: #{user.properties.email}"
-        puts "#{ui.color('Administrator', :cyan)}: #{user.properties.administrator.to_s}"
-        puts "#{ui.color('2-Factor Auth', :cyan)}: #{user.properties.force_sec_auth.to_s}"
-        puts 'done'
+        print_user(user)
       end
     end
   end

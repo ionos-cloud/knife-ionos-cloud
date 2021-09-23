@@ -67,14 +67,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id])
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"
-        puts "#{ui.color('Name', :cyan)}: #{natgateway.properties.name}"
-        puts "#{ui.color('IPS', :cyan)}: #{natgateway.properties.public_ips}"
-        puts "#{ui.color('LANS', :cyan)}: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}"
-        puts 'done'
+        print_natgateway(natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id]))
       end
     end
   end

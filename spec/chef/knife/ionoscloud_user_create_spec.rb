@@ -32,7 +32,9 @@ describe Chef::Knife::IonoscloudUserCreate do
       expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
       expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
       expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
-      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth}")
+      expect(subject).to receive(:puts).with("Force 2-Factor Auth: #{user.properties.force_sec_auth}")
+      expect(subject).to receive(:puts).with("2-Factor Auth Active: #{user.properties.sec_auth_active}")
+      expect(subject).to receive(:puts).with("Active: #{user.properties.active}")
 
       mock_wait_for(subject)
       mock_call_api(

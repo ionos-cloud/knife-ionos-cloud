@@ -33,6 +33,19 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerCreate do
       expect(subject).to receive(:puts).with("IPS: #{network_loadbalancer.properties.ips}")
       expect(subject).to receive(:puts).with("Target LAN: #{network_loadbalancer.properties.target_lan}")
       expect(subject).to receive(:puts).with("Private IPS: #{network_loadbalancer.properties.lb_private_ips}")
+      expect(subject).to receive(:puts).with("Forwarding Rules: #{network_loadbalancer.entities.forwardingrules.items.map do |rule|
+        {
+          id: rule.id,
+          name: rule.properties.name,
+          algorithm: rule.properties.algorithm,
+          protocol: rule.properties.protocol,
+          listener_ip: rule.properties.listener_ip,
+          listener_port: rule.properties.listener_port,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: (rule.properties.targets.nil? ? [] : rule.properties.targets.map { |target| target.to_hash }),
+        }
+      end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       mock_wait_for(subject)
       mock_call_api(

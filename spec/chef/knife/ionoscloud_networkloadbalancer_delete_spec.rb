@@ -38,10 +38,11 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerDelete do
           protocol: rule.properties.protocol,
           listener_ip: rule.properties.listener_ip,
           listener_port: rule.properties.listener_port,
-          health_check: rule.properties.health_check,
-          targets: rule.properties.targets,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: (rule.properties.targets.nil? ? [] : rule.properties.targets.map { |target| target.to_hash }),
         }
       end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       expect(subject.ui).to receive(:warn).with("Deleted Network Load balancer #{network_loadbalancer.id}. Request ID: ")
 

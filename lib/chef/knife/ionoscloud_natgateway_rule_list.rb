@@ -32,6 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         $stdout.sync = true
+        handle_extra_config
         natgateway_rules_list = [
           ui.color('ID', :bold),
           ui.color('Name', :bold),
