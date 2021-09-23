@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerUpdate do
   end
 
   describe '#run' do
-    it 'should call NetworkInterfacesApi.datacenters_networkloadbalancers_patch' do
+    it 'should call NetworkLoadBalancersApi.datacenters_networkloadbalancers_patch' do
       network_loadbalancer = network_loadbalancer_mock
       subject_config = {
         ionoscloud_username: 'email',

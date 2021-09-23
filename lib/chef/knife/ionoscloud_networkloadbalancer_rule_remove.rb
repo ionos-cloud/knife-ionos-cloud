@@ -37,15 +37,24 @@ class Chef
 
         headers_to_wait = []
         @name_args.each do |rule_id|
-          _, _, headers = network_loadbalancers_api.datacenters_networkloadbalancers_forwardingrules_delete_with_http_info(
-            config[:datacenter_id], config[:network_loadbalancer_id], rule_id,
-          )
-          headers_to_wait << headers
+          begin
+            _, _, headers = network_loadbalancers_api.datacenters_networkloadbalancers_forwardingrules_delete_with_http_info(
+              config[:datacenter_id], config[:network_loadbalancer_id], rule_id,
+            )
+            headers_to_wait << headers
+
+            ui.warn(
+              "Removed Forwarding Rule #{rule_id} from the Network Load balancer "\
+              "#{config[:network_loadbalancer_id]}. Request ID: #{get_request_id headers}.",
+            )
+          rescue Ionoscloud::ApiError => err
+            raise err unless err.code == 404
+            ui.error("Forwarding rule ID #{rule_id} not found. Skipping.")
+            next
+          end
         end
 
-        print "#{ui.color("Removing rules #{@name_args} from the Network Loadbalancer...", :magenta)}"
         dot = ui.color('.', :magenta)
-
         headers_to_wait.each { |headers| api_client.wait_for { print dot; is_done? get_request_id headers } }
 
         print_network_load_balancer(
