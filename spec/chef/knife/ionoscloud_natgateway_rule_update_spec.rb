@@ -15,7 +15,7 @@ describe Chef::Knife::IonoscloudNatgatewayRuleUpdate do
     it 'should call NATGatewaysApi.datacenters_natgateways_rules_patch' do
       natgateway = natgateway_mock
       natgateway_rule = natgateway.entities.rules.items[0]
-      
+
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',

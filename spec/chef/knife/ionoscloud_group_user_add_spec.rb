@@ -26,7 +26,7 @@ describe Chef::Knife::IonoscloudGroupUserAdd do
       subject.name_args = [user.id]
 
       users = group.entities.users.items.map { |user| user.id }
-      
+
       expect(subject).to receive(:puts).with("ID: #{group.id}")
       expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
       expect(subject).to receive(:puts).with("Create Datacenter: #{group.properties.create_data_center.to_s}")

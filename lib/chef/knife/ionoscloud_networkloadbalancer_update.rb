@@ -44,7 +44,7 @@ class Chef
               description: 'Collection of private IP addresses with subnet mask of the Network Load Balancer. '\
                           'IPs must contain valid subnet mask. If user will not provide any IP then the system '\
                           'will generate one IP with /24 subnet.'
-              
+
 
       attr_reader :description, :required_options
 
