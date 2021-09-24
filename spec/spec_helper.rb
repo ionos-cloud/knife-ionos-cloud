@@ -14,6 +14,30 @@ SimpleCov.start do
 end
 SimpleCov.coverage_dir 'coverage'
 
+DEFAULT_LOCATION = 'de/fra'
+
+def resource_limits_mock(opts = {})
+  Ionoscloud::ResourceLimits.new(
+    cores_per_contract: opts[:cores_per_contract] || 8,
+    cores_per_server: opts[:cores_per_server] || 4,
+    cores_provisioned: opts[:cores_provisioned] || 2,
+    hdd_limit_per_contract: opts[:hdd_limit_per_contract] || 600,
+    hdd_limit_per_volume: opts[:hdd_limit_per_volume] || 400,
+    hdd_volume_provisioned: opts[:hdd_volume_provisioned] || 100,
+    ram_per_contract: opts[:ram_per_contract] || 20480,
+    ram_per_server: opts[:ram_per_server] || 20480,
+    ram_provisioned: opts[:ram_provisioned] || 4096,
+    reservable_ips: opts[:reservable_ips] || 10,
+    reserved_ips_in_use: opts[:reserved_ips_in_use] || 12,
+    reserved_ips_on_contract: opts[:reserved_ips_on_contract] || 20,
+    ssd_limit_per_contract: opts[:ssd_limit_per_contract] || 600,
+    ssd_limit_per_volume: opts[:ssd_limit_per_volume] || 300,
+    ssd_volume_provisioned: opts[:ssd_volume_provisioned] || 50,
+    k8s_cluster_limit_total: opts[:k8s_cluster_limit_total] || 12,
+    k8s_clusters_provisioned: opts[:k8s_clusters_provisioned] || 1,
+  )
+end
+
 def contract_mock(opts = {})
   Ionoscloud::Contract.new(
     type: opts[:type] || 'contract',
@@ -22,25 +46,7 @@ def contract_mock(opts = {})
       owner: opts[:owner] || 'user@domain.com',
       reg_domain: opts[:reg_domain] || 'ionos.de',
       status: opts[:status] || 'BILLABLE',
-      resource_limits: opts[:resource_limits] || Ionoscloud::ResourceLimits.new(
-        cores_per_contract: opts[:cores_per_contract] || 8,
-        cores_per_server: opts[:cores_per_server] || 4,
-        cores_provisioned: opts[:cores_provisioned] || 2,
-        hdd_limit_per_contract: opts[:hdd_limit_per_contract] || 600,
-        hdd_limit_per_volume: opts[:hdd_limit_per_volume] || 400,
-        hdd_volume_provisioned: opts[:hdd_volume_provisioned] || 100,
-        ram_per_contract: opts[:ram_per_contract] || 20480,
-        ram_per_server: opts[:ram_per_server] || 20480,
-        ram_provisioned: opts[:ram_provisioned] || 4096,
-        reservable_ips: opts[:reservable_ips] || 10,
-        reserved_ips_in_use: opts[:reserved_ips_in_use] || 12,
-        reserved_ips_on_contract: opts[:reserved_ips_on_contract] || 20,
-        ssd_limit_per_contract: opts[:ssd_limit_per_contract] || 600,
-        ssd_limit_per_volume: opts[:ssd_limit_per_volume] || 300,
-        ssd_volume_provisioned: opts[:ssd_volume_provisioned] || 50,
-        k8s_cluster_limit_total: opts[:k8s_cluster_limit_total] || 12,
-        k8s_clusters_provisioned: opts[:k8s_clusters_provisioned] || 1,
-      ),
+      resource_limits: opts[:resource_limits] || resource_limits_mock(opts),
     ),
   )
 end
@@ -51,7 +57,7 @@ def ipblock_mock(opts = {})
     properties: Ionoscloud::IpBlockProperties.new(
       name: opts[:name] || 'Test IpBlock',
       size: opts[:size] || 4,
-      location: opts[:location] || 'de/fra',
+      location: opts[:location] || DEFAULT_LOCATION,
       ips: opts[:ips] || ['127.106.113.181', '127.106.113.176', '127.106.113.177', '127.106.113.178'],
     ),
   )
@@ -71,7 +77,7 @@ def datacenter_mock(opts = {})
     properties: Ionoscloud::DatacenterProperties.new(
       name: opts[:name] || 'Test Datacenter',
       description: opts[:description] || 'Test description',
-      location: opts[:location] || 'de/fra',
+      location: opts[:location] || DEFAULT_LOCATION,
       version: opts[:version] || 12,
     ),
   )
@@ -371,7 +377,7 @@ def k8s_cluster_mock(opts = {})
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
-      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2']
+      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.8', '1.18.2']
     ),
     metadata: Ionoscloud::DatacenterElementMetadata.new(
       state: opts[:state] || 'ACTIVE',
@@ -390,28 +396,32 @@ def k8s_clusters_mock(opts = {})
   )
 end
 
+def k8s_nodepool_properties_mock(opts = {})
+  Ionoscloud::KubernetesNodePoolProperties.new(
+    name: opts[:name] || 'k8s_nodepool_name',
+    datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
+    node_count: opts[:node_count] || 2,
+    cores_count: opts[:cores_count] || 2,
+    cpu_family: opts[:cpu_family] || 'AMD_OPTERON',
+    ram_size: opts[:ram_size] || 2048,
+    availability_zone: opts[:availability_zone] || 'AUTO',
+    storage_type: opts[:storage_type] || 'SSD',
+    storage_size: opts[:storage_size] || 100,
+    k8s_version: opts[:k8s_version] || '1.15.4',
+    maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
+    auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
+    lans: opts[:lans] || [lan_mock, lan_mock],
+    labels: opts[:labels] || nil,
+    annotations: opts[:annotations] || nil,
+    public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
+    available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
+  )
+end
+
 def k8s_nodepool_mock(opts = {})
   Ionoscloud::KubernetesNodePool.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: Ionoscloud::KubernetesNodePoolProperties.new(
-      name: opts[:name] || 'k8s_nodepool_name',
-      datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
-      node_count: opts[:node_count] || 2,
-      cores_count: opts[:cores_count] || 2,
-      cpu_family: opts[:cpu_family] || 'AMD_OPTERON',
-      ram_size: opts[:ram_size] || 2048,
-      availability_zone: opts[:availability_zone] || 'AUTO',
-      storage_type: opts[:storage_type] || 'SSD',
-      storage_size: opts[:storage_size] || 100,
-      k8s_version: opts[:k8s_version] || '1.15.4',
-      maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
-      auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
-      lans: opts[:lans] || [lan_mock, lan_mock],
-      labels: opts[:labels] || nil,
-      annotations: opts[:annotations] || nil,
-      public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
-      available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
-    ),
+    properties: k8s_nodepool_properties_mock(opts),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
       state: 'READY',
     ),
@@ -431,8 +441,8 @@ def k8s_node_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::KubernetesNodeProperties.new(
       name: opts[:name] || 'k8s_node_name',
+      k8s_version: opts[:k8s_version] || '1.17.10',
       public_ip: opts[:public_ip] || '127.1.1.1',
-      k8s_version: opts[:k8s_version] || '1.17.7',
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
       state: 'READY',
@@ -454,7 +464,7 @@ def datacenter_mock(opts = {})
     properties: Ionoscloud::DatacenterProperties.new(
       name: opts[:name] || 'datacenter_name',
       description: opts[:description] || 'datacenter_description',
-      location: opts[:location] || 'de/fra',
+      location: opts[:location] || DEFAULT_LOCATION,
     ),
   )
 end
@@ -561,7 +571,7 @@ def snapshot_mock(opts = {})
       description: opts[:description] || 'snapshot_description',
       licence_type: opts[:licence_type] || 'LINUX',
       sec_auth_protection: opts[:sec_auth_protection] || true,
-      location: opts[:location] || 'de/fra',
+      location: opts[:location] || DEFAULT_LOCATION,
       size: opts[:size] || 10.0,
     ),
   )
