@@ -36,10 +36,11 @@ knife ionoscloud share create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-
 ```
+
 ## Example
 
 ```text
 knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
+

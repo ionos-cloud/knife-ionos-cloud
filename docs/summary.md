@@ -87,3 +87,11 @@
 * [VolumeDelete](subcommands/volume_delete.md)
 * [VolumeDetach](subcommands/volume_detach.md)
 * [VolumeList](subcommands/volume_list.md)
+
+## Legal
+
+---
+
+* [Privacy policy](https://www.ionos.com/terms-gtc/terms-privacy/)
+* [Imprint](https://www.ionos.de/impressum)
+
