@@ -40,15 +40,7 @@ class Chef
             ui.error("Load balancer ID #{load_balancer_id} not found. Skipping.")
             next
           end
-
-          nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
-
-          msg_pair('ID', load_balancer.id)
-          msg_pair('Name', load_balancer.properties.name)
-          msg_pair('IP address', load_balancer.properties.ip)
-          msg_pair('DHCP', load_balancer.properties.dhcp)
-          msg_pair('Balanced Nics', nics.to_s)
-
+          print_load_balancer(load_balancer)
           puts "\n"
 
           begin

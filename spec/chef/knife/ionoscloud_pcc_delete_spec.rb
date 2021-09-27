@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudPccDelete do
       expect(subject).to receive(:puts).with("Name: #{pcc.properties.name}")
       expect(subject).to receive(:puts).with("Description: #{pcc.properties.description}")
       expect(subject).to receive(:puts).with("Peers: #{peers.to_s}")
-      expect(subject).to receive(:puts).with("Datacenters: #{datacenters.to_s}")
+      expect(subject).to receive(:puts).with("Connectable Datacenters: #{datacenters.to_s}")
       expect(subject.ui).to receive(:warn).with("Deleted PCC #{pcc.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

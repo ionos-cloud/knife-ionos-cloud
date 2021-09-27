@@ -42,12 +42,7 @@ class Chef
             ui.error("K8s Node ID #{node_id} not found. Skipping.")
             next
           end
-
-          msg_pair('ID', node.id)
-          msg_pair('Name', node.properties.name)
-          msg_pair('Public IP', node.properties.public_ip)
-          msg_pair('K8s Version', node.properties.k8s_version)
-          msg_pair('State', node.metadata.state)
+          print_k8s_node(node)
 
           puts "\n"
 

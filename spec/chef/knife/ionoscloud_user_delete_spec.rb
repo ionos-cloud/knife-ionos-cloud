@@ -27,8 +27,10 @@ describe Chef::Knife::IonoscloudUserDelete do
       expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
       expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
       expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
-      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator.to_s}")
-      expect(subject).to receive(:puts).with("2-Factor Auth: #{user.properties.force_sec_auth.to_s}")
+      expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
+      expect(subject).to receive(:puts).with("Force 2-Factor Auth: #{user.properties.force_sec_auth}")
+      expect(subject).to receive(:puts).with("2-Factor Auth Active: #{user.properties.sec_auth_active}")
+      expect(subject).to receive(:puts).with("Active: #{user.properties.active}")
       expect(subject.ui).to receive(:warn).with("Deleted User #{user.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

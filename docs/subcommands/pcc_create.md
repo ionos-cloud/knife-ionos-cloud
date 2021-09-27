@@ -31,11 +31,10 @@ knife ionoscloud pcc create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud pcc create --name NAME --description DESCRIPTION --peers DATACENTER_ID,LAN_ID [DATACENTER_ID,LAN_ID] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-

@@ -35,11 +35,10 @@ knife ionoscloud lan create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud lan create --datacenter-id DATACENTER_ID --name NAME --public --pcc PCC_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-

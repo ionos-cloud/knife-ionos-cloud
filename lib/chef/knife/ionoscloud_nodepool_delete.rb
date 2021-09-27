@@ -37,13 +37,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', nodepool.id)
-          msg_pair('Name', nodepool.properties.name)
-          msg_pair('K8s Version', nodepool.properties.k8s_version)
-          msg_pair('Datacenter ID', nodepool.properties.datacenter_id)
-          msg_pair('Node Count', nodepool.properties.node_count)
-          msg_pair('State', nodepool.metadata.state)
-
+          print_k8s_nodepool(nodepool)
           puts "\n"
 
           begin

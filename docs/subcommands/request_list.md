@@ -34,11 +34,10 @@ knife ionoscloud request list (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud request list --limit LIMIT --offset OFFSET --status STATUS --method METHOD --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-

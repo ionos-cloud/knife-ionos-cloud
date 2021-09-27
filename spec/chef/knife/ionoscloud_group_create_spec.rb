@@ -55,6 +55,13 @@ describe Chef::Knife::IonoscloudGroupCreate do
             body: { properties: group.properties.to_hash },
             result: group,
           },
+          {
+            method: 'GET',
+            path: "/um/groups/#{group.id}",
+            operation: :'UserManagementApi.um_groups_find_by_id',
+            return_type: 'Group',
+            result: group,
+          },
         ],
       )
 

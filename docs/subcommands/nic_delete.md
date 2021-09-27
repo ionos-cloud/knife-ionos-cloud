@@ -20,7 +20,7 @@ knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
         the ID of the data center (required)
 
     server_id: --server-id SERVER_ID, -S SERVER_ID
-        the ID of the server assigned the NIC (required)
+        the ID of the server to which the NIC is assigned (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -30,11 +30,10 @@ knife ionoscloud nic delete NIC_ID [NIC_ID] (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
-knife ionoscloud nic delete NIC_ID
+knife ionoscloud nic delete NIC_ID 
 ```
-

@@ -35,10 +35,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', backupunit.id)
-          msg_pair('Name', backupunit.properties.name)
-          msg_pair('Email', backupunit.properties.email)
-
+          print_backupunit(backupunit)
           puts "\n"
 
           begin

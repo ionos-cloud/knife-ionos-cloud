@@ -54,19 +54,7 @@ class Chef
           { depth: 1 },
         )
 
-        users = group.entities.users.items.map! { |el| el.id }
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{group.id}"
-        puts "#{ui.color('Name', :cyan)}: #{group.properties.name}"
-        puts "#{ui.color('Create Datacenter', :cyan)}: #{group.properties.create_data_center.to_s}"
-        puts "#{ui.color('Create Snapshot', :cyan)}: #{group.properties.create_snapshot.to_s}"
-        puts "#{ui.color('Reserve IP', :cyan)}: #{group.properties.reserve_ip.to_s}"
-        puts "#{ui.color('Access Activity Log', :cyan)}: #{group.properties.access_activity_log.to_s}"
-        puts "#{ui.color('S3 Privilege', :cyan)}: #{group.properties.s3_privilege.to_s}"
-        puts "#{ui.color('Create Backup Unit', :cyan)}: #{group.properties.create_backup_unit.to_s}"
-        puts "#{ui.color('Users', :cyan)}: #{users.to_s}"
-        puts 'done'
+        print_group(group)
       end
     end
   end

@@ -29,6 +29,7 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
       expect(subject).to receive(:puts).with("ID: #{lan.id}")
       expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
+      expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
       expect(subject).to receive(:puts).with("IP Failover: #{[{ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] }]}")
 
       mock_wait_for(subject)

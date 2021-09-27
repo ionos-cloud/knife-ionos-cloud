@@ -32,6 +32,7 @@ class Chef
           ui.color('Description', :bold),
           ui.color('Location', :bold),
           ui.color('Version', :bold),
+          ui.color('Sec Auth Protection', :bold),
         ]
 
         datacenter_api = Ionoscloud::DataCenterApi.new(api_client)
@@ -42,9 +43,10 @@ class Chef
           datacenter_list << datacenter.properties.description || ''
           datacenter_list << datacenter.properties.location
           datacenter_list << datacenter.properties.version.to_s
+          datacenter_list << datacenter.properties.sec_auth_protection.to_s
         end
 
-        puts ui.list(datacenter_list, :uneven_columns_across, 5)
+        puts ui.list(datacenter_list, :uneven_columns_across, 6)
       end
     end
   end

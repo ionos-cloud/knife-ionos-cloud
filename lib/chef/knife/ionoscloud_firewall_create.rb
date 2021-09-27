@@ -25,7 +25,7 @@ class Chef
       option :name,
               short: '-n NAME',
               long: '--name NAME',
-              description: 'Name of the NIC'
+              description: 'Name of the Firewall Rule'
 
       option :protocol,
               short: '-P PROTOCOL',
@@ -118,18 +118,7 @@ class Chef
           firewall.id,
         )
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{firewall.id}"
-        puts "#{ui.color('Name', :cyan)}: #{firewall.properties.name}"
-        puts "#{ui.color('Protocol', :cyan)}: #{firewall.properties.protocol}"
-        puts "#{ui.color('Source MAC', :cyan)}: #{firewall.properties.source_mac}"
-        puts "#{ui.color('Source IP', :cyan)}: #{firewall.properties.source_ip}"
-        puts "#{ui.color('Target IP', :cyan)}: #{firewall.properties.target_ip}"
-        puts "#{ui.color('Port Range Start', :cyan)}: #{firewall.properties.port_range_start}"
-        puts "#{ui.color('Port Range End', :cyan)}: #{firewall.properties.port_range_end}"
-        puts "#{ui.color('ICMP Type', :cyan)}: #{firewall.properties.icmp_type}"
-        puts "#{ui.color('ICMP Code', :cyan)}: #{firewall.properties.icmp_code}"
-        puts 'done'
+        print_firewall_rule(firewall)
       end
     end
   end

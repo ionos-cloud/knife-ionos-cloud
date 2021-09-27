@@ -26,12 +26,18 @@ describe Chef::Knife::IonoscloudK8sDelete do
       subject.name_args = [k8s_cluster.id]
 
       maintenance_window = "#{k8s_cluster.properties.maintenance_window.day_of_the_week}, #{k8s_cluster.properties.maintenance_window.time}"
+      s3_buckets = (k8s_cluster.properties.s3_buckets.nil? ? [] : k8s_cluster.properties.s3_buckets.map { |el| el.name })
 
       expect(subject).to receive(:puts).with("ID: #{k8s_cluster.id}")
       expect(subject).to receive(:puts).with("Name: #{k8s_cluster.properties.name}")
-      expect(subject).to receive(:puts).with("Version: #{k8s_cluster.properties.k8s_version}")
+      expect(subject).to receive(:puts).with("Public: #{k8s_cluster.properties.public}")
+      expect(subject).to receive(:puts).with("k8s Version: #{k8s_cluster.properties.k8s_version}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{k8s_cluster.metadata.state}")
+      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{k8s_cluster.properties.api_subnet_allow_list}")
+      expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
+      expect(subject).to receive(:puts).with("Available Upgrade Versions: #{k8s_cluster.properties.available_upgrade_versions}")
+      expect(subject).to receive(:puts).with("Viable NodePool Versions: #{k8s_cluster.properties.viable_node_pool_versions}")
       expect(subject.ui).to receive(:warn).with("Deleted K8s Cluster #{k8s_cluster.id}. Request ID: ")
 
       expect(subject).not_to receive(:wait_for)

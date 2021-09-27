@@ -27,6 +27,7 @@ describe Chef::Knife::IonoscloudLanList do
         subject.ui.color('Name', :bold),
         subject.ui.color('Public', :bold),
         subject.ui.color('PCC', :bold),
+        subject.ui.color('IP Failover Count', :bold),
       ]
 
       lans.items.each do |lan|
@@ -34,9 +35,10 @@ describe Chef::Knife::IonoscloudLanList do
         lan_list << lan.properties.name
         lan_list << lan.properties.public.to_s
         lan_list << lan.properties.pcc
+        lan_list << (lan.properties.ip_failover.nil? ? 0 : lan.properties.ip_failover.length)
       end
 
-      expect(subject.ui).to receive(:list).with(lan_list, :uneven_columns_across, 4)
+      expect(subject.ui).to receive(:list).with(lan_list, :uneven_columns_across, 5)
 
       mock_call_api(
         subject,

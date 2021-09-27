@@ -15,7 +15,7 @@ class Chef
       option :server_id,
               short: '-S SERVER_ID',
               long: '--server-id SERVER_ID',
-              description: 'The ID of the server assigned the NIC'
+              description: 'The ID of the server to which the NIC is assigned'
 
       attr_reader :description, :required_options
 
@@ -40,13 +40,8 @@ class Chef
             ui.error("Nic ID #{nic_id} not found. Skipping.")
             next
           end
-
-          msg_pair('ID', nic.id)
-          msg_pair('Name', nic.properties.name)
-          msg_pair('IPs', nic.properties.ips)
-          msg_pair('DHCP', nic.properties.dhcp)
-          msg_pair('LAN', nic.properties.lan)
-          msg_pair('NAT', nic.properties.nat)
+          print_nic(nic)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this Nic')

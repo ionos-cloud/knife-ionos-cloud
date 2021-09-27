@@ -49,16 +49,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', firewall.id)
-          msg_pair('Name', firewall.properties.name)
-          msg_pair('Protocol', firewall.properties.protocol)
-          msg_pair('Source MAC', firewall.properties.source_mac)
-          msg_pair('Source IP', firewall.properties.source_ip)
-          msg_pair('Target IP', firewall.properties.target_ip)
-          msg_pair('Port Range Start', firewall.properties.port_range_start)
-          msg_pair('Port Range End', firewall.properties.port_range_end)
-          msg_pair('ICMP Type', firewall.properties.icmp_type)
-          msg_pair('ICMP Code', firewall.properties.icmp_code)
+          print_firewall_rule(firewall)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this firewall rule')

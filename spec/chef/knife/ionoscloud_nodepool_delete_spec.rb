@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudNodepoolDelete do
 
   describe '#run' do
     it 'should call KubernetesApi.k8s_nodepools_delete when the ID is valid' do
-      k8s_nodepool = k8s_nodepool_mock
+      nodepool = k8s_nodepool_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -22,15 +22,29 @@ describe Chef::Knife::IonoscloudNodepoolDelete do
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [k8s_nodepool.id]
+      subject.name_args = [nodepool.id]
 
-      expect(subject).to receive(:puts).with("ID: #{k8s_nodepool.id}")
-      expect(subject).to receive(:puts).with("Name: #{k8s_nodepool.properties.name}")
-      expect(subject).to receive(:puts).with("K8s Version: #{k8s_nodepool.properties.k8s_version}")
-      expect(subject).to receive(:puts).with("Datacenter ID: #{k8s_nodepool.properties.datacenter_id}")
-      expect(subject).to receive(:puts).with("Node Count: #{k8s_nodepool.properties.node_count}")
-      expect(subject).to receive(:puts).with("State: #{k8s_nodepool.metadata.state}")
-      expect(subject.ui).to receive(:warn).with("Deleted K8s Nodepool #{k8s_nodepool.id}.")
+      auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
+      maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+      lans = nodepool.properties.lans.map { |lan| { id: lan.id } }
+
+      expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
+      expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
+      expect(subject).to receive(:puts).with("K8s Version: #{nodepool.properties.k8s_version}")
+      expect(subject).to receive(:puts).with("Datacenter ID: #{nodepool.properties.datacenter_id}")
+      expect(subject).to receive(:puts).with("Node Count: #{nodepool.properties.node_count}")
+      expect(subject).to receive(:puts).with("CPU Family: #{nodepool.properties.cpu_family}")
+      expect(subject).to receive(:puts).with("Cores Count: #{nodepool.properties.cores_count}")
+      expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANs: #{lans}")
+      expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
+      expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
+      expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
+      expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
+      expect(subject.ui).to receive(:warn).with("Deleted K8s Nodepool #{nodepool.id}.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).not_to receive(:get_request_id)
@@ -39,14 +53,14 @@ describe Chef::Knife::IonoscloudNodepoolDelete do
         [
           {
             method: 'GET',
-            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{k8s_nodepool.id}",
+            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{nodepool.id}",
             operation: :'KubernetesApi.k8s_nodepools_find_by_id',
             return_type: 'KubernetesNodePool',
-            result: k8s_nodepool,
+            result: nodepool,
           },
           {
             method: 'DELETE',
-            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{k8s_nodepool.id}",
+            path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{nodepool.id}",
             operation: :'KubernetesApi.k8s_nodepools_delete',
           },
         ],

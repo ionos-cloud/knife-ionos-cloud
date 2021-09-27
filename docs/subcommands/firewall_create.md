@@ -27,7 +27,7 @@ knife ionoscloud firewall create (options)
         iD of the NIC (required)
 
     name: --name NAME, -n NAME
-        name of the NIC
+        name of the Firewall Rule
 
     protocol: --protocol PROTOCOL, -P PROTOCOL
         the protocol of the firewall rule (TCP, UDP, ICMP, ANY)
@@ -61,11 +61,10 @@ knife ionoscloud firewall create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-
