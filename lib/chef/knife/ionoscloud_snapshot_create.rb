@@ -68,15 +68,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        snapshot = Ionoscloud::SnapshotApi.new(api_client).snapshots_find_by_id(snapshot.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{snapshot.id}"
-        puts "#{ui.color('Name', :cyan)}: #{snapshot.properties.name}"
-        puts "#{ui.color('Description', :cyan)}: #{snapshot.properties.description}"
-        puts "#{ui.color('Location', :cyan)}: #{snapshot.properties.location}"
-        puts "#{ui.color('Size', :cyan)}: #{snapshot.properties.size.to_s}"
-        puts 'done'
+        print_snapshot(Ionoscloud::SnapshotApi.new(api_client).snapshots_find_by_id(snapshot.id))
       end
     end
   end

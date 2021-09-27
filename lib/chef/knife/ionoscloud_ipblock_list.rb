@@ -35,7 +35,7 @@ class Chef
           ipblock_list << ipblock.properties.name
           ipblock_list << ipblock.properties.location
           ipblock_list << ipblock.properties.ips.join(', ')
-          ipblock_list << ipblock.properties.ip_consumers.nil? ? 0 : ipblock.properties.ip_consumers.length
+          ipblock_list << (ipblock.properties.ip_consumers.nil? ? 0 : ipblock.properties.ip_consumers.length)
         end
 
         puts ui.list(ipblock_list, :uneven_columns_across, 5)

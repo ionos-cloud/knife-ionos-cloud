@@ -22,7 +22,6 @@ class Chef
               description: 'IPv4 address of the load balancer. All attached NICs will inherit this IP.'
 
       option :dhcp,
-              short: '-d DHCP',
               long: '--dhcp DHCP',
               description: 'Indicates if the load balancer will reserve an IP using DHCP.'
 
@@ -64,25 +63,15 @@ class Chef
             entities: Ionoscloud::LoadbalancerEntities.new(
               balancednics: Ionoscloud::Nics.new(
                 items: config[:nics],
-              )
-            )
+              ),
+            ),
           ),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], load_balancer.id, { depth: 1 })
-
-        nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
-        puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
-        puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
-        puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
-        puts 'done'
+        print_load_balancer(load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], load_balancer.id, { depth: 1 }))
       end
     end
   end

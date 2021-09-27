@@ -29,12 +29,15 @@ class Chef
         group_list = [
           ui.color('ID', :bold),
           ui.color('Name', :bold),
-          ui.color('Create Datacenter', :bold),
-          ui.color('Create Snapshot', :bold),
-          ui.color('Reserve IP', :bold),
-          ui.color('Access Activity Log', :bold),
-          ui.color('S3 Privilege', :bold),
-          ui.color('Create Backup Unit', :bold),
+          ui.color('Datacenter', :bold),
+          ui.color('Snapshot', :bold),
+          ui.color('IP', :bold),
+          ui.color('Activity', :bold),
+          ui.color('S3', :bold),
+          ui.color('Backup', :bold),
+          ui.color('K8s', :bold),
+          ui.color('PCC', :bold),
+          ui.color('Internet', :bold),
         ]
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
@@ -54,9 +57,12 @@ class Chef
           group_list << group.properties.access_activity_log.to_s
           group_list << group.properties.s3_privilege.to_s
           group_list << group.properties.create_backup_unit.to_s
+          group_list << group.properties.create_k8s_cluster.to_s
+          group_list << group.properties.create_pcc.to_s
+          group_list << group.properties.create_internet_access.to_s
         end
 
-        puts ui.list(group_list, :uneven_columns_across, 8)
+        puts ui.list(group_list, :uneven_columns_across, 11)
       end
     end
   end

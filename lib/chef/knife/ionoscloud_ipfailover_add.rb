@@ -49,10 +49,12 @@ class Chef
         lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 
         failover_ips = lan.properties.ip_failover || []
-        failover_ips.push({
-          ip: config[:ip],
-          nicUuid: config[:nic_id],
-        })
+        failover_ips.push(
+          Ionoscloud::IPFailover.new(
+            ip: config[:ip],
+            nic_uuid: config[:nic_id],
+          ),
+        )
 
         changes = Ionoscloud::LanProperties.new({ ip_failover: failover_ips })
 
@@ -61,16 +63,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
-
-        ip_failovers = lan.properties.ip_failover.map { |el| el.to_hash }
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('IP Failover', :cyan)}: #{ip_failovers}"
-        puts 'done'
+        print_lan(lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id]))
       end
     end
   end

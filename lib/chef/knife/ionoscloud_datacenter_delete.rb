@@ -34,14 +34,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', datacenter.id)
-          msg_pair('Name', datacenter.properties.name)
-          msg_pair('Description', datacenter.properties.description)
-          msg_pair('Location', datacenter.properties.location)
-          msg_pair('Version', datacenter.properties.version)
-
+          print_datacenter(datacenter)
           puts "\n"
-
           begin
             confirm('Do you really want to delete this data center')
           rescue SystemExit => exc

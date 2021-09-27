@@ -5,7 +5,7 @@ class Chef
     class IonoscloudShareDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud server delete SHARE_ID [SHARE_ID] (options)'
+      banner 'knife ionoscloud server delete RESOURCE_ID [RESOURCE_ID] (options)'
 
       option :group_id,
               short: '-G GROUP_ID',
@@ -37,9 +37,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', share.id)
-          msg_pair('Edit Privilege', share.properties.edit_privilege.to_s)
-          msg_pair('Share Privilege', share.properties.share_privilege.to_s)
+          print_share(share)
 
           begin
             confirm('Do you really want to delete this Resource Share')

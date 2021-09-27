@@ -22,7 +22,7 @@ knife ionoscloud share create (options)
     resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
         the ID of the resource. (required)
 
-    edit_privilege: --edit, -e
+    edit_privilege: --edit
         the group has permission to edit privileges on this resource.
 
     share_privilege: --share, -s
@@ -36,11 +36,10 @@ knife ionoscloud share create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud share create --group-id GROUP_ID --resource-id RESOURCE_ID --edit --share --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-

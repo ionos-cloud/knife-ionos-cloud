@@ -25,7 +25,7 @@ knife ionoscloud loadbalancer create (options)
     ip: --ip IP
         iPv4 address of the load balancer. All attached NICs will inherit this IP.
 
-    dhcp: --dhcp DHCP, -d DHCP
+    dhcp: --dhcp DHCP
         indicates if the load balancer will reserve an IP using DHCP.
 
     nics: --nics NIC_ID [NIC_ID]
@@ -39,11 +39,10 @@ knife ionoscloud loadbalancer create (options)
 
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
-```
 
+```
 ## Example
 
 ```text
 knife ionoscloud loadbalancer create --datacenter-id DATACENTER_ID --name NAME --ip IP --dhcp DHCP --nics NIC_ID [NIC_ID] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
-

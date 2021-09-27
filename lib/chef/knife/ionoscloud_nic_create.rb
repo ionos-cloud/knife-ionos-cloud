@@ -28,10 +28,7 @@ class Chef
               description: 'IPs assigned to the NIC'
 
       option :dhcp,
-              short: '-d',
-              long: '--dhcp',
-              boolean: true | false,
-              default: true,
+              long: '--dhcp DHCP',
               description: 'Set to false if you wish to disable DHCP'
 
       option :lan,
@@ -40,7 +37,7 @@ class Chef
               description: 'The LAN ID the NIC will reside on; if the LAN ID does not exist it will be created'
 
       option :nat,
-              long: '--nat',
+              long: '--nat NAT',
               description: 'Set to enable NAT on the NIC'
 
       attr_reader :description, :required_options
@@ -62,40 +59,30 @@ class Chef
 
         config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
-        params = {
-          name: config[:name],
-          ips: config[:ips],
-          dhcp: config[:dhcp],
-          lan: config[:lan],
-          nat: !config[:nat].nil?,
-        }
-
         nic_api = Ionoscloud::NicApi.new(api_client)
 
         nic, _, headers = nic_api.datacenters_servers_nics_post_with_http_info(
           config[:datacenter_id],
           config[:server_id],
-          { properties: params.compact },
+          Ionoscloud::Nic.new(
+            properties: Ionoscloud::NicProperties.new(
+              name: config[:name],
+              ips: config[:ips],
+              dhcp: (config.key?(:dhcp) ? config[:dhcp].to_s.downcase == 'true' : nil),
+              lan: config[:lan],
+              nat: (config.key?(:nat) ? config[:nat].to_s.downcase == 'true' : nil),
+            ),
+          ),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        nic = nic_api.datacenters_servers_nics_find_by_id(
-          config[:datacenter_id],
+        print_nic(nic_api.datacenters_servers_nics_find_by_id(
+                    config[:datacenter_id],
           config[:server_id],
           nic.id,
-        )
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{nic.id}"
-        puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
-        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
-        puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
-        puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
-        puts "#{ui.color('NAT', :cyan)}: #{nic.properties.nat}"
-
-        puts 'done'
+        ))
       end
     end
   end

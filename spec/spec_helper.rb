@@ -376,6 +376,16 @@ def k8s_cluster_mock(opts = {})
       name: opts[:name] || 'k8s_cluster_name',
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
+      api_subnet_allow_list: opts[:api_subnet_allow_list] || [
+        "1.2.3.4/32",
+        "2002::1234:abcd:ffff:c0a8:101/64",
+        "1.2.3.4",
+        "2002::1234:abcd:ffff:c0a8:101"
+      ],
+      s3_buckets: opts[:s3_buckets] || [
+        Ionoscloud::S3Bucket.new(name: 'test_name1'),
+        Ionoscloud::S3Bucket.new(name: 'test_name2'),
+      ],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
       viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.8', '1.18.2']
     ),
@@ -411,8 +421,8 @@ def k8s_nodepool_properties_mock(opts = {})
     maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
     auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
     lans: opts[:lans] || [lan_mock, lan_mock],
-    labels: opts[:labels] || nil,
-    annotations: opts[:annotations] || nil,
+    labels: opts[:labels] || { "test_labels": "test_labels" },
+    annotations: opts[:annotations] || { "test_annotations": "test_annotations" },
     public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
     available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
   )
@@ -573,6 +583,18 @@ def snapshot_mock(opts = {})
       sec_auth_protection: opts[:sec_auth_protection] || true,
       location: opts[:location] || DEFAULT_LOCATION,
       size: opts[:size] || 10.0,
+
+      cpu_hot_plug: opts[:cpu_hot_plug] || true,
+      cpu_hot_unplug: opts[:cpu_hot_unplug] || true,
+      ram_hot_plug: opts[:ram_hot_plug] || false,
+      ram_hot_unplug: opts[:ram_hot_unplug] || true,
+      nic_hot_plug: opts[:nic_hot_plug] || true,
+      nic_hot_unplug: opts[:nic_hot_unplug] || false,
+      disc_virtio_hot_plug: opts[:disc_virtio_hot_plug] || false,
+      disc_virtio_hot_unplug: opts[:disc_virtio_hot_unplug] || false,
+      disc_scsi_hot_plug: opts[:disc_scsi_hot_plug] || true,
+      disc_scsi_hot_unplug: opts[:disc_scsi_hot_unplug] || true,
+
     ),
   )
 end
@@ -633,6 +655,11 @@ def user_mock(opts = {})
       administrator: opts[:administrator] || false,
       force_sec_auth: opts[:force_sec_auth] || false,
     ),
+    entities: Ionoscloud::UsersEntities.new(
+      groups: Ionoscloud::Groups.new(
+        items: opts[:groups] || []
+      )
+    )
   )
 end
 
@@ -667,6 +694,9 @@ def request_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::RequestProperties.new(
       method: opts[:method] || 'POST',
+      url: opts[:url] || 'www.url.com',
+      body: opts[:body] || { 'test' => 'test'},
+      headers: opts[:headers] || { 'test2' => 'test2'},
     ),
     metadata: Ionoscloud::RequestMetadata.new(
       request_status: request_status_mock(opts)
