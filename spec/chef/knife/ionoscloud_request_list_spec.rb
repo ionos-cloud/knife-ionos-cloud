@@ -7,6 +7,7 @@ describe Chef::Knife::IonoscloudRequestList do
   before :each do
     subject { Chef::Knife::IonoscloudRequestList.new }
 
+    @request_path = '/requests'
     @requests = requests_mock
     @request_list = request_list = [
       subject.ui.color('ID', :bold),
@@ -43,7 +44,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: 20, offset: 0 },
             return_type: 'Requests',
@@ -72,7 +73,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: subject_config[:offset] },
             return_type: 'Requests',
@@ -102,7 +103,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: 20, offset: subject_config[:offset] },
             return_type: 'Requests',
@@ -132,7 +133,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
@@ -161,7 +162,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_request_status: subject_config[:status] },
             return_type: 'Requests',
@@ -191,7 +192,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
@@ -221,7 +222,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0, filter_method: subject_config[:method] },
             return_type: 'Requests',
@@ -251,7 +252,7 @@ describe Chef::Knife::IonoscloudRequestList do
         [
           {
             method: 'GET',
-            path: '/requests',
+            path: @request_path,
             operation: :'RequestApi.requests_get',
             options: { depth: 2, limit: subject_config[:limit], offset: 0 },
             return_type: 'Requests',
