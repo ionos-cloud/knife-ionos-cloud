@@ -20,7 +20,7 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
         datacenter_id: 'datacenter_id',
         lan_id: lan.id,
         nic_id: 'nic_id',
-        ip: '1.1.1.1',
+        ip: '127.1.1.1',
         yes: true,
       }
 

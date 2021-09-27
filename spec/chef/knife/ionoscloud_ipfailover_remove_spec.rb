@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudIpfailoverRemove do
 
   describe '#run' do
     it 'should call Lan.datacenters_lans_patch when the ip failvoer rule exists' do
-      lan = lan_mock({ ip_failover: [ Ionoscloud::IPFailover.new(ip: '1.1.1.2', nic_uuid: 'nic_id2')] })
+      lan = lan_mock({ ip_failover: [ Ionoscloud::IPFailover.new(ip: '127.1.1.2', nic_uuid: 'nic_id2')] })
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -67,14 +67,14 @@ describe Chef::Knife::IonoscloudIpfailoverRemove do
     end
 
     it 'should not call Lan.datacenters_lans_patch when the ip failvoer rule does not exist' do
-      lan = lan_mock({ ip_failover: [ Ionoscloud::IPFailover.new(ip: '1.1.1.2', nic_uuid: 'nic_id2')] })
+      lan = lan_mock({ ip_failover: [ Ionoscloud::IPFailover.new(ip: '127.1.1.2', nic_uuid: 'nic_id2')] })
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         lan_id: lan.id,
         nic_id: 'nic_id',
-        ip: '1.1.1.1',
+        ip: '127.1.1.1',
         yes: true,
       }
 

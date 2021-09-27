@@ -52,7 +52,7 @@ def ipblock_mock(opts = {})
       name: opts[:name] || 'Test IpBlock',
       size: opts[:size] || 4,
       location: opts[:location] || 'de/fra',
-      ips: opts[:ips] || ['87.106.113.181', '87.106.113.176', '87.106.113.177', '87.106.113.178'],
+      ips: opts[:ips] || ['127.106.113.181', '127.106.113.176', '127.106.113.177', '127.106.113.178'],
     ),
   )
 end
@@ -217,7 +217,7 @@ def nic_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NicProperties.new(
       name: opts[:name] || 'nic_name',
-      ips: opts[:ips] || ['1.1.1.1', '1.1.1.2'],
+      ips: opts[:ips] || ['127.1.1.1', '127.1.1.2'],
       nat: opts[:nat] || true,
       dhcp: opts[:dhcp] || true,
       firewall_active: opts[:firewall_active] || true,
@@ -245,8 +245,8 @@ def firewall_mock(opts = {})
       name: opts[:name] || 'firewall_name',
       protocol: opts[:protocol] || 'UDP',
       source_mac: opts[:source_mac] || '01:23:45:67:89:00',
-      source_ip: opts[:source_ip] || '10.9.20.11',
-      target_ip: opts[:target_ip] || '10.9.20.11',
+      source_ip: opts[:source_ip] || '127.9.20.11',
+      target_ip: opts[:target_ip] || '127.9.20.11',
       port_range_start: opts[:port_range_start] || 22,
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
@@ -268,7 +268,7 @@ def load_balancer_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::LoadbalancerProperties.new(
       name: opts[:name] || 'load_balancer_name',
-      ip: opts[:ip] || '1.1.1.1',
+      ip: opts[:ip] || '127.1.1.1',
       dhcp: opts[:dhcp] || true,
     ),
     entities: Ionoscloud::LoadbalancerEntities.new(
@@ -419,7 +419,7 @@ def k8s_nodepool_mock(opts = {})
       lans: opts[:lans] || [lan_mock, lan_mock],
       labels: opts[:labels] || { "test_labels": "test_labels" },
       annotations: opts[:annotations] || { "test_annotations": "test_annotations" },
-      public_ips: opts[:public_ips] || ['81.173.1.2', '82.231.2.5', '92.221.2.4'],
+      public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
@@ -441,7 +441,7 @@ def k8s_node_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::KubernetesNodeProperties.new(
       name: opts[:name] || 'k8s_node_name',
-      public_ip: opts[:public_ip] || '1.1.1.1',
+      public_ip: opts[:public_ip] || '127.1.1.1',
       k8s_version: opts[:k8s_version] || '1.17.7',
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
