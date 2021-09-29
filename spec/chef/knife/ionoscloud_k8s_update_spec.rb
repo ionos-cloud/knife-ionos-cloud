@@ -39,7 +39,7 @@ describe Chef::Knife::IonoscloudK8sUpdate do
       expect(subject).to receive(:puts).with("k8s Version: #{subject_config[:version]}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
-      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list + ['1.1.1.1']}")
+      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list + ['127.1.1.1']}")
       expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
       expect(subject).to receive(:puts).with("Available Upgrade Versions: #{cluster.properties.available_upgrade_versions}")
       expect(subject).to receive(:puts).with("Viable NodePool Versions: #{cluster.properties.viable_node_pool_versions}")
