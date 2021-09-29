@@ -27,6 +27,8 @@ describe Chef::Knife::IonoscloudLanDelete do
       expect(subject).to receive(:puts).with("ID: #{lan.id}")
       expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
       expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
+      expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
+      expect(subject).to receive(:puts).with("IP Failover: #{[]}")
       expect(subject.ui).to receive(:warn).with("Deleted Lan #{lan.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

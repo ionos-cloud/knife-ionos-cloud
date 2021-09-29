@@ -33,7 +33,7 @@ class Chef
             network_load_balancer = network_load_balancers_api.datacenters_networkloadbalancers_find_by_network_load_balancer_id(
               config[:datacenter_id],
               network_load_balancer_id,
-              { depth: 1 },
+              depth: 2,
             )
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
@@ -41,27 +41,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', network_load_balancer.id)
-          msg_pair('Name', network_load_balancer.properties.name)
-          msg_pair('Listener LAN', network_load_balancer.properties.listener_lan)
-          msg_pair('IPS', network_load_balancer.properties.ips)
-          msg_pair('Target LAN', network_load_balancer.properties.target_lan)
-          msg_pair('Private IPS', network_load_balancer.properties.lb_private_ips)
-          msg_pair('Forwarding Rules', network_load_balancer.entities.forwardingrules.items.map do |rule|
-              {
-                id: rule.id,
-                name: rule.properties.name,
-                algorithm: rule.properties.algorithm,
-                protocol: rule.properties.protocol,
-                listener_ip: rule.properties.listener_ip,
-                listener_port: rule.properties.listener_port,
-                health_check: rule.properties.health_check,
-                targets: rule.properties.targets,
-              }
-            end
-          )
-          # msg_pair('Flowlogs', network_load_balancer.entities.flowlogs.items.map { |flowlog| flowlog.id })
-
+          print_network_load_balancer(network_load_balancer)
           puts "\n"
 
           begin

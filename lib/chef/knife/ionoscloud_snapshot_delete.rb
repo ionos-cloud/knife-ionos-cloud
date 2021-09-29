@@ -32,12 +32,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', snapshot.id)
-          msg_pair('Name', snapshot.properties.name)
-          msg_pair('Description', snapshot.properties.description)
-          msg_pair('Location', snapshot.properties.location)
-          msg_pair('Size', snapshot.properties.size.to_s)
-
+          print_snapshot(snapshot)
           puts "\n"
 
           begin

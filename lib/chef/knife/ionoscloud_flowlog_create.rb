@@ -72,7 +72,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print "#{ui.color('Creating flow log...', :magenta)}"
+        print "#{ui.color('Creating Flow Log...', :magenta)}"
 
         case config[:type]
         when 'nic'
@@ -85,13 +85,13 @@ class Chef
           flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
           method = flowlogs_api.method(:datacenters_natgateways_flowlogs_post_with_http_info)
           args = [config[:datacenter_id], config[:natgateway_id]]
-        when 'loadbalancer'
+        when 'networkloadbalancer'
           validate_required_params([:network_loadbalancer_id], config)
           flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
           method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_post_with_http_info)
           args = [config[:datacenter_id], config[:network_loadbalancer_id]]
         else
-          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']"
+          ui.error "Flow Log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']"
           exit(1)
         end
 
@@ -109,13 +109,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{flowlog.id}"
-        puts "#{ui.color('Name', :cyan)}: #{flowlog.properties.name}"
-        puts "#{ui.color('Action', :cyan)}: #{flowlog.properties.action}"
-        puts "#{ui.color('Direction', :cyan)}: #{flowlog.properties.direction}"
-        puts "#{ui.color('Bucket', :cyan)}: #{flowlog.properties.bucket}"
-        puts 'done'
+        print_flowlog(flowlog)
       end
     end
   end

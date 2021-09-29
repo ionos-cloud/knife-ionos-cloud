@@ -32,7 +32,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
       expect(subject).to receive(:puts).with("Action: #{flowlog.properties.action}")
       expect(subject).to receive(:puts).with("Direction: #{flowlog.properties.direction}")
       expect(subject).to receive(:puts).with("Bucket: #{flowlog.properties.bucket}")
-      expect(subject.ui).to receive(:warn).with("Deleted flow log #{flowlog.id}. Request ID: ")
+      expect(subject.ui).to receive(:warn).with("Deleted Flow Log #{flowlog.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -73,7 +73,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [flowlog_id]
 
-      expect(subject.ui).to receive(:error).with("Flow log ID #{flowlog_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Flow Log ID #{flowlog_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -133,7 +133,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
       expect(subject).to receive(:puts).with("Action: #{flowlog.properties.action}")
       expect(subject).to receive(:puts).with("Direction: #{flowlog.properties.direction}")
       expect(subject).to receive(:puts).with("Bucket: #{flowlog.properties.bucket}")
-      expect(subject.ui).to receive(:warn).with("Deleted flow log #{flowlog.id}. Request ID: ")
+      expect(subject.ui).to receive(:warn).with("Deleted Flow Log #{flowlog.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -171,7 +171,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [flowlog_id]
 
-      expect(subject.ui).to receive(:error).with("Flow log ID #{flowlog_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Flow Log ID #{flowlog_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -218,7 +218,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         network_loadbalancer_id: 'network_loadbalancer_id',
-        type: 'loadbalancer',
+        type: 'networkloadbalancer',
         yes: true,
       }
 
@@ -230,7 +230,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
       expect(subject).to receive(:puts).with("Action: #{flowlog.properties.action}")
       expect(subject).to receive(:puts).with("Direction: #{flowlog.properties.direction}")
       expect(subject).to receive(:puts).with("Bucket: #{flowlog.properties.bucket}")
-      expect(subject.ui).to receive(:warn).with("Deleted flow log #{flowlog.id}. Request ID: ")
+      expect(subject.ui).to receive(:warn).with("Deleted Flow Log #{flowlog.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -264,13 +264,13 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         network_loadbalancer_id: 'network_loadbalancer_id',
-        type: 'loadbalancer',
+        type: 'networkloadbalancer',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [flowlog_id]
 
-      expect(subject.ui).to receive(:error).with("Flow log ID #{flowlog_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Flow Log ID #{flowlog_id} not found. Skipping.")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -296,7 +296,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
-        type: 'loadbalancer',
+        type: 'networkloadbalancer',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -330,7 +330,7 @@ describe Chef::Knife::IonoscloudFlowlogDelete do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:error).with("Flow log cannot belong to #{subject_config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']")
+      expect(subject.ui).to receive(:error).with("Flow Log cannot belong to #{subject_config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']")
 
       expect(subject.api_client).not_to receive(:call_api)
 

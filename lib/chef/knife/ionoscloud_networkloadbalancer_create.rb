@@ -78,18 +78,11 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        network_load_balancer = network_load_balancers_api.datacenters_networkloadbalancers_find_by_network_load_balancer_id(
-          config[:datacenter_id], network_load_balancer.id,
+        print_network_load_balancer(
+          network_load_balancers_api.datacenters_networkloadbalancers_find_by_network_load_balancer_id(
+            config[:datacenter_id], network_load_balancer.id, depth: 2,
+          ),
         )
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{network_load_balancer.id}"
-        puts "#{ui.color('Name', :cyan)}: #{network_load_balancer.properties.name}"
-        puts "#{ui.color('Listener LAN', :cyan)}: #{network_load_balancer.properties.listener_lan}"
-        puts "#{ui.color('IPS', :cyan)}: #{network_load_balancer.properties.ips}"
-        puts "#{ui.color('Target LAN', :cyan)}: #{network_load_balancer.properties.target_lan}"
-        puts "#{ui.color('Private IPS', :cyan)}: #{network_load_balancer.properties.lb_private_ips}"
-        puts 'done'
       end
     end
   end

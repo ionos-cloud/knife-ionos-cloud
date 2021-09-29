@@ -34,24 +34,7 @@ class Chef
             next
           end
 
-          users = group.entities.users.items.map! { |el| el.id }
-
-          msg_pair('ID', group.id)
-          msg_pair('Name', group.properties.name)
-          msg_pair('Create Datacenter', group.properties.create_data_center.to_s)
-          msg_pair('Create Snapshot', group.properties.create_snapshot.to_s)
-          msg_pair('Reserve IP', group.properties.reserve_ip.to_s)
-          msg_pair('Access Activity Log', group.properties.access_activity_log.to_s)
-          msg_pair('S3 Privilege', group.properties.s3_privilege.to_s)
-          msg_pair('Create Backup Unit', group.properties.create_backup_unit.to_s)
-          msg_pair('Create K8s Clusters', group.properties.create_k8s_cluster.to_s)
-          msg_pair('Create PCC', group.properties.create_pcc.to_s)
-          msg_pair('Create Internet Acess', group.properties.create_internet_access.to_s)
-          msg_pair('Create Flow Logs', group.properties.create_flow_log.to_s)
-          msg_pair('Access and Manage Monitoring', group.properties.access_and_manage_monitoring.to_s)
-          msg_pair('Access and Manage Certificates', group.properties.access_and_manage_certificates.to_s)
-
-          msg_pair('Users', users.to_s)
+          print_group(group)
           puts "\n"
 
           begin

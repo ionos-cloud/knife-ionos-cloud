@@ -37,9 +37,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', share.id)
-          msg_pair('Edit Privilege', share.properties.edit_privilege.to_s)
-          msg_pair('Share Privilege', share.properties.share_privilege.to_s)
+          print_share(share)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this Resource Share')

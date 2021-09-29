@@ -7,7 +7,6 @@ require 'simplecov'
 RSpec.configure do |config|
   config.pattern = 'spec/chef/knife/*_spec.rb'
 end
-
 SimpleCov.start do
   add_group 'Commands', 'lib/chef/knife/'
   add_group 'Spec files', 'spec/chef/knife/'
@@ -371,6 +370,16 @@ def k8s_cluster_mock(opts = {})
       name: opts[:name] || 'k8s_cluster_name',
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
+      api_subnet_allow_list: opts[:api_subnet_allow_list] || [
+        "1.2.3.4/32",
+        "2002::1234:abcd:ffff:c0a8:101/64",
+        "1.2.3.4",
+        "2002::1234:abcd:ffff:c0a8:101"
+      ],
+      s3_buckets: opts[:s3_buckets] || [
+        Ionoscloud::S3Bucket.new(name: 'test_name1'),
+        Ionoscloud::S3Bucket.new(name: 'test_name2'),
+      ],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
       viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2']
     ),
@@ -422,10 +431,10 @@ def k8s_nodepool_mock(opts = {})
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
       lans: opts[:lans] || [nodepool_lan_mock(id: 12), nodepool_lan_mock(id: 15)],
-      labels: opts[:labels] || nil,
-      annotations: opts[:annotations] || nil,
       public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
+      labels: opts[:labels] || { "test_labels": "test_labels" },
+      annotations: opts[:annotations] || { "test_annotations": "test_annotations" },
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
       state: 'READY',
@@ -651,6 +660,11 @@ def user_mock(opts = {})
       administrator: opts[:administrator] || false,
       force_sec_auth: opts[:force_sec_auth] || false,
     ),
+    entities: Ionoscloud::UsersEntities.new(
+      groups: Ionoscloud::Groups.new(
+        items: opts[:groups] || []
+      )
+    )
   )
 end
 
@@ -763,6 +777,11 @@ def natgateway_mock(opts = {})
     ),
     entities: Ionoscloud::NatGatewayEntities.new(
       rules: natgateway_rules_mock || opts[:rules],
+      flowlogs: opts[:flowlogs] || Ionoscloud::FlowLogs.new(
+        id: 'flowlogs',
+        type: 'collection',
+        items: [],
+      ),
     ),
   )
 end
@@ -817,7 +836,7 @@ def network_loadbalancer_mock(opts = {})
 end
 
 def network_loadbalancers_mock(opts = {})
-  Ionoscloud::Templates.new(
+  Ionoscloud::NetworkLoadBalancers.new(
     id: 'network_loadbalancers',
     type: 'collection',
     items: [network_loadbalancer_mock, network_loadbalancer_mock],
@@ -835,7 +854,6 @@ def network_loadbalancer_rule_mock(opts = {})
       listener_port: opts[:listener_port] || 123,
       health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
         client_timeout: opts[:client_timeout] || 100,
-        check_timeout: opts[:check_timeout] || 200,
         connect_timeout: opts[:connect_timeout] || 300,
         target_timeout: opts[:target_timeout] || 400,
         retries: opts[:retries] || 3,

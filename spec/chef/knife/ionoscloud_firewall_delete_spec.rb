@@ -28,6 +28,7 @@ describe Chef::Knife::IonoscloudFirewallDelete do
 
       expect(subject).to receive(:puts).with("ID: #{firewall.id}")
       expect(subject).to receive(:puts).with("Name: #{firewall.properties.name}")
+      expect(subject).to receive(:puts).with("Type: #{firewall.properties.type}")
       expect(subject).to receive(:puts).with("Protocol: #{firewall.properties.protocol}")
       expect(subject).to receive(:puts).with("Source MAC: #{firewall.properties.source_mac}")
       expect(subject).to receive(:puts).with("Source IP: #{firewall.properties.source_ip}")
@@ -36,7 +37,6 @@ describe Chef::Knife::IonoscloudFirewallDelete do
       expect(subject).to receive(:puts).with("Port Range End: #{firewall.properties.port_range_end}")
       expect(subject).to receive(:puts).with("ICMP Type: #{firewall.properties.icmp_type}")
       expect(subject).to receive(:puts).with("ICMP Code: #{firewall.properties.icmp_code}")
-      expect(subject).to receive(:puts).with("Type: #{firewall.properties.type}")
       expect(subject.ui).to receive(:warn).with("Deleted Firewall rule #{firewall.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

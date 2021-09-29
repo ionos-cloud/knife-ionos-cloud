@@ -35,6 +35,12 @@ describe Chef::Knife::IonoscloudGroupUserRemove do
       expect(subject).to receive(:puts).with("Access Activity Log: #{group.properties.access_activity_log.to_s}")
       expect(subject).to receive(:puts).with("S3 Privilege: #{group.properties.s3_privilege.to_s}")
       expect(subject).to receive(:puts).with("Create Backup Unit: #{group.properties.create_backup_unit.to_s}")
+      expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
+      expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
+      expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
+      expect(subject).to receive(:puts).with("Create Flow Logs: #{group.properties.create_flow_log.to_s}")
+      expect(subject).to receive(:puts).with("Access and Manage Monitoring: #{group.properties.access_and_manage_monitoring.to_s}")
+      expect(subject).to receive(:puts).with("Access and Manage Certificates: #{group.properties.access_and_manage_certificates.to_s}")
       expect(subject).to receive(:puts).with("Users: #{users.to_s}")
       expect(subject.ui).to receive(:warn).with("Removed User #{user.id} from the Group #{group.id}. Request ID: .")
 

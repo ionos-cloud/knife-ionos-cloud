@@ -33,19 +33,9 @@ class Chef
 
         load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)
 
-        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
-          config[:datacenter_id],
-          config[:loadbalancer_id],
-          { depth: 1 },
+        print_load_balancer(
+          load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], config[:loadbalancer_id], depth: 1),
         )
-
-        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
-
-        puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
-        puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
-        puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
-        puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
       end
     end
   end

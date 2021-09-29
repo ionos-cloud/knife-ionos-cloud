@@ -27,6 +27,21 @@ describe Chef::Knife::IonoscloudNatgatewayCreate do
       expect(subject).to receive(:puts).with("ID: #{natgateway.id}")
       expect(subject).to receive(:puts).with("Name: #{natgateway.properties.name}")
       expect(subject).to receive(:puts).with("IPS: #{natgateway.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANS: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}")
+      expect(subject).to receive(:puts).with("Rules: #{natgateway.entities.rules.items.map do |el|
+        {
+          id: el.id,
+          name: el.properties.name,
+          type: el.properties.type,
+          protocol: el.properties.protocol,
+          public_ip: el.properties.public_ip,
+          source_subnet: el.properties.source_subnet,
+          target_subnet: el.properties.target_subnet,
+          target_port_range_start: el.properties.target_port_range ? el.properties.target_port_range.start : '',
+          target_port_range_end: el.properties.target_port_range ? el.properties.target_port_range._end : '',
+        }
+      end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{natgateway.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       expected_properties = natgateway.properties.to_hash
       expected_properties.delete(:lans)

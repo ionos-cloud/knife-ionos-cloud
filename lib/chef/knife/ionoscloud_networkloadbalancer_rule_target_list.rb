@@ -39,6 +39,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         $stdout.sync = true
+        handle_extra_config
         target_list = [
           ui.color('IP', :bold),
           ui.color('Port', :bold),
