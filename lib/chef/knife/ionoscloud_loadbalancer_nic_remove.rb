@@ -51,7 +51,6 @@ class Chef
             ui.error("NIC ID #{nic_id} not found. Skipping.")
             next
           end
-
         end
 
         request_ids_to_wait.each { |request_id| api_client.wait_for { is_done? request_id } }

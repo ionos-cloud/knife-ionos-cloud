@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
   end
 
   describe '#run' do
-    it 'should call NetworkInterfacesApi.datacenters_networkloadbalancers_forwardingrules_patch' do
+    it 'should call NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_patch' do
       network_loadbalancer = network_loadbalancer_mock
       network_loadbalancer_rule = network_loadbalancer.entities.forwardingrules.items[0]
 
