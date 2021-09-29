@@ -32,20 +32,20 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
         storage_size: nodepool.properties.storage_size,
         min_node_count: nodepool.properties.auto_scaling.min_node_count,
         max_node_count: nodepool.properties.auto_scaling.max_node_count,
+        labels: nodepool.properties.labels,
+        annotations: nodepool.properties.annotations,
         lans: nodepool.properties.lans.map { |lan| lan.id }.join(','),
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
-      maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-
       expected_body = nodepool.properties.to_hash
       expected_body[:lans].map! { |lan| lan.delete(:dhcp); lan.delete(:routes); lan[:id] = Integer(lan[:id]); lan }
       expected_body.delete(:publicIps)
       expected_body.delete(:availableUpgradeVersions)
-      expected_body.delete(:labels)
-      expected_body.delete(:annotations)
+
+      auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
+      maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
 
       expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
       expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
@@ -57,6 +57,8 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Labels: #{nodepool.properties.labels}")
+      expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")
       expect(subject).to receive(:puts).with("LANs: #{nodepool.properties.lans.map { |lan| lan.to_hash }}")
       expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")

@@ -22,6 +22,7 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
         k8s_version: '18.18.18',
         node_count: nodepool.properties.node_count + 1,
         public_ips: '1.1.1.1,2.2.2.2,3.3.3.3',
+        labels: { "new_test": "new_test", "new_test2": "new_test2" },
         lans: '13',
         maintenance_day: 'Tuesday',
         maintenance_time: '03:48:30Z',
@@ -46,6 +47,8 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
       expect(subject).to receive(:puts).with("Public IPs: #{subject_config[:public_ips].split(',')}")
+      expect(subject).to receive(:puts).with("Labels: #{subject_config[:labels]}")
+      expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")
       expect(subject).to receive(:puts).with("LANs: #{lans}")
       expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
@@ -55,6 +58,7 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
       nodepool.properties.k8s_version = subject_config[:k8s_version]
       nodepool.properties.node_count = subject_config[:node_count]
       nodepool.properties.public_ips = subject_config[:public_ips].split(',')
+      nodepool.properties.labels = subject_config[:labels]
       nodepool.properties.lans = subject_config[:lans].split(',').map { |lan| Ionoscloud::KubernetesNodePoolLan.new(id: lan) }
       nodepool.properties.maintenance_window.day_of_the_week = subject_config[:maintenance_day]
       nodepool.properties.maintenance_window.time = subject_config[:maintenance_time]
@@ -81,7 +85,7 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
                 k8sVersion: subject_config[:k8s_version],
                 nodeCount: subject_config[:node_count],
                 publicIps: subject_config[:public_ips].split(','),
-                labels: nodepool.properties.labels,
+                labels: subject_config[:labels],
                 annotations: nodepool.properties.annotations,
                 lans: subject_config[:lans].split(',').map { |lan| { id: Integer(lan) } },
                 maintenanceWindow: {
