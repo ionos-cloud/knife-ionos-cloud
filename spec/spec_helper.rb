@@ -377,10 +377,9 @@ def k8s_cluster_mock(opts = {})
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       api_subnet_allow_list: opts[:api_subnet_allow_list] || [
-        "1.2.3.4/32",
+        "127.2.3.4/32",
         "2002::1234:abcd:ffff:c0a8:101/64",
-        "1.2.3.4",
-        "2002::1234:abcd:ffff:c0a8:101"
+        "127.2.3.4",
       ],
       s3_buckets: opts[:s3_buckets] || [
         Ionoscloud::S3Bucket.new(name: 'test_name1'),

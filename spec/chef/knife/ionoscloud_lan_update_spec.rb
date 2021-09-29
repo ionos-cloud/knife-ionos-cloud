@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
         lan_id: lan.id,
         name: lan.properties.name + '_edited',
         public: (!lan.properties.public).to_s,
-        ip_failover: [{ 'ip' => '1.1.1.1', 'nic_uuid' => uuid }],
+        ip_failover: [{ 'ip' => '127.1.1.1', 'nic_uuid' => uuid }],
         pcc: 'pcc_id',
         yes: true,
       }
@@ -33,12 +33,12 @@ describe Chef::Knife::IonoscloudLanUpdate do
       expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
       expect(subject).to receive(:puts).with("Public: #{subject_config[:public]}")
       expect(subject).to receive(:puts).with("PCC: #{subject_config[:pcc]}")
-      expect(subject).to receive(:puts).with("IP Failover: #{[{ ip: '1.1.1.1', nicUuid: uuid }]}")
+      expect(subject).to receive(:puts).with("IP Failover: #{[{ ip: '127.1.1.1', nicUuid: uuid }]}")
 
       lan.properties.name = subject_config[:name]
       lan.properties.public = subject_config[:public].to_s.downcase == 'true'
       lan.properties.pcc = subject_config[:pcc]
-      lan.properties.ip_failover = [Ionoscloud::IPFailover.new(ip: '1.1.1.1', nic_uuid: uuid)]
+      lan.properties.ip_failover = [Ionoscloud::IPFailover.new(ip: '127.1.1.1', nic_uuid: uuid)]
 
       mock_wait_for(subject)
       mock_call_api(
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
               name: subject_config[:name],
               public: subject_config[:public].to_s.downcase == 'true',
               pcc: subject_config[:pcc],
-              ipFailover: [{ ip: '1.1.1.1', nicUuid: uuid }],
+              ipFailover: [{ ip: '127.1.1.1', nicUuid: uuid }],
             },
             result: lan,
           },

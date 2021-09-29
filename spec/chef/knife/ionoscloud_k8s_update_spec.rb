@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudK8sUpdate do
         version: '19.9.9',
         maintenance_day: 'Monday',
         maintenance_time: '13:03:19Z',
-        api_subnet_allow_list: (cluster.properties.api_subnet_allow_list + ['1.1.1.1']).join(','),
+        api_subnet_allow_list: (cluster.properties.api_subnet_allow_list + ['127.1.1.1']).join(','),
         s3_buckets: (cluster.properties.s3_buckets.map { |el| el.name } + ['new_bucket']).join(','),
         yes: true,
       }
