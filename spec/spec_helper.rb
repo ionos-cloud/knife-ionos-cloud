@@ -59,7 +59,7 @@ def ipblock_mock(opts = {})
       name: opts[:name] || 'Test IpBlock',
       size: opts[:size] || 4,
       location: opts[:location] || 'de/fra',
-      ips: opts[:ips] || ['87.106.113.181', '87.106.113.176', '87.106.113.177', '87.106.113.178'],
+      ips: opts[:ips] || ['127.106.113.181', '127.106.113.176', '127.106.113.177', '127.106.113.178'],
     ),
   )
 end
@@ -235,7 +235,7 @@ def nic_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NicProperties.new(
       name: opts[:name] || 'nic_name',
-      ips: opts[:ips] || ['1.1.1.1', '1.1.1.2'],
+      ips: opts[:ips] || ['127.1.1.1', '127.1.1.2'],
       dhcp: opts[:dhcp] || true,
       firewall_active: opts[:firewall_active] || true,
       mac: opts[:mac] || '00:0a:95:9d:68:16',
@@ -265,8 +265,8 @@ def firewall_mock(opts = {})
       name: opts[:name] || 'firewall_name',
       protocol: opts[:protocol] || 'UDP',
       source_mac: opts[:source_mac] || '01:23:45:67:89:00',
-      source_ip: opts[:source_ip] || '10.9.20.11',
-      target_ip: opts[:target_ip] || '10.9.20.11',
+      source_ip: opts[:source_ip] || '127.9.20.11',
+      target_ip: opts[:target_ip] || '127.9.20.11',
       port_range_start: opts[:port_range_start] || 22,
       port_range_end: opts[:port_range_end] || 22,
       icmp_type: opts[:icmp_type] || 4,
@@ -289,7 +289,7 @@ def load_balancer_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::LoadbalancerProperties.new(
       name: opts[:name] || 'load_balancer_name',
-      ip: opts[:ip] || '1.1.1.1',
+      ip: opts[:ip] || '127.1.1.1',
       dhcp: opts[:dhcp] || true,
     ),
     entities: Ionoscloud::LoadbalancerEntities.new(
@@ -407,8 +407,8 @@ def nodepool_lan_mock(opts = {})
     dhcp: opts[:dhcp] || false,
     routes: opts[:routes] || [
       Ionoscloud::KubernetesNodePoolLanRoutes.new(
-        network: opts[:network] || '1.2.3.4/24',
-        gateway_ip: opts[:gateway_ip] || '10.1.5.16',
+        network: opts[:network] || '127.2.3.4/24',
+        gateway_ip: opts[:gateway_ip] || '127.1.5.16',
       ),
     ],
   )
@@ -431,7 +431,7 @@ def k8s_nodepool_mock(opts = {})
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       auto_scaling: opts[:auto_scaling] || auto_scaling_mock,
       lans: opts[:lans] || [nodepool_lan_mock(id: 12), nodepool_lan_mock(id: 15)],
-      public_ips: opts[:public_ips] || ['81.173.1.2', '82.231.2.5', '92.221.2.4'],
+      public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
       labels: opts[:labels] || { "test_labels": "test_labels" },
       annotations: opts[:annotations] || { "test_annotations": "test_annotations" },
@@ -455,7 +455,7 @@ def k8s_node_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::KubernetesNodeProperties.new(
       name: opts[:name] || 'k8s_node_name',
-      public_ip: opts[:public_ip] || '1.1.1.1',
+      public_ip: opts[:public_ip] || '127.1.1.1',
       k8s_version: opts[:k8s_version] || '1.17.7',
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
@@ -741,9 +741,9 @@ def natgateway_rule_mock(opts = {})
       name: opts[:name] || 'test',
       type: opts[:type] || 'test',
       protocol: opts[:protocol] || 'test',
-      public_ip: opts[:public_ip] || '1.1.1.1',
-      source_subnet: opts[:source_subnet] || '1.1.1.1/24',
-      target_subnet: opts[:target_subnet] || '1.1.1.1/24',
+      public_ip: opts[:public_ip] || '127.1.1.1',
+      source_subnet: opts[:source_subnet] || '127.1.1.1/24',
+      target_subnet: opts[:target_subnet] || '127.1.1.1/24',
       target_port_range: Ionoscloud::TargetPortRange.new(
         start: opts[:target_port_range_start] || 10,
         _end: opts[:target_port_range_end] || 20,
@@ -763,7 +763,7 @@ end
 def natgateway_lan_mock(opts = {})
   Ionoscloud::NatGatewayLanProperties.new(
     id: opts[:lan_id] || 1,
-    gateway_ips: opts[:gateway_ips] || ['10.8.152.227/24', '10.8.152.227/24'],
+    gateway_ips: opts[:gateway_ips] || ['127.8.152.227/24', '127.8.152.227/24'],
   )
 end
 
@@ -772,7 +772,7 @@ def natgateway_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NatGatewayProperties.new(
       name: opts[:name] || 'test',
-      public_ips: opts[:ips] || ['1.1.1.1'],
+      public_ips: opts[:ips] || ['127.1.1.1'],
       lans: opts[:lans] || [natgateway_lan_mock],
     ),
     entities: Ionoscloud::NatGatewayEntities.new(
@@ -819,10 +819,10 @@ def network_loadbalancer_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::NetworkLoadBalancerProperties.new({
       name: opts[:name] || 'network_loadbalancer_name',
-      ips: opts[:ips] || ['123.123.123.123'],
+      ips: opts[:ips] || ['127.123.123.123'],
       listener_lan: opts[:listener_lan] || 1,
       target_lan: opts[:target_lan] || 2,
-      lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
+      lb_private_ips: opts[:lb_private_ips] || ['127.12.12.12'],
     }),
     entities: Ionoscloud::NetworkLoadBalancerEntities.new({
       forwardingrules: opts[:rules] || network_loadbalancer_rules_mock,
@@ -850,7 +850,7 @@ def network_loadbalancer_rule_mock(opts = {})
       name: opts[:name] || 'network_loadbalancer_rule_name',
       algorithm: opts[:algorithm] || 'ROUND_ROBIN',
       protocol: opts[:protocol] || 'TCP',
-      listener_ip: opts[:listener_ip] || '123.123.123.123',
+      listener_ip: opts[:listener_ip] || '127.123.123.123',
       listener_port: opts[:listener_port] || 123,
       health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
         client_timeout: opts[:client_timeout] || 100,
@@ -873,7 +873,7 @@ end
 
 def network_loadbalancer_rule_target_mock(opts = {})
   Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
-    ip: opts[:ip] || '123.123.123.123',
+    ip: opts[:ip] || '127.123.123.123',
     port: opts[:port] || 3,
     weight: opts[:weight] || 10,
     health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleTargetHealthCheck.new(
