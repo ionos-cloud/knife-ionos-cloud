@@ -929,6 +929,24 @@ def check_user_print(subject, user)
   expect(subject).to receive(:puts).with("Active: #{user.properties.active}")
 end
 
+def check_required_options(subject)
+  required_options = subject.instance_variable_get(:@required_options)
+
+  arrays_without_one_element(required_options).each do |test_case|
+
+    test_case[:array].each { |value| subject.config[value] = 'test' }
+
+    expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+    expect(subject.api_client).not_to receive(:call_api)
+
+    expect { subject.run }.to raise_error(SystemExit) do |error|
+      expect(error.status).to eq(1)
+    end
+
+    required_options.each { |value| subject.config[value] = nil }
+  end
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
