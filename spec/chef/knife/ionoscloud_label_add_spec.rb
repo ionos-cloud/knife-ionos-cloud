@@ -83,7 +83,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
     it 'should call LabelApi.ipblocks_labels_post when the type is ipblock and output based on what it receives' do
       resource_id = 'resource_id'
 
-      test_label_create( 'ipblock', resource_id, {}, "/ipblocks/#{resource_id}/labels", :'LabelApi.ipblocks_labels_post')
+      test_label_create('ipblock', resource_id, {}, "/ipblocks/#{resource_id}/labels", :'LabelApi.ipblocks_labels_post')
     end
 
     it 'should call LabelApi.snapshots_labels_post when the type is snapshot and output based on what it receives' do

@@ -89,7 +89,7 @@ describe Chef::Knife::IonoscloudLabelRemove do
       label = label_mock(resource_type: 'server')
       datacenter_id = 'datacenter_id'
       test_label_delete(
-        label, { datacenter_id: datacenter_id }, 
+        label, { datacenter_id: datacenter_id },
         "/datacenters/#{datacenter_id}/servers/#{label.properties.resource_id}/labels/#{label.id}",
         :'LabelApi.datacenters_servers_labels_delete',
       )
