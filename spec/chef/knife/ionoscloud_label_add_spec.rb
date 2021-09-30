@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
       test_label_create(
         type = 'datacenter',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/datacenters/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_labels_post',
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
       test_label_create(
         type = 'server',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = { datacenter_id: datacenter_id },
         path = "/datacenters/#{datacenter_id}/servers/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_servers_labels_post',
@@ -85,7 +85,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
       test_label_create(
         type = 'volume',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = { datacenter_id: datacenter_id },
         path = "/datacenters/#{datacenter_id}/volumes/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_volumes_labels_post',
@@ -97,7 +97,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
       test_label_create(
         type = 'ipblock',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/ipblocks/#{resource_id}/labels",
         operation = :'LabelApi.ipblocks_labels_post',
@@ -109,7 +109,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
 
       test_label_create(
         type = 'snapshot',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/snapshots/#{resource_id}/labels",
         operation = :'LabelApi.snapshots_labels_post',

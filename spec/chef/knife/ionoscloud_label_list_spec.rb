@@ -81,7 +81,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
       test_label_list(
         type = 'datacenter',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/datacenters/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_labels_get',
@@ -94,7 +94,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
       test_label_list(
         type = 'server',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = { datacenter_id: datacenter_id },
         path = "/datacenters/#{datacenter_id}/servers/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_servers_labels_get',
@@ -107,7 +107,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
       test_label_list(
         type = 'volume',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = { datacenter_id: datacenter_id },
         path = "/datacenters/#{datacenter_id}/volumes/#{resource_id}/labels",
         operation = :'LabelApi.datacenters_volumes_labels_get',
@@ -119,7 +119,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
       test_label_list(
         type = 'ipblock',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/ipblocks/#{resource_id}/labels",
         operation = :'LabelApi.ipblocks_labels_get',
@@ -131,7 +131,7 @@ describe Chef::Knife::IonoscloudLabelList do
 
       test_label_list(
         type = 'snapshot',
-        resource_id = resource_id,
+        resource_id = 'resource_id',
         extra_config = {},
         path = "/snapshots/#{resource_id}/labels",
         operation = :'LabelApi.snapshots_labels_get',
