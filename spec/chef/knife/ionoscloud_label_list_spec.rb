@@ -3,6 +3,38 @@ require 'ionoscloud_label_list'
 
 Chef::Knife::IonoscloudLabelList.load_deps
 
+def test_label_list(type, resource_id, extra_config, path, operation)
+  subject_config = {
+    ionoscloud_username: 'email',
+    ionoscloud_password: 'password',
+    type: type,
+    resource_id: resource_id,
+    **extra_config,
+  }
+
+  subject_config.each { |key, value| subject.config[key] = value }
+
+  expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
+
+  expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
+
+  expect(subject.api_client).not_to receive(:wait_for)
+  mock_call_api(
+    subject,
+    [
+      {
+        method: 'GET',
+        path: path,
+        operation: operation,
+        return_type: 'LabelResources',
+        result: @label_resources,
+      },
+    ],
+  )
+
+  expect { subject.run }.not_to raise_error(Exception)
+end
+
 describe Chef::Knife::IonoscloudLabelList do
   before :each do
     subject { Chef::Knife::IonoscloudLabelList.new }
@@ -45,160 +77,65 @@ describe Chef::Knife::IonoscloudLabelList do
 
   describe '#run' do
     it 'should call LabelApi.datacenters_labels_get when the type is datacenter and output based on what it receives' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        type: 'datacenter',
-        resource_id: 'resource_id',
-      }
+      resource_id = 'resource_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
-
-      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_labels_get',
-            return_type: 'LabelResources',
-            result: @label_resources,
-          },
-        ],
+      test_label_list(
+        type = 'datacenter',
+        resource_id = resource_id,
+        extra_config = {},
+        path = "/datacenters/#{resource_id}/labels",
+        operation = :'LabelApi.datacenters_labels_get',
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should call LabelApi.datacenters_servers_labels_get when the type is server and output based on what it receives' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        type: 'server',
-        datacenter_id: 'datacenter_id',
-        resource_id: 'resource_id',
-      }
+      resource_id = 'resource_id'
+      datacenter_id = 'datacenter_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
-
-      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_servers_labels_get',
-            return_type: 'LabelResources',
-            result: @label_resources,
-          },
-        ],
+      test_label_list(
+        type = 'server',
+        resource_id = resource_id,
+        extra_config = { datacenter_id: datacenter_id },
+        path = "/datacenters/#{datacenter_id}/servers/#{resource_id}/labels",
+        operation = :'LabelApi.datacenters_servers_labels_get',
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should call LabelApi.datacenters_volumes_labels_get when the type is volume and output based on what it receives' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        type: 'volume',
-        datacenter_id: 'datacenter_id',
-        resource_id: 'resource_id',
-      }
+      resource_id = 'resource_id'
+      datacenter_id = 'datacenter_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
-
-      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/volumes/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.datacenters_volumes_labels_get',
-            return_type: 'LabelResources',
-            result: @label_resources,
-          },
-        ],
+      test_label_list(
+        type = 'volume',
+        resource_id = resource_id,
+        extra_config = { datacenter_id: datacenter_id },
+        path = "/datacenters/#{datacenter_id}/volumes/#{resource_id}/labels",
+        operation = :'LabelApi.datacenters_volumes_labels_get',
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should call LabelApi.ipblocks_labels_get when the type is ipblock and output based on what it receives' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        type: 'ipblock',
-        resource_id: 'resource_id',
-      }
+      resource_id = 'resource_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
-
-      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/ipblocks/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.ipblocks_labels_get',
-            return_type: 'LabelResources',
-            result: @label_resources,
-          },
-        ],
+      test_label_list(
+        type = 'ipblock',
+        resource_id = resource_id,
+        extra_config = {},
+        path = "/ipblocks/#{resource_id}/labels",
+        operation = :'LabelApi.ipblocks_labels_get',
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should call LabelApi.snapshots_labels_get when the type is snapshot and output based on what it receives' do
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        type: 'snapshot',
-        resource_id: 'resource_id',
-      }
+      resource_id = 'resource_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-
-      expected_output = @label_resource_list.map { |el| el == 'resource_type' ? subject_config[:type] : el }
-
-      expect(subject.ui).to receive(:list).with(expected_output, :uneven_columns_across, 4)
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/snapshots/#{subject_config[:resource_id]}/labels",
-            operation: :'LabelApi.snapshots_labels_get',
-            return_type: 'LabelResources',
-            result: @label_resources,
-          },
-        ],
+      test_label_list(
+        type = 'snapshot',
+        resource_id = resource_id,
+        extra_config = {},
+        path = "/snapshots/#{resource_id}/labels",
+        operation = :'LabelApi.snapshots_labels_get',
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should call LabelApi.labels_get when the type is not one of [datacenter, server, volume, ipblock, snapshot]' do
