@@ -57,13 +57,7 @@ describe Chef::Knife::IonoscloudLabelAdd do
     it 'should call LabelApi.datacenters_labels_post when the type is datacenter and output based on what it receives' do
       resource_id = 'resource_id'
 
-      test_label_create(
-        type = 'datacenter',
-        resource_id = 'resource_id',
-        extra_config = {},
-        path = "/datacenters/#{resource_id}/labels",
-        operation = :'LabelApi.datacenters_labels_post',
-      )
+      test_label_create('datacenter', resource_id, {}, "/datacenters/#{resource_id}/labels", :'LabelApi.datacenters_labels_post')
     end
 
     it 'should call LabelApi.datacenters_servers_labels_post when the type is server and output based on what it receives' do
@@ -71,11 +65,8 @@ describe Chef::Knife::IonoscloudLabelAdd do
       datacenter_id = 'datacenter_id'
 
       test_label_create(
-        type = 'server',
-        resource_id = 'resource_id',
-        extra_config = { datacenter_id: datacenter_id },
-        path = "/datacenters/#{datacenter_id}/servers/#{resource_id}/labels",
-        operation = :'LabelApi.datacenters_servers_labels_post',
+        'server', resource_id, { datacenter_id: datacenter_id },
+        "/datacenters/#{datacenter_id}/servers/#{resource_id}/labels", :'LabelApi.datacenters_servers_labels_post',
       )
     end
 
@@ -84,36 +75,21 @@ describe Chef::Knife::IonoscloudLabelAdd do
       datacenter_id = 'datacenter_id'
 
       test_label_create(
-        type = 'volume',
-        resource_id = 'resource_id',
-        extra_config = { datacenter_id: datacenter_id },
-        path = "/datacenters/#{datacenter_id}/volumes/#{resource_id}/labels",
-        operation = :'LabelApi.datacenters_volumes_labels_post',
+        'volume', resource_id, { datacenter_id: datacenter_id },
+        "/datacenters/#{datacenter_id}/volumes/#{resource_id}/labels", :'LabelApi.datacenters_volumes_labels_post',
       )
     end
 
     it 'should call LabelApi.ipblocks_labels_post when the type is ipblock and output based on what it receives' do
       resource_id = 'resource_id'
 
-      test_label_create(
-        type = 'ipblock',
-        resource_id = 'resource_id',
-        extra_config = {},
-        path = "/ipblocks/#{resource_id}/labels",
-        operation = :'LabelApi.ipblocks_labels_post',
-      )
+      test_label_create( 'ipblock', resource_id, {}, "/ipblocks/#{resource_id}/labels", :'LabelApi.ipblocks_labels_post')
     end
 
     it 'should call LabelApi.snapshots_labels_post when the type is snapshot and output based on what it receives' do
       resource_id = 'resource_id'
 
-      test_label_create(
-        type = 'snapshot',
-        resource_id = 'resource_id',
-        extra_config = {},
-        path = "/snapshots/#{resource_id}/labels",
-        operation = :'LabelApi.snapshots_labels_post',
-      )
+      test_label_create('snapshot', resource_id, {}, "/snapshots/#{resource_id}/labels", :'LabelApi.snapshots_labels_post')
     end
 
     it 'should not call anything when the type is not one of [datacenter, server, volume, ipblock, snapshot]' do

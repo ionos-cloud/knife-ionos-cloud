@@ -76,31 +76,21 @@ describe Chef::Knife::IonoscloudLabelRemove do
   describe '#run' do
     it 'should call LabelApi.datacenters_labels_delete when the type is datacenter and output based on what it receives' do
       label = label_mock(resource_type: 'datacenter')
-      test_label_delete(
-        label = label,
-        extra_config = {},
-        path = "/datacenters/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.datacenters_labels_delete',
-      )
+      test_label_delete(label, {}, "/datacenters/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.datacenters_labels_delete')
     end
 
     it 'should print when LabelApi.datacenters_labels_delete returns 404' do
       label = label_mock(resource_type: 'datacenter')
       test_label_delete_404(
-        label = label,
-        extra_config = {},
-        path = "/datacenters/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.datacenters_labels_delete',
-      )
+        label, {}, "/datacenters/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.datacenters_labels_delete')
     end
 
     it 'should call LabelApi.datacenters_servers_labels_delete when the type is server and output based on what it receives' do
       label = label_mock(resource_type: 'server')
       datacenter_id = 'datacenter_id'
       test_label_delete(
-        label = label,
-        extra_config = { datacenter_id: 'datacenter_id' },
-        path = "/datacenters/#{datacenter_id}/servers/#{label.properties.resource_id}/labels/#{label.id}",
+        label, { datacenter_id: datacenter_id }, 
+        "/datacenters/#{datacenter_id}/servers/#{label.properties.resource_id}/labels/#{label.id}",
         :'LabelApi.datacenters_servers_labels_delete',
       )
     end
@@ -109,9 +99,8 @@ describe Chef::Knife::IonoscloudLabelRemove do
       label = label_mock(resource_type: 'server')
       datacenter_id = 'datacenter_id'
       test_label_delete_404(
-        label = label,
-        extra_config = { datacenter_id: 'datacenter_id' },
-        path = "/datacenters/#{datacenter_id}/servers/#{label.properties.resource_id}/labels/#{label.id}",
+        label, { datacenter_id: datacenter_id },
+        "/datacenters/#{datacenter_id}/servers/#{label.properties.resource_id}/labels/#{label.id}",
         :'LabelApi.datacenters_servers_labels_delete',
       )
     end
@@ -120,9 +109,8 @@ describe Chef::Knife::IonoscloudLabelRemove do
       label = label_mock(resource_type: 'volume')
       datacenter_id = 'datacenter_id'
       test_label_delete(
-        label = label,
-        extra_config = { datacenter_id: 'datacenter_id' },
-        path = "/datacenters/#{datacenter_id}/volumes/#{label.properties.resource_id}/labels/#{label.id}",
+        label, { datacenter_id: datacenter_id },
+        "/datacenters/#{datacenter_id}/volumes/#{label.properties.resource_id}/labels/#{label.id}",
         :'LabelApi.datacenters_volumes_labels_delete',
       )
     end
@@ -131,50 +119,29 @@ describe Chef::Knife::IonoscloudLabelRemove do
       label = label_mock(resource_type: 'volume')
       datacenter_id = 'datacenter_id'
       test_label_delete_404(
-        label = label,
-        extra_config = { datacenter_id: 'datacenter_id' },
-        path = "/datacenters/#{datacenter_id}/volumes/#{label.properties.resource_id}/labels/#{label.id}",
+        label, { datacenter_id: datacenter_id },
+        "/datacenters/#{datacenter_id}/volumes/#{label.properties.resource_id}/labels/#{label.id}",
         :'LabelApi.datacenters_volumes_labels_delete',
       )
     end
     it 'should call LabelApi.ipblocks_labels_delete when the type is ipblock and output based on what it receives' do
       label = label_mock(resource_type: 'ipblock')
-      test_label_delete(
-        label = label,
-        extra_config = {},
-        path = "/ipblocks/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.ipblocks_labels_delete',
-      )
+      test_label_delete(label, {}, "/ipblocks/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.ipblocks_labels_delete')
     end
 
     it 'should print when LabelApi.ipblocks_labels_delete returns 404' do
       label = label_mock(resource_type: 'ipblock')
-      test_label_delete_404(
-        label = label,
-        extra_config = {},
-        path = "/ipblocks/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.ipblocks_labels_delete',
-      )
+      test_label_delete_404(label, {}, "/ipblocks/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.ipblocks_labels_delete')
     end
 
     it 'should call LabelApi.snapshots_labels_delete when the type is snapshot and output based on what it receives' do
       label = label_mock(resource_type: 'snapshot')
-      test_label_delete(
-        label = label,
-        extra_config = {},
-        path = "/snapshots/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.snapshots_labels_delete',
-      )
+      test_label_delete(label, {}, "/snapshots/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.snapshots_labels_delete')
     end
 
     it 'should print when LabelApi.snapshots_labels_delete returns 404' do
       label = label_mock(resource_type: 'snapshot')
-      test_label_delete_404(
-        label = label,
-        extra_config = {},
-        path = "/snapshots/#{label.properties.resource_id}/labels/#{label.id}",
-        :'LabelApi.snapshots_labels_delete',
-      )
+      test_label_delete_404(label, {}, "/snapshots/#{label.properties.resource_id}/labels/#{label.id}", :'LabelApi.snapshots_labels_delete')
     end
 
     it 'should not call anything when the type is not one of [datacenter, server, volume, ipblock, snapshot]' do
