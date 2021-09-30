@@ -23,9 +23,7 @@ describe Chef::Knife::IonoscloudBackupunitDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [backupunit.id]
 
-      expect(subject).to receive(:puts).with("ID: #{backupunit.id}")
-      expect(subject).to receive(:puts).with("Name: #{backupunit.properties.name}")
-      expect(subject).to receive(:puts).with("Email: #{backupunit.properties.email}")
+      check_backupunit_print(subject, backupunit)
       expect(subject.ui).to receive(:warn).with("Deleted Backup unit #{backupunit.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

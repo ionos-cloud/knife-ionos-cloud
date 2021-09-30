@@ -22,9 +22,7 @@ describe Chef::Knife::IonoscloudBackupunitCreate do
         email: backupunit.properties.email,
       }.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{backupunit.id}")
-      expect(subject).to receive(:puts).with("Name: #{backupunit.properties.name}")
-      expect(subject).to receive(:puts).with("Email: #{backupunit.properties.email}")
+      check_backupunit_print(subject, backupunit)
 
       mock_wait_for(subject)
       mock_call_api(
