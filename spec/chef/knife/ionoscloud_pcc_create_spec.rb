@@ -26,14 +26,7 @@ describe Chef::Knife::IonoscloudPccCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      peers = pcc.properties.peers.map { |peer| peer.id }
-      datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
-
-      expect(subject).to receive(:puts).with("ID: #{pcc.id}")
-      expect(subject).to receive(:puts).with("Name: #{pcc.properties.name}")
-      expect(subject).to receive(:puts).with("Description: #{pcc.properties.description}")
-      expect(subject).to receive(:puts).with("Peers: #{peers.to_s}")
-      expect(subject).to receive(:puts).with("Connectable Datacenters: #{datacenters.to_s}")
+      check_pcc_print(subject, pcc)
 
       3.times { mock_wait_for(subject) }
       mock_call_api(

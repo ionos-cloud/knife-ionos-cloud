@@ -24,14 +24,7 @@ describe Chef::Knife::IonoscloudServerDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [server.id]
 
-      expect(subject).to receive(:puts).with("ID: #{server.id}")
-      expect(subject).to receive(:puts).with("Name: #{server.properties.name}")
-      expect(subject).to receive(:puts).with("Cores: #{server.properties.cores}")
-      expect(subject).to receive(:puts).with("CPU Family: #{server.properties.cpu_family}")
-      expect(subject).to receive(:puts).with("Ram: #{server.properties.ram}")
-      expect(subject).to receive(:puts).with("Availability Zone: #{server.properties.availability_zone}")
-      expect(subject).to receive(:puts).with("Boot Volume: #{server.properties.boot_volume.id}")
-      expect(subject).to receive(:puts).with("Boot CDROM: #{server.properties.boot_cdrom.id}")
+      check_server_print(subject, server)
       expect(subject.ui).to receive(:warn).with("Deleted Server #{server.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

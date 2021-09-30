@@ -25,10 +25,7 @@ describe Chef::Knife::IonoscloudIpblockCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{ipblock.id}")
-      expect(subject).to receive(:puts).with("Name: #{ipblock.properties.name}")
-      expect(subject).to receive(:puts).with("IP Addresses: #{ipblock.properties.ips.to_s}")
-      expect(subject).to receive(:puts).with("Location: #{ipblock.properties.location}")
+      check_ipblock_print(subject, ipblock)
 
       expected_body = ipblock.properties.to_hash
       expected_body.delete(:ips)

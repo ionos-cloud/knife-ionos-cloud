@@ -25,11 +25,7 @@ describe Chef::Knife::IonoscloudLanCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{lan.id}")
-      expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
-      expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
-      expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
-      expect(subject).to receive(:puts).with("IP Failover: #{[]}")
+      check_lan_print(subject, lan)
 
       expected_body = lan.properties.to_hash
       expected_body.delete(:ipFailover)

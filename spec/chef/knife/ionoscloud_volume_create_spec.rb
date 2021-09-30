@@ -36,23 +36,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
       expected_body[:imageAlias] = subject_config[:image_alias]
       expected_body[:imagePassword] = subject_config[:image_password]
 
-      expect(subject).to receive(:puts).with("ID: #{volume.id}")
-      expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
-      expect(subject).to receive(:puts).with("Size: #{subject_config[:size]}")
-      expect(subject).to receive(:puts).with("Bus: #{subject_config[:bus]}")
-      expect(subject).to receive(:puts).with("Image: #{volume.properties.image}")
-      expect(subject).to receive(:puts).with("Type: #{subject_config[:type]}")
-      expect(subject).to receive(:puts).with("Licence Type: #{volume.properties.licence_type}")
-      expect(subject).to receive(:puts).with("Backupunit ID: #{volume.properties.backupunit_id}")
-      expect(subject).to receive(:puts).with("User Data: #{volume.properties.user_data}")
-      expect(subject).to receive(:puts).with("Zone: #{subject_config[:availability_zone]}")
-      expect(subject).to receive(:puts).with("CPU Hot Plug: #{volume.properties.cpu_hot_plug}")
-      expect(subject).to receive(:puts).with("RAM Hot Plug: #{volume.properties.ram_hot_plug}")
-      expect(subject).to receive(:puts).with("NIC Hot Plug: #{volume.properties.nic_hot_plug}")
-      expect(subject).to receive(:puts).with("NIC Hot Unplug: #{volume.properties.nic_hot_unplug}")
-      expect(subject).to receive(:puts).with("Disc Virtio Hot Plug: #{volume.properties.disc_virtio_hot_plug}")
-      expect(subject).to receive(:puts).with("Disc Virtio Hot Unplug: #{volume.properties.disc_virtio_hot_unplug}")
-      expect(subject).to receive(:puts).with("Device number: #{volume.properties.device_number}")
+      check_volume_print(subject, volume)
 
       mock_wait_for(subject)
       mock_call_api(

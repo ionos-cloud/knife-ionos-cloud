@@ -27,19 +27,7 @@ describe Chef::Knife::IonoscloudK8sCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
-      s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
-
-      expect(subject).to receive(:puts).with("ID: #{cluster.id}")
-      expect(subject).to receive(:puts).with("Name: #{cluster.properties.name}")
-      expect(subject).to receive(:puts).with("Public: #{cluster.properties.public}")
-      expect(subject).to receive(:puts).with("k8s Version: #{cluster.properties.k8s_version}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
-      expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
-      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list}")
-      expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
-      expect(subject).to receive(:puts).with("Available Upgrade Versions: #{cluster.properties.available_upgrade_versions}")
-      expect(subject).to receive(:puts).with("Viable NodePool Versions: #{cluster.properties.viable_node_pool_versions}")
+      check_k8s_cluster_print(subject, cluster)
 
       expected_body = cluster.properties.to_hash
       expected_body.delete(:viableNodePoolVersions)

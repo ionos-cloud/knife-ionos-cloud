@@ -38,28 +38,7 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
-      maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-      lans = nodepool.properties.lans.map { |lan| { id: lan.id } }
-
-      expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
-      expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
-      expect(subject).to receive(:puts).with("K8s Version: #{nodepool.properties.k8s_version}")
-      expect(subject).to receive(:puts).with("Datacenter ID: #{nodepool.properties.datacenter_id}")
-      expect(subject).to receive(:puts).with("Node Count: #{nodepool.properties.node_count}")
-      expect(subject).to receive(:puts).with("CPU Family: #{nodepool.properties.cpu_family}")
-      expect(subject).to receive(:puts).with("Cores Count: #{nodepool.properties.cores_count}")
-      expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
-      expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
-      expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
-      expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
-      expect(subject).to receive(:puts).with("Labels: #{nodepool.properties.labels}")
-      expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")
-      expect(subject).to receive(:puts).with("LANs: #{lans}")
-      expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
-      expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
-      expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
+      check_k8s_nodepool_print(subject, nodepool)
 
       expected_body = nodepool.properties.to_hash
       expected_body[:lans].map! { |lan| lan.delete(:properties); lan[:id] = Integer(lan[:id]); lan }

@@ -25,12 +25,7 @@ describe Chef::Knife::IonoscloudNodeGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{k8s_node.id}")
-      expect(subject).to receive(:puts).with("Name: #{k8s_node.properties.name}")
-      expect(subject).to receive(:puts).with("Public IP: #{k8s_node.properties.public_ip}")
-      expect(subject).to receive(:puts).with("Private IP: #{k8s_node.properties.private_ip}")
-      expect(subject).to receive(:puts).with("K8s Version: #{k8s_node.properties.k8s_version}")
-      expect(subject).to receive(:puts).with("State: #{k8s_node.metadata.state}")
+      check_k8s_node_print(subject, k8s_node)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

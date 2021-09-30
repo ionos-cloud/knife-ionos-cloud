@@ -25,13 +25,7 @@ describe Chef::Knife::IonoscloudDatacenterCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{datacenter.id}")
-      expect(subject).to receive(:puts).with("Name: #{datacenter.properties.name}")
-      expect(subject).to receive(:puts).with("Description: #{datacenter.properties.description}")
-      expect(subject).to receive(:puts).with("Location: #{datacenter.properties.location}")
-      expect(subject).to receive(:puts).with("Version: #{datacenter.properties.version}")
-      expect(subject).to receive(:puts).with("Features: #{datacenter.properties.features}")
-      expect(subject).to receive(:puts).with("Sec Auth Protection: #{datacenter.properties.sec_auth_protection}")
+      check_datacenter_print(subject, datacenter)
 
       expected_body = datacenter.properties.to_hash
       expected_body.delete(:version)

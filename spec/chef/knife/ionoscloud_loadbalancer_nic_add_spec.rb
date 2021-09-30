@@ -26,13 +26,7 @@ describe Chef::Knife::IonoscloudLoadbalancerNicAdd do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [nic.id]
 
-      nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
-
-      expect(subject).to receive(:puts).with("ID: #{load_balancer.id}")
-      expect(subject).to receive(:puts).with("Name: #{load_balancer.properties.name}")
-      expect(subject).to receive(:puts).with("IP address: #{load_balancer.properties.ip}")
-      expect(subject).to receive(:puts).with("DHCP: #{load_balancer.properties.dhcp}")
-      expect(subject).to receive(:puts).with("Balanced Nics: #{nics.to_s}")
+      check_loadbalancer_print(subject, load_balancer)
       expect(subject.ui).to receive(:info).with("Added NIC #{nic.id} to the Load balancer #{load_balancer.id}. Request ID: .")
 
       expect(subject).to receive(:get_request_id).once

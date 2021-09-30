@@ -22,9 +22,7 @@ describe Chef::Knife::IonoscloudS3keyCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{s3_key.id}")
-      expect(subject).to receive(:puts).with("Secret Key: #{s3_key.properties.secret_key}")
-      expect(subject).to receive(:puts).with("Active: #{s3_key.properties.active}")
+      check_s3key_print(subject, s3_key)
 
       mock_wait_for(subject)
       mock_call_api(

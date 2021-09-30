@@ -24,14 +24,7 @@ describe Chef::Knife::IonoscloudServerGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{server.id}")
-      expect(subject).to receive(:puts).with("Name: #{server.properties.name}")
-      expect(subject).to receive(:puts).with("Cores: #{server.properties.cores}")
-      expect(subject).to receive(:puts).with("CPU Family: #{server.properties.cpu_family}")
-      expect(subject).to receive(:puts).with("Ram: #{server.properties.ram}")
-      expect(subject).to receive(:puts).with("Availability Zone: #{server.properties.availability_zone}")
-      expect(subject).to receive(:puts).with("Boot Volume: #{server.properties.boot_volume.id}")
-      expect(subject).to receive(:puts).with("Boot CDROM: #{server.properties.boot_cdrom.id}")
+      check_server_print(subject, server)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

@@ -24,9 +24,7 @@ describe Chef::Knife::IonoscloudShareGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{share.id}")
-      expect(subject).to receive(:puts).with("Edit Privilege: #{share.properties.edit_privilege.to_s}")
-      expect(subject).to receive(:puts).with("Share Privilege: #{share.properties.share_privilege.to_s}")
+      check_share_print(subject, share)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

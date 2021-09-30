@@ -43,12 +43,7 @@ describe Chef::Knife::IonoscloudCompositeServerCreate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{server.id}")
-      expect(subject).to receive(:puts).with("Name: #{server.properties.name}")
-      expect(subject).to receive(:puts).with("Cores: #{server.properties.cores}")
-      expect(subject).to receive(:puts).with("CPU Family: #{server.properties.cpu_family}")
-      expect(subject).to receive(:puts).with("Ram: #{server.properties.ram}")
-      expect(subject).to receive(:puts).with("Availability Zone: #{server.properties.availability_zone}")
+      check_server_print(subject, server)
 
       expected_properties = server.properties.to_hash
       expected_properties.delete(:bootCdrom)

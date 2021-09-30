@@ -717,6 +717,218 @@ def check_backupunit_print(subject, backupunit)
   expect(subject).to receive(:puts).with("Email: #{backupunit.properties.email}")
 end
 
+def check_datacenter_print(subject, datacenter)
+  expect(subject).to receive(:puts).with("ID: #{datacenter.id}")
+  expect(subject).to receive(:puts).with("Name: #{datacenter.properties.name}")
+  expect(subject).to receive(:puts).with("Description: #{datacenter.properties.description}")
+  expect(subject).to receive(:puts).with("Location: #{datacenter.properties.location}")
+  expect(subject).to receive(:puts).with("Version: #{datacenter.properties.version}")
+  expect(subject).to receive(:puts).with("Features: #{datacenter.properties.features}")
+  expect(subject).to receive(:puts).with("Sec Auth Protection: #{datacenter.properties.sec_auth_protection}")
+end
+
+def check_firewall_print(subject, firewall)
+  expect(subject).to receive(:puts).with("ID: #{firewall.id}")
+  expect(subject).to receive(:puts).with("Name: #{firewall.properties.name}")
+  expect(subject).to receive(:puts).with("Protocol: #{firewall.properties.protocol}")
+  expect(subject).to receive(:puts).with("Source MAC: #{firewall.properties.source_mac}")
+  expect(subject).to receive(:puts).with("Source IP: #{firewall.properties.source_ip}")
+  expect(subject).to receive(:puts).with("Target IP: #{firewall.properties.target_ip}")
+  expect(subject).to receive(:puts).with("Port Range Start: #{firewall.properties.port_range_start}")
+  expect(subject).to receive(:puts).with("Port Range End: #{firewall.properties.port_range_end}")
+  expect(subject).to receive(:puts).with("ICMP Type: #{firewall.properties.icmp_type}")
+  expect(subject).to receive(:puts).with("ICMP Code: #{firewall.properties.icmp_code}")
+end
+
+def check_group_print(subject, group)
+  users = group.entities.users.items.map { |el| el.id }
+
+  expect(subject).to receive(:puts).with("ID: #{group.id}")
+  expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
+  expect(subject).to receive(:puts).with("Create Datacenter: #{group.properties.create_data_center.to_s}")
+  expect(subject).to receive(:puts).with("Create Snapshot: #{group.properties.create_snapshot.to_s}")
+  expect(subject).to receive(:puts).with("Reserve IP: #{group.properties.reserve_ip.to_s}")
+  expect(subject).to receive(:puts).with("Access Activity Log: #{group.properties.access_activity_log.to_s}")
+  expect(subject).to receive(:puts).with("S3 Privilege: #{group.properties.s3_privilege.to_s}")
+  expect(subject).to receive(:puts).with("Create Backup Unit: #{group.properties.create_backup_unit.to_s}")
+  expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
+  expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
+  expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
+  expect(subject).to receive(:puts).with("Users: #{users.to_s}")
+end
+
+def check_ipblock_print(subject, ipblock)
+  ip_consumers = (ipblock.properties.ip_consumers.nil? ? [] : ipblock.properties.ip_consumers.map { |el| el.to_hash })
+  expect(subject).to receive(:puts).with("ID: #{ipblock.id}")
+  expect(subject).to receive(:puts).with("Name: #{ipblock.properties.name}")
+  expect(subject).to receive(:puts).with("IP Addresses: #{ipblock.properties.ips.to_s}")
+  expect(subject).to receive(:puts).with("Location: #{ipblock.properties.location}")
+  expect(subject).to receive(:puts).with("IP Consumers: #{ip_consumers}")
+end
+
+def check_lan_print(subject, lan)
+  ip_failovers = (lan.properties.ip_failover.nil? ? [] : lan.properties.ip_failover.map { |el| el.to_hash })
+  expect(subject).to receive(:puts).with("ID: #{lan.id}")
+  expect(subject).to receive(:puts).with("Name: #{lan.properties.name}")
+  expect(subject).to receive(:puts).with("Public: #{lan.properties.public.to_s}")
+  expect(subject).to receive(:puts).with("PCC: #{lan.properties.pcc}")
+  expect(subject).to receive(:puts).with("IP Failover: #{ip_failovers}")
+end
+
+def check_k8s_cluster_print(subject, cluster)
+  maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
+  s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
+
+  expect(subject).to receive(:puts).with("ID: #{cluster.id}")
+  expect(subject).to receive(:puts).with("Name: #{cluster.properties.name}")
+  expect(subject).to receive(:puts).with("Public: #{cluster.properties.public}")
+  expect(subject).to receive(:puts).with("k8s Version: #{cluster.properties.k8s_version}")
+  expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
+  expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
+  expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list}")
+  expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
+  expect(subject).to receive(:puts).with("Available Upgrade Versions: #{cluster.properties.available_upgrade_versions}")
+  expect(subject).to receive(:puts).with("Viable NodePool Versions: #{cluster.properties.viable_node_pool_versions}")
+end
+
+def check_loadbalancer_print(subject, load_balancer)
+  nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
+
+  expect(subject).to receive(:puts).with("ID: #{load_balancer.id}")
+  expect(subject).to receive(:puts).with("Name: #{load_balancer.properties.name}")
+  expect(subject).to receive(:puts).with("IP address: #{load_balancer.properties.ip}")
+  expect(subject).to receive(:puts).with("DHCP: #{load_balancer.properties.dhcp}")
+  expect(subject).to receive(:puts).with("Balanced Nics: #{nics.to_s}")
+end
+
+def check_nic_print(subject, nic)
+  expect(subject).to receive(:puts).with("ID: #{nic.id}")
+  expect(subject).to receive(:puts).with("Name: #{nic.properties.name}")
+  expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
+  expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
+  expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
+  expect(subject).to receive(:puts).with("NAT: #{nic.properties.nat}")
+end
+
+def check_k8s_node_print(subject, k8s_node)
+  expect(subject).to receive(:puts).with("ID: #{k8s_node.id}")
+  expect(subject).to receive(:puts).with("Name: #{k8s_node.properties.name}")
+  expect(subject).to receive(:puts).with("Public IP: #{k8s_node.properties.public_ip}")
+  expect(subject).to receive(:puts).with("Private IP: #{k8s_node.properties.private_ip}")
+  expect(subject).to receive(:puts).with("K8s Version: #{k8s_node.properties.k8s_version}")
+  expect(subject).to receive(:puts).with("State: #{k8s_node.metadata.state}")
+end
+
+def check_k8s_nodepool_print(subject, nodepool)
+  auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
+  maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+  lans = nodepool.properties.lans.map { |lan| { id: lan.id } }
+
+  expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
+  expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
+  expect(subject).to receive(:puts).with("K8s Version: #{nodepool.properties.k8s_version}")
+  expect(subject).to receive(:puts).with("Datacenter ID: #{nodepool.properties.datacenter_id}")
+  expect(subject).to receive(:puts).with("Node Count: #{nodepool.properties.node_count}")
+  expect(subject).to receive(:puts).with("CPU Family: #{nodepool.properties.cpu_family}")
+  expect(subject).to receive(:puts).with("Cores Count: #{nodepool.properties.cores_count}")
+  expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
+  expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
+  expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+  expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+  expect(subject).to receive(:puts).with("Labels: #{nodepool.properties.labels}")
+  expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")
+  expect(subject).to receive(:puts).with("LANs: #{lans}")
+  expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
+  expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
+  expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
+  expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
+end
+
+def check_pcc_print(subject, pcc)
+  peers = pcc.properties.peers.map { |peer| peer.id }
+  datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
+
+  expect(subject).to receive(:puts).with("ID: #{pcc.id}")
+  expect(subject).to receive(:puts).with("Name: #{pcc.properties.name}")
+  expect(subject).to receive(:puts).with("Description: #{pcc.properties.description}")
+  expect(subject).to receive(:puts).with("Peers: #{peers.to_s}")
+  expect(subject).to receive(:puts).with("Connectable Datacenters: #{datacenters.to_s}")
+end
+
+def check_s3key_print(subject, s3_key)
+  expect(subject).to receive(:puts).with("ID: #{s3_key.id}")
+  expect(subject).to receive(:puts).with("Secret Key: #{s3_key.properties.secret_key}")
+  expect(subject).to receive(:puts).with("Active: #{s3_key.properties.active}")
+end
+
+def check_server_print(subject, server)
+  expect(subject).to receive(:puts).with("ID: #{server.id}")
+  expect(subject).to receive(:puts).with("Name: #{server.properties.name}")
+  expect(subject).to receive(:puts).with("Cores: #{server.properties.cores}")
+  expect(subject).to receive(:puts).with("CPU Family: #{server.properties.cpu_family}")
+  expect(subject).to receive(:puts).with("Ram: #{server.properties.ram}")
+  expect(subject).to receive(:puts).with("Availability Zone: #{server.properties.availability_zone}")
+  expect(subject).to receive(:puts).with("Boot Volume: #{server.properties.boot_volume.id}")
+  expect(subject).to receive(:puts).with("Boot CDROM: #{server.properties.boot_cdrom.id}")
+end
+
+def check_share_print(subject, share)
+  expect(subject).to receive(:puts).with("ID: #{share.id}")
+  expect(subject).to receive(:puts).with("Edit Privilege: #{share.properties.edit_privilege.to_s}")
+  expect(subject).to receive(:puts).with("Share Privilege: #{share.properties.share_privilege.to_s}")
+end
+
+def check_snapshot_print(subject, snapshot)
+  expect(subject).to receive(:puts).with("ID: #{snapshot.id}")
+  expect(subject).to receive(:puts).with("Name: #{snapshot.properties.name}")
+  expect(subject).to receive(:puts).with("Description: #{snapshot.properties.description}")
+  expect(subject).to receive(:puts).with("Location: #{snapshot.properties.location}")
+  expect(subject).to receive(:puts).with("Size: #{snapshot.properties.size.to_s}")
+  expect(subject).to receive(:puts).with("Sec Auth Protection: #{snapshot.properties.sec_auth_protection}")
+  expect(subject).to receive(:puts).with("License Type: #{snapshot.properties.licence_type}")
+  expect(subject).to receive(:puts).with("CPU Hot Plug: #{snapshot.properties.cpu_hot_plug}")
+  expect(subject).to receive(:puts).with("CPU Hot Unplug: #{snapshot.properties.cpu_hot_unplug}")
+  expect(subject).to receive(:puts).with("RAM Hot Plug: #{snapshot.properties.ram_hot_plug}")
+  expect(subject).to receive(:puts).with("RAM Hot Unplug: #{snapshot.properties.ram_hot_unplug}")
+  expect(subject).to receive(:puts).with("NIC Hot Plug: #{snapshot.properties.nic_hot_plug}")
+  expect(subject).to receive(:puts).with("NIC Hot Unplug: #{snapshot.properties.nic_hot_unplug}")
+  expect(subject).to receive(:puts).with("Disc Virtio Hot Plug: #{snapshot.properties.disc_virtio_hot_plug}")
+  expect(subject).to receive(:puts).with("Disc Virtio Hot Unplug: #{snapshot.properties.disc_virtio_hot_unplug}")
+  expect(subject).to receive(:puts).with("Disc Scsi Hot Plug: #{snapshot.properties.disc_scsi_hot_plug}")
+  expect(subject).to receive(:puts).with("Disc Scsi Hot Unplug: #{snapshot.properties.disc_scsi_hot_unplug}")
+end
+
+def check_volume_print(subject, volume)
+  expect(subject).to receive(:puts).with("ID: #{volume.id}")
+  expect(subject).to receive(:puts).with("Name: #{volume.properties.name}")
+  expect(subject).to receive(:puts).with("Size: #{volume.properties.size}")
+  expect(subject).to receive(:puts).with("Bus: #{volume.properties.bus}")
+  expect(subject).to receive(:puts).with("Image: #{volume.properties.image}")
+  expect(subject).to receive(:puts).with("Type: #{volume.properties.type}")
+  expect(subject).to receive(:puts).with("Licence Type: #{volume.properties.licence_type}")
+  expect(subject).to receive(:puts).with("Backupunit ID: #{volume.properties.backupunit_id}")
+  expect(subject).to receive(:puts).with("User Data: #{volume.properties.user_data}")
+  expect(subject).to receive(:puts).with("Zone: #{volume.properties.availability_zone}")
+  expect(subject).to receive(:puts).with("CPU Hot Plug: #{volume.properties.cpu_hot_plug}")
+  expect(subject).to receive(:puts).with("RAM Hot Plug: #{volume.properties.ram_hot_plug}")
+  expect(subject).to receive(:puts).with("NIC Hot Plug: #{volume.properties.nic_hot_plug}")
+  expect(subject).to receive(:puts).with("NIC Hot Unplug: #{volume.properties.nic_hot_unplug}")
+  expect(subject).to receive(:puts).with("Disc Virtio Hot Plug: #{volume.properties.disc_virtio_hot_plug}")
+  expect(subject).to receive(:puts).with("Disc Virtio Hot Unplug: #{volume.properties.disc_virtio_hot_unplug}")
+  expect(subject).to receive(:puts).with("Device number: #{volume.properties.device_number}")
+end
+
+def check_user_print(subject, user)
+  expect(subject).to receive(:puts).with("ID: #{user.id}")
+  expect(subject).to receive(:puts).with("Firstname: #{user.properties.firstname}")
+  expect(subject).to receive(:puts).with("Lastname: #{user.properties.lastname}")
+  expect(subject).to receive(:puts).with("Email: #{user.properties.email}")
+  expect(subject).to receive(:puts).with("Administrator: #{user.properties.administrator}")
+  expect(subject).to receive(:puts).with("Force 2-Factor Auth: #{user.properties.force_sec_auth}")
+  expect(subject).to receive(:puts).with("2-Factor Auth Active: #{user.properties.sec_auth_active}")
+  expect(subject).to receive(:puts).with("Active: #{user.properties.active}")
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }

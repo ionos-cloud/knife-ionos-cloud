@@ -23,21 +23,7 @@ describe Chef::Knife::IonoscloudGroupGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-
-      users = group.entities.users.items.map { |el| el.id }
-
-      expect(subject).to receive(:puts).with("ID: #{group.id}")
-      expect(subject).to receive(:puts).with("Name: #{group.properties.name}")
-      expect(subject).to receive(:puts).with("Create Datacenter: #{group.properties.create_data_center.to_s}")
-      expect(subject).to receive(:puts).with("Create Snapshot: #{group.properties.create_snapshot.to_s}")
-      expect(subject).to receive(:puts).with("Reserve IP: #{group.properties.reserve_ip.to_s}")
-      expect(subject).to receive(:puts).with("Access Activity Log: #{group.properties.access_activity_log.to_s}")
-      expect(subject).to receive(:puts).with("S3 Privilege: #{group.properties.s3_privilege.to_s}")
-      expect(subject).to receive(:puts).with("Create Backup Unit: #{group.properties.create_backup_unit.to_s}")
-      expect(subject).to receive(:puts).with("Create K8s Clusters: #{group.properties.create_k8s_cluster.to_s}")
-      expect(subject).to receive(:puts).with("Create PCC: #{group.properties.create_pcc.to_s}")
-      expect(subject).to receive(:puts).with("Create Internet Acess: #{group.properties.create_internet_access.to_s}")
-      expect(subject).to receive(:puts).with("Users: #{users.to_s}")
+      check_group_print(subject, group)
 
       mock_call_api(
         subject,

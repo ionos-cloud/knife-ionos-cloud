@@ -25,12 +25,7 @@ describe Chef::Knife::IonoscloudNicGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{nic.id}")
-      expect(subject).to receive(:puts).with("Name: #{nic.properties.name}")
-      expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
-      expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
-      expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
-      expect(subject).to receive(:puts).with("NAT: #{nic.properties.nat}")
+      check_nic_print(subject, nic)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

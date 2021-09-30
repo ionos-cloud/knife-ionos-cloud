@@ -26,16 +26,7 @@ describe Chef::Knife::IonoscloudFirewallGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{firewall.id}")
-      expect(subject).to receive(:puts).with("Name: #{firewall.properties.name}")
-      expect(subject).to receive(:puts).with("Protocol: #{firewall.properties.protocol}")
-      expect(subject).to receive(:puts).with("Source MAC: #{firewall.properties.source_mac}")
-      expect(subject).to receive(:puts).with("Source IP: #{firewall.properties.source_ip}")
-      expect(subject).to receive(:puts).with("Target IP: #{firewall.properties.target_ip}")
-      expect(subject).to receive(:puts).with("Port Range Start: #{firewall.properties.port_range_start}")
-      expect(subject).to receive(:puts).with("Port Range End: #{firewall.properties.port_range_end}")
-      expect(subject).to receive(:puts).with("ICMP Type: #{firewall.properties.icmp_type}")
-      expect(subject).to receive(:puts).with("ICMP Code: #{firewall.properties.icmp_code}")
+      check_firewall_print(subject, firewall)
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(

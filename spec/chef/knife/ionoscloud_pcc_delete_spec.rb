@@ -23,14 +23,7 @@ describe Chef::Knife::IonoscloudPccDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [pcc.id]
 
-      peers = pcc.properties.peers.map { |peer| peer.id }
-      datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
-
-      expect(subject).to receive(:puts).with("ID: #{pcc.id}")
-      expect(subject).to receive(:puts).with("Name: #{pcc.properties.name}")
-      expect(subject).to receive(:puts).with("Description: #{pcc.properties.description}")
-      expect(subject).to receive(:puts).with("Peers: #{peers.to_s}")
-      expect(subject).to receive(:puts).with("Connectable Datacenters: #{datacenters.to_s}")
+      check_pcc_print(subject, pcc)
       expect(subject.ui).to receive(:warn).with("Deleted PCC #{pcc.id}. Request ID: ")
 
       expect(subject.api_client).not_to receive(:wait_for)

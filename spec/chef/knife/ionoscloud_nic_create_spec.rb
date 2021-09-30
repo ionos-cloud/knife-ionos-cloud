@@ -32,12 +32,7 @@ describe Chef::Knife::IonoscloudNicCreate do
       expected_body.delete(:firewallActive)
       expected_body.delete(:mac)
 
-      expect(subject).to receive(:puts).with("ID: #{nic.id}")
-      expect(subject).to receive(:puts).with("Name: #{nic.properties.name}")
-      expect(subject).to receive(:puts).with("IPs: #{nic.properties.ips.to_s}")
-      expect(subject).to receive(:puts).with("DHCP: #{nic.properties.dhcp}")
-      expect(subject).to receive(:puts).with("LAN: #{nic.properties.lan}")
-      expect(subject).to receive(:puts).with("NAT: #{nic.properties.nat}")
+      check_nic_print(subject, nic)
 
       mock_wait_for(subject)
       mock_call_api(

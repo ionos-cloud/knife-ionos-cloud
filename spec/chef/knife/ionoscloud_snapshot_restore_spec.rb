@@ -25,14 +25,7 @@ describe Chef::Knife::IonoscloudSnapshotRestore do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{volume.id}")
-      expect(subject).to receive(:puts).with("Name: #{volume.properties.name}")
-      expect(subject).to receive(:puts).with("Size: #{volume.properties.size}")
-      expect(subject).to receive(:puts).with("Bus: #{volume.properties.bus}")
-      expect(subject).to receive(:puts).with("Image: #{volume.properties.image}")
-      expect(subject).to receive(:puts).with("Type: #{volume.properties.type}")
-      expect(subject).to receive(:puts).with("Licence Type: #{volume.properties.licence_type}")
-      expect(subject).to receive(:puts).with("Zone: #{volume.properties.availability_zone}")
+      check_volume_print(subject, volume)
 
       mock_wait_for(subject)
       mock_call_api(
