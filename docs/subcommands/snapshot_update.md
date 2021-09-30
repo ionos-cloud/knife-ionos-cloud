@@ -31,34 +31,34 @@ knife ionoscloud snapshot update (options)
         the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
 
     cpu_hot_plug: --cpu-hot-plug CPU_HOT_PLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of CPU hot plug (no reboot required)
 
     cpu_hot_unplug: --cpu-hot-unplug CPU_HOT_UNPLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of CPU hot unplug (no reboot required)
 
     ram_hot_plug: --ram-hot-plug RAM_HOT_PLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of memory hot plug (no reboot required)
 
     ram_hot_unplug: --ram-hot-unplug RAM_HOT_UNPLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of memory hot unplug (no reboot required)
 
     nic_hot_plug: --nic-hot-plug NIC_HOT_PLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of nic hot plug (no reboot required)
 
     nic_hot_unplug: --nic-hot-unplug NIC_HOT_UNPLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of nic hot unplug (no reboot required)
 
     disc_virtio_hot_plug: --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of Virt-IO drive hot plug (no reboot required)
 
     disc_virtio_hot_unplug: --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of Virt-IO drive hot unplug (no reboot required). This works only for non-Windows virtual Machines.
 
     disc_scsi_hot_plug: --disc-scsi-hot-plug DISC_SCSI_HOT_PLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of SCSI drive hot plug (no reboot required)
 
     disc_scsi_hot_unplug: --disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG
-        the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
+        is capable of SCSI drive hot unplug (no reboot required). This works only for non-Windows virtual Machines.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)

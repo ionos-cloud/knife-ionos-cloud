@@ -32,43 +32,43 @@ class Chef
 
       option :cpu_hot_plug,
               long: '--cpu-hot-plug CPU_HOT_PLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of CPU hot plug (no reboot required)'
 
       option :cpu_hot_unplug,
               long: '--cpu-hot-unplug CPU_HOT_UNPLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of CPU hot unplug (no reboot required)'
 
       option :ram_hot_plug,
               long: '--ram-hot-plug RAM_HOT_PLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of memory hot plug (no reboot required)'
 
       option :ram_hot_unplug,
               long: '--ram-hot-unplug RAM_HOT_UNPLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of memory hot unplug (no reboot required)'
 
       option :nic_hot_plug,
               long: '--nic-hot-plug NIC_HOT_PLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of nic hot plug (no reboot required)'
 
       option :nic_hot_unplug,
               long: '--nic-hot-unplug NIC_HOT_UNPLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of nic hot unplug (no reboot required)'
 
       option :disc_virtio_hot_plug,
               long: '--disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of Virt-IO drive hot plug (no reboot required)'
 
       option :disc_virtio_hot_unplug,
               long: '--disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of Virt-IO drive hot unplug (no reboot required). This works only for non-Windows virtual Machines.'
 
       option :disc_scsi_hot_plug,
               long: '--disc-scsi-hot-plug DISC_SCSI_HOT_PLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of SCSI drive hot plug (no reboot required)'
 
       option :disc_scsi_hot_unplug,
               long: '--disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG',
-              description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
+              description: 'Is capable of SCSI drive hot unplug (no reboot required). This works only for non-Windows virtual Machines.'
 
       attr_reader :description, :required_options
 
