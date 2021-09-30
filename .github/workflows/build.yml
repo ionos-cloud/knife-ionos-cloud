@@ -24,6 +24,9 @@ jobs:
 
       - name: Run the tests
         run: rspec
+      
+      - name: Update file paths in converage.json
+        run: sed -i 's//home/runner/work/knife-ionos-cloud///github/workspace//g' coverage/converage.json
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
