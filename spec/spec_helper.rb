@@ -3,10 +3,12 @@ require 'rspec'
 require 'chef'
 require 'securerandom'
 require 'simplecov'
+require "simplecov_json_formatter"
 
 RSpec.configure do |config|
   config.pattern = 'spec/chef/knife/*_spec.rb'
 end
+SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 
 SimpleCov.start do
   add_group 'Commands', 'lib/chef/knife/'
