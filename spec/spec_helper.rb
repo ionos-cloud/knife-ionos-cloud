@@ -949,6 +949,82 @@ def check_required_options(subject)
   end
 end
 
+def test_server_start_stop_restart(subject, operation)
+
+  if operation == 'stop'
+    verb = 'stopping'
+  else
+    verb = operation + 'ing'
+  end
+
+  if operation == 'start'
+    method = :info
+  else
+    method = :warn
+  end
+
+  server = server_mock
+  subject_config = {
+    ionoscloud_username: 'email',
+    ionoscloud_password: 'password',
+    datacenter_id: 'datacenter_id',
+    yes: true,
+  }
+
+  subject_config.each { |key, value| subject.config[key] = value }
+  subject.name_args = [server.id]
+
+  expect(subject.ui).to receive(method).with("Server #{server.id} is #{verb}. Request ID: ")
+
+  expect(subject.api_client).not_to receive(:wait_for)
+  expect(subject).to receive(:get_request_id).once
+  mock_call_api(
+    subject,
+    [
+      {
+        method: 'POST',
+        path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server.id}/#{operation}",
+        operation: :"ServerApi.datacenters_servers_#{operation}_post",
+        return_type: 'Object',
+        result: server,
+      },
+    ],
+  )
+
+  expect { subject.run }.not_to raise_error(Exception)
+end
+
+
+def test_server_start_stop_restart_404(subject, operation)
+  server_id = 'invalid_id'
+  subject_config = {
+    ionoscloud_username: 'email',
+    ionoscloud_password: 'password',
+    datacenter_id: 'datacenter_id',
+  }
+
+  subject_config.each { |key, value| subject.config[key] = value }
+  subject.name_args = [server_id]
+
+  expect(subject.ui).to receive(:error).with("Server ID #{server_id} not found. Skipping.")
+
+  expect(subject.api_client).not_to receive(:wait_for)
+  mock_call_api(
+    subject,
+    [
+      {
+        method: 'POST',
+        path: "/datacenters/#{subject_config[:datacenter_id]}/servers/#{server_id}/#{operation}",
+        operation: :"ServerApi.datacenters_servers_#{operation}_post",
+        return_type: 'Object',
+        exception: Ionoscloud::ApiError.new(code: 404),
+      },
+    ],
+  )
+
+  expect { subject.run }.not_to raise_error(Exception)
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
