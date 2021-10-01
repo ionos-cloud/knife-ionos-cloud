@@ -994,6 +994,52 @@ def test_server_start_stop_restart(subject, operation)
   expect { subject.run }.not_to raise_error(Exception)
 end
 
+def test_label_missing_datacenter_id(subject, extra_config = {})
+  types = [
+    'server',
+    'volume',
+  ].each do |resource_type|
+    subject_config = {
+      ionoscloud_username: 'email',
+      ionoscloud_password: 'password',
+      type: 'server',
+      resource_id: 'resource_id',
+      key: 'key',
+      **extra_config,
+    }
+
+    subject_config.each { |key, value| subject.config[key] = value }
+
+    expect(subject).to receive(:puts).with("Missing required parameters #{[:datacenter_id]}")
+    expect(subject.api_client).not_to receive(:call_api)
+
+    expect { subject.run }.to raise_error(SystemExit) do |error|
+      expect(error.status).to eq(1)
+    end
+
+    subject_config.each { |value| subject.config[value] = nil }
+  end
+end
+
+def test_label_invalid_type(subject, extra_config = {})
+  subject_config = {
+    ionoscloud_username: 'email',
+    ionoscloud_password: 'password',
+    type: 'invalid_type',
+    resource_id: 'resource_id',
+    key: 'key',
+    **extra_config,
+  }
+
+  subject_config.each { |key, value| subject.config[key] = value }
+
+  expect(subject.ui).to receive(:error).with("#{subject_config[:type]} is not a valid Resource Type.")
+  expect(subject.api_client).not_to receive(:call_api)
+
+  expect { subject.run }.to raise_error(SystemExit) do |error|
+    expect(error.status).to eq(1)
+  end
+end
 
 def test_server_start_stop_restart_404(subject, operation)
   server_id = 'invalid_id'
