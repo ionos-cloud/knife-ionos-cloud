@@ -1071,6 +1071,45 @@ def test_server_start_stop_restart_404(subject, operation)
   expect { subject.run }.not_to raise_error(Exception)
 end
 
+def test_loadbalancer_nic_add_remove_invalid_id(subject, load_balancer, datacenter_id, nic_id, operation, path, method, body, return_type)
+  subject_config = {
+    ionoscloud_username: 'email',
+    ionoscloud_password: 'password',
+    datacenter_id: datacenter_id,
+    loadbalancer_id: load_balancer.id,
+  }
+
+  subject_config.each { |key, value| subject.config[key] = value }
+  subject.name_args = [nic_id]
+
+  check_loadbalancer_print(subject, load_balancer)
+  expect(subject.ui).to receive(:error).with("NIC ID #{nic_id} not found. Skipping.")
+
+  expect(subject.api_client).not_to receive(:wait_for)
+  mock_call_api(
+    subject,
+    [
+      {
+        method: method,
+        path: path,
+        operation: operation,
+        body: body,
+        return_type: return_type,
+        exception: Ionoscloud::ApiError.new(code: 404),
+      },
+      {
+        method: 'GET',
+        path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
+        operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
+        return_type: 'Loadbalancer',
+        result: load_balancer,
+      },
+    ],
+  )
+
+  expect { subject.run }.not_to raise_error(Exception)
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }

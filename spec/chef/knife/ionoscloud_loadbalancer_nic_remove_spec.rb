@@ -53,48 +53,16 @@ describe Chef::Knife::IonoscloudLoadbalancerNicRemove do
     end
 
     it 'should not call LoadBalancerApi.datacenters_loadbalancers_delete when the ID is not valid' do
+
       load_balancer = load_balancer_mock
       nic_id = 'invalid_id'
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-        datacenter_id: 'datacenter_id',
-        loadbalancer_id: load_balancer.id,
-      }
+      datacenter_id = 'datacenter_id'
 
-      subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [nic_id]
-
-      nics = load_balancer.entities.balancednics.items.map { |nic| nic.id }
-
-      expect(subject).to receive(:puts).with("ID: #{load_balancer.id}")
-      expect(subject).to receive(:puts).with("Name: #{load_balancer.properties.name}")
-      expect(subject).to receive(:puts).with("IP address: #{load_balancer.properties.ip}")
-      expect(subject).to receive(:puts).with("DHCP: #{load_balancer.properties.dhcp}")
-      expect(subject).to receive(:puts).with("Balanced Nics: #{nics.to_s}")
-      expect(subject.ui).to receive(:error).with("NIC ID #{nic_id} not found. Skipping.")
-
-      expect(subject.api_client).not_to receive(:wait_for)
-      mock_call_api(
-        subject,
-        [
-          {
-            method: 'DELETE',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{subject_config[:loadbalancer_id]}/balancednics/#{nic_id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_balancednics_delete',
-            exception: Ionoscloud::ApiError.new(code: 404),
-          },
-          {
-            method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/loadbalancers/#{load_balancer.id}",
-            operation: :'LoadBalancerApi.datacenters_loadbalancers_find_by_id',
-            return_type: 'Loadbalancer',
-            result: load_balancer,
-          },
-        ],
+      test_loadbalancer_nic_add_remove_invalid_id(
+        subject, load_balancer, datacenter_id, nic_id, :'LoadBalancerApi.datacenters_loadbalancers_balancednics_delete',
+        "/datacenters/#{datacenter_id}/loadbalancers/#{load_balancer.id}/balancednics/#{nic_id}",
+        'DELETE', nil, nil,
       )
-
-      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should not make any call if any required option is missing' do
