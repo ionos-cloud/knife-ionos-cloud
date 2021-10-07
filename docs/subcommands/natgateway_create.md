@@ -19,10 +19,10 @@ knife ionoscloud natgateway create (options)
         name of the data center (required)
 
     name: --name NAME, -n NAME
-        name of the server
+        name of the NAT gateway
 
     ips: --ips IP[,IP,...], -i IP[,IP,...]
-        iPs assigned to the NIC
+        collection of public IP addresses of the NAT gateway. Should be customer reserved IP addresses in that location
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)

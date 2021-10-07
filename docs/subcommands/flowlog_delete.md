@@ -20,7 +20,7 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
         the ID of the data center (required)
 
     type: --type FLOWLOG_TYPE, -t FLOWLOG_TYPE
-        the object to which the flow log will be attached (required)
+        the object to which the Flow Log will be attached (required)
 
     server_id: --server-id SERVER_ID, -S SERVER_ID
         the ID of the server

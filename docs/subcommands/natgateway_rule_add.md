@@ -1,6 +1,6 @@
 # NatgatewayRuleAdd
 
-Adds a LAN to a Nat Gateway under a data center.
+Adds a Rule to a Nat Gateway under a data center.
 
 ```text
 knife ionoscloud natgateway rule add (options)

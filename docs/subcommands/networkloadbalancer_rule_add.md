@@ -43,9 +43,6 @@ knife ionoscloud networkloadbalancer rule add (options)
     client_timeout: --client-timeout CLIENT_TIMEOUT
         clientTimeout is expressed in milliseconds. This inactivity timeout applies when the client is expected to acknowledge or send data. If unset the default of 50 seconds will be used.
 
-    check_timeout: --check-timeout CLIENT_TIMEOUT
-        it specifies the time (in milliseconds) for a target VM in this pool to answer the check. If a target VM has CheckInterval set and CheckTimeout is set too, then the smaller value of the two is used after the TCP connection is established.
-
     connect_timeout: --connect-timeout CONNECT_TIMEOUT
         it specifies the maximum time (in milliseconds) to wait for a connection attempt to a target VM to succeed. If unset, the default of 5 seconds will be used.
 
@@ -54,6 +51,9 @@ knife ionoscloud networkloadbalancer rule add (options)
 
     retries: --retries RETRIES, -r RETRIES
         retries specifies the number of retries to perform on a target VM after a connection failure. If unset, the default value of 3 will be used. (valid range: [0, 65535])
+
+    targets: --targets TARGETS
+        array of targets
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -68,5 +68,5 @@ knife ionoscloud networkloadbalancer rule add (options)
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule add --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --check-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud networkloadbalancer rule add --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --targets TARGETS --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
