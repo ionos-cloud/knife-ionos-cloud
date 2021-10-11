@@ -31,7 +31,6 @@ class Chef
               short: '-d',
               long: '--dhcp',
               boolean: true | false,
-              default: true,
               description: 'Set to false if you wish to disable DHCP'
 
       option :lan,
@@ -43,8 +42,7 @@ class Chef
               short: '-t FIREWALL_TYPE',
               long: '--firewall-type FIREWALL_TYPE',
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
-              'default value INGRESS',
-              default: 'INGRESS'
+              'default value INGRESS'
 
       attr_reader :description, :required_options
 

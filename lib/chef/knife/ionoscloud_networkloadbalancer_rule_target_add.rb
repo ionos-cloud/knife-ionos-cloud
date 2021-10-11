@@ -55,8 +55,7 @@ class Chef
       option :check_interval,
               long: '--check-interval CHECK_INTERVAL',
               description: 'CheckInterval determines the duration (in milliseconds) between consecutive health checks. '\
-              'If unspecified a default of 2000 ms is used.',
-              default: 2000
+              'If unspecified a default of 2000 ms is used.'
 
       option :maintenance,
               short: '-m',
