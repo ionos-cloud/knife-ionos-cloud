@@ -21,9 +21,6 @@ knife ionoscloud k8s create (options)
     version: --version VERSION, -v VERSION
         the version for the Kubernetes cluster.
 
-    private: --private
-        the indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.
-
     maintenance_day: --maintenance-day MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
@@ -49,5 +46,5 @@ knife ionoscloud k8s create (options)
 ## Example
 
 ```text
-knife ionoscloud k8s create --name NAME --version VERSION --private --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET[,SUBNET,...] --s3-buckets BUCKET[,BUCKET,...] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud k8s create --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET[,SUBNET,...] --s3-buckets BUCKET[,BUCKET,...] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

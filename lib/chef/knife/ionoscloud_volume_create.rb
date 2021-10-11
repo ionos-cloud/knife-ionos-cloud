@@ -25,8 +25,7 @@ class Chef
       option :bus,
               short: '-b BUS',
               long: '--bus BUS',
-              description: 'The bus type of the volume (VIRTIO or IDE)',
-              default: 'VIRTIO'
+              description: 'The bus type of the volume (VIRTIO or IDE)'
 
       option :image,
               short: '-N ID',
