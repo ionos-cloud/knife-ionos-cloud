@@ -12,7 +12,11 @@ class Chef
       def self.included(includer)
         includer.class_eval do
           deps do
+            warn_level = $VERBOSE
+            $VERBOSE = nil
             require 'ionoscloud'
+            require 'ionoscloud-dbaas'
+            $VERBOSE = warn_level
           end
 
           option :ionoscloud_username,
@@ -75,6 +79,17 @@ class Chef
         api_config.debugging = config[:ionoscloud_debug] || false
 
         @api_client ||= Ionoscloud::ApiClient.new(api_config)
+      end
+
+      def api_client_dbaas
+        api_config_dbaas = IonoscloudDbaas::Configuration.new()
+
+        api_config_dbaas.username = config[:ionoscloud_username]
+        api_config_dbaas.password = config[:ionoscloud_password]
+
+        api_config_dbaas.debugging = config[:ionoscloud_debug] || false
+
+        @api_client_dbaas ||= IonoscloudDbaas::ApiClient.new(api_config_dbaas)
       end
 
       def get_request_id(headers)
@@ -394,6 +409,25 @@ class Chef
           }
         end}"
         puts "#{ui.color('Flowlogs', :cyan)}: #{natgateway.entities.flowlogs.items.map { |flowlog| flowlog.id }}"
+      end
+
+      def print_cluster(cluster)
+        vdc_connections = cluster.vdc_connections.map { |vdc_connection| vdc_connection.to_hash }
+
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
+        puts "#{ui.color('Display Name', :cyan)}: #{cluster.display_name}"
+        puts "#{ui.color('Postgres Version', :cyan)}: #{cluster.postgres_version}"
+        puts "#{ui.color('Location', :cyan)}: #{cluster.location}"
+        puts "#{ui.color('Replicas', :cyan)}: #{cluster.replicas}"
+        puts "#{ui.color('RAM Size', :cyan)}: #{cluster.ram_size}"
+        puts "#{ui.color('CPU Core Count', :cyan)}: #{cluster.cpu_core_count}"
+        puts "#{ui.color('Storage Size', :cyan)}: #{cluster.storage_size}"
+        puts "#{ui.color('Storage Type', :cyan)}: #{cluster.storage_type}"
+        puts "#{ui.color('Backup Enabled', :cyan)}: #{cluster.backup_enabled}"
+        puts "#{ui.color('VDC Connections', :cyan)}: #{vdc_connections}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.maintenance_window.to_hash}"
+        puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.lifecycle_status}"
       end
     end
   end
