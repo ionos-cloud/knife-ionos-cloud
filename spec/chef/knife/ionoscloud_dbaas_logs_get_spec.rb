@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudDbaasLogsGet do
   end
 
   describe '#run' do
-    it 'should call Logs.cluster_logs_get' do
+    it 'should call LogsApi.cluster_logs_get' do
       cluster_logs = cluster_logs_mock
       subject_config = {
         ionoscloud_username: 'email',
