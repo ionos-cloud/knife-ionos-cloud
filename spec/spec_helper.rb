@@ -884,6 +884,14 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
+def postgres_version_data_mock(opts = {})
+  IonoscloudDbaas::PostgresVersionListData.new(name: opts[:name] || 12)
+end
+
+def postgres_version_list_mock(opts = {})
+  IonoscloudDbaas::PostgresVersionList.new(data: [postgres_version_data_mock(name: 11), postgres_version_data_mock(name: 12)])
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
@@ -892,6 +900,30 @@ end
 
 def mock_wait_for(subject)
   expect(subject.api_client).to receive(:wait_for).once { true }
+end
+
+def mock_dbaas_call_api(subject, rules)
+  rules.each do |rule|
+    expect(subject.api_client_dbaas).to receive(:call_api).once do |method, path, opts|
+      result = nil
+      received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
+
+      expect(method.to_s).to eq(rule[:method])
+      expect(path).to eq(rule[:path])
+      expect(opts[:operation]).to eq(rule[:operation])
+      expect(opts[:form_params]).to eq(rule[:form_params] || {})
+      expect(opts[:return_type]).to eq(rule[:return_type] || nil)
+      expect(received_body).to eq(rule[:body] || nil)
+      expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
+
+      if rule[:exception]
+        raise rule[:exception]
+      end
+
+      rule[:result]
+    end
+  end
+  expect(subject.api_client_dbaas).not_to receive(:call_api)
 end
 
 def mock_call_api(subject, rules)
