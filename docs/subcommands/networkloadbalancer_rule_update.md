@@ -1,9 +1,9 @@
-# NetworkloadbalancerRuleAdd
+# NetworkloadbalancerRuleUpdate
 
-Adds a Forwarding Rule to a Network Load Balancer under a data center.
+Updates information about a Ionoscloud Network Load Balancer.
 
 ```text
-knife ionoscloud networkloadbalancer rule add (options)
+knife ionoscloud networkloadbalancer rule update (options)
 ```
 
 ## Available options:
@@ -12,21 +12,21 @@ knife ionoscloud networkloadbalancer rule add (options)
 
 * datacenter\_id
 * network\_loadbalancer\_id
-* name
-* listener\_ip
-* listener\_port
 * ionoscloud\_username
 * ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
-        name of the data center (required)
+        iD of the data center (required)
 
     network_loadbalancer_id: --network-loadbalancer NETWORK_LOADBALANCER_ID, -L NETWORK_LOADBALANCER_ID
         iD of the Network Loadbalancer (required)
 
+    forwarding_rule_id: --forwarding-rule FORWARDING_RULE_ID, -R FORWARDING_RULE_ID
+        iD of the Network Loadbalancer Forwarding Rule
+
     name: --name NAME, -n NAME
-        a name of that Network Load Balancer forwarding rule (required)
+        a name of that Network Load Balancer forwarding rule
 
     algorithm: --algorithm ALGORITHM, -a ALGORITHM
         algorithm for the balancing
@@ -35,10 +35,10 @@ knife ionoscloud networkloadbalancer rule add (options)
         protocol of the balancing
 
     listener_ip: --ip LISTENER_IP, -i LISTENER_IP
-        listening IP. (inbound) (required)
+        listening IP. (inbound)
 
     listener_port: --port LISTENER_PORT, -p LISTENER_PORT
-        listening port number. (inbound) (range: 1 to 65535) (required)
+        listening port number. (inbound) (range: 1 to 65535)
 
     client_timeout: --client-timeout CLIENT_TIMEOUT
         clientTimeout is expressed in milliseconds. This inactivity timeout applies when the client is expected to acknowledge or send data. If unset the default of 50 seconds will be used.
@@ -68,5 +68,5 @@ knife ionoscloud networkloadbalancer rule add (options)
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule add --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --targets TARGETS --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud networkloadbalancer rule update --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --targets TARGETS --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

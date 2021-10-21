@@ -1,9 +1,9 @@
-# NatgatewayCreate
+# ServerGet
 
-Creates a new Nat Gateway under a data center.
+Retrieves the attributes of a given Server.
 
 ```text
-knife ionoscloud natgateway create (options)
+knife ionoscloud server get (options)
 ```
 
 ## Available options:
@@ -11,18 +11,16 @@ knife ionoscloud natgateway create (options)
 ### Required options:
 
 * datacenter\_id
+* server\_id
 * ionoscloud\_username
 * ionoscloud\_password
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
-        name of the data center (required)
+        iD of the data center (required)
 
-    name: --name NAME, -n NAME
-        name of the NAT gateway
-
-    ips: --ips IP[,IP,...], -i IP[,IP,...]
-        collection of public IP addresses of the NAT gateway. Should be customer reserved IP addresses in that location
+    server_id: --server-id SERVER_ID, -S SERVER_ID
+        the ID of the server to which the NIC is assigned (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -37,5 +35,5 @@ knife ionoscloud natgateway create (options)
 ## Example
 
 ```text
-knife ionoscloud natgateway create --datacenter-id DATACENTER_ID --name NAME --ips IP[,IP,...] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud server get --datacenter-id DATACENTER_ID --server-id SERVER_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

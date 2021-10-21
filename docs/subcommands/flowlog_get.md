@@ -1,15 +1,16 @@
-# FlowlogDelete
+# FlowlogGet
 
-Removes the specified Flow Logs.
+Retrieves information about a Ionoscloud Flow Log.
 
 ```text
-knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
+knife ionoscloud flowlog get (options)
 ```
 
 ## Available options:
 
 ### Required options:
 
+* flowlog\_id
 * datacenter\_id
 * type
 * ionoscloud\_username
@@ -34,6 +35,9 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
     network_loadbalancer_id: --network-loadbalancer NETWORK_LOADBALANCER, -L NETWORK_LOADBALANCER
         iD of the Network Load Balancer
 
+    flowlog_id: --flowlog-id FLOWLOG_ID, -F FLOWLOG_ID
+        the ID of the Flow Log (required)
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
@@ -47,5 +51,5 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
 ## Example
 
 ```text
-knife ionoscloud flowlog delete FLOWLOG_ID 
+knife ionoscloud flowlog get --datacenter-id DATACENTER_ID --type FLOWLOG_TYPE --server-id SERVER_ID --nic-id NIC_ID --nat-gateway NAT_GATEWAY_ID --network-loadbalancer NETWORK_LOADBALANCER --flowlog-id FLOWLOG_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

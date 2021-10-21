@@ -1,17 +1,19 @@
-# FlowlogDelete
+# FirewallGet
 
-Removes the specified Flow Logs.
+Retrieves information about a Ionoscloud Firewall Rule.
 
 ```text
-knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
+knife ionoscloud firewall get (options)
 ```
 
 ## Available options:
 
 ### Required options:
 
+* firewall\_id
 * datacenter\_id
-* type
+* server\_id
+* nic\_id
 * ionoscloud\_username
 * ionoscloud\_password
 
@@ -19,20 +21,14 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
-    type: --type FLOWLOG_TYPE, -t FLOWLOG_TYPE
-        the object to which the Flow Log will be attached (required)
-
     server_id: --server-id SERVER_ID, -S SERVER_ID
-        the ID of the server
+        the ID of the server (required)
 
     nic_id: --nic-id NIC_ID, -N NIC_ID
-        iD of the NIC
+        iD of the NIC (required)
 
-    natgateway_id: --nat-gateway NAT_GATEWAY_ID, -G NAT_GATEWAY_ID
-        iD of the NAT Gateway
-
-    network_loadbalancer_id: --network-loadbalancer NETWORK_LOADBALANCER, -L NETWORK_LOADBALANCER
-        iD of the Network Load Balancer
+    firewall_id: --firewall-id FIREWALL_ID, -F FIREWALL_ID
+        iD of the Firewall Rule (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -47,5 +43,5 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
 ## Example
 
 ```text
-knife ionoscloud flowlog delete FLOWLOG_ID 
+knife ionoscloud firewall get --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --firewall-id FIREWALL_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

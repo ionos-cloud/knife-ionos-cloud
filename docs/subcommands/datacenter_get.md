@@ -1,9 +1,9 @@
-# NatgatewayCreate
+# DatacenterGet
 
-Creates a new Nat Gateway under a data center.
+Retrieves information about a Ionoscloud Datacenter.
 
 ```text
-knife ionoscloud natgateway create (options)
+knife ionoscloud datacenter get (options)
 ```
 
 ## Available options:
@@ -16,13 +16,7 @@ knife ionoscloud natgateway create (options)
 
 ```text
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
-        name of the data center (required)
-
-    name: --name NAME, -n NAME
-        name of the NAT gateway
-
-    ips: --ips IP[,IP,...], -i IP[,IP,...]
-        collection of public IP addresses of the NAT gateway. Should be customer reserved IP addresses in that location
+        iD of the data center (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -37,5 +31,5 @@ knife ionoscloud natgateway create (options)
 ## Example
 
 ```text
-knife ionoscloud natgateway create --datacenter-id DATACENTER_ID --name NAME --ips IP[,IP,...] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud datacenter get --datacenter-id DATACENTER_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```
