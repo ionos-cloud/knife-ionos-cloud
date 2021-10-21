@@ -61,18 +61,9 @@ class Chef
         cluster_properties = {
           name: config[:name],
           k8s_version: config[:version],
-          public: !config[:private],
           api_subnet_allow_list: config[:api_subnet_allow_list],
           s3_buckets: (config[:s3_buckets].nil? ? config[:s3_buckets] : config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) }),
         }.compact
-
-        if config[:private]
-          if !config[:gateway_ip]
-            ui.error("Gateway IP must be specified for private K8s Clusters")
-            exit(1)
-          end
-          cluster_properties[:gateway_ip] = config[:gateway_ip]
-        end
 
         if config[:maintenance_day] && config[:maintenance_time]
           cluster_properties[:maintenance_window] = Ionoscloud::KubernetesMaintenanceWindow.new(
