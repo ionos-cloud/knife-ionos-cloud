@@ -23,6 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         lan_api = Ionoscloud::LansApi.new(api_client)
@@ -35,9 +36,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', lan.id)
-          msg_pair('Name', lan.properties.name)
-          msg_pair('Public', lan.properties.public.to_s)
+          print_lan(lan)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this LAN')

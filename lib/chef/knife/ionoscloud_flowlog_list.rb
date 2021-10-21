@@ -48,6 +48,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         flowlog_list = [
@@ -72,14 +73,14 @@ class Chef
           flowlogs = flowlogs_api.datacenters_natgateways_flowlogs_get(
             config[:datacenter_id], config[:natgateway_id], { depth: 1 }
           )
-        when 'loadbalancer'
+        when 'networkloadbalancer'
           validate_required_params([:network_loadbalancer_id], config)
           flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
           flowlogs = flowlogs_api.datacenters_networkloadbalancers_flowlogs_get(
             config[:datacenter_id], config[:network_loadbalancer_id], { depth: 1 }
           )
         else
-          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']"
+          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']"
           exit(1)
         end
 

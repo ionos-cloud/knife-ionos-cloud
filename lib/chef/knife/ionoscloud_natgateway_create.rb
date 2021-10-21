@@ -15,12 +15,12 @@ class Chef
       option :name,
               short: '-n NAME',
               long: '--name NAME',
-              description: 'Name of the server'
+              description: 'Name of the NAT gateway'
 
       option :ips,
               short: '-i IP[,IP,...]',
               long: '--ips IP[,IP,...]',
-              description: 'IPs assigned to the NIC'
+              description: 'Collection of public IP addresses of the NAT gateway. Should be customer reserved IP addresses in that location'
 
       attr_reader :description, :required_options
 
@@ -33,13 +33,12 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
 
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         natgateway = Ionoscloud::NatGateway.new(
           properties: Ionoscloud::NatGatewayProperties.new(
@@ -48,23 +47,13 @@ class Chef
           )
         )
 
-        natgateway, _, headers = natgateways_api.datacenters_natgateways_post_with_http_info(
-          config[:datacenter_id],
-          natgateway,
-        )
+        natgateway, _, headers = natgateways_api.datacenters_natgateways_post_with_http_info(config[:datacenter_id], natgateway)
 
         print "#{ui.color('Creating Nat Gateway...', :magenta)}"
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"
-        puts "#{ui.color('Name', :cyan)}: #{natgateway.properties.name}"
-        puts "#{ui.color('IPS', :cyan)}: #{natgateway.properties.public_ips}"
-
-        puts 'done'
+        print_natgateway(natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], natgateway.id, depth: 2))
       end
     end
   end

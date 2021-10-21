@@ -32,24 +32,27 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating private cross connect...', :magenta)}"
 
         pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
-        config[:peers] = config[:peers].split(',') unless config[:peers].nil?
+        config[:peers] = config[:peers].split(',') if config[:peers] && config[:peers].instance_of?(String)
 
         if config[:peers] && config[:peers].length % 2 != 0
           ui.error('Each Lan ID should correspond to one Datacenter ID!')
           exit(1)
         end
 
-        pcc, _, headers  = pcc_api.pccs_post_with_http_info({
-          properties: {
-            name: config[:name],
-            description: config[:description],
-          }.compact,
-        })
+        pcc, _, headers  = pcc_api.pccs_post_with_http_info(
+          Ionoscloud::PrivateCrossConnect.new(
+            properties: Ionoscloud::PrivateCrossConnectProperties.new(
+              name: config[:name],
+              description: config[:description],
+            ),
+          ),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
@@ -80,15 +83,7 @@ class Chef
           end
         end
 
-        pcc = pcc_api.pccs_find_by_id(pcc.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{pcc.id}"
-        puts "#{ui.color('Name', :cyan)}: #{pcc.properties.name}"
-        puts "#{ui.color('Description', :cyan)}: #{pcc.properties.description}"
-        puts "#{ui.color('Peers', :cyan)}: #{pcc.properties.peers.to_s}"
-        puts "#{ui.color('Datacenters', :cyan)}: #{pcc.properties.connectable_datacenters.to_s}"
-        puts 'done'
+        print_pcc(pcc_api.pccs_find_by_id(pcc.id))
       end
     end
   end

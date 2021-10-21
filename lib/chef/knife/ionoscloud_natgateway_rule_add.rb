@@ -64,12 +64,13 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Adds a LAN to a Nat Gateway under a data center.'
+        'Adds a Rule to a Nat Gateway under a data center.'
         @required_options = [:datacenter_id, :natgateway_id, :name, :source_subnet, :public_ip, :ionoscloud_username, :ionoscloud_password]
       end
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
@@ -97,27 +98,9 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        natgateway = natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id], depth: 2)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{natgateway.id}"
-        puts "#{ui.color('Name', :cyan)}: #{natgateway.properties.name}"
-        puts "#{ui.color('IPS', :cyan)}: #{natgateway.properties.public_ips}"
-        puts "#{ui.color('LANS', :cyan)}: #{natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } }}"
-        puts "#{ui.color('Rules', :cyan)}: #{natgateway.entities.rules.items.map do |el|
-          {
-            id: el.id,
-            name: el.properties.name,
-            type: el.properties.type,
-            protocol: el.properties.protocol,
-            public_ip: el.properties.public_ip,
-            source_subnet: el.properties.source_subnet,
-            target_subnet: el.properties.target_subnet,
-            target_port_range_start: el.properties.target_port_range ? el.properties.target_port_range.start : '',
-            target_port_range_end: el.properties.target_port_range ? el.properties.target_port_range._end : '',
-          }
-        end}"
-        puts 'done'
+        print_natgateway(
+          natgateways_api.datacenters_natgateways_find_by_nat_gateway_id(config[:datacenter_id], config[:natgateway_id], depth: 2),
+        )
       end
     end
   end

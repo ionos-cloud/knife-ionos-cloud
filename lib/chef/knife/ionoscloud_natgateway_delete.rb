@@ -23,6 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         natgateways_api = Ionoscloud::NATGatewaysApi.new(api_client)
@@ -35,24 +36,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', natgateway.id)
-          msg_pair('Name', natgateway.properties.name)
-          msg_pair('IPS', natgateway.properties.public_ips)
-          msg_pair('LANS', natgateway.properties.lans.map { |el| { id: el.id, gateway_ips: el.gateway_ips } })
-          msg_pair('Rules', natgateway.entities.rules.items.map do |el|
-              {
-                id: el.id,
-                name: el.properties.name,
-                type: el.properties.type,
-                protocol: el.properties.protocol,
-                public_ip: el.properties.public_ip,
-                source_subnet: el.properties.source_subnet,
-                target_subnet: el.properties.target_subnet,
-                target_port_range_start: el.properties.target_port_range ? el.properties.target_port_range.start : '',
-                target_port_range_end: el.properties.target_port_range ? el.properties.target_port_range._end : '',
-              }
-            end
-          )
+          print_natgateway(natgateway)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this NAT Gateway')

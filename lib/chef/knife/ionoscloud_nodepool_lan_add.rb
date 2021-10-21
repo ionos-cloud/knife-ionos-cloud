@@ -43,6 +43,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
@@ -56,7 +57,7 @@ class Chef
         end
 
         routes = []
-        config[:routes] = config[:routes].split(',') if config[:routes]
+        config[:routes] = config[:routes].split(',') if config[:routes] && config[:routes].instance_of?(String)
         config[:routes].each_slice(2) do |network, gateway_ip|
           routes << Ionoscloud::KubernetesNodePoolLanRoutes.new(
             network: network,
@@ -69,8 +70,6 @@ class Chef
           dhcp: !config[:no_dhcp],
           routes: routes,
         )
-
-        puts new_lan
 
         existing = nodepool.properties.lans.select { |lan| lan.id == new_lan.id }
 
@@ -98,32 +97,7 @@ class Chef
           ui.info("Adding Lan #{config[:lan_id]} to the Nodepoool.")
         end
 
-        auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
-        maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{nodepool.id}"
-        puts "#{ui.color('Name', :cyan)}: #{nodepool.properties.name}"
-        puts "#{ui.color('K8s Version', :cyan)}: #{nodepool.properties.k8s_version}"
-        puts "#{ui.color('Node Count', :cyan)}: #{nodepool.properties.node_count}"
-        puts "#{ui.color('Lans', :cyan)}: #{nodepool.properties.lans.map do
-          |lan|
-          {
-            id: lan.id,
-            dhcp: lan.dhcp,
-            routes: lan.routes ? lan.routes.map do
-              |route|
-              {
-                network: route.network,
-                gateway_ip: route.gateway_ip,
-              }
-            end : []
-          }
-        end}"
-        puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
-        puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
-        puts "#{ui.color('State', :cyan)}: #{nodepool.metadata.state}"
-        puts 'done'
+        print_k8s_nodepool(nodepool)
       end
     end
   end

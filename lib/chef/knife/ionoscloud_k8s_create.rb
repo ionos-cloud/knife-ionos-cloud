@@ -17,16 +17,6 @@ class Chef
               long: '--version VERSION',
               description: 'The version for the Kubernetes cluster.'
 
-      option :private,
-              long: '--private',
-              default: false,
-              description: 'The indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.'
-
-      option :gateway_ip,
-              long: '--gateway GATEWAY_IP',
-              description: 'The IP address of the gateway used by the cluster. This is mandatory when `public` is set to `false` and should not be '
-              'provided otherwise.'
-
       option :maintenance_day,
               short: '-d MAINTENANCE_DAY',
               long: '--maintenance-day MAINTENANCE_DAY',
@@ -58,21 +48,22 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating K8s Cluster...', :magenta)}"
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
-        config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',') if config[:api_subnet_allow_list]
-        config[:s3_buckets] = config[:s3_buckets].split(',') if config[:s3_buckets]
+        config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',') if config[:api_subnet_allow_list] && config[:api_subnet_allow_list].instance_of?(String)
+        config[:s3_buckets] = config[:s3_buckets].split(',') if config[:s3_buckets] && config[:s3_buckets].instance_of?(String)
 
         cluster_properties = {
           name: config[:name],
           k8s_version: config[:version],
           public: !config[:private],
           api_subnet_allow_list: config[:api_subnet_allow_list],
-          s3_buckets: config[:s3_buckets],
+          s3_buckets: (config[:s3_buckets].nil? ? config[:s3_buckets] : config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) }),
         }.compact
 
         if config[:private]
@@ -101,18 +92,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        cluster = kubernetes_api.k8s_find_by_cluster_id(cluster.id)
-
-        maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
-        puts "#{ui.color('Name', :cyan)}: #{cluster.properties.name}"
-        puts "#{ui.color('k8s Version', :cyan)}: #{cluster.properties.k8s_version}"
-        puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
-        puts "#{ui.color('State', :cyan)}: #{cluster.metadata.state}"
-
-        puts 'done'
+        print_k8s_cluster(kubernetes_api.k8s_find_by_cluster_id(cluster.id))
       end
     end
   end

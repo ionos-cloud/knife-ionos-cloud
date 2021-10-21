@@ -77,6 +77,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating Group...', :magenta)}"
@@ -106,22 +107,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{group.id}"
-        puts "#{ui.color('Name', :cyan)}: #{group.properties.name}"
-        puts "#{ui.color('Create Datacenter', :cyan)}: #{group.properties.create_data_center.to_s}"
-        puts "#{ui.color('Create Snapshot', :cyan)}: #{group.properties.create_snapshot.to_s}"
-        puts "#{ui.color('Reserve IP', :cyan)}: #{group.properties.reserve_ip.to_s}"
-        puts "#{ui.color('Access Activity Log', :cyan)}: #{group.properties.access_activity_log.to_s}"
-        puts "#{ui.color('S3 Privilege', :cyan)}: #{group.properties.s3_privilege.to_s}"
-        puts "#{ui.color('Create Backup Unit', :cyan)}: #{group.properties.create_backup_unit.to_s}"
-        puts "#{ui.color('Create K8s Clusters', :cyan)}: #{group.properties.create_k8s_cluster.to_s}"
-        puts "#{ui.color('Create PCC', :cyan)}: #{group.properties.create_pcc.to_s}"
-        puts "#{ui.color('Create Internet Acess', :cyan)}: #{group.properties.create_internet_access.to_s}"
-        puts "#{ui.color('Create Flow Logs', :cyan)}: #{group.properties.create_flow_log.to_s}"
-        puts "#{ui.color('Access and Manage Monitoring', :cyan)}: #{group.properties.access_and_manage_monitoring.to_s}"
-        puts "#{ui.color('Access and Manage Certificates', :cyan)}: #{group.properties.access_and_manage_certificates.to_s}"
-        puts 'done'
+        print_group(group)
       end
     end
   end

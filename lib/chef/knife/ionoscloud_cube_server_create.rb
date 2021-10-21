@@ -24,14 +24,12 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)',
-              default: 'INTEL_SKYLAKE'
+              description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)'
 
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the server',
-              default: 'AUTO'
+              description: 'The availability zone of the server'
 
       option :volume_name,
               long: '--volume-name NAME',
@@ -93,7 +91,6 @@ class Chef
               short: '-h',
               long: '--dhcp',
               boolean: true | false,
-              default: true,
               description: 'Set to false if you wish to disable DHCP'
 
       option :lan,
@@ -105,8 +102,7 @@ class Chef
               short: '-t FIREWALL_TYPE',
               long: '--firewall-type FIREWALL_TYPE',
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
-              'default value INGRESS',
-              default: 'INGRESS'
+              'default value INGRESS'
 
       attr_reader :description, :required_options
 
@@ -121,10 +117,11 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
-        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
-        config[:ips] = config[:ips].split(',') if config[:ips]
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys] && config[:ssh_keys].instance_of?(String)
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         print ui.color('Creating cube server...', :magenta).to_s
 

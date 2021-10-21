@@ -35,8 +35,8 @@ knife ionoscloud nic create (options)
     lan: --lan ID, -l ID
         the LAN ID the NIC will reside on; if the LAN ID does not exist it will be created (required)
 
-    nat: --nat
-        set to enable NAT on the NIC
+    firewall_type: --firewall-type FIREWALL_TYPE, -t FIREWALL_TYPE
+        the type of firewall rules that will be allowed on the NIC. If it is not specified it will take the default value INGRESS
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
@@ -44,9 +44,12 @@ knife ionoscloud nic create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
 ```
 ## Example
 
 ```text
-knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --nat --username USERNAME --password PASSWORD
+knife ionoscloud nic create --datacenter-id DATACENTER_ID --server-id SERVER_ID --name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
 ```

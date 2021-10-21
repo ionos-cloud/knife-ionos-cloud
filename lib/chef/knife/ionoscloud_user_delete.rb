@@ -20,6 +20,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         user_management_api = Ionoscloud::UserManagementApi.new(api_client)
@@ -33,12 +34,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', user.id)
-          msg_pair('Firstname', user.properties.firstname)
-          msg_pair('Lastname', user.properties.lastname)
-          msg_pair('Email', user.properties.email)
-          msg_pair('Administrator', user.properties.administrator.to_s)
-          msg_pair('2-Factor Auth', user.properties.force_sec_auth.to_s)
+          print_user(user)
           puts "\n"
 
           begin

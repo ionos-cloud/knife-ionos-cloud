@@ -34,6 +34,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleAdd do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
+
       expect(subject).to receive(:puts).with("ID: #{network_loadbalancer.id}")
       expect(subject).to receive(:puts).with("Name: #{network_loadbalancer.properties.name}")
       expect(subject).to receive(:puts).with("Listener LAN: #{network_loadbalancer.properties.listener_lan}")
@@ -48,10 +49,11 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleAdd do
           protocol: rule.properties.protocol,
           listener_ip: rule.properties.listener_ip,
           listener_port: rule.properties.listener_port,
-          health_check: rule.properties.health_check,
-          targets: rule.properties.targets,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: (rule.properties.targets.nil? ? [] : rule.properties.targets.map { |target| target.to_hash }),
         }
       end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       network_loadbalancer.entities.forwardingrules.items << network_loadbalancer_rule
 

@@ -40,6 +40,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Sharing Resource...', :magenta)}"
@@ -49,22 +50,18 @@ class Chef
         share, _, headers  = user_management_api.um_groups_shares_post_with_http_info(
           config[:group_id],
           config[:resource_id],
-          {
-            properties: {
-              editPrivilege: config[:edit_privilege],
-              sharePrivilege: config[:share_privilege],
-            }.compact,
-          },
+          Ionoscloud::GroupShare.new(
+            properties: Ionoscloud::GroupShareProperties.new(
+              edit_privilege: config[:edit_privilege],
+              share_privilege: config[:share_privilege],
+            ),
+          ),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{share.id}"
-        puts "#{ui.color('Edit Privilege', :cyan)}: #{share.properties.edit_privilege.to_s}"
-        puts "#{ui.color('Share Privilege', :cyan)}: #{share.properties.share_privilege.to_s}"
-        puts 'done'
+        print_share(share)
       end
     end
   end

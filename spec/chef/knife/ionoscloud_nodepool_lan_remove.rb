@@ -27,30 +27,25 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
 
       auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
       maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+      lans = [nodepool.properties.lans[1]].map { |lan| lan.to_hash }
 
-      expect(subject.ui).to receive(:info).with("Removing Lans #{subject.name_args} from the Nodepoool.")
       expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
       expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
       expect(subject).to receive(:puts).with("K8s Version: #{nodepool.properties.k8s_version}")
+      expect(subject).to receive(:puts).with("Datacenter ID: #{nodepool.properties.datacenter_id}")
       expect(subject).to receive(:puts).with("Node Count: #{nodepool.properties.node_count}")
-      expect(subject).to receive(:puts).with("Lans: #{[nodepool.properties.lans[1]].map do
-        |lan|
-        {
-          id: lan.id,
-          dhcp: lan.dhcp,
-          routes: lan.routes ? lan.routes.map do
-            |route|
-            {
-              network: route.network,
-              gateway_ip: route.gateway_ip,
-            }
-          end : []
-        }
-      end}")
+      expect(subject).to receive(:puts).with("CPU Family: #{nodepool.properties.cpu_family}")
+      expect(subject).to receive(:puts).with("Cores Count: #{nodepool.properties.cores_count}")
+      expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANs: #{lans}")
+      expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
-
+      expect(subject.ui).to receive(:info).with("Removing Lans #{subject.name_args} from the Nodepoool.")
 
       expected_body = nodepool.properties.to_hash
       expected_body[:lans] = [expected_body[:lans][1]]
@@ -63,6 +58,8 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
       expected_body.delete(:storageType)
       expected_body.delete(:availabilityZone)
       expected_body.delete(:availableUpgradeVersions)
+      expected_body.delete(:labels)
+      expected_body.delete(:annotations)
 
       mock_call_api(
         subject,

@@ -15,7 +15,7 @@ class Chef
       option :type,
               short: '-t FLOWLOG_TYPE',
               long: '--type FLOWLOG_TYPE',
-              description: 'The object to which the flow log will be attached'
+              description: 'The object to which the Flow Log will be attached'
 
       option :server_id,
               short: '-S SERVER_ID',
@@ -48,6 +48,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
@@ -65,40 +66,36 @@ class Chef
           delete_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_delete_with_http_info)
           get_method = flowlogs_api.method(:datacenters_natgateways_flowlogs_find_by_flow_log_id)
           args = [config[:datacenter_id], config[:natgateway_id]]
-        when 'loadbalancer'
+        when 'networkloadbalancer'
           validate_required_params([:network_loadbalancer_id], config)
           flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
           delete_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_delete_with_http_info)
           get_method = flowlogs_api.method(:datacenters_networkloadbalancers_flowlogs_find_by_flow_log_id)
           args = [config[:datacenter_id], config[:network_loadbalancer_id]]
         else
-          ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']"
+          ui.error "Flow Log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']"
           exit(1)
         end
 
         @name_args.each do |flowlog_id|
           begin
-            firewall = get_method.call(*args, flowlog_id)
+            flowlog = get_method.call(*args, flowlog_id)
           rescue Ionoscloud::ApiError => err
             raise err unless err.code == 404
-            ui.error("Flow log ID #{flowlog_id} not found. Skipping.")
+            ui.error("Flow Log ID #{flowlog_id} not found. Skipping.")
             next
           end
 
-          msg_pair('ID', firewall.id)
-          msg_pair('Name', firewall.properties.name)
-          msg_pair('Action', firewall.properties.action)
-          msg_pair('Direction', firewall.properties.direction)
-          msg_pair('Bucket', firewall.properties.bucket)
+          print_flowlog(flowlog)
 
           begin
-            confirm('Do you really want to delete this flow log')
+            confirm('Do you really want to delete this Flow Log')
           rescue SystemExit => exc
             next
           end
 
           _, _, headers = delete_method.call(*args, flowlog_id)
-          ui.warn("Deleted flow log #{firewall.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Flow Log #{flowlog.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

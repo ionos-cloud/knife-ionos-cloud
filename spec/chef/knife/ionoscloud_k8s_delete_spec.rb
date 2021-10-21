@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
 
   describe '#run' do
     it 'should call KubernetesApi.k8s_delete when the ID is valid' do
-      k8s_cluster = k8s_cluster_mock({ entities: Ionoscloud::KubernetesClusterEntities.new(
+      cluster = k8s_cluster_mock({ entities: Ionoscloud::KubernetesClusterEntities.new(
         nodepools: k8s_nodepools_mock({ items: [] }),
       ) })
       subject_config = {
@@ -23,16 +23,21 @@ describe Chef::Knife::IonoscloudK8sDelete do
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [k8s_cluster.id]
+      subject.name_args = [cluster.id]
 
-      maintenance_window = "#{k8s_cluster.properties.maintenance_window.day_of_the_week}, #{k8s_cluster.properties.maintenance_window.time}"
+      maintenance_window = "#{cluster.properties.maintenance_window.day_of_the_week}, #{cluster.properties.maintenance_window.time}"
+      s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
 
-      expect(subject).to receive(:puts).with("ID: #{k8s_cluster.id}")
-      expect(subject).to receive(:puts).with("Name: #{k8s_cluster.properties.name}")
-      expect(subject).to receive(:puts).with("Version: #{k8s_cluster.properties.k8s_version}")
+      expect(subject).to receive(:puts).with("ID: #{cluster.id}")
+      expect(subject).to receive(:puts).with("Name: #{cluster.properties.name}")
+      expect(subject).to receive(:puts).with("k8s Version: #{cluster.properties.k8s_version}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
-      expect(subject).to receive(:puts).with("State: #{k8s_cluster.metadata.state}")
-      expect(subject.ui).to receive(:warn).with("Deleted K8s Cluster #{k8s_cluster.id}. Request ID: ")
+      expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
+      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list}")
+      expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
+      expect(subject).to receive(:puts).with("Available Upgrade Versions: #{cluster.properties.available_upgrade_versions}")
+      expect(subject).to receive(:puts).with("Viable NodePool Versions: #{cluster.properties.viable_node_pool_versions}")
+      expect(subject.ui).to receive(:warn).with("Deleted K8s Cluster #{cluster.id}. Request ID: ")
 
       expect(subject).not_to receive(:wait_for)
       expect(subject).to receive(:get_request_id).once
@@ -41,14 +46,14 @@ describe Chef::Knife::IonoscloudK8sDelete do
         [
           {
             method: 'GET',
-            path: "/k8s/#{k8s_cluster.id}",
+            path: "/k8s/#{cluster.id}",
             operation: :'KubernetesApi.k8s_find_by_cluster_id',
             return_type: 'KubernetesCluster',
-            result: k8s_cluster,
+            result: cluster,
           },
           {
             method: 'DELETE',
-            path: "/k8s/#{k8s_cluster.id}",
+            path: "/k8s/#{cluster.id}",
             operation: :'KubernetesApi.k8s_delete',
           },
         ],

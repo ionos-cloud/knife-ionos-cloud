@@ -50,6 +50,7 @@ describe Chef::Knife::IonoscloudNatgatewayRuleAdd do
           target_port_range_end: el.properties.target_port_range ? el.properties.target_port_range._end : '',
         }
       end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{natgateway.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       mock_wait_for(subject)
       mock_call_api(

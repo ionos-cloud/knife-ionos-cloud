@@ -25,6 +25,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         server_api = Ionoscloud::ServersApi.new(api_client)
@@ -38,14 +39,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', server.id)
-          msg_pair('Name', server.properties.name)
-          msg_pair('Cores', server.properties.cores)
-          msg_pair('CPU Family', server.properties.cpu_family)
-          msg_pair('Ram', server.properties.ram)
-          msg_pair('Availability Zone', server.properties.availability_zone)
-          msg_pair('Boot Volume', server.properties.boot_volume.id)
-          msg_pair('Boot CDROM', server.properties.boot_cdrom.id)
+          print_server(server)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this server')

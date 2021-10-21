@@ -83,9 +83,10 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
-        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys]
+        config[:ssh_keys] = config[:ssh_keys].split(',') if config[:ssh_keys] && config[:ssh_keys].instance_of?(String)
 
         print "#{ui.color('Creating volume...', :magenta)}"
 
@@ -113,18 +114,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for(300) { print dot; is_done? get_request_id headers }
 
-        volume = volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{volume.id}"
-        puts "#{ui.color('Name', :cyan)}: #{volume.properties.name}"
-        puts "#{ui.color('Size', :cyan)}: #{volume.properties.size}"
-        puts "#{ui.color('Bus', :cyan)}: #{volume.properties.bus}"
-        puts "#{ui.color('Image', :cyan)}: #{volume.properties.image}"
-        puts "#{ui.color('Type', :cyan)}: #{volume.properties.type}"
-        puts "#{ui.color('Licence Type', :cyan)}: #{volume.properties.licence_type}"
-        puts "#{ui.color('Zone', :cyan)}: #{volume.properties.availability_zone}"
-        puts 'done'
+        print_volume(volume_api.datacenters_volumes_find_by_id(config[:datacenter_id], volume.id))
       end
     end
   end

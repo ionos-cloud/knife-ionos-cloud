@@ -24,6 +24,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         volume_api = Ionoscloud::VolumesApi.new(api_client)
@@ -40,14 +41,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', volume.id)
-          msg_pair('Name', volume.properties.name)
-          msg_pair('Size', volume.properties.size)
-          msg_pair('Bus', volume.properties.bus)
-          msg_pair('Image', volume.properties.image)
-          msg_pair('Type', volume.properties.type)
-          msg_pair('Licence Type', volume.properties.licence_type)
-          msg_pair('Zone', volume.properties.availability_zone)
+          print_volume(volume)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this volume')

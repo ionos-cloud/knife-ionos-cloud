@@ -36,27 +36,25 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Allocating IP block...', :magenta)}"
 
-        params = {
-          location: config[:location],
-          size: config[:size],
-          name: config[:name],
-        }.compact
-
-        ipblock, _, headers = Ionoscloud::IPBlocksApi.new(api_client).ipblocks_post_with_http_info({ properties: params.compact })
+        ipblock, _, headers = Ionoscloud::IPBlocksApi.new(api_client).ipblocks_post_with_http_info(
+          Ionoscloud::IpBlock.new(
+            properties: Ionoscloud::IpBlockProperties.new(
+              location: config[:location],
+              size: config[:size],
+              name: config[:name],
+            ),
+          ),
+        )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{ipblock.id}"
-        puts "#{ui.color('Name', :cyan)}: #{ipblock.properties.name}"
-        puts "#{ui.color('Location', :cyan)}: #{ipblock.properties.location}"
-        puts "#{ui.color('IP Addresses', :cyan)}: #{ipblock.properties.ips.to_s}"
-        puts 'done'
+        print_ipblock(ipblock)
       end
     end
   end

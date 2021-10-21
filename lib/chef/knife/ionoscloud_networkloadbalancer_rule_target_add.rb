@@ -77,6 +77,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         network_loadbalancers_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
@@ -112,29 +113,11 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        network_load_balancer_rule = network_loadbalancers_api.datacenters_networkloadbalancers_forwardingrules_find_by_forwarding_rule_id(
-          config[:datacenter_id], config[:network_loadbalancer_id], config[:forwarding_rule_id], depth: 2,
+        print_network_load_balancer(
+          network_loadbalancers_api.datacenters_networkloadbalancers_find_by_network_load_balancer_id(
+            config[:datacenter_id], config[:network_loadbalancer_id], depth: 2,
+          ),
         )
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{network_load_balancer_rule.id}"
-        puts "#{ui.color('Name', :cyan)}: #{network_load_balancer_rule.properties.name}"
-        puts "#{ui.color('Algorithm', :cyan)}: #{network_load_balancer_rule.properties.algorithm}"
-        puts "#{ui.color('Protocol', :cyan)}: #{network_load_balancer_rule.properties.protocol}"
-        puts "#{ui.color('Listener IP', :cyan)}: #{network_load_balancer_rule.properties.listener_ip}"
-        puts "#{ui.color('Listener Port', :cyan)}: #{network_load_balancer_rule.properties.listener_port}"
-        puts "#{ui.color('Health Check', :cyan)}: #{network_load_balancer_rule.properties.health_check}"
-        puts "#{ui.color('Targets', :cyan)}: #{network_load_balancer_rule.properties.targets.map do |target|
-          {
-            ip: target.ip,
-            port: target.port,
-            weight: target.weight,
-            check: target.health_check.check,
-            check_interval: target.health_check.check_interval,
-            maintenance: target.health_check.maintenance,
-          }
-        end}"
-        puts 'done'
       end
     end
   end

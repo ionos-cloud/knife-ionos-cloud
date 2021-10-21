@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
   describe '#run' do
     it 'should call NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_patch_with_http_info' do
       network_loadbalancer = network_loadbalancer_mock
-      network_loadbalancer_rule = network_loadbalancer_rule_mock
+      network_loadbalancer_rule = network_loadbalancer.entities.forwardingrules.items[0]
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -33,23 +33,29 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer_rule.id}")
-      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer_rule.properties.name}")
-      expect(subject).to receive(:puts).with("Algorithm: #{network_loadbalancer_rule.properties.algorithm}")
-      expect(subject).to receive(:puts).with("Protocol: #{network_loadbalancer_rule.properties.protocol}")
-      expect(subject).to receive(:puts).with("Listener IP: #{network_loadbalancer_rule.properties.listener_ip}")
-      expect(subject).to receive(:puts).with("Listener Port: #{network_loadbalancer_rule.properties.listener_port}")
-      expect(subject).to receive(:puts).with("Health Check: #{network_loadbalancer_rule.properties.health_check}")
-      expect(subject).to receive(:puts).with("Targets: #{remaining_targets.map do |target|
+      fw_rules = network_loadbalancer.entities.forwardingrules.items.map do |rule|
         {
-          ip: target.ip,
-          port: target.port,
-          weight: target.weight,
-          check: target.health_check.check,
-          check_interval: target.health_check.check_interval,
-          maintenance: target.health_check.maintenance,
+          id: rule.id,
+          name: rule.properties.name,
+          algorithm: rule.properties.algorithm,
+          protocol: rule.properties.protocol,
+          listener_ip: rule.properties.listener_ip,
+          listener_port: rule.properties.listener_port,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: rule.properties.targets.map { |target| target.to_hash },
         }
-      end}")
+      end
+
+      fw_rules[0][:targets] = remaining_targets.map { |target| target.to_hash }
+
+      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer.id}")
+      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer.properties.name}")
+      expect(subject).to receive(:puts).with("Listener LAN: #{network_loadbalancer.properties.listener_lan}")
+      expect(subject).to receive(:puts).with("IPS: #{network_loadbalancer.properties.ips}")
+      expect(subject).to receive(:puts).with("Target LAN: #{network_loadbalancer.properties.target_lan}")
+      expect(subject).to receive(:puts).with("Private IPS: #{network_loadbalancer.properties.lb_private_ips}")
+      expect(subject).to receive(:puts).with("Forwarding Rules: #{fw_rules}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       mock_wait_for(subject)
       mock_call_api(
@@ -73,11 +79,10 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           },
           {
             method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}"\
-            "/forwardingrules/#{subject_config[:forwarding_rule_id]}",
-            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_find_by_forwarding_rule_id',
-            return_type: 'NetworkLoadBalancerForwardingRule',
-            result: network_loadbalancer_rule,
+            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}",
+            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_find_by_network_load_balancer_id',
+            return_type: 'NetworkLoadBalancer',
+            result: network_loadbalancer,
           },
         ],
       )
@@ -86,7 +91,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
     end
 
     it 'should call NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_patch_with_http_info 2' do
-      network_loadbalancer = network_loadbalancer_mock
       network_loadbalancer_rule = network_loadbalancer_rule_mock(
         targets: [
           network_loadbalancer_rule_target_mock(
@@ -106,6 +110,14 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           ),
         ]
       )
+      network_loadbalancer = network_loadbalancer_mock(
+        rules: Ionoscloud::NetworkLoadBalancers.new(
+          id: 'network_loadbalancers',
+          type: 'collection',
+          items: [network_loadbalancer_rule, network_loadbalancer_rule_mock],
+        )
+      )
+
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -124,23 +136,29 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer_rule.id}")
-      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer_rule.properties.name}")
-      expect(subject).to receive(:puts).with("Algorithm: #{network_loadbalancer_rule.properties.algorithm}")
-      expect(subject).to receive(:puts).with("Protocol: #{network_loadbalancer_rule.properties.protocol}")
-      expect(subject).to receive(:puts).with("Listener IP: #{network_loadbalancer_rule.properties.listener_ip}")
-      expect(subject).to receive(:puts).with("Listener Port: #{network_loadbalancer_rule.properties.listener_port}")
-      expect(subject).to receive(:puts).with("Health Check: #{network_loadbalancer_rule.properties.health_check}")
-      expect(subject).to receive(:puts).with("Targets: #{remaining_targets.map do |target|
+      fw_rules = network_loadbalancer.entities.forwardingrules.items.map do |rule|
         {
-          ip: target.ip,
-          port: target.port,
-          weight: target.weight,
-          check: target.health_check.check,
-          check_interval: target.health_check.check_interval,
-          maintenance: target.health_check.maintenance,
+          id: rule.id,
+          name: rule.properties.name,
+          algorithm: rule.properties.algorithm,
+          protocol: rule.properties.protocol,
+          listener_ip: rule.properties.listener_ip,
+          listener_port: rule.properties.listener_port,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: rule.properties.targets.map { |target| target.to_hash },
         }
-      end}")
+      end
+
+      fw_rules[0][:targets] = remaining_targets.map { |target| target.to_hash }
+
+      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer.id}")
+      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer.properties.name}")
+      expect(subject).to receive(:puts).with("Listener LAN: #{network_loadbalancer.properties.listener_lan}")
+      expect(subject).to receive(:puts).with("IPS: #{network_loadbalancer.properties.ips}")
+      expect(subject).to receive(:puts).with("Target LAN: #{network_loadbalancer.properties.target_lan}")
+      expect(subject).to receive(:puts).with("Private IPS: #{network_loadbalancer.properties.lb_private_ips}")
+      expect(subject).to receive(:puts).with("Forwarding Rules: #{fw_rules}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       mock_wait_for(subject)
       mock_call_api(
@@ -164,11 +182,10 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           },
           {
             method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}"\
-            "/forwardingrules/#{subject_config[:forwarding_rule_id]}",
-            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_find_by_forwarding_rule_id',
-            return_type: 'NetworkLoadBalancerForwardingRule',
-            result: network_loadbalancer_rule,
+            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}",
+            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_find_by_network_load_balancer_id',
+            return_type: 'NetworkLoadBalancer',
+            result: network_loadbalancer,
           },
         ],
       )
@@ -198,23 +215,25 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer_rule.id}")
-      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer_rule.properties.name}")
-      expect(subject).to receive(:puts).with("Algorithm: #{network_loadbalancer_rule.properties.algorithm}")
-      expect(subject).to receive(:puts).with("Protocol: #{network_loadbalancer_rule.properties.protocol}")
-      expect(subject).to receive(:puts).with("Listener IP: #{network_loadbalancer_rule.properties.listener_ip}")
-      expect(subject).to receive(:puts).with("Listener Port: #{network_loadbalancer_rule.properties.listener_port}")
-      expect(subject).to receive(:puts).with("Health Check: #{network_loadbalancer_rule.properties.health_check}")
-      expect(subject).to receive(:puts).with("Targets: #{network_loadbalancer_rule.properties.targets.map do |target|
+      expect(subject).to receive(:puts).with("ID: #{network_loadbalancer.id}")
+      expect(subject).to receive(:puts).with("Name: #{network_loadbalancer.properties.name}")
+      expect(subject).to receive(:puts).with("Listener LAN: #{network_loadbalancer.properties.listener_lan}")
+      expect(subject).to receive(:puts).with("IPS: #{network_loadbalancer.properties.ips}")
+      expect(subject).to receive(:puts).with("Target LAN: #{network_loadbalancer.properties.target_lan}")
+      expect(subject).to receive(:puts).with("Private IPS: #{network_loadbalancer.properties.lb_private_ips}")
+      expect(subject).to receive(:puts).with("Forwarding Rules: #{network_loadbalancer.entities.forwardingrules.items.map do |rule|
         {
-          ip: target.ip,
-          port: target.port,
-          weight: target.weight,
-          check: target.health_check.check,
-          check_interval: target.health_check.check_interval,
-          maintenance: target.health_check.maintenance,
+          id: rule.id,
+          name: rule.properties.name,
+          algorithm: rule.properties.algorithm,
+          protocol: rule.properties.protocol,
+          listener_ip: rule.properties.listener_ip,
+          listener_port: rule.properties.listener_port,
+          health_check: rule.properties.health_check.nil? ? nil : rule.properties.health_check.to_hash,
+          targets: (rule.properties.targets.nil? ? [] : rule.properties.targets.map { |target| target.to_hash }),
         }
       end}")
+      expect(subject).to receive(:puts).with("Flowlogs: #{network_loadbalancer.entities.flowlogs.items.map { |flowlog| flowlog.id }}")
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -230,11 +249,10 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           },
           {
             method: 'GET',
-            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}"\
-            "/forwardingrules/#{subject_config[:forwarding_rule_id]}",
-            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_forwardingrules_find_by_forwarding_rule_id',
-            return_type: 'NetworkLoadBalancerForwardingRule',
-            result: network_loadbalancer_rule,
+            path: "/datacenters/#{subject_config[:datacenter_id]}/networkloadbalancers/#{subject_config[:network_loadbalancer_id]}",
+            operation: :'NetworkLoadBalancersApi.datacenters_networkloadbalancers_find_by_network_load_balancer_id',
+            return_type: 'NetworkLoadBalancer',
+            result: network_loadbalancer,
           },
         ],
       )

@@ -40,6 +40,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating LAN...', :magenta)}"
@@ -48,27 +49,19 @@ class Chef
 
         lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
           config[:datacenter_id],
-          {
-            properties: {
+          Ionoscloud::Lan.new(
+            properties: Ionoscloud::LanProperties.new(
               name: config[:name],
               public: config[:public],
               pcc: config[:pcc],
-            }
-          },
+            ),
+          ),
         )
 
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan.id)
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{lan.id}"
-        puts "#{ui.color('Name', :cyan)}: #{lan.properties.name}"
-        puts "#{ui.color('Public', :cyan)}: #{lan.properties.public}"
-        puts "#{ui.color('PCC', :cyan)}: #{lan.properties.pcc}"
-
-        puts 'done'
+        print_lan(lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan.id))
       end
     end
   end

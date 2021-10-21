@@ -28,6 +28,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         load_balancer_api = Ionoscloud::LoadBalancersApi.new(api_client)
@@ -54,21 +55,9 @@ class Chef
 
         request_ids_to_wait.each { |request_id| api_client.wait_for { is_done? request_id } }
 
-        load_balancer = load_balancer_api.datacenters_loadbalancers_find_by_id(
-          config[:datacenter_id],
-          config[:loadbalancer_id],
-          { depth: 1 },
+        print_load_balancer(
+          load_balancer_api.datacenters_loadbalancers_find_by_id(config[:datacenter_id], config[:loadbalancer_id], depth: 1),
         )
-
-        nics = load_balancer.entities.balancednics.items.map! { |el| el.id }
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{load_balancer.id}"
-        puts "#{ui.color('Name', :cyan)}: #{load_balancer.properties.name}"
-        puts "#{ui.color('IP address', :cyan)}: #{load_balancer.properties.ip}"
-        puts "#{ui.color('DHCP', :cyan)}: #{load_balancer.properties.dhcp}"
-        puts "#{ui.color('Balanced Nics', :cyan)}: #{nics.to_s}"
-        puts 'done'
       end
     end
   end

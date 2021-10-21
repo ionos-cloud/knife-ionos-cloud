@@ -58,13 +58,12 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating nic...', :magenta)}"
 
-        if config[:ips]
-          config[:ips] = config[:ips].split(',')
-        end
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
 
         nic_properties = {
           name: config[:name],
@@ -85,23 +84,13 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        nic = nic_api.datacenters_servers_nics_find_by_id(
-          config[:datacenter_id],
-          config[:server_id],
-          nic.id,
+        print_nic(
+          nic_api.datacenters_servers_nics_find_by_id(
+            config[:datacenter_id],
+            config[:server_id],
+            nic.id,
+          ),
         )
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{nic.id}"
-        puts "#{ui.color('Name', :cyan)}: #{nic.properties.name}"
-        puts "#{ui.color('IPs', :cyan)}: #{nic.properties.ips.to_s}"
-        puts "#{ui.color('DHCP', :cyan)}: #{nic.properties.dhcp}"
-        puts "#{ui.color('LAN', :cyan)}: #{nic.properties.lan}"
-        puts "#{ui.color('Firewall Type', :cyan)}: #{nic.properties.firewall_type}"
-        puts "#{ui.color('Device Number', :cyan)}: #{nic.properties.device_number}"
-        puts "#{ui.color('PCI Slot', :cyan)}: #{nic.properties.pci_slot}"
-
-        puts 'done'
       end
     end
   end

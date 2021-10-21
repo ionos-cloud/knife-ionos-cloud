@@ -23,6 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating S3key...', :magenta)}"
@@ -34,11 +35,7 @@ class Chef
         dot = ui.color('.', :magenta)
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{s3_key.id}"
-        puts "#{ui.color('Secret Key', :cyan)}: #{s3_key.properties.secret_key}"
-        puts "#{ui.color('Active', :cyan)}: #{s3_key.properties.active}"
-        puts 'done'
+        print_s3key(s3_key)
       end
     end
   end

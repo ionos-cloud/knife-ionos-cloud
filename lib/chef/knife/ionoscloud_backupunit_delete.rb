@@ -21,6 +21,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         backupunit_api = Ionoscloud::BackupUnitsApi.new(api_client)
@@ -34,10 +35,7 @@ class Chef
             next
           end
 
-          msg_pair('ID', backupunit.id)
-          msg_pair('Name', backupunit.properties.name)
-          msg_pair('Email', backupunit.properties.email)
-
+          print_backupunit(backupunit)
           puts "\n"
 
           begin

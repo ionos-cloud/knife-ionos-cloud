@@ -91,6 +91,14 @@ class Chef
               'must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed '\
               'node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.'
 
+      option :labels,
+              long: '--labels LABEL [LABEL]',
+              description: 'map of labels attached to node pool'
+
+      option :annotations,
+              long: '--annotations ANNOTATION [ANNOTATION]',
+              description: 'map of annotations attached to node pool'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -107,13 +115,17 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         print "#{ui.color('Creating K8s Nodepool...', :magenta)}"
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
 
-        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips]
+        config[:public_ips] = config[:public_ips].split(',') if config[:public_ips] && config[:public_ips].instance_of?(String)
+        config[:lans] = config[:lans].split(',') if config[:lans] && config[:lans].instance_of?(String)
+        config[:labels] = JSON[config[:labels]] if config[:labels] && config[:labels].instance_of?(String)
+        config[:annotations] = JSON[config[:annotations]] if config[:annotations] && config[:annotations].instance_of?(String)
 
         nodepool_properties = {
           name: config[:name],
@@ -127,62 +139,22 @@ class Chef
           storage_type: config[:storage_type],
           storage_size: config[:storage_size],
           public_ips: config[:public_ips],
-        }
-
-        if config[:maintenance_day] && config[:maintenance_time]
-          nodepool_properties[:maintenance_window] = Ionoscloud::KubernetesMaintenanceWindow.new(
+          labels: config[:labels],
+          annotations: config[:annotations],
+          lans: config.key?(:lans) ? config[:lans].map { |lan| { id: Integer(lan) } } : nil,
+          auto_scaling: Ionoscloud::KubernetesAutoScaling.new(
+            min_node_count: config[:min_node_count],
+            max_node_count: config[:max_node_count],
+          ),
+          maintenance_window: (config.key?(:maintenance_day) || config.key?(:maintenance_time)) ? Ionoscloud::KubernetesMaintenanceWindow.new(
             day_of_the_week: config[:maintenance_day],
             time: config[:maintenance_time],
-          )
-        end
-
-        if config[:min_node_count] || config[:max_node_count]
-          nodepool_properties[:auto_scaling] = Ionoscloud::KubernetesAutoScaling.new()
-          nodepool_properties[:auto_scaling].min_node_count = config[:min_node_count] unless config[:min_node_count].nil?
-          nodepool_properties[:auto_scaling].max_node_count = config[:max_node_count] unless config[:max_node_count].nil?
-        end
-
-        if config[:lans]
-          nodepool_properties[:lans] = config[:lans].split(',').map! { |lan| { id: Integer(lan) } }
-        end
+          ) : nil,
+        }
 
         nodepool = Ionoscloud::KubernetesNodePool.new(properties: Ionoscloud::KubernetesNodePoolPropertiesForPost.new(nodepool_properties))
 
-        nodepool = kubernetes_api.k8s_nodepools_post(config[:cluster_id], nodepool)
-
-        auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
-        maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-
-        puts "\n"
-        puts "#{ui.color('ID', :cyan)}: #{nodepool.id}"
-        puts "#{ui.color('Name', :cyan)}: #{nodepool.properties.name}"
-        puts "#{ui.color('K8s Version', :cyan)}: #{nodepool.properties.k8s_version}"
-        puts "#{ui.color('Datacenter ID', :cyan)}: #{nodepool.properties.datacenter_id}"
-        puts "#{ui.color('Node Count', :cyan)}: #{nodepool.properties.node_count}"
-        puts "#{ui.color('CPU Family', :cyan)}: #{nodepool.properties.cpu_family}"
-        puts "#{ui.color('Cores Count', :cyan)}: #{nodepool.properties.cores_count}"
-        puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
-        puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
-        puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
-        puts "#{ui.color('Lans', :cyan)}: #{nodepool.properties.lans.map do
-          |lan|
-          {
-            id: lan.id,
-            dhcp: lan.dhcp,
-            routes: lan.routes ? lan.routes.map do
-              |route|
-              {
-                network: route.network,
-                gateway_ip: route.gateway_ip,
-              }
-            end : []
-          }
-        end}"
-        puts "#{ui.color('Availability Zone', :cyan)}: #{nodepool.properties.availability_zone}"
-        puts "#{ui.color('Auto Scaling', :cyan)}: #{auto_scaling}"
-        puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
-        puts "#{ui.color('State', :cyan)}: #{nodepool.metadata.state}"
-        puts 'done'
+        print_k8s_nodepool(kubernetes_api.k8s_nodepools_post(config[:cluster_id], nodepool))
       end
     end
   end

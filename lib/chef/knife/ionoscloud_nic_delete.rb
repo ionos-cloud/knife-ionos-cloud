@@ -28,6 +28,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)
@@ -40,14 +41,8 @@ class Chef
             next
           end
 
-          msg_pair('ID', nic.id)
-          msg_pair('Name', nic.properties.name)
-          msg_pair('IPs', nic.properties.ips)
-          msg_pair('DHCP', nic.properties.dhcp)
-          msg_pair('LAN', nic.properties.lan)
-          msg_pair('Firewall Type', nic.properties.firewall_type)
-          msg_pair('Device Number', nic.properties.device_number)
-          msg_pair('PCI Slot', nic.properties.pci_slot)
+          print_nic(nic)
+          puts "\n"
 
           begin
             confirm('Do you really want to delete this Nic')

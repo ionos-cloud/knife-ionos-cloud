@@ -18,6 +18,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         pcc_api = Ionoscloud::PrivateCrossConnectsApi.new(api_client)
@@ -31,15 +32,7 @@ class Chef
             next
           end
 
-          peers = pcc.properties.peers.map { |peer| peer.id }
-          datacenters = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
-
-          msg_pair('ID', pcc.id)
-          msg_pair('Name', pcc.properties.name)
-          msg_pair('Description', pcc.properties.description)
-          msg_pair('Peers', peers.to_s)
-          msg_pair('Datacenters', datacenters.to_s)
-
+          print_pcc(pcc)
           puts "\n"
 
           begin

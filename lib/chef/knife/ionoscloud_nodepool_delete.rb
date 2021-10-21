@@ -23,6 +23,7 @@ class Chef
 
       def run
         $stdout.sync = true
+        handle_extra_config
         validate_required_params(@required_options, config)
 
         kubernetes_api = Ionoscloud::KubernetesApi.new(api_client)
@@ -36,38 +37,7 @@ class Chef
             next
           end
 
-          auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
-          maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
-
-          msg_pair('ID', nodepool.id)
-          msg_pair('Name', nodepool.properties.name)
-          msg_pair('K8s Version', nodepool.properties.k8s_version)
-          msg_pair('Datacenter ID', nodepool.properties.datacenter_id)
-          msg_pair('Node Count', nodepool.properties.node_count)
-          msg_pair('CPU Family', nodepool.properties.cpu_family)
-          msg_pair('Cores Count', nodepool.properties.cores_count)
-          msg_pair('RAM', nodepool.properties.ram_size)
-          msg_pair('Storage Type', nodepool.properties.storage_type)
-          msg_pair('Storage Size', nodepool.properties.storage_size)
-          msg_pair('Lans', nodepool.properties.lans.map do
-            |lan|
-            {
-              id: lan.id,
-              dhcp: lan.dhcp,
-              routes: lan.routes ? lan.routes.map do
-                |route|
-                {
-                  network: route.network,
-                  gateway_ip: route.gateway_ip,
-                }
-              end : []
-            }
-          end)
-          msg_pair('Availability Zone', nodepool.properties.availability_zone)
-          msg_pair('Auto Scaling', auto_scaling)
-          msg_pair('Maintenance Window', maintenance_window)
-          msg_pair('State', nodepool.metadata.state)
-
+          print_k8s_nodepool(nodepool)
           puts "\n"
 
           begin

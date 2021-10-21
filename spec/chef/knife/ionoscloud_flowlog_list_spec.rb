@@ -155,7 +155,7 @@ describe Chef::Knife::IonoscloudFlowlogList do
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
         network_loadbalancer_id: 'network_loadbalancer_id',
-        type: 'loadbalancer',
+        type: 'networkloadbalancer',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -200,7 +200,7 @@ describe Chef::Knife::IonoscloudFlowlogList do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         datacenter_id: 'datacenter_id',
-        type: 'loadbalancer',
+        type: 'networkloadbalancer',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -234,7 +234,7 @@ describe Chef::Knife::IonoscloudFlowlogList do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:error).with("Flow log cannot belong to #{subject_config[:type]}. Value must be one of ['nic', 'natgateway', 'loadbalancer']")
+      expect(subject.ui).to receive(:error).with("Flow log cannot belong to #{subject_config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']")
 
       expect(subject.api_client).not_to receive(:call_api)
 
