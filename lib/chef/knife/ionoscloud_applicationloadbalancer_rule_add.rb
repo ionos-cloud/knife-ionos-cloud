@@ -47,6 +47,10 @@ class Chef
               long: '--certificates SERVER_CERTIFICATES',
               description: 'Array of server certificates'
 
+      option :http_rules,
+              long: '--http-rules HTTP_RULES',
+              description: 'Array of HTTP Rules'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -65,8 +69,35 @@ class Chef
 
         application_loadbalancers_api = Ionoscloud::ApplicationLoadBalancersApi.new(api_client)
 
-        if config[:server_certificates]
+        if config[:server_certificates] && config[:server_certificates].instance_of?(String)
           config[:server_certificates] = config[:server_certificates].split(',')
+        end
+
+        unless config[:http_rules].nil?
+          config[:http_rules] = JSON[config[:http_rules]] if config[:http_rules].instance_of?(String)
+
+          config[:http_rules].map! do |target|
+            Ionoscloud::ApplicationLoadBalancerHttpRule.new(
+              name: target['name'],
+              type: target['type'],
+              target_group: target['target_group'],
+              drop_query: target['drop_query'],
+              location: target['location'],
+              status_code: target['status_code'],
+              response_message: target['response_message'],
+              content_type: target['content_type'],
+              conditions: target['conditions'].nil? ? nil : target['conditions'].map do
+                |condition|
+                Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(
+                  type: condition['type'],
+                  condition: condition['condition'],
+                  negate: condition['negate'],
+                  key: condition['key'],
+                  value: condition['value'],
+                )
+              end,
+            )
+          end
         end
 
         application_loadbalancer_forwarding_rule = Ionoscloud::ApplicationLoadBalancerForwardingRule.new(
@@ -79,6 +110,7 @@ class Chef
               client_timeout: config[:client_timeout],
             ),
             server_certificates: config[:server_certificates],
+            http_rules: config[:http_rules],
           ),
         )
 

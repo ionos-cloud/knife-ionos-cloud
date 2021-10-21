@@ -2,10 +2,15 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudTargetgroupCreate < Knife
+    class IonoscloudTargetgroupUpdate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud targetgroup create (options)'
+      banner 'knife ionoscloud targetgroup update (options)'
+
+      option :target_group_id,
+              short: '-T TARGET_GROUP_ID',
+              long: '--target-group-id TARGET_GROUP_ID',
+              description: 'ID of the Target Group'
 
       option :name,
               short: '-n NAME',
@@ -78,8 +83,12 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Creates a new Target Group.'
-        @required_options = [:name, :algorithm, :protocol, :ionoscloud_username, :ionoscloud_password]
+        'Updates information about a Ionoscloud Snapshot.'
+        @required_options = [:target_group_id, :ionoscloud_username, :ionoscloud_password]
+        @updatable_fields = [
+          :name, :algorithm, :protocol, :check_timeout, :connect_timeout, :target_timeout,
+          :retries, :path, :method, :match_type, :response, :regex, :negate, :targets,
+        ]
       end
 
       def run
@@ -89,59 +98,61 @@ class Chef
 
         target_groups_api = Ionoscloud::TargetGroupsApi.new(api_client)
 
-        unless config[:targets].nil?
-          config[:targets] = JSON[config[:targets]] if config[:targets].instance_of?(String)
+        if @updatable_fields.map { |el| config[el] }.any?
+          print "#{ui.color('Updating Target Group...', :magenta)}"
 
-          config[:targets].map! do |target|
-            Ionoscloud::TargetGroupTarget.new(
-              ip: target['ip'],
-              port: Integer(target['port']),
-              weight: Integer(target['weight']),
-              health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
-                check: target['health_check']['check'],
-                check_interval: target['health_check']['check_interval'],
-                maintenance: target['health_check']['maintenance'],
-              ),
-            )
+          unless config[:targets].nil?
+            config[:targets] = JSON[config[:targets]] if config[:targets].instance_of?(String)
+  
+            config[:targets].map! do |target|
+              Ionoscloud::TargetGroupTarget.new(
+                ip: target['ip'],
+                port: Integer(target['port']),
+                weight: Integer(target['weight']),
+                health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
+                  check: target['health_check']['check'],
+                  check_interval: target['health_check']['check_interval'],
+                  maintenance: target['health_check']['maintenance'],
+                ),
+              )
+            end
           end
+  
+          send_http_health_check = config[:path] || config[:method] || config[:match_type] || config[:response] || config[:regex] || config[:negate]
+  
+          target_group_properties = {
+            name: config[:name],
+            algorithm: config[:algorithm],
+            protocol: config[:protocol],
+            targets: config[:targets],
+            health_check: Ionoscloud::TargetGroupHealthCheck.new(
+              check_timeout: config[:check_timeout],
+              connect_timeout: config[:connect_timeout],
+              target_timeout: config[:target_timeout],
+              retries: config[:retries],
+            ),
+            http_health_check: send_http_health_check ? Ionoscloud::TargetGroupHttpHealthCheck.new(
+              path: config[:path],
+              method: config[:method],
+              match_type: config[:match_type],
+              response: config[:response],
+              regex: config[:regex],
+              negate: config[:negate],
+            ) : nil,
+          }
+
+          _, _, headers  = target_groups_api.targetgroups_patch_with_http_info(
+            config[:target_group_id],
+            Ionoscloud::TargetGroupProperties.new(**target_group_properties.compact),
+          )
+
+          dot = ui.color('.', :magenta)
+          api_client.wait_for { print dot; is_done? get_request_id headers }
+        else
+          ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end
 
-        send_http_health_check = config[:path] || config[:method] || config[:match_type] || config[:response] || config[:regex] || config[:negate]
-
-        target_group_properties = {
-          name: config[:name],
-          algorithm: config[:algorithm],
-          protocol: config[:protocol],
-          targets: config[:targets],
-          health_check: Ionoscloud::TargetGroupHealthCheck.new(
-            check_timeout: config[:check_timeout],
-            connect_timeout: config[:connect_timeout],
-            target_timeout: config[:target_timeout],
-            retries: config[:retries],
-          ),
-          http_health_check: send_http_health_check ? Ionoscloud::TargetGroupHttpHealthCheck.new(
-            path: config[:path],
-            method: config[:method],
-            match_type: config[:match_type],
-            response: config[:response],
-            regex: config[:regex],
-            negate: config[:negate],
-          ) : nil,
-        }
-
-        target_group = Ionoscloud::TargetGroup.new(
-          properties: Ionoscloud::TargetGroupProperties.new(
-            **target_group_properties.compact,
-          ),
-        )
-
-        target_group, _, headers = target_groups_api.targetgroups_post_with_http_info(target_group)
-
-        print "#{ui.color('Creating Target Group...', :magenta)}"
-        dot = ui.color('.', :magenta)
-        api_client.wait_for { print dot; is_done? get_request_id headers }
-
-        print_target_group(target_groups_api.targetgroups_find_by_target_group_id(target_group.id))
+        print_target_group(Ionoscloud::TargetGroupsApi.new(api_client).targetgroups_find_by_target_group_id(config[:target_group_id]))
       end
     end
   end

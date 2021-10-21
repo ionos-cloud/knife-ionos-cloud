@@ -443,7 +443,8 @@ class Chef
       end
 
       def get_application_loadbalancer_extended_properties(application_loadbalancer)
-        application_loadbalancer.entities.forwardingrules.items.map do |rule|
+        fw_rules = application_loadbalancer.entities.forwardingrules.items
+        fw_rules.nil? ? [] : fw_rules.map do |rule|
           {
             id: rule.id,
             name: rule.properties.name,

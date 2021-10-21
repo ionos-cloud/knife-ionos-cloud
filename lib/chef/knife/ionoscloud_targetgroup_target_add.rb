@@ -32,8 +32,8 @@ class Chef
               'recommended to start with values which can both grow and shrink, for instance between 10 and 100 to leave '\
               'enough room above and below for later adjustments.'
 
-      option :skip_check,
-              long: '--skip-check',
+      option :check,
+              long: '--check CHECK',
               description: 'Check specifies whether the target VM\'s health is checked. If turned off, a target VM is '\
               'always considered available. If turned on, the target VM is available when accepting periodic TCP connections, '\
               'to ensure that it is really able to serve requests. The address and port to send the tests to are those of the '\
@@ -43,8 +43,7 @@ class Chef
       option :check_interval,
               long: '--check-interval CHECK_INTERVAL',
               description: 'CheckInterval determines the duration (in milliseconds) between consecutive health checks. If '\
-              'unspecified a default of 2000 ms is used.',
-              default: 2000
+              'unspecified a default of 2000 ms is used.'
 
       option :maintenance,
               long: '--maintenance',
@@ -83,7 +82,7 @@ class Chef
               port: Integer(config[:port]),
               weight: Integer(config[:weight]),
               health_check: Ionoscloud::TargetGroupTargetHealthCheck.new({
-                check: !config[:skip_check],
+                check: config[:check],
                 check_interval: config[:check_interval],
                 maintenance: config[:maintenance],
               }.compact),

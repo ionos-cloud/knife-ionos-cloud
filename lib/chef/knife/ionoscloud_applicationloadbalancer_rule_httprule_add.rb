@@ -91,15 +91,17 @@ class Chef
           rule.name == config[:name]
         end
 
-        if config[:conditions].nil?
-          received_conditions = nil
-        else
-          if config[:conditions].instance_of?(String)
-            config[:conditions] = JSON[config[:conditions]]
-          end
+        unless config[:conditions].nil?
+          config[:conditions] = JSON[config[:conditions]] if config[:conditions].instance_of?(String)
 
-          received_conditions = config[:conditions].map do |condition|
-            Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(condition)
+          config[:conditions].map! do |condition|
+            Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(
+              type: condition['type'],
+              condition: condition['condition'],
+              negate: condition['negate'],
+              key: condition['key'],
+              value: condition['value'],
+            )
           end
         end
 
@@ -122,10 +124,8 @@ class Chef
             status_code: config[:status_code],
             response_message: config[:response_message],
             content_type: config[:content_type],
-            conditions: received_conditions,
+            conditions: config[:conditions],
           )
-
-          puts application_loadbalancer_forwarding_rule_httprule
 
           if application_load_balancer_rule.properties.http_rules.nil?
             application_load_balancer_rule.properties.http_rules = [application_loadbalancer_forwarding_rule_httprule]
