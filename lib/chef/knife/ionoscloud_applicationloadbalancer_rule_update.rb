@@ -74,7 +74,7 @@ class Chef
         application_load_balancers_api = Ionoscloud::ApplicationLoadBalancersApi.new(api_client)
 
         if @updatable_fields.map { |el| config[el] }.any?
-          print "#{ui.color('Updating Application LoadBalancer...', :magenta)}"
+          print "#{ui.color('Updating Application LoadBalancer Forwarding Rule...', :magenta)}"
 
           if config[:server_certificates] && config[:server_certificates].instance_of?(String)
             config[:server_certificates] = config[:server_certificates].split(',')

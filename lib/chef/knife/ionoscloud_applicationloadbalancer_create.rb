@@ -54,8 +54,8 @@ class Chef
 
         print "#{ui.color('Creating Application Load Balancer...', :magenta)}"
 
-        config[:ips] = config[:ips].split(',') if config[:ips]
-        config[:lb_private_ips] = config[:lb_private_ips].split(',') if config[:lb_private_ips]
+        config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
+        config[:lb_private_ips] = config[:lb_private_ips].split(',') if config[:lb_private_ips] && config[:lb_private_ips].instance_of?(String)
 
         application_load_balancers_api = Ionoscloud::ApplicationLoadBalancersApi.new(api_client)
 

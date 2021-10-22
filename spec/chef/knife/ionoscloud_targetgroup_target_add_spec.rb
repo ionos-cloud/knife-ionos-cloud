@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        skip_check: !target.health_check.check,
+        check: target.health_check.check,
         check_interval: target.health_check.check_interval,
         maintenance: target.health_check.maintenance,
         yes: true,

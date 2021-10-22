@@ -113,7 +113,7 @@ class Chef
           existing_http_rule.status_code = config[:status_code] || existing_http_rule.status_code
           existing_http_rule.response_message = config[:response_message] || existing_http_rule.response_message
           existing_http_rule.content_type = config[:content_type] || existing_http_rule.content_type
-          existing_http_rule.conditions = received_conditions || existing_http_rule.conditions
+          existing_http_rule.conditions = config[:conditions] || existing_http_rule.conditions
         else
           application_loadbalancer_forwarding_rule_httprule = Ionoscloud::ApplicationLoadBalancerHttpRule.new(
             name: config[:name],

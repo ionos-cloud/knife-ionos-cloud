@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         status_code: application_loadbalancer_rule_httprule.status_code,
         response_message: application_loadbalancer_rule_httprule.response_message,
         content_type: application_loadbalancer_rule_httprule.content_type,
-        conditions: application_loadbalancer_rule_httprule.conditions.map { |el| el.to_hash },
+        conditions: application_loadbalancer_rule_httprule.conditions.map {|el| el.to_hash.collect{|k,v| [k.to_s, v]}.to_h },
         yes: true,
       }
 
