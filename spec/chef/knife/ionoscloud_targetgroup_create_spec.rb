@@ -13,11 +13,19 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
 
   describe '#run' do
     it 'should call TargetGroupsApi.targetgroups_post_with_http_info with the expected arguments and output based on what it receives' do
-      target_group = target_group_mock
+      new_target = target_group_target_mock(
+        ip: '127.9.9.9',
+        port: 90,
+        weight: 50,
+        check: false,
+        check_interval: 1234,
+        maintenance: true,
+      )
+      target_group = target_group_mock(targets: [new_target])
+
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        target_group_id: 'target_group_id',
         name: target_group.properties.name,
         algorithm: target_group.properties.algorithm,
         protocol: target_group.properties.protocol,
@@ -31,11 +39,21 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
         response: target_group.properties.http_health_check.response,
         regex: target_group.properties.http_health_check.regex,
         negate: target_group.properties.http_health_check.negate,
+        targets: [{
+          'ip' => new_target.ip,
+          'port' => new_target.port,
+          'weight' => new_target.weight,
+          'health_check' => {
+            'check' => new_target.health_check.check,
+            'check_interval' => new_target.health_check.check_interval,
+            'maintenance' => new_target.health_check.maintenance,
+          },
+        }],
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      health_check, http_health_check, _ = subject.get_target_group_extended_properties(target_group)
+      health_check, http_health_check, targets = subject.get_target_group_extended_properties(target_group)
 
       expect(subject).to receive(:puts).with("ID: #{target_group.id}")
       expect(subject).to receive(:puts).with("Name: #{target_group.properties.name}")
@@ -43,9 +61,9 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
       expect(subject).to receive(:puts).with("Protocol: #{target_group.properties.protocol}")
       expect(subject).to receive(:puts).with("Health Check: #{health_check}")
       expect(subject).to receive(:puts).with("HTTP Health Check: #{http_health_check}")
+      expect(subject).to receive(:puts).with("Targets: #{targets}")
 
       expected_body = target_group.properties.to_hash
-      expected_body.delete(:targets)
 
       mock_wait_for(subject)
       mock_call_api(
