@@ -927,7 +927,7 @@ end
 
 def application_loadbalancer_rules_mock(opts = {})
   Ionoscloud::ApplicationLoadBalancerForwardingRules.new(
-    id: 'application_loadbalancers_forwaringrules',
+    id: 'application_loadbalancers_forwardingrules',
     type: 'collection',
     items: [application_loadbalancer_rule_mock, application_loadbalancer_rule_mock],
   )

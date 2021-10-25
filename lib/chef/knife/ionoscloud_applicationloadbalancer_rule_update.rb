@@ -62,7 +62,7 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Application LoadBalancer Forwarding Rule.'
-        @required_options = [:datacenter_id, :application_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :application_loadbalancer_id, :forwarding_rule_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :protocol, :listener_ip, :listener_port, :client_timeout, :server_certificates, :http_rules]
       end
 

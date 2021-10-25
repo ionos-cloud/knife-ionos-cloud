@@ -15,6 +15,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
     it 'should call ApplicationLoadBalancersApi.datacenters_applicationloadbalancers_forwardingrules_post_with_http_info' do
       application_loadbalancer = application_loadbalancer_mock
       application_loadbalancer_rule = application_loadbalancer_rule_mock
+      
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -26,9 +27,29 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
         listener_port: application_loadbalancer_rule.properties.listener_port,
         client_timeout: application_loadbalancer_rule.properties.health_check.client_timeout,
         server_certificates: application_loadbalancer_rule.properties.server_certificates.join(','),
+        http_rules: application_loadbalancer_rule.properties.http_rules.map do
+          |el|
+          hash = el.to_hash
+          hash[:conditions].map! do
+            |condition|
+            condition.collect{|k,v| [k.to_s, v]}.to_h
+          end
+          {
+            'name' => hash[:name],
+            'type' => hash[:type],
+            'target_group' => hash[:targetGroup],
+            'drop_query' => hash[:dropQuery],
+            'location' => hash[:location],
+            'status_code' => hash[:statusCode],
+            'response_message' => hash[:responseMessage],
+            'content_type' => hash[:contentType],
+            'conditions' => hash[:conditions],
+          }
+        end,
         yes: true,
-      }
 
+      }
+ 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{application_loadbalancer.id}")
@@ -74,9 +95,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
       end}")
 
       application_loadbalancer.entities.forwardingrules.items << application_loadbalancer_rule
-
-      expected_properties = application_loadbalancer_rule_mock.properties.to_hash
-      expected_properties.delete(:httpRules)
+      expected_properties = application_loadbalancer_rule.properties.to_hash
 
       mock_wait_for(subject)
       mock_call_api(
