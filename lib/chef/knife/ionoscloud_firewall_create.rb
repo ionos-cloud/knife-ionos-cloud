@@ -30,7 +30,6 @@ class Chef
       option :protocol,
               short: '-P PROTOCOL',
               long: '--protocol PROTOCOL',
-              default: 'TCP',
               description: 'The protocol of the firewall rule (TCP, UDP, ICMP, ANY)'
 
       option :source_mac,
@@ -73,8 +72,7 @@ class Chef
       option :type,
               short: '--t TYPE',
               long: '--type TYPE',
-              description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS',
-              default: 'INGRESS'
+              description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS'
 
       attr_reader :description, :required_options
 

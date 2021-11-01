@@ -21,7 +21,6 @@ class Chef
               short: '-p',
               long: '--public',
               boolean: true,
-              default: false,
               description: 'Boolean indicating if the LAN faces the public ' \
                           'Internet or not; defaults to false'
 
