@@ -783,7 +783,6 @@ def check_k8s_cluster_print(subject, cluster)
 
   expect(subject).to receive(:puts).with("ID: #{cluster.id}")
   expect(subject).to receive(:puts).with("Name: #{cluster.properties.name}")
-  expect(subject).to receive(:puts).with("Public: #{cluster.properties.public}")
   expect(subject).to receive(:puts).with("k8s Version: #{cluster.properties.k8s_version}")
   expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
   expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
