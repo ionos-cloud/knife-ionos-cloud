@@ -25,8 +25,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-              default: 'INTEL_SKYLAKE'
+              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)'
 
       option :ram,
               short: '-r RAM',
@@ -36,8 +35,7 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the server',
-              default: 'AUTO'
+              description: 'The availability zone of the server'
 
       option :boot_volume,
               long: '--boot-volume VOLUME_ID',

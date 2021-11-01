@@ -17,11 +17,6 @@ class Chef
               long: '--version VERSION',
               description: 'The version for the Kubernetes cluster.'
 
-      option :private,
-              long: '--private',
-              default: false,
-              description: 'The indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.'
-
       option :maintenance_day,
               long: '--maintenance-day MAINTENANCE_DAY',
               description: 'Day Of the week when to perform the maintenance.'
@@ -67,7 +62,6 @@ class Chef
         cluster_properties = {
           name: config[:name],
           k8s_version: config[:version],
-          public: !config[:private],
           api_subnet_allow_list: config[:api_subnet_allow_list],
           s3_buckets: (config[:s3_buckets].nil? ? config[:s3_buckets] : config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) }),
         }.compact
