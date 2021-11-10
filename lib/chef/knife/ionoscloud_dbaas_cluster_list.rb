@@ -40,20 +40,21 @@ class Chef
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
 
         
-        clusters_api.clusters_get({ depth: 1 }).items.each do |cluster|
-          dbaas_cluster_list <= cluster.id
-          dbaas_cluster_list <= cluster.display_name
-          dbaas_cluster_list <= cluster.postgres_version
-          dbaas_cluster_list <= cluster.location
-          dbaas_cluster_list <= cluster.replicas
-          dbaas_cluster_list <= cluster.ram_size
-          dbaas_cluster_list <= cluster.cpu_core_count
-          dbaas_cluster_list <= cluster.storage_size
-          dbaas_cluster_list <= cluster.storage_type
-          dbaas_cluster_list <= cluster.backup_enabled
-          dbaas_cluster_list <= cluster.vdc_connections
-          dbaas_cluster_list <= cluster.maintenance_window
-          dbaas_cluster_list <= cluster.lifecycle_status
+        clusters_api.clusters_get(depth: 1).items.each do |cluster|
+          dbaas_cluster_list << cluster.id
+          dbaas_cluster_list << cluster.display_name
+          dbaas_cluster_list << cluster.postgres_version
+          dbaas_cluster_list << cluster.location
+          dbaas_cluster_list << cluster.replicas
+          dbaas_cluster_list << cluster.ram_size
+          dbaas_cluster_list << cluster.cpu_core_count
+          dbaas_cluster_list << cluster.storage_size
+          dbaas_cluster_list << cluster.storage_type
+          dbaas_cluster_list << cluster.backup_enabled
+          dbaas_cluster_list << cluster.vdc_connections
+          dbaas_cluster_list << cluster.maintenance_window
+          dbaas_cluster_list << cluster.lifecycle_status
+        end
 
         puts ui.list(dbaas_cluster_list, :uneven_columns_across, 13)
       end

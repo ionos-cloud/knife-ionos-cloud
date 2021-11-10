@@ -92,6 +92,7 @@ class Chef
 
         print "#{ui.color('Creating cluster...', :magenta)}"
 
+        print(config[:vdc_connections])
         config[:vdc_connections] = JSON[config[:vdc_connections]] if config[:vdc_connections] && config[:vdc_connections].instance_of?(String)
 
         config[:vdc_connections] = config[:vdc_connections].map do

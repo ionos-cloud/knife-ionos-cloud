@@ -11,6 +11,16 @@ class Chef
               short: '-C CLUSTER_ID',
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
+      
+      option :backup_id,
+              short: '-C CLUSTER_ID',
+              long: '--cluster-id CLUSTER_ID',
+              description: 'ID of the cluster'
+      
+      option :time,
+              short: '-C CLUSTER_ID',
+              long: '--cluster-id CLUSTER_ID',
+              description: 'ID of the cluster'
 
       attr_reader :description, :required_options
 
@@ -26,7 +36,9 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print_cluster(IonoscloudDbaas::ClustersApi.new(api_client_dbaas).clusters_post(config[:cluster_id]))
+        restore_request = IonoscloudDbaas::CreateRestoreRequest.new(backup_id: config[:backup_id], time: config[:time])
+
+        print_cluster(IonoscloudDbaas::ClustersApi.new(api_client_dbaas).cluster_restore_post_with_http_info(config[:cluster_id], restore_request))
       end
     end
   end

@@ -8,9 +8,48 @@ class Chef
       banner 'knife ionoscloud dbaas cluster update (options)'
 
       option :cluster_id,                              # todo vezi ce alte option sunt pentru update
-      short: '-C CLUSTER_ID',
-      long: '--cluster-id CLUSTER_ID',
-      description: 'ID of the cluster'
+              short: '-C CLUSTER_ID',
+              long: '--cluster-id CLUSTER_ID',
+              description: 'ID of the cluster'
+
+      option :cpu_core_count,
+              short: '-C CORES_COUNT',
+              long: '--cores CORES_COUNT',
+              description: 'The number of CPU cores per instance.'
+
+      option :ram_size,
+              short: '-r RAM_SIZE',
+              long: '--ram RAM_SIZE',
+              description: 'The amount of memory per instance.'
+
+      option :storage_size,
+              long: '--size STORAGE_SIZE',
+              description: 'The amount of storage per instance.'
+
+      option :backup_enabled,
+              short: '-b BACKUP_ENABLED',
+              long: '--backup-enabled BACKUP_ENABLED',
+              description: 'Deprecated: backup is always enabled. Enables automatic backups of your cluster.'
+
+      option :display_name,
+              short: '-n DISPLAY_NAME',
+              long: '--name DISPLAY_NAME',
+              description: 'The friendly name of your cluster.'
+
+      option :weekday,
+              short: '-d WEEKDAY',
+              long: '--weekday WEEKDAY',
+              description: 'Day Of the week when to perform the maintenance.'
+      
+      option :postgres_version,
+              long: '--postgres-version POSTGRES_VERSION',
+              description: 'The PostgreSQL version of your cluster'
+
+      option :replicas,
+              short: '-R REPLICAS',
+              long: '--replicas REPLICAS',
+              description: 'The total number of instances in the cluster (one master and n-1 standbys).'
+      
 
       attr_reader :description, :required_options
 
@@ -18,8 +57,8 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]   # todo vezi daca trebuie schimbat ceva aici
-        @updatable_fields = [:name, :description, :sec_auth_protection]                 # todo vezi daca trebuie schimbat ceva aici
+        @required_options = [:cluster_id] 
+        @updatable_fields = [:cpu_core_count, :ram_size, :storage_size, :backup_enabled, :display_name, :weekday, :postgres_version, :replicas] 
       end
 
       def run
@@ -34,10 +73,15 @@ class Chef
 
           cluster, _, headers  = clusters_api.clusters_patch_with_http_info(
             config[:cluster_id],
-            Ionoscloud::ClusterProperties.new(              # todo vezi daca sunt doar description si name sau treuiesc si altele adaugate
-              name: config[:name],
-              description: config[:description],
-              sec_auth_protection: (config.key?(:sec_auth_protection) ? config[:sec_auth_protection].to_s.downcase == 'true' : nil),
+            Ionoscloud::PatchClusterRequest.new(
+              cpu_core_count: config[:cpu_core_count],
+              ram_size: config[:ram_size],
+              storage_size: config[:storage_size],
+              backup_enabled: config[:backup_enabled],
+              display_name: config[:display_name],
+              weekday: config[:weekday],
+              postgres_version: config[:postgres_version],
+              replicas: config[:replicas],
             )
           )
 
