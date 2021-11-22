@@ -892,6 +892,22 @@ def postgres_version_list_mock(opts = {})
   IonoscloudDbaas::PostgresVersionList.new(data: [postgres_version_data_mock(name: 11), postgres_version_data_mock(name: 12)])
 end
 
+def cluster_logs_message(opts = {})
+  IonoscloudDbaas::ClusterLogsMessages.new(
+    time: Time.now,
+    message: SecureRandom.uuid.to_s,
+  )
+end
+
+def cluster_logs_instance(opts = {})
+  IonoscloudDbaas::ClusterLogsInstances.new(
+    name: 'test_' + SecureRandom.uuid.to_s,
+    messages: [cluster_logs_message, cluster_logs_message],
+  )
+end
+
+def cluster_logs_mock(opts = {})
+  IonoscloudDbaas::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
 def cluster_backup_mock(opts = {})
   IonoscloudDbaas::ClusterBackup.new(
     id: SecureRandom.uuid.to_s,
