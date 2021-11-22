@@ -57,7 +57,6 @@ describe Chef::Knife::IonoscloudDbaasVersionList do
 
       expect(subject.ui).to receive(:list).with(@postgres_version_list, :uneven_columns_across, 1)
 
-      expect(subject.api_client).not_to receive(:wait_for)
       mock_dbaas_call_api(
         subject,
         [
@@ -82,7 +81,7 @@ describe Chef::Knife::IonoscloudDbaasVersionList do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)
+        expect(subject.api_client_dbaas).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)
