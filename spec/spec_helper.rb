@@ -908,6 +908,18 @@ end
 
 def cluster_logs_mock(opts = {})
   IonoscloudDbaas::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
+def cluster_backup_mock(opts = {})
+  IonoscloudDbaas::ClusterBackup.new(
+    id: SecureRandom.uuid.to_s,
+    cluster_id: SecureRandom.uuid.to_s,
+    display_name: 'name_' + SecureRandom.uuid.to_s,
+    type: 'continuous',
+    metadata: IonoscloudDbaas::Metadata.new(created_date: Time.now),
+  )
+end
+
+def cluster_backups_mock(opts = {})
+  IonoscloudDbaas::ClusterBackupList.new(data: [cluster_backup_mock, cluster_backup_mock])
 end
 
 def arrays_without_one_element(arr)
