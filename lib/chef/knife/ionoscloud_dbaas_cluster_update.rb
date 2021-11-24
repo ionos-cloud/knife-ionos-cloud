@@ -36,6 +36,10 @@ class Chef
               long: '--name DISPLAY_NAME',
               description: 'The friendly name of your cluster.'
 
+      option :time,
+              long: '--time TIME',
+              description: 'Time Of the day when to perform the maintenance.'
+
       option :weekday,
               short: '-d WEEKDAY',
               long: '--weekday WEEKDAY',
@@ -58,7 +62,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
         @required_options = [:cluster_id] 
-        @updatable_fields = [:cpu_core_count, :ram_size, :storage_size, :backup_enabled, :display_name, :weekday, :postgres_version, :replicas] 
+        @updatable_fields = [:cpu_core_count, :ram_size, :storage_size, :backup_enabled, :display_name, :time, :weekday, :postgres_version, :replicas] 
       end
 
       def run
@@ -73,20 +77,22 @@ class Chef
 
           cluster, _, headers  = clusters_api.clusters_patch_with_http_info(
             config[:cluster_id],
-            Ionoscloud::PatchClusterRequest.new(
+            IonoscloudDbaas::PatchClusterRequest.new(
               cpu_core_count: config[:cpu_core_count],
               ram_size: config[:ram_size],
               storage_size: config[:storage_size],
               backup_enabled: config[:backup_enabled],
               display_name: config[:display_name],
-              weekday: config[:weekday],
+              maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
+                time: config[:time],
+                weekday: config[:weekday],
+              ) : nil,
               postgres_version: config[:postgres_version],
               replicas: config[:replicas],
             )
           )
 
           dot = ui.color('.', :magenta)
-          api_client.wait_for { print dot; is_done? get_request_id headers }
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end

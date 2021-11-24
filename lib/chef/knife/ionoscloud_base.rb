@@ -428,6 +428,7 @@ class Chef
         puts "#{ui.color('VDC Connections', :cyan)}: #{vdc_connections}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.maintenance_window.to_hash}"
         puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.lifecycle_status}"
+        puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.synchronization_mode}"
       end
     end
   end

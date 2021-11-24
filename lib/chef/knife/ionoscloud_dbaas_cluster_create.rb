@@ -64,6 +64,11 @@ class Chef
               long: '--weekday WEEKDAY',
               description: 'Day Of the week when to perform the maintenance.'
 
+      option  :synchronization_mode,
+               short: '-s SYNCHRONIZATION_MODE',
+               long: '--synchronization-mode SYNCHRONIZATION_MODE',
+               description: 'Represents different modes of replication'
+
       option :username,
               long: '--db-user DB_USERNAME',
               description: 'The username for the initial postgres user.
@@ -81,7 +86,7 @@ class Chef
         'Creates a new PostgreSQL cluster.'
         @required_options = [
           :postgres_version, :replicas, :cpu_core_count, :ram_size, :storage_size, :storage_type,
-          :vdc_connections, :location, :display_name, :username, :password, :ionoscloud_username, :ionoscloud_password,
+          :vdc_connections, :location, :display_name, :synchronization_mode, :username, :password, :ionoscloud_username, :ionoscloud_password,
         ]
       end
 
@@ -118,6 +123,7 @@ class Chef
             location: config[:location],
             display_name: config[:display_name],
             backup_enabled: config[:backup_enabled],
+            synchronization_mode: config[:synchronization_mode],
             maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
               time: config[:time],
               weekday: config[:weekday],

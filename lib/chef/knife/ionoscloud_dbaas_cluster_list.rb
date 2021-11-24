@@ -35,12 +35,13 @@ class Chef
           ui.color('VDC Connections', :bold),
           ui.color('Maintenance Window', :bold),
           ui.color('Lifecycle Status', :bold),
+          ui.color('Synchronization Mode', :bold),
         ]
 
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
 
         
-        clusters_api.clusters_get(depth: 1).items.each do |cluster|
+        clusters_api.clusters_get({ depth: 1 }).data.each do |cluster|
           dbaas_cluster_list << cluster.id
           dbaas_cluster_list << cluster.display_name
           dbaas_cluster_list << cluster.postgres_version
@@ -54,9 +55,10 @@ class Chef
           dbaas_cluster_list << cluster.vdc_connections
           dbaas_cluster_list << cluster.maintenance_window
           dbaas_cluster_list << cluster.lifecycle_status
+          dbaas_cluster_list << cluster.synchronization_mode
         end
 
-        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 13)
+        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 14)
       end
     end
   end
