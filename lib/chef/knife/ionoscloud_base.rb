@@ -430,6 +430,15 @@ class Chef
         puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.lifecycle_status}"
         puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.synchronization_mode}"
       end
+
+      def print_cluster_backup(backup)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{backup.id}"
+        puts "#{ui.color('Cluster ID', :cyan)}: #{backup.cluster_id}"
+        puts "#{ui.color('Display Name', :cyan)}: #{backup.display_name}"
+        puts "#{ui.color('Type', :cyan)}: #{backup.type}"
+        puts "#{ui.color('Time', :cyan)}: #{backup.metadata.created_date}"
+      end
     end
   end
 end
