@@ -25,6 +25,10 @@ class Chef
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
 
+          option :ionoscloud_url,
+                  long: '--url URL',
+                  description: 'The Ionoscloud API URL'
+
           option :extra_config_file,
                   short: '-e EXTRA_CONFIG_FILE_PATH',
                   long: '--extra-config EXTRA_CONFIG_FILE_PATH',
@@ -71,6 +75,15 @@ class Chef
 
         api_config.username = config[:ionoscloud_username]
         api_config.password = config[:ionoscloud_password]
+
+        if config[:ionoscloud_url]
+          uri = URI.parse(config[:ionoscloud_url])
+
+          api_config.scheme = uri.scheme
+          api_config.host = uri.host
+          api_config.base_path = uri.path
+          api_config.server_index = nil
+        end
 
         api_config.debugging = config[:ionoscloud_debug] || false
 
