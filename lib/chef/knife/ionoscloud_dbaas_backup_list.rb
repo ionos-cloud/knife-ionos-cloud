@@ -43,10 +43,10 @@ class Chef
           backups = backups_api.clusters_backups_get()
         end
 
-        backups.data.each do |backup|
+        backups.items.each do |backup|
           backup_list << backup.id
-          backup_list << backup.cluster_id
-          backup_list << backup.display_name
+          backup_list << backup.properties.cluster_id
+          backup_list << backup.properties.display_name
           backup_list << backup.type
           backup_list << backup.metadata.created_date
         end

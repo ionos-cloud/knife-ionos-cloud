@@ -37,8 +37,8 @@ class Chef
         validate_required_params(@required_options, config)
 
         restore_request = IonoscloudDbaas::CreateRestoreRequest.new(backup_id: config[:backup_id], recovery_target_time: config[:recovery_target_time])
-
-        print_cluster(IonoscloudDbaas::RestoresApi.new(api_client_dbaas).cluster_restore_post_with_http_info(config[:cluster_id], restore_request))
+        
+        response = IonoscloudDbaas::RestoresApi.new(api_client_dbaas).cluster_restore_post(config[:cluster_id], restore_request)
       end
     end
   end

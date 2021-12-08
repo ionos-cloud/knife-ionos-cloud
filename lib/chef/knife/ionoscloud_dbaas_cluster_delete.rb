@@ -13,7 +13,7 @@ class Chef
         super(args)
         @description =
         'Delete a Ionoscloud Dbaas Cluster'
-        @required_options = [:ionoscloud_username, :ionoscloud_password] # todo aici trebuie sa adaug si cluster id???
+        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
@@ -22,16 +22,16 @@ class Chef
         validate_required_params(@required_options, config)
 
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
-
+        
         @name_args.each do |cluster_id|
           begin
             cluster = clusters_api.clusters_find_by_id(cluster_id)
-          rescue Ionoscloud::ApiError => err
+          rescue IonoscloudDbaas::ApiError => err
             raise err unless err.code == 404
             ui.error("Cluster ID #{cluster_id} not found. Skipping.")
             next
           end
-
+          
           print_cluster(cluster)
           puts "\n"
 
@@ -42,7 +42,7 @@ class Chef
           end
 
           _, _, headers = clusters_api.clusters_delete_with_http_info(cluster_id)
-          ui.warn("Deleted Cluster #{cluster.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Cluster #{cluster.id}.")
         end
       end
     end

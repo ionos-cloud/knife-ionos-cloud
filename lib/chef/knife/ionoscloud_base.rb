@@ -412,30 +412,30 @@ class Chef
       end
 
       def print_cluster(cluster)
-        vdc_connections = cluster.vdc_connections.map { |vdc_connection| vdc_connection.to_hash }
+        connections = cluster.properties.connections.map { |connection| connection.to_hash }
 
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
-        puts "#{ui.color('Display Name', :cyan)}: #{cluster.display_name}"
-        puts "#{ui.color('Postgres Version', :cyan)}: #{cluster.postgres_version}"
-        puts "#{ui.color('Location', :cyan)}: #{cluster.location}"
-        puts "#{ui.color('Replicas', :cyan)}: #{cluster.replicas}"
-        puts "#{ui.color('RAM Size', :cyan)}: #{cluster.ram_size}"
-        puts "#{ui.color('CPU Core Count', :cyan)}: #{cluster.cpu_core_count}"
-        puts "#{ui.color('Storage Size', :cyan)}: #{cluster.storage_size}"
-        puts "#{ui.color('Storage Type', :cyan)}: #{cluster.storage_type}"
-        puts "#{ui.color('Backup Enabled', :cyan)}: #{cluster.backup_enabled}"
-        puts "#{ui.color('VDC Connections', :cyan)}: #{vdc_connections}"
-        puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.maintenance_window.to_hash}"
-        puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.lifecycle_status}"
-        puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.synchronization_mode}"
+        puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"
+        puts "#{ui.color('Postgres Version', :cyan)}: #{cluster.properties.postgres_version}"
+        puts "#{ui.color('Location', :cyan)}: #{cluster.properties.location}"
+        puts "#{ui.color('Instances', :cyan)}: #{cluster.properties.instances}"
+        puts "#{ui.color('RAM Size', :cyan)}: #{cluster.properties.ram}"
+        puts "#{ui.color('Cores', :cyan)}: #{cluster.properties.cores}"
+        puts "#{ui.color('Storage Size', :cyan)}: #{cluster.properties.storage_size}"
+        puts "#{ui.color('Storage Type', :cyan)}: #{cluster.properties.storage_type}"
+        # puts "#{ui.color('Backup Enabled', :cyan)}: #{cluster.from_backup}"
+        puts "#{ui.color('VDC Connections', :cyan)}: #{connections}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.properties.maintenance_window.to_hash}"
+        puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.properties.synchronization_mode}"
+        puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.metadata.state}"
       end
 
       def print_cluster_backup(backup)
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{backup.id}"
-        puts "#{ui.color('Cluster ID', :cyan)}: #{backup.cluster_id}"
-        puts "#{ui.color('Display Name', :cyan)}: #{backup.display_name}"
+        puts "#{ui.color('Cluster ID', :cyan)}: #{backup.properties.cluster_id}"
+        puts "#{ui.color('Display Name', :cyan)}: #{backup.properties.display_name}"
         puts "#{ui.color('Type', :cyan)}: #{backup.type}"
         puts "#{ui.color('Time', :cyan)}: #{backup.metadata.created_date}"
       end

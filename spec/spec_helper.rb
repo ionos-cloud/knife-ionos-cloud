@@ -501,6 +501,40 @@ def datacenters_mock(opts = {})
   )
 end
 
+def cluster_mock(opts = {})
+  IonoscloudDbaas::Cluster.new(
+    id: opts[:id] || SecureRandom.uuid,
+    backup_enabled: opts[:backup_enabled] || true,
+    lifecycle_status: opts[:lifecycle_status] || 'AVAILABLE',
+    display_name: opts[:display_name] || 'dbaas_Cluster',
+    postgres_version: opts[:postgres_version] || '10',
+    location: opts[:location] || 'us/las',
+    replicas: opts[:replicas] || 2,
+    ram_size: opts[:ram_size] || '4Gi',
+    cpu_core_count: opts[:cpu_core_count] || 4,
+    storage_size: opts[:storage_size] || '8Gi',
+    storage_type: opts[:storage_type] || 'datacenter_name',
+    vdc_connections: opts[:vdc_connections] || [IonoscloudDbaas::VdcConnections.new(
+      vdc_id: opts[:vdc_id] || SecureRandom.uuid,
+      lan_id: opts[:lan_id] || '1',
+      ip_address: opts[:ip_address] || '192.168.1.100/24',
+    )],
+    maintenance_window: opts[:maintenance_window] || IonoscloudDbaas::MaintenanceWindow.new(
+      time: opts[:time] || "00:29:15", 
+      weekday: opts[:weekday] || "Monday", 
+    ),
+    synchronization_mode: opts[:synchronization_mode] || 'asynchronous',
+  )
+end
+
+def clusters_mock(opts = {})
+  IonoscloudDbaas::Clusters.new(
+    id: 'Clusters',
+    type: 'collection',
+    items: [cluster_mock, cluster_mock],
+  )
+end
+
 def pcc_mock(opts = {})
   Ionoscloud::PrivateCrossConnect.new(
     id: opts[:id] || SecureRandom.uuid,

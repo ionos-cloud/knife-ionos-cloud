@@ -42,7 +42,7 @@ class Chef
         logs = IonoscloudDbaas::LogsApi.new(api_client_dbaas).cluster_logs_get(
           config[:cluster_id],
           {
-            limit: config[:limit],
+            limit: Integer(config[:limit]),
             start: config[:start],
             end: config[:end],
           },

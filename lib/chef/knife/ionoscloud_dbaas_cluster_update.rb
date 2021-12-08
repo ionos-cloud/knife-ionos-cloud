@@ -7,29 +7,28 @@ class Chef
 
       banner 'knife ionoscloud dbaas cluster update (options)'
 
-      option :cluster_id,                              # todo vezi ce alte option sunt pentru update
+      option :cluster_id, 
               short: '-C CLUSTER_ID',
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
 
-      option :cpu_core_count,
-              short: '-C CORES_COUNT',
-              long: '--cores CORES_COUNT',
+      option :cores,
+              short: '-C CORES',
+              long: '--cores CORES',
               description: 'The number of CPU cores per instance.'
 
       option :ram_size,
-              short: '-r RAM_SIZE',
-              long: '--ram RAM_SIZE',
+              short: '-r RAM',
+              long: '--ram RAM',
               description: 'The amount of memory per instance.'
 
       option :storage_size,
               long: '--size STORAGE_SIZE',
               description: 'The amount of storage per instance.'
 
-      option :backup_enabled,
-              short: '-b BACKUP_ENABLED',
-              long: '--backup-enabled BACKUP_ENABLED',
-              description: 'Deprecated: backup is always enabled. Enables automatic backups of your cluster.'
+      option :connections,
+              long: '--connections CONNECTIONS',
+              description: 'Array of VDCs to connect to your cluster.'
 
       option :display_name,
               short: '-n DISPLAY_NAME',
@@ -49,9 +48,9 @@ class Chef
               long: '--postgres-version POSTGRES_VERSION',
               description: 'The PostgreSQL version of your cluster'
 
-      option :replicas,
-              short: '-R REPLICAS',
-              long: '--replicas REPLICAS',
+      option :instances,
+              short: '-R INSTANCES',
+              long: '--instances INSTANCES',
               description: 'The total number of instances in the cluster (one master and n-1 standbys).'
       
 
@@ -62,7 +61,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
         @required_options = [:cluster_id] 
-        @updatable_fields = [:cpu_core_count, :ram_size, :storage_size, :backup_enabled, :display_name, :time, :weekday, :postgres_version, :replicas] 
+        @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances] 
       end
 
       def run
@@ -75,22 +74,22 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating cluster...', :magenta)}"
 
-          cluster, _, headers  = clusters_api.clusters_patch_with_http_info(
-            config[:cluster_id],
-            IonoscloudDbaas::PatchClusterRequest.new(
-              cpu_core_count: config[:cpu_core_count],
-              ram_size: config[:ram_size],
-              storage_size: config[:storage_size],
-              backup_enabled: config[:backup_enabled],
-              display_name: config[:display_name],
-              maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
-                time: config[:time],
-                weekday: config[:weekday],
-              ) : nil,
-              postgres_version: config[:postgres_version],
-              replicas: config[:replicas],
-            )
-          )
+        cluster_properties = IonoscloudDbaas::PatchClusterProperties.new(
+          cores: config[:cores],
+            ram: config[:ram],
+            storage_size: config[:storage_size],
+            display_name: config[:display_name],
+            maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
+              time: config[:time],
+              weekday: config[:weekday],
+            ) : nil,
+            postgres_version: config[:postgres_version],
+            instances: config[:instances],
+        )
+        cluster_request = IonoscloudDbaas::PatchClusterRequest.new()
+        cluster_request.properties = cluster_properties
+
+        cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
 
           dot = ui.color('.', :magenta)
         else
