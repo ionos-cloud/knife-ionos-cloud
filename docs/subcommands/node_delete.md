@@ -16,6 +16,9 @@ knife ionoscloud node delete NODE_ID [NODE_ID] (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
         the ID of the K8s Cluster (required)
 
@@ -28,8 +31,8 @@ knife ionoscloud node delete NODE_ID [NODE_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example

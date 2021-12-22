@@ -17,6 +17,9 @@ knife ionoscloud firewall create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 
@@ -27,7 +30,7 @@ knife ionoscloud firewall create (options)
         iD of the NIC (required)
 
     name: --name NAME, -n NAME
-        name of the NIC
+        name of the Firewall Rule
 
     protocol: --protocol PROTOCOL, -P PROTOCOL
         the protocol of the firewall rule (TCP, UDP, ICMP, ANY)
@@ -44,7 +47,7 @@ knife ionoscloud firewall create (options)
     port_range_start: --port-range-start PORT, -p PORT
         defines the start range of the allowed port(s)
 
-    port_range_end: --port-range-end PORT
+    port_range_end: --port-range-end PORT, -t PORT
         defines the end range of the allowed port(s)
 
     icmp_type: --icmp-type INT
@@ -53,21 +56,18 @@ knife ionoscloud firewall create (options)
     icmp_code: --icmp-code INT
         defines the allowed code (from 0 to 254) if the protocol ICMP is chosen; null allows all codes
 
-    type: --type TYPE, --t TYPE
-        the type of firewall rule. If is not specified, it will take the default value INGRESS
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud firewall create --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --type TYPE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud firewall create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --protocol PROTOCOL --source-mac MAC --source-ip IP --target-ip IP --port-range-start PORT --port-range-end PORT --icmp-type INT --icmp-code INT --username USERNAME --password PASSWORD --url URL
 ```

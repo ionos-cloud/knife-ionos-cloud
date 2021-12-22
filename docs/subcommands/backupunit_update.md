@@ -15,6 +15,9 @@ knife ionoscloud backupunit update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     backupunit_id: --backupunit-id BACKUPUNIT_ID, -B BACKUPUNIT_ID
         the ID of the Backup unit. (required)
 
@@ -30,12 +33,12 @@ knife ionoscloud backupunit update (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud backupunit update --backupunit-id BACKUPUNIT_ID --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud backupunit update --extra-config EXTRA_CONFIG_FILE_PATH --backupunit-id BACKUPUNIT_ID --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD --url URL
 ```

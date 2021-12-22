@@ -14,6 +14,9 @@ knife ionoscloud request list (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     limit: --limit LIMIT, -l LIMIT
         the maximum number of requests to look into.
 
@@ -32,12 +35,12 @@ knife ionoscloud request list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud request list --limit LIMIT --offset OFFSET --status STATUS --method METHOD --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud request list --extra-config EXTRA_CONFIG_FILE_PATH --limit LIMIT --offset OFFSET --status STATUS --method METHOD --username USERNAME --password PASSWORD --url URL
 ```

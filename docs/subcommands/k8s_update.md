@@ -15,6 +15,9 @@ knife ionoscloud k8s update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
         iD of the Kubernetes cluster (required)
 
@@ -42,12 +45,12 @@ knife ionoscloud k8s update (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud k8s update --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET[,SUBNET,...] --s3-buckets BUCKET[,BUCKET,...] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud k8s update --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET[,SUBNET,...] --s3-buckets BUCKET[,BUCKET,...] --username USERNAME --password PASSWORD --url URL
 ```

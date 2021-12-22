@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'chef', '~> 16.10', '>= 16.10.17'
-  spec.add_runtime_dependency 'ionoscloud', '~> 6.0.0.beta.3'
+  spec.add_runtime_dependency 'ionoscloud', '~> 6.0.0'
 
   spec.add_development_dependency 'rspec', '~> 3.10'
   spec.add_development_dependency 'simplecov', '~> 0.21.2'

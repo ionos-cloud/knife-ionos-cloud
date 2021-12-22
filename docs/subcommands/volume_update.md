@@ -16,6 +16,9 @@ knife ionoscloud volume update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -55,12 +58,12 @@ knife ionoscloud volume update (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud volume update --datacenter-id DATACENTER_ID --volume VOLUME_ID --name NAME --size SIZE --bus BUS --cpu-hot-plug CPU_HOT_PLUG --ram-hot-plug RAM_HOT_PLUG --nic-hot-plug NIC_HOT_PLUG --nic-hot-unplug NIC_HOT_UNPLUG --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud volume update --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --volume VOLUME_ID --name NAME --size SIZE --bus BUS --cpu-hot-plug CPU_HOT_PLUG --ram-hot-plug RAM_HOT_PLUG --nic-hot-plug NIC_HOT_PLUG --nic-hot-unplug NIC_HOT_UNPLUG --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG --username USERNAME --password PASSWORD --url URL
 ```

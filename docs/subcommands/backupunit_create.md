@@ -17,13 +17,16 @@ knife ionoscloud backupunit create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     name: --name NAME, -n NAME
         alphanumeric name you want assigned to the backup unit (required)
 
     password: --password PASSWORD, -p PASSWORD
         alphanumeric password you want assigned to the backup unit (required)
 
-    email: --email EMAIL, -e EMAIL
+    email: --email EMAIL
         the e-mail address you want assigned to the backup unit. (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
@@ -32,12 +35,12 @@ knife ionoscloud backupunit create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud backupunit create --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud backupunit create --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --password PASSWORD --email EMAIL --username USERNAME --password PASSWORD --url URL
 ```

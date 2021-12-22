@@ -15,6 +15,9 @@ knife ionoscloud request status (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     request_id: --request-id REQUEST_ID, -R REQUEST_ID
         the ID of the Request. (required)
 
@@ -24,12 +27,12 @@ knife ionoscloud request status (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud request status --request-id REQUEST_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud request status --extra-config EXTRA_CONFIG_FILE_PATH --request-id REQUEST_ID --username USERNAME --password PASSWORD --url URL
 ```
