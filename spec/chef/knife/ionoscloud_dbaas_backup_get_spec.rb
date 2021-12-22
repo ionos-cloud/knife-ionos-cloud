@@ -24,10 +24,12 @@ describe Chef::Knife::IonoscloudDbaasBackupGet do
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{backup.id}")
-      expect(subject).to receive(:puts).with("Cluster ID: #{backup.cluster_id}")
-      expect(subject).to receive(:puts).with("Display Name: #{backup.display_name}")
-      expect(subject).to receive(:puts).with("Type: #{backup.type}")
-      expect(subject).to receive(:puts).with("Time: #{backup.metadata.created_date}")
+      expect(subject).to receive(:puts).with("Cluster ID: #{backup.properties.cluster_id}")
+      expect(subject).to receive(:puts).with("Display Name: #{backup.properties.display_name}")
+      expect(subject).to receive(:puts).with("Is Active: #{backup.properties.is_active}")
+      expect(subject).to receive(:puts).with("Version: #{backup.properties.version}")
+      expect(subject).to receive(:puts).with("Earliest Recovery Target Time: #{backup.properties.earliest_recovery_target_time}")
+      expect(subject).to receive(:puts).with("Created Date: #{backup.metadata.created_date}")
 
       mock_dbaas_call_api(
         subject,
@@ -36,7 +38,7 @@ describe Chef::Knife::IonoscloudDbaasBackupGet do
             method: 'GET',
             path: "/clusters/backups/#{backup.id}",
             operation: :'BackupsApi.clusters_backups_find_by_id',
-            return_type: 'ClusterBackup',
+            return_type: 'BackupResponse',
             result: backup,
           },
         ],

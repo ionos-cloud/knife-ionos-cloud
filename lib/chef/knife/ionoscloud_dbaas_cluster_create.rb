@@ -24,7 +24,7 @@ class Chef
       option :ram,
               short: '-r RAM',
               long: '--ram RAM',
-              description: 'The amount of memory per instance.'
+              description: 'The amount of memory per instance(should be a multiple of 1024).'
 
       option :storage_size,
               long: '--size STORAGE_SIZE',
@@ -78,6 +78,16 @@ class Chef
               long: '--db-password DB_PASSWORD',
               description: 'The username for the initial postgres user.'
 
+      option :backup_id,
+              short: '-B BACKUP_ID',
+              long: '--backup-id BACKUP_ID',
+              description: 'ID of backup'
+      
+      option :recovery_target_time,
+              short: '-T RECOVERY_TARGET_TIME',
+              long: '--recovery-target-time RECOVERY_TARGET_TIME',
+              description: 'Recovery target time'
+
       attr_reader :description, :required_options
 
       def initialize(args = [])
@@ -129,7 +139,10 @@ class Chef
               password: config[:password],
             ),
             synchronization_mode: config[:synchronization_mode],
-            # from_backup: config[:from_backup],         #  TODO VEZI CUM SE SETEAZA FLAGUL ASTA poate il spargi in 2 --
+            from_backup: IonoscloudDbaas::CreateRestoreRequest.new(
+                backup_id: config[:backup_id], 
+                recovery_target_time: config[:recovery_target_time],
+            ),    
         )
 
         cluster_request = IonoscloudDbaas::CreateClusterRequest.new()

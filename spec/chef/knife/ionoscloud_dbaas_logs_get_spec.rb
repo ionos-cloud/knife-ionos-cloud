@@ -18,6 +18,7 @@ describe Chef::Knife::IonoscloudDbaasLogsGet do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
+        limit: 3,
         yes: true,
       }
 

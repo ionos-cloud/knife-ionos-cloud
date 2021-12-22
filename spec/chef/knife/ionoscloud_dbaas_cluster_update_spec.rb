@@ -18,46 +18,52 @@ describe Chef::Knife::IonoscloudDbaasClusterUpdate do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: cluster.id,
-        name: cluster.name + '_edited',
+        display_name: cluster.properties.display_name + '_edited',
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{cluster.id}")
-      expect(subject).to receive(:puts).with("Display Name: #{cluster.display_name}")
-      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.postgres_version}")
-      expect(subject).to receive(:puts).with("Location: #{cluster.location}")
-      expect(subject).to receive(:puts).with("Replicas: #{dcluster.replicas}")
-      expect(subject).to receive(:puts).with("RAM Size: #{cluster.ram_size}")
-      expect(subject).to receive(:puts).with("CPU Core Count: #{cluster.cpu_core_count}")
-      expect(subject).to receive(:puts).with("Storage Size: #{dcluster.storage_size}")
-      expect(subject).to receive(:puts).with("Storage Type: #{cluster.storage_type}")
-      expect(subject).to receive(:puts).with("Backup Enabled: #{cluster.backup_enabled}")
-      expect(subject).to receive(:puts).with("VDC Connections: #{cluster.vdc_connections}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.maintenance_window}")
-      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.lifecycle_status}")
-      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.synchronization_mode}")
+      expect(subject).to receive(:puts).with("Display Name: #{subject_config[:display_name]}")
+      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.properties.postgres_version}")
+      expect(subject).to receive(:puts).with("Location: #{cluster.properties.location}")
+      expect(subject).to receive(:puts).with("Instances: #{cluster.properties.instances}")
+      expect(subject).to receive(:puts).with("RAM Size: #{cluster.properties.ram}")
+      expect(subject).to receive(:puts).with("Cores: #{cluster.properties.cores}")
+      expect(subject).to receive(:puts).with("Storage Size: #{cluster.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{cluster.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Connections: #{cluster.properties.connections.map { |connection| connection.to_hash }}")
+      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.properties.maintenance_window.to_hash}")
+      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.properties.synchronization_mode}")
+      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
 
-      datacenter.properties.name = subject_config[:name]
+      expected_body = cluster.properties.to_hash.merge({ #  sterge expected_body
+        display_name: subject_config[:display_name],
+      })
 
-      mock_wait_for(subject)    # aici
-      mock_call_api(    # aici ar trebui sa fie mock_dbaas_call_api???
+      expected_body2 = {
+        displayName: subject_config[:display_name],
+      }
+
+      cluster.properties.display_name = subject_config[:display_name]
+
+      mock_dbaas_call_api(
         subject,
         [
           {
             method: 'PATCH',
             path: "/clusters/#{cluster.id}",
-            operation: :'ClustersApi.clusters_patch_with_http_info',
-            return_type: 'Cluster',
-            body: { name: subject_config[:name] },
+            operation: :'ClustersApi.clusters_patch',
+            return_type: 'ClusterResponse',
+            body: { properties: expected_body2 }, # properties: expected_body    sau    display_name: subject_config[:display_name]     SI INTREABA-L PE RADU DACA E OK ASA CU expected body
             result: cluster,
           },
           {
             method: 'GET',
             path: "/clusters/#{cluster.id}",
             operation: :'ClustersApi.clusters_find_by_id',
-            return_type: 'Cluster',
+            return_type: 'ClusterResponse',
             result: cluster,
           },
         ],
@@ -74,7 +80,7 @@ describe Chef::Knife::IonoscloudDbaasClusterUpdate do
           test_case[:array].each { |value| subject.config[value] = 'test' }
   
           expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-          expect(subject.api_client).not_to receive(:call_api)    # todo in loc de call_api e call_api_dbaas?????
+          expect(subject.api_client).not_to receive(:call_api)
   
           expect { subject.run }.to raise_error(SystemExit) do |error|
             expect(error.status).to eq(1)

@@ -17,7 +17,7 @@ class Chef
               long: '--backup-id BACKUP_ID',
               description: 'ID of backup'
       
-      option :time,
+      option :recovery_target_time,
               short: '-T RECOVERY_TARGET_TIME',
               long: '--recovery-target-time RECOVERY_TARGET_TIME',
               description: 'Recovery target time'
@@ -36,9 +36,13 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
+        print "#{ui.color('Restoring Cluster...', :magenta)}"
+
         restore_request = IonoscloudDbaas::CreateRestoreRequest.new(backup_id: config[:backup_id], recovery_target_time: config[:recovery_target_time])
         
-        response = IonoscloudDbaas::RestoresApi.new(api_client_dbaas).cluster_restore_post(config[:cluster_id], restore_request)
+        IonoscloudDbaas::RestoresApi.new(api_client_dbaas).cluster_restore_post(config[:cluster_id], restore_request)
+
+        puts("\nCluster restored succsefully.")
       end
     end
   end

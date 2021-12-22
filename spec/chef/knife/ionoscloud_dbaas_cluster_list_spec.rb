@@ -26,45 +26,43 @@ describe Chef::Knife::IonoscloudDbaasClusterList do
         subject.ui.color('Display Name', :bold),
         subject.ui.color('Postgres Version', :bold),
         subject.ui.color('Location', :bold),
-        subject.ui.color('Replicas', :bold),
+        subject.ui.color('Instances', :bold),
+        subject.ui.color('Cores', :bold),
         subject.ui.color('RAM Size', :bold),
-        subject.ui.color('CPU Core Count', :bold),
         subject.ui.color('Storage Size', :bold),
         subject.ui.color('Storage Type', :bold),
-        subject.ui.color('Backup Enabled', :bold),
-        subject.ui.color('VDC Connections', :bold),
+        subject.ui.color('Connections', :bold),
         subject.ui.color('Maintenance Window', :bold),
-        subject.ui.color('Lifecycle Status', :bold),
         subject.ui.color('Synchronization Mode', :bold),
+        subject.ui.color('Lifecycle Status', :bold),
       ]
 
       clusters.items.each do |cluster|
         cluster_list << cluster.id
-        cluster_list << cluster.display_name
-        cluster_list << cluster.postgres_version
-        cluster_list << cluster.location
-        cluster_list << cluster.replicas
-        cluster_list << cluster.ram_size
-        cluster_list << cluster.cpu_core_count
-        cluster_list << cluster.storage_size
-        cluster_list << cluster.storage_type
-        cluster_list << cluster.backup_enabled
-        cluster_list << cluster.vdc_connections
-        cluster_list << cluster.maintenance_window
-        cluster_list << cluster.lifecycle_status
-        cluster_list << cluster.synchronization_mode
+        cluster_list << cluster.properties.display_name
+        cluster_list << cluster.properties.postgres_version
+        cluster_list << cluster.properties.location
+        cluster_list << cluster.properties.instances
+        cluster_list << cluster.properties.cores
+        cluster_list << cluster.properties.ram
+        cluster_list << cluster.properties.storage_size
+        cluster_list << cluster.properties.storage_type
+        cluster_list << cluster.properties.connections
+        cluster_list << cluster.properties.maintenance_window
+        cluster_list << cluster.properties.synchronization_mode
+        cluster_list << cluster.metadata.state
       end
 
-      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 14)
+      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 13)
 
-      mock_call_api(
+      mock_dbaas_call_api(
         subject,
         [
           {
             method: 'GET',
             path: '/clusters',
             operation: :'ClustersApi.clusters_get',
-            return_type: 'Clusters',
+            return_type: 'ClusterList',
             result: clusters,
           },
         ],
@@ -81,7 +79,7 @@ describe Chef::Knife::IonoscloudDbaasClusterList do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)    # todo in loc de call_api e call_api_dbaas?????
+        expect(subject.api_client).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

@@ -428,7 +428,7 @@ class Chef
 
       def print_cluster(cluster)
         connections = cluster.properties.connections.map { |connection| connection.to_hash }
-
+        
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
         puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"
@@ -439,8 +439,7 @@ class Chef
         puts "#{ui.color('Cores', :cyan)}: #{cluster.properties.cores}"
         puts "#{ui.color('Storage Size', :cyan)}: #{cluster.properties.storage_size}"
         puts "#{ui.color('Storage Type', :cyan)}: #{cluster.properties.storage_type}"
-        # puts "#{ui.color('Backup Enabled', :cyan)}: #{cluster.from_backup}"
-        puts "#{ui.color('VDC Connections', :cyan)}: #{connections}"
+        puts "#{ui.color('Connections', :cyan)}: #{connections}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.properties.maintenance_window.to_hash}"
         puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.properties.synchronization_mode}"
         puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.metadata.state}"
@@ -451,8 +450,10 @@ class Chef
         puts "#{ui.color('ID', :cyan)}: #{backup.id}"
         puts "#{ui.color('Cluster ID', :cyan)}: #{backup.properties.cluster_id}"
         puts "#{ui.color('Display Name', :cyan)}: #{backup.properties.display_name}"
-        puts "#{ui.color('Type', :cyan)}: #{backup.type}"
-        puts "#{ui.color('Time', :cyan)}: #{backup.metadata.created_date}"
+        puts "#{ui.color('Version', :cyan)}: #{backup.properties.version}"
+        puts "#{ui.color('Is Active', :cyan)}: #{backup.properties.is_active}"
+        puts "#{ui.color('Earliest Recovery Target Time', :cyan)}: #{backup.properties.earliest_recovery_target_time}"
+        puts "#{ui.color('Created Date', :cyan)}: #{backup.metadata.created_date}"
       end
     end
   end

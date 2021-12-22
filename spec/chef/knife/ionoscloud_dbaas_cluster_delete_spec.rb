@@ -24,37 +24,36 @@ describe Chef::Knife::IonoscloudDbaasClusterDelete do
       subject.name_args = [cluster.id]
 
       expect(subject).to receive(:puts).with("ID: #{cluster.id}")
-      expect(subject).to receive(:puts).with("Display Name: #{cluster.display_name}")
-      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.postgres_version}")
-      expect(subject).to receive(:puts).with("Location: #{cluster.location}")
-      expect(subject).to receive(:puts).with("Replicas: #{dcluster.replicas}")
-      expect(subject).to receive(:puts).with("RAM Size: #{cluster.ram_size}")
-      expect(subject).to receive(:puts).with("CPU Core Count: #{cluster.cpu_core_count}")
-      expect(subject).to receive(:puts).with("Storage Size: #{dcluster.storage_size}")
-      expect(subject).to receive(:puts).with("Storage Type: #{cluster.storage_type}")
-      expect(subject).to receive(:puts).with("Backup Enabled: #{cluster.backup_enabled}")
-      expect(subject).to receive(:puts).with("VDC Connections: #{cluster.vdc_connections}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.maintenance_window}")
-      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.lifecycle_status}")
-      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.synchronization_mode}")
-      expect(subject.ui).to receive(:warn).with("Deleted Cluster #{cluster.id}. Request ID: ")
+      expect(subject).to receive(:puts).with("Display Name: #{cluster.properties.display_name}")
+      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.properties.postgres_version}")
+      expect(subject).to receive(:puts).with("Location: #{cluster.properties.location}")
+      expect(subject).to receive(:puts).with("Instances: #{cluster.properties.instances}")
+      expect(subject).to receive(:puts).with("RAM Size: #{cluster.properties.ram}")
+      expect(subject).to receive(:puts).with("Cores: #{cluster.properties.cores}")
+      expect(subject).to receive(:puts).with("Storage Size: #{cluster.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{cluster.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Connections: #{cluster.properties.connections.map { |connection| connection.to_hash }}")
+      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.properties.maintenance_window.to_hash}")
+      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.properties.synchronization_mode}")
+      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
+      expect(subject.ui).to receive(:warn).with("Deleted Cluster #{cluster.id}.")
 
-      expect(subject.api_client).not_to receive(:wait_for)
-      expect(subject).to receive(:get_request_id).once
-      mock_call_api(
+      # expect(subject).to receive(:get_request_id).once
+      mock_dbaas_call_api(
         subject,
         [
           {
             method: 'GET',
             path: "/clusters/#{cluster.id}",
             operation: :'ClustersApi.clusters_find_by_id',
-            return_type: 'Datacenter',
+            return_type: 'ClusterResponse',
             result: cluster,
           },
           {
             method: 'DELETE',
             path: "/clusters/#{cluster.id}",
-            operation: :'ClustersApi.clusters_delete_with_http_info',
+            operation: :'ClustersApi.clusters_delete',
+            return_type: 'ClusterResponse',
           },
         ],
       )
@@ -63,33 +62,32 @@ describe Chef::Knife::IonoscloudDbaasClusterDelete do
     end
 
     it 'should not call ClustersApi.clusters_delete when the user ID is not valid' do
-        cluster_id = 'invalid_id'
-        subject_config = {
-          ionoscloud_username: 'email',
-          ionoscloud_password: 'password',
-        }
+      cluster_id = 'invalid_id'
+      subject_config = {
+        ionoscloud_username: 'email',
+        ionoscloud_password: 'password',
+      }
   
-        subject_config.each { |key, value| subject.config[key] = value }
-        subject.name_args = [cluster_id]
+      subject_config.each { |key, value| subject.config[key] = value }
+      subject.name_args = [cluster_id]
   
-        expect(subject.ui).to receive(:error).with("Cluster ID #{cluster_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("Cluster ID #{cluster_id} not found. Skipping.")
   
-        expect(subject.api_client).not_to receive(:wait_for)   # todo in loc de call_api e call_api_dbaas?????S
-        mock_call_api(
-          subject,
-          [
-            {
-              method: 'GET',
-              path: "/clusters/#{cluster_id}",
-              operation: :'ClustersApi.clusters_find_by_id',
-              return_type: 'Cluster',
-              exception: Ionoscloud::ApiError.new(code: 404),   #trebuie ionoscloudDbass::Error sau ce eroare o fii prin el?
-            },
-          ],
-        )
+      mock_dbaas_call_api(
+        subject,
+        [
+          {
+            method: 'GET',
+            path: "/clusters/#{cluster_id}",
+            operation: :'ClustersApi.clusters_find_by_id',
+            return_type: 'ClusterResponse',
+            exception: IonoscloudDbaas::ApiError.new(code: 404),
+          },
+        ],
+      )
   
-        expect { subject.run }.not_to raise_error(Exception)
-      end
+      expect { subject.run }.not_to raise_error(Exception)
+    end
 
       it 'should not make any call if any required option is missing' do
         required_options = subject.instance_variable_get(:@required_options)
@@ -99,7 +97,7 @@ describe Chef::Knife::IonoscloudDbaasClusterDelete do
           test_case[:array].each { |value| subject.config[value] = 'test' }
   
           expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-          expect(subject.api_client).not_to receive(:call_api)     # todo in loc de call_api e call_api_dbaas?????
+          expect(subject.api_client).not_to receive(:call_api)
   
           expect { subject.run }.to raise_error(SystemExit) do |error|
             expect(error.status).to eq(1)

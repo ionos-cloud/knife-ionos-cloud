@@ -18,53 +18,59 @@ describe Chef::Knife::IonoscloudDbaasClusterCreate do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
-        backup_enabled: cluster.backup_enabled,
-        lifecycle_status: cluster.lifecycle_status,
-        display_name: cluster.display_name,
-        postgres_version: cluster.postgres_version,
-        location: cluster.location,
-        replicas: cluster.replicas,
-        ram_size: cluster.ram_size,
-        cpu_core_count: cluster.cpu_core_count,
-        storage_size: cluster.storage_size,
-        storage_type: cluster.storage_type,
-        vdc_connections: cluster.vdc_connections,
-        maintenance_window: cluster.maintenance_window,
-        synchronization_mode: cluster.synchronization_mode,
+        display_name: cluster.properties.display_name,
+        postgres_version: cluster.properties.postgres_version,
+        location: cluster.properties.location,
+        instances: cluster.properties.instances,
+        ram: cluster.properties.ram,
+        cores: cluster.properties.cores,
+        storage_size: cluster.properties.storage_size,
+        storage_type: cluster.properties.storage_type,
+        connections: cluster.properties.connections.map do |connection| 
+          {
+            'datacenter_id' => connection.datacenter_id,
+            'lan_id' => connection.lan_id,
+            'cidr' => connection.cidr,
+          } 
+        end,
+        time: cluster.properties.maintenance_window.time,
+        day_of_the_week: cluster.properties.maintenance_window.day_of_the_week,
+        synchronization_mode: cluster.properties.synchronization_mode,
+        state: cluster.metadata.state,
+        username: "usr",
+        password: "pass123",
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{cluster.id}")
-      expect(subject).to receive(:puts).with("Display Name: #{cluster.display_name}")
-      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.postgres_version}")
-      expect(subject).to receive(:puts).with("Location: #{cluster.location}")
-      expect(subject).to receive(:puts).with("Replicas: #{dcluster.replicas}")
-      expect(subject).to receive(:puts).with("RAM Size: #{cluster.ram_size}")
-      expect(subject).to receive(:puts).with("CPU Core Count: #{cluster.cpu_core_count}")
-      expect(subject).to receive(:puts).with("Storage Size: #{dcluster.storage_size}")
-      expect(subject).to receive(:puts).with("Storage Type: #{cluster.storage_type}")
-      expect(subject).to receive(:puts).with("Backup Enabled: #{cluster.backup_enabled}")
-      expect(subject).to receive(:puts).with("VDC Connections: #{cluster.vdc_connections}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.maintenance_window}")
-      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.lifecycle_status}")
-      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.synchronization_mode}")
+      expect(subject).to receive(:puts).with("Display Name: #{cluster.properties.display_name}")
+      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.properties.postgres_version}")
+      expect(subject).to receive(:puts).with("Location: #{cluster.properties.location}")
+      expect(subject).to receive(:puts).with("Instances: #{cluster.properties.instances}")
+      expect(subject).to receive(:puts).with("RAM Size: #{cluster.properties.ram}")
+      expect(subject).to receive(:puts).with("Cores: #{cluster.properties.cores}")
+      expect(subject).to receive(:puts).with("Storage Size: #{cluster.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{cluster.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Connections: #{cluster.properties.connections.map { |connection| connection.to_hash }}")
+      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.properties.maintenance_window.to_hash}")
+      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.properties.synchronization_mode}")
+      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
 
       expected_body = cluster.properties.to_hash
-    #   expected_body.delete(:version)
-    #   expected_body.delete(:cpuArchitecture)
-
-    #   mock_wait_for(subject)
+      expected_body[:credentials] = {username: subject_config[:username], password: subject_config[:password]}
+      expected_body[:fromBackup] = {}
+    
       mock_dbaas_call_api(
         subject,
         [
           {
             method: 'POST',
             path: '/clusters',
-            operation: :'ClustersApi.clusters_post_with_http_info',
-            return_type: 'Datacenter',
+            operation: :'ClustersApi.clusters_post',
+            return_type: 'ClusterResponse',
             body: { properties: expected_body },
-            result: datacenter,
+            result: cluster,
           },
         ],
       )
@@ -80,7 +86,7 @@ describe Chef::Knife::IonoscloudDbaasClusterCreate do
           test_case[:array].each { |value| subject.config[value] = 'test' }
   
           expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-          expect(subject.api_client_dbaas).not_to receive(:call_api) # todo in loc de call_api e call_api_dbaas?????
+          expect(subject.api_client_dbaas).not_to receive(:call_api)
   
           expect { subject.run }.to raise_error(SystemExit) do |error|
             expect(error.status).to eq(1)

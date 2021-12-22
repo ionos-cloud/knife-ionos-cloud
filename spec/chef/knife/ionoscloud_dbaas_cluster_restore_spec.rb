@@ -17,35 +17,20 @@ describe Chef::Knife::IonoscloudDbaasClusterRestore do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        cluster_id: snapshot.id,
+        cluster_id: cluster.id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{cluster.id}")
-      expect(subject).to receive(:puts).with("Display Name: #{cluster.display_name}")
-      expect(subject).to receive(:puts).with("Postgres Version: #{cluster.postgres_version}")
-      expect(subject).to receive(:puts).with("Location: #{cluster.location}")
-      expect(subject).to receive(:puts).with("Replicas: #{dcluster.replicas}")
-      expect(subject).to receive(:puts).with("RAM Size: #{cluster.ram_size}")
-      expect(subject).to receive(:puts).with("CPU Core Count: #{cluster.cpu_core_count}")
-      expect(subject).to receive(:puts).with("Storage Size: #{dcluster.storage_size}")
-      expect(subject).to receive(:puts).with("Storage Type: #{cluster.storage_type}")
-      expect(subject).to receive(:puts).with("Backup Enabled: #{cluster.backup_enabled}")
-      expect(subject).to receive(:puts).with("VDC Connections: #{cluster.vdc_connections}")
-      expect(subject).to receive(:puts).with("Maintenance Window: #{cluster.maintenance_window}")
-      expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.lifecycle_status}")
-      expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.synchronization_mode}")
-
-      mock_wait_for(subject)
-      mock_call_api(
+      mock_dbaas_call_api(
         subject,
         [
           {
             method: 'POST',
             path: "/clusters/#{subject_config[:cluster_id]}/restore",
             operation: :'RestoresApi.cluster_restore_post',
-            form_params: { 'clusterId' => cluster.id },
+            result: nil,
+            body: {},
           },
         ],
       )
@@ -61,7 +46,7 @@ describe Chef::Knife::IonoscloudDbaasClusterRestore do
           test_case[:array].each { |value| subject.config[value] = 'test' }
   
           expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-          expect(subject.api_client).not_to receive(:call_api)    # todo in loc de call_api e call_api_dbaas?????
+          expect(subject.api_client).not_to receive(:call_api)
   
           expect { subject.run }.to raise_error(SystemExit) do |error|
             expect(error.status).to eq(1)

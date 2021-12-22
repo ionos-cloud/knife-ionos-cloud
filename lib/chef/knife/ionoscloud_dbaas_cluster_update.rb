@@ -60,7 +60,7 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
-        @required_options = [:cluster_id] 
+        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password] 
         @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances] 
       end
 
@@ -74,10 +74,10 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating cluster...', :magenta)}"
 
-        cluster_properties = IonoscloudDbaas::PatchClusterProperties.new(
-          cores: config[:cores],
-            ram: config[:ram],
-            storage_size: config[:storage_size],
+          cluster_properties = IonoscloudDbaas::PatchClusterProperties.new(
+            cores: (config[:cores].nil? ? nil : Integer(config[:cores])),
+            ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
+            storage_size: (config[:storage_size].nil? ? nil : Integer(config[:storage_size])),
             display_name: config[:display_name],
             maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
               time: config[:time],
@@ -85,11 +85,11 @@ class Chef
             ) : nil,
             postgres_version: config[:postgres_version],
             instances: config[:instances],
-        )
-        cluster_request = IonoscloudDbaas::PatchClusterRequest.new()
-        cluster_request.properties = cluster_properties
+          )
+          cluster_request = IonoscloudDbaas::PatchClusterRequest.new()
+          cluster_request.properties = cluster_properties
 
-        cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
+          cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
 
           dot = ui.color('.', :magenta)
         else
