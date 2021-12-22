@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
   end
 
   describe '#run' do
-    it 'should call LansApi.datacenters_lans_patch' do
+    it 'should call LANsApi.datacenters_lans_patch' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
           {
             method: 'PATCH',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
-            operation: :'LansApi.datacenters_lans_patch',
+            operation: :'LANsApi.datacenters_lans_patch',
             return_type: 'Lan',
             body: {
               name: subject_config[:name],
@@ -56,7 +56,7 @@ describe Chef::Knife::IonoscloudLanUpdate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },

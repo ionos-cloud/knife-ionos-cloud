@@ -44,7 +44,7 @@ class Chef
 
         print "#{ui.color('Creating LAN...', :magenta)}"
 
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
 
         lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
           config[:datacenter_id],

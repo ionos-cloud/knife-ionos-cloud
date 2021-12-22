@@ -31,7 +31,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print_lan(Ionoscloud::LansApi.new(api_client).datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id]))
+        print_lan(Ionoscloud::LANsApi.new(api_client).datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id]))
       end
     end
   end

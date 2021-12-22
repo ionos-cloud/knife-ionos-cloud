@@ -60,7 +60,7 @@ class Chef
         pcc = pcc_api.pccs_find_by_id(pcc.id)
 
         if config[:peers]
-          lan_api = Ionoscloud::LansApi.new(api_client)
+          lan_api = Ionoscloud::LANsApi.new(api_client)
 
           header_list = []
           allowed_datacenters_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }
