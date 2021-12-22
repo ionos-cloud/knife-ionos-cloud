@@ -835,7 +835,6 @@ def network_loadbalancer_rule_mock(opts = {})
       listener_port: opts[:listener_port] || 123,
       health_check: Ionoscloud::NetworkLoadBalancerForwardingRuleHealthCheck.new(
         client_timeout: opts[:client_timeout] || 100,
-        check_timeout: opts[:check_timeout] || 200,
         connect_timeout: opts[:connect_timeout] || 300,
         target_timeout: opts[:target_timeout] || 400,
         retries: opts[:retries] || 3,

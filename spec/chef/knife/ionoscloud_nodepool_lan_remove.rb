@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
             path: "/k8s/#{subject_config[:cluster_id]}/nodepools/#{subject_config[:nodepool_id]}",
             operation: :'KubernetesApi.k8s_nodepools_put',
             body: { properties: expected_body },
-            return_type: 'KubernetesNodePoolForPut',
+            return_type: 'KubernetesNodePool',
             result: nodepool,
           },
         ],
