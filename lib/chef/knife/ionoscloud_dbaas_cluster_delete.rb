@@ -22,7 +22,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
-        
+
         @name_args.each do |cluster_id|
           begin
             cluster = clusters_api.clusters_find_by_id(cluster_id)
@@ -31,7 +31,7 @@ class Chef
             ui.error("Cluster ID #{cluster_id} not found. Skipping.")
             next
           end
-          
+
           print_cluster(cluster)
           puts "\n"
 

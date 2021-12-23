@@ -82,7 +82,7 @@ class Chef
               short: '-B BACKUP_ID',
               long: '--backup-id BACKUP_ID',
               description: 'ID of backup'
-      
+
       option :recovery_target_time,
               short: '-T RECOVERY_TARGET_TIME',
               long: '--recovery-target-time RECOVERY_TARGET_TIME',
@@ -121,28 +121,28 @@ class Chef
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
 
         cluster_properties = IonoscloudDbaas::CreateClusterProperties.new(
-            postgres_version: config[:postgres_version],
-            instances: Integer(config[:instances]),
-            cores: Integer(config[:cores]),
-            ram: Integer(config[:ram]),
-            storage_size: Integer(config[:storage_size]),
-            storage_type: config[:storage_type],
-            connections: config[:connections],
-            location: config[:location],
-            display_name: config[:display_name],
-            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
-              time: config[:time],
-              day_of_the_week: config[:day_of_the_week],
-            ) : nil,
-            credentials: IonoscloudDbaas::DBUser.new(
-              username: config[:username],
-              password: config[:password],
-            ),
-            synchronization_mode: config[:synchronization_mode],
-            from_backup: IonoscloudDbaas::CreateRestoreRequest.new(
-                backup_id: config[:backup_id], 
-                recovery_target_time: config[:recovery_target_time],
-            ),    
+          postgres_version: config[:postgres_version],
+          instances: Integer(config[:instances]),
+          cores: Integer(config[:cores]),
+          ram: Integer(config[:ram]),
+          storage_size: Integer(config[:storage_size]),
+          storage_type: config[:storage_type],
+          connections: config[:connections],
+          location: config[:location],
+          display_name: config[:display_name],
+          maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
+            time: config[:time],
+            day_of_the_week: config[:day_of_the_week],
+          ) : nil,
+          credentials: IonoscloudDbaas::DBUser.new(
+            username: config[:username],
+            password: config[:password],
+          ),
+          synchronization_mode: config[:synchronization_mode],
+          from_backup: IonoscloudDbaas::CreateRestoreRequest.new(
+              backup_id: config[:backup_id], 
+              recovery_target_time: config[:recovery_target_time],
+          ),    
         )
 
         cluster_request = IonoscloudDbaas::CreateClusterRequest.new()

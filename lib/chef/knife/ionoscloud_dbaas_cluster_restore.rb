@@ -11,12 +11,12 @@ class Chef
               short: '-C CLUSTER_ID',
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
-      
+
       option :backup_id,
               short: '-B BACKUP_ID',
               long: '--backup-id BACKUP_ID',
               description: 'ID of backup'
-      
+
       option :recovery_target_time,
               short: '-T RECOVERY_TARGET_TIME',
               long: '--recovery-target-time RECOVERY_TARGET_TIME',
@@ -39,7 +39,7 @@ class Chef
         print "#{ui.color('Restoring Cluster...', :magenta)}"
 
         restore_request = IonoscloudDbaas::CreateRestoreRequest.new(backup_id: config[:backup_id], recovery_target_time: config[:recovery_target_time])
-        
+ 
         IonoscloudDbaas::RestoresApi.new(api_client_dbaas).cluster_restore_post(config[:cluster_id], restore_request)
 
         puts("\nCluster restored succsefully.")

@@ -7,7 +7,7 @@ class Chef
 
       banner 'knife ionoscloud dbaas cluster update (options)'
 
-      option :cluster_id, 
+      option :cluster_id,
               short: '-C CLUSTER_ID',
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
@@ -43,7 +43,7 @@ class Chef
               short: '-d WEEKDAY',
               long: '--weekday WEEKDAY',
               description: 'Day Of the week when to perform the maintenance.'
-      
+
       option :postgres_version,
               long: '--postgres-version POSTGRES_VERSION',
               description: 'The PostgreSQL version of your cluster'
@@ -52,7 +52,7 @@ class Chef
               short: '-R INSTANCES',
               long: '--instances INSTANCES',
               description: 'The total number of instances in the cluster (one master and n-1 standbys).'
-      
+
 
       attr_reader :description, :required_options
 
@@ -60,8 +60,8 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password] 
-        @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances] 
+        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances]
       end
 
       def run
