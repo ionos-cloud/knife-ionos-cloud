@@ -58,9 +58,9 @@ describe Chef::Knife::IonoscloudDbaasClusterCreate do
       expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
 
       expected_body = cluster.properties.to_hash
-      expected_body[:credentials] = {username: subject_config[:username], password: subject_config[:password]}
+      expected_body[:credentials] = { username: subject_config[:username], password: subject_config[:password] }
       expected_body[:fromBackup] = {}
-    
+
       mock_dbaas_call_api(
         subject,
         [
