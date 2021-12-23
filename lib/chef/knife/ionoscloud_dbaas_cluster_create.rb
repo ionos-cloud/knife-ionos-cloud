@@ -140,9 +140,9 @@ class Chef
           ),
           synchronization_mode: config[:synchronization_mode],
           from_backup: IonoscloudDbaas::CreateRestoreRequest.new(
-              backup_id: config[:backup_id], 
-              recovery_target_time: config[:recovery_target_time],
-          ),    
+            backup_id: config[:backup_id],
+            recovery_target_time: config[:recovery_target_time],
+          ),
         )
 
         cluster_request = IonoscloudDbaas::CreateClusterRequest.new()

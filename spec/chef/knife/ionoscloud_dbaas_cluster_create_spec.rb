@@ -26,12 +26,12 @@ describe Chef::Knife::IonoscloudDbaasClusterCreate do
         cores: cluster.properties.cores,
         storage_size: cluster.properties.storage_size,
         storage_type: cluster.properties.storage_type,
-        connections: cluster.properties.connections.map do |connection| 
+        connections: cluster.properties.connections.map do |connection|
           {
             'datacenter_id' => connection.datacenter_id,
             'lan_id' => connection.lan_id,
             'cidr' => connection.cidr,
-          } 
+          }
         end,
         time: cluster.properties.maintenance_window.time,
         day_of_the_week: cluster.properties.maintenance_window.day_of_the_week,
@@ -79,21 +79,21 @@ describe Chef::Knife::IonoscloudDbaasClusterCreate do
     end
 
     it 'should not make any call if any required option is missing' do
-        required_options = subject.instance_variable_get(:@required_options)
-  
-        arrays_without_one_element(required_options).each do |test_case|
-  
-          test_case[:array].each { |value| subject.config[value] = 'test' }
-  
-          expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-          expect(subject.api_client_dbaas).not_to receive(:call_api)
-  
-          expect { subject.run }.to raise_error(SystemExit) do |error|
-            expect(error.status).to eq(1)
-          end
-  
-          required_options.each { |value| subject.config[value] = nil }
+      required_options = subject.instance_variable_get(:@required_options)
+
+      arrays_without_one_element(required_options).each do |test_case|
+
+        test_case[:array].each { |value| subject.config[value] = 'test' }
+
+        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+        expect(subject.api_client_dbaas).not_to receive(:call_api)
+
+        expect { subject.run }.to raise_error(SystemExit) do |error|
+          expect(error.status).to eq(1)
         end
+
+        required_options.each { |value| subject.config[value] = nil }
       end
     end
   end
+end

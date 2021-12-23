@@ -71,4 +71,3 @@ describe Chef::Knife::IonoscloudDbaasClusterGet do
     end
   end
 end
-

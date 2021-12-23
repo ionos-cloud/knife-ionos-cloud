@@ -38,11 +38,7 @@ describe Chef::Knife::IonoscloudDbaasClusterUpdate do
       expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.properties.synchronization_mode}")
       expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
 
-      expected_body = cluster.properties.to_hash.merge({ #  sterge expected_body
-        display_name: subject_config[:display_name],
-      })
-
-      expected_body2 = {
+      expected_body = {
         displayName: subject_config[:display_name],
       }
 
@@ -56,7 +52,7 @@ describe Chef::Knife::IonoscloudDbaasClusterUpdate do
             path: "/clusters/#{cluster.id}",
             operation: :'ClustersApi.clusters_patch',
             return_type: 'ClusterResponse',
-            body: { properties: expected_body2 }, # properties: expected_body    sau    display_name: subject_config[:display_name]     SI INTREABA-L PE RADU DACA E OK ASA CU expected body
+            body: { properties: expected_body },
             result: cluster,
           },
           {
@@ -74,21 +70,20 @@ describe Chef::Knife::IonoscloudDbaasClusterUpdate do
 
     it 'should not make any call if any required option is missing' do
         required_options = subject.instance_variable_get(:@required_options)
-  
+
         arrays_without_one_element(required_options).each do |test_case|
-  
+
           test_case[:array].each { |value| subject.config[value] = 'test' }
-  
+
           expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
           expect(subject.api_client).not_to receive(:call_api)
-  
+
           expect { subject.run }.to raise_error(SystemExit) do |error|
             expect(error.status).to eq(1)
           end
-  
+
           required_options.each { |value| subject.config[value] = nil }
         end
       end
     end
   end
-  
