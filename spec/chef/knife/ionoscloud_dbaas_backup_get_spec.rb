@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_dbaas_backup_get'
 
-Chef::Knife::IonoscloudDbaasBackupGet.load_deps
+Chef::Knife::IonoscloudDbaasPostgresBackupGet.load_deps
 
-describe Chef::Knife::IonoscloudDbaasBackupGet do
+describe Chef::Knife::IonoscloudDbaasPostgresBackupGet do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasBackupGet.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresBackupGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)

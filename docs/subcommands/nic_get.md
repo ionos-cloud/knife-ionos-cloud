@@ -17,6 +17,9 @@ knife ionoscloud nic get (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 
@@ -32,12 +35,12 @@ knife ionoscloud nic get (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nic get --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud nic get --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --username USERNAME --password PASSWORD --url URL
 ```

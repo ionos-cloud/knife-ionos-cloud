@@ -14,6 +14,9 @@ knife ionoscloud group list (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     user_id: --user-id USER_ID, -u USER_ID
         iD of the user.
 
@@ -23,12 +26,12 @@ knife ionoscloud group list (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud group list --user-id USER_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud group list --extra-config EXTRA_CONFIG_FILE_PATH --user-id USER_ID --username USERNAME --password PASSWORD --url URL
 ```

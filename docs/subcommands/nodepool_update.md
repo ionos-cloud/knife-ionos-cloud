@@ -16,6 +16,9 @@ knife ionoscloud nodepool update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     cluster_id: --cluster-id CLUSTER_ID, -C CLUSTER_ID
         iD of the Kubernetes cluster (required)
 
@@ -58,12 +61,12 @@ knife ionoscloud nodepool update (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nodepool update --cluster-id CLUSTER_ID --nodepool-id NODEPOOL_ID --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud nodepool update --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --nodepool-id NODEPOOL_ID --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --url URL
 ```

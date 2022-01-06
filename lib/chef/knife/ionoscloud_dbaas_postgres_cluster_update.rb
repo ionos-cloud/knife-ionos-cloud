@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasClusterUpdate < Knife
+    class IonoscloudDbaasPostgresClusterUpdate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas cluster update (options)'
+      banner 'knife ionoscloud dbaas postgres cluster update (options)'
 
       option :cluster_id,
               short: '-C CLUSTER_ID',
@@ -69,24 +69,24 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating cluster...', :magenta)}"
 
-          cluster_properties = IonoscloudDbaas::PatchClusterProperties.new(
+          cluster_properties = IonoscloudDbaasPostgres::PatchClusterProperties.new(
             cores: (config[:cores].nil? ? nil : Integer(config[:cores])),
             ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
             storage_size: (config[:storage_size].nil? ? nil : Integer(config[:storage_size])),
             display_name: config[:display_name],
-            maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaas::MaintenanceWindow.new(
+            maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
               time: config[:time],
               weekday: config[:weekday],
             ) : nil,
             postgres_version: config[:postgres_version],
             instances: config[:instances],
           )
-          cluster_request = IonoscloudDbaas::PatchClusterRequest.new()
+          cluster_request = IonoscloudDbaasPostgres::PatchClusterRequest.new()
           cluster_request.properties = cluster_properties
 
           cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)

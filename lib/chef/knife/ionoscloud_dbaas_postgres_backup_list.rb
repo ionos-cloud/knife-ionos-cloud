@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasBackupList < Knife
+    class IonoscloudDbaasPostgresBackupList < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas backup list (options)'
+      banner 'knife ionoscloud dbaas postgres backup list (options)'
 
       option :cluster_id,
               short: '-C CLUSTER_ID',
@@ -37,7 +37,7 @@ class Chef
           ui.color('Created Date', :bold),
         ]
 
-        backups_api = IonoscloudDbaas::BackupsApi.new(api_client_dbaas)
+        backups_api = IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas)
 
         if config[:cluster_id]
           backups = backups_api.cluster_backups_get(config[:cluster_id])

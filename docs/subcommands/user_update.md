@@ -15,6 +15,9 @@ knife ionoscloud user update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     user_id: --user-id USER_ID, -U USER_ID
         iD of the User. (required)
 
@@ -45,12 +48,12 @@ knife ionoscloud user update (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud user update --user-id USER_ID --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --admin ADMIN --sec-auth FORCE_SEC_AUTH --sec-auth SEC_AUTH_ACTIVE --active ACTIVE --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud user update --extra-config EXTRA_CONFIG_FILE_PATH --user-id USER_ID --firstname FIRSTNAME --lastname LASTNAME --email EMAIL --admin ADMIN --sec-auth FORCE_SEC_AUTH --sec-auth SEC_AUTH_ACTIVE --active ACTIVE --username USERNAME --password PASSWORD --url URL
 ```

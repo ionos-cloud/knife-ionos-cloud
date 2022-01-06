@@ -18,6 +18,9 @@ knife ionoscloud volume create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         name of the data center (required)
 
@@ -33,11 +36,14 @@ knife ionoscloud volume create (options)
     image: --image ID, -N ID
         the image or snapshot ID
 
+    image_alias: --image-alias IMAGE_ALIAS
+        (required) The image alias
+
     image_password: --image-password PASSWORD, -P PASSWORD
         the password set on the image for the "root" or "Administrator" user
 
     type: --type TYPE, -t TYPE
-        the disk type (HDD, SSD, SSD Standard, SSD Premium, DAS) (required)
+        the disk type (HDD OR SSD) (required)
 
     licence_type: --licence-type LICENCE, -l LICENCE
         the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
@@ -54,18 +60,36 @@ knife ionoscloud volume create (options)
     user_data: --user-data USER_DATA, -u USER_DATA
         the cloud-init configuration for the volume as base64 encoded string. The property is immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either 'public image' or 'imageAlias' that has cloud-init compatibility in conjunction with this property.
 
+    cpu_hot_plug: --cpu-hot-plug CPU_HOT_PLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
+    ram_hot_plug: --ram-hot-plug RAM_HOT_PLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
+    nic_hot_plug: --nic-hot-plug NIC_HOT_PLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
+    nic_hot_unplug: --nic-hot-unplug NIC_HOT_UNPLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
+    disc_virtio_hot_plug: --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
+    disc_virtio_hot_unplug: --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG
+        the licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud volume create --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --backupunit BACKUPUNIT_ID --user-data USER_DATA --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud volume create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --name NAME --size SIZE --bus BUS --image ID --image-alias IMAGE_ALIAS --image-password PASSWORD --type TYPE --licence-type LICENCE --ssh-keys SSHKEY1,SSHKEY2,... --availability-zone AVAILABILITY_ZONE --backupunit BACKUPUNIT_ID --user-data USER_DATA --cpu-hot-plug CPU_HOT_PLUG --ram-hot-plug RAM_HOT_PLUG --nic-hot-plug NIC_HOT_PLUG --nic-hot-unplug NIC_HOT_UNPLUG --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG --username USERNAME --password PASSWORD --url URL
 ```

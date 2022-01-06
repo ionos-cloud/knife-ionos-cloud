@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasClusterDelete < Knife
+    class IonoscloudDbaasPostgresClusterDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas cluster delete CLUSTER_ID [CLUSTER_ID]'
+      banner 'knife ionoscloud dbaas postgres cluster delete CLUSTER_ID [CLUSTER_ID]'
 
       attr_reader :description, :required_options
 
@@ -21,12 +21,12 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
 
         @name_args.each do |cluster_id|
           begin
             cluster = clusters_api.clusters_find_by_id(cluster_id)
-          rescue IonoscloudDbaas::ApiError => err
+          rescue IonoscloudDbaasPostgres::ApiError => err
             raise err unless err.code == 404
             ui.error("Cluster ID #{cluster_id} not found. Skipping.")
             next

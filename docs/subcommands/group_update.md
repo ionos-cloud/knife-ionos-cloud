@@ -15,6 +15,9 @@ knife ionoscloud group update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     group_id: --group-id GROUP_ID, -G GROUP_ID
         iD of the group. (required)
 
@@ -48,27 +51,18 @@ knife ionoscloud group update (options)
     create_internet_access: --create-internet-access CREATE_INTERNET_ACCESS
         the group will be have internet access privilege.
 
-    create_flow_log: --create-flow-log CREATE_FLOW_LOG
-        the group will be granted create Flow Logs privilege.
-
-    access_and_manage_monitoring: --manage-monitoring ACCESS_AND_MANAGE_MONITORING
-        privilege for a group to access and manage monitoring related functionality (access metrics, CRUD on alarms, alarm-actions etc) using Monotoring-as-a-Service (MaaS).
-
-    access_and_manage_certificates: --manage-certificates ACCESS_AND_MANAGE_CERTIFICATES
-        privilege for a group to access and manage certificates.
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud group update --group-id GROUP_ID --name NAME --create-datacenter CREATE_DATACENTER --create-snapshot CREATE_SNAPSHOT --reserve-ip RESERVE_IP --access-log ACCESS_ACTIVITY_LOG --s3 S3_PRIVILEGE --create-backupunit CREATE_BACKUPUNIT --create-k8s-cluster CREATE_K8S_CLUSTER --create-pcc CREATE_PCC --create-internet-access CREATE_INTERNET_ACCESS --create-flow-log CREATE_FLOW_LOG --manage-monitoring ACCESS_AND_MANAGE_MONITORING --manage-certificates ACCESS_AND_MANAGE_CERTIFICATES --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud group update --extra-config EXTRA_CONFIG_FILE_PATH --group-id GROUP_ID --name NAME --create-datacenter CREATE_DATACENTER --create-snapshot CREATE_SNAPSHOT --reserve-ip RESERVE_IP --access-log ACCESS_ACTIVITY_LOG --s3 S3_PRIVILEGE --create-backupunit CREATE_BACKUPUNIT --create-k8s-cluster CREATE_K8S_CLUSTER --create-pcc CREATE_PCC --create-internet-access CREATE_INTERNET_ACCESS --username USERNAME --password PASSWORD --url URL
 ```

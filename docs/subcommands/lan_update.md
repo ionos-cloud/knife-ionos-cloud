@@ -16,6 +16,9 @@ knife ionoscloud lan update (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the data center (required)
 
@@ -31,18 +34,21 @@ knife ionoscloud lan update (options)
     pcc: --pcc PCC_ID
         iD of the PCC to connect the LAN to
 
+    ip_failover: --ip-failover IPFAILOVER [IPFAILOVER]
+        iP failover configurations for lan
+
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud lan update --datacenter-id DATACENTER_ID --lan-id LAN_ID --name NAME --public PUBLIC --pcc PCC_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud lan update --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --lan-id LAN_ID --name NAME --public PUBLIC --pcc PCC_ID --ip-failover IPFAILOVER [IPFAILOVER] --username USERNAME --password PASSWORD --url URL
 ```

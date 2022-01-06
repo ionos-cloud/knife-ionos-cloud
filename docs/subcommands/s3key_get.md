@@ -16,6 +16,9 @@ knife ionoscloud s3key get (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     user_id: --user USER_ID, -u USER_ID
         the ID of the user (required)
 
@@ -28,12 +31,12 @@ knife ionoscloud s3key get (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud s3key get --user USER_ID --s3-key S3KEY_ID --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud s3key get --extra-config EXTRA_CONFIG_FILE_PATH --user USER_ID --s3-key S3KEY_ID --username USERNAME --password PASSWORD --url URL
 ```

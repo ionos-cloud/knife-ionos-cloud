@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_dbaas_cluster_create'
 
-Chef::Knife::IonoscloudDbaasClusterCreate.load_deps
+Chef::Knife::IonoscloudDbaasPostgresClusterCreate.load_deps
 
-describe Chef::Knife::IonoscloudDbaasClusterCreate do
+describe Chef::Knife::IonoscloudDbaasPostgresClusterCreate do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasClusterCreate.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresClusterCreate.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)

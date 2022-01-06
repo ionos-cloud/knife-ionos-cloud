@@ -15,7 +15,7 @@ knife ionoscloud nodepool create (options)
 * datacenter\_id
 * cluster\_id
 * name
-* version
+* k8s\_version
 * node\_count
 * cpu\_family
 * cores
@@ -27,6 +27,9 @@ knife ionoscloud nodepool create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         iD of the virtual datacenter (required)
 
@@ -36,10 +39,10 @@ knife ionoscloud nodepool create (options)
     name: --name NAME, -n NAME
         name of the Kubernetes node pool (required)
 
-    version: --version VERSION, -v VERSION
-        the version for the Kubernetes cluster. (required)
+    k8s_version: --version VERSION, -v VERSION
+        the version for the Kubernetes Nodepool. (required)
 
-    maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
+    maintenance_day: --maintenance-day MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
     maintenance_time: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME
@@ -90,12 +93,12 @@ knife ionoscloud nodepool create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nodepool create --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud nodepool create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --url URL
 ```

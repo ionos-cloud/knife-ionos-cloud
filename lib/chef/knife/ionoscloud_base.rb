@@ -89,14 +89,14 @@ class Chef
       def api_client_dbaas
         return @api_client_dbaas if @api_client_dbaas
 
-        api_config_dbaas = IonoscloudDbaas::Configuration.new()
+        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
 
         api_config_dbaas.username = config[:ionoscloud_username]
         api_config_dbaas.password = config[:ionoscloud_password]
 
         api_config_dbaas.debugging = config[:ionoscloud_debug] || false
 
-        @api_client_dbaas = IonoscloudDbaas::ApiClient.new(api_config_dbaas)
+        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
 
         @api_client_dbaas.user_agent =  [
           'knife/v' + MODULE_VERSION,

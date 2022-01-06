@@ -16,6 +16,9 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     datacenter_id: --datacenter-id DATACENTER_ID, -D DATACENTER_ID
         the ID of the data center (required)
 
@@ -40,8 +43,8 @@ knife ionoscloud flowlog delete FLOWLOG_ID [FLOWLOG_ID] (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
