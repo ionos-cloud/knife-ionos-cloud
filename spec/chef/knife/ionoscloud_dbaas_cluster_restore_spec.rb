@@ -1,44 +1,36 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_logs_get'
+require 'ionoscloud_dbaas_cluster_restore'
 
-Chef::Knife::IonoscloudDbaasLogsGet.load_deps
+Chef::Knife::IonoscloudDbaasClusterRestore.load_deps
 
-describe Chef::Knife::IonoscloudDbaasLogsGet do
+describe Chef::Knife::IonoscloudDbaasClusterRestore do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasLogsGet.new }
+    subject { Chef::Knife::IonoscloudDbaasClusterRestore.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call LogsApi.cluster_logs_get' do
-      cluster_logs = cluster_logs_mock
+    it 'should call RestoresApi.cluster_restore_post with the expected arguments and output based on what it receives' do
+      cluster = cluster_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        cluster_id: 'cluster_id',
-        limit: 3,
-        yes: true,
+        cluster_id: cluster.id,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-
-      cluster_logs.instances.each do
-        |instance|
-        expect(subject).to receive(:puts).with("Instance Name: #{instance.name}")
-        expect(subject).to receive(:puts).with(instance.messages.map { |message| message.message })
-      end
 
       mock_dbaas_call_api(
         subject,
         [
           {
-            method: 'GET',
-            path: "/clusters/#{subject_config[:cluster_id]}/logs",
-            operation: :'LogsApi.cluster_logs_get',
-            return_type: 'ClusterLogs',
-            result: cluster_logs,
+            method: 'POST',
+            path: "/clusters/#{subject_config[:cluster_id]}/restore",
+            operation: :'RestoresApi.cluster_restore_post',
+            result: nil,
+            body: {},
           },
         ],
       )
@@ -54,7 +46,7 @@ describe Chef::Knife::IonoscloudDbaasLogsGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

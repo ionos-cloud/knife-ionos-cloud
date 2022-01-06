@@ -501,6 +501,43 @@ def datacenters_mock(opts = {})
   )
 end
 
+def cluster_mock(opts = {})
+  IonoscloudDbaas::ClusterResponse.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudDbaas::ClusterProperties.new(
+      display_name: opts[:display_name] || 'dbaas_Cluster',
+      postgres_version: opts[:postgres_version] || '10',
+      location: opts[:location] || 'us/las',
+      instances: opts[:instances] || 2,
+      ram: opts[:ram] || 8192,
+      cores: opts[:cores] || 4,
+      storage_size: opts[:storage_size] || 4096,
+      storage_type: opts[:storage_type] || 'HDD',
+      connections: opts[:connections] || [IonoscloudDbaas::Connection.new(
+        datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
+        lan_id: opts[:lan_id] || '1',
+        cidr: opts[:cidr] || '192.168.1.100/24',
+      ),],
+      maintenance_window: opts[:maintenance_window] || IonoscloudDbaas::MaintenanceWindow.new(
+        time: opts[:time] || "00:29:15", 
+        day_of_the_week: opts[:day_of_the_week] || "Monday", 
+      ),
+      synchronization_mode: opts[:synchronization_mode] || 'ASYNCHRONOUS',
+    ),
+    metadata: IonoscloudDbaas::Metadata.new(
+      state: 'Busy',
+    ),
+  )
+end
+
+def clusters_mock(opts = {})
+  IonoscloudDbaas::ClusterList.new(
+    id: SecureRandom.uuid,
+    type: 'collection',
+    items: [cluster_mock, cluster_mock],
+  )
+end
+
 def pcc_mock(opts = {})
   Ionoscloud::PrivateCrossConnect.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -908,18 +945,27 @@ end
 
 def cluster_logs_mock(opts = {})
   IonoscloudDbaas::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
+end
+
 def cluster_backup_mock(opts = {})
-  IonoscloudDbaas::ClusterBackup.new(
-    id: SecureRandom.uuid.to_s,
-    cluster_id: SecureRandom.uuid.to_s,
-    display_name: 'name_' + SecureRandom.uuid.to_s,
-    type: 'continuous',
-    metadata: IonoscloudDbaas::Metadata.new(created_date: Time.now),
+  IonoscloudDbaas::BackupResponse.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudDbaas::ClusterBackup.new(
+      id: SecureRandom.uuid.to_s,
+      cluster_id: SecureRandom.uuid.to_s,
+      display_name: 'name_' + SecureRandom.uuid.to_s,
+      is_active: true,
+      version: opts[:version] || '10',
+      earliest_recovery_target_time: Time.now
+    ),
+    metadata: IonoscloudDbaas::Metadata.new(
+      created_date: Time.now,
+    ),
   )
 end
 
 def cluster_backups_mock(opts = {})
-  IonoscloudDbaas::ClusterBackupList.new(data: [cluster_backup_mock, cluster_backup_mock])
+  IonoscloudDbaas::ClusterBackupList.new(items: [cluster_backup_mock, cluster_backup_mock])
 end
 
 def arrays_without_one_element(arr)
