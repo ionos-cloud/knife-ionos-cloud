@@ -16,6 +16,9 @@ knife ionoscloud ipblock create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     location: --location LOCATION, -l LOCATION
         location of the IP block (us/las, us/ewr, de/fra, de/fkb) (required)
 
@@ -31,12 +34,12 @@ knife ionoscloud ipblock create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud ipblock create --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud ipblock create --extra-config EXTRA_CONFIG_FILE_PATH --location LOCATION --size INT --name NAME --username USERNAME --password PASSWORD --url URL
 ```

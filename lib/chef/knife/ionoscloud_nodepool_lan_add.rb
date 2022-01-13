@@ -25,7 +25,6 @@ class Chef
       option :no_dhcp,
               long: '--nodhcp',
               boolean: true,
-              default: false,
               description: 'Indicates if the Kubernetes Node Pool LAN will reserve an IP using DHCP'
 
       option :routes,

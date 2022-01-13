@@ -48,7 +48,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating LAN...', :magenta)}"

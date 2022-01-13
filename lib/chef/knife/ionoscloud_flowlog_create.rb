@@ -45,12 +45,10 @@ class Chef
       option :action,
               short: '-a ACTION',
               long: '--action ACTION',
-              default: 'ALL',
               description: 'Specifies the traffic action pattern. Must be one of ["ALL", "ACCEPTED", "REJECTED"].'
 
       option :direction,
               long: '--direction DIRECTION',
-              default: 'BIDIRECTIONAL',
               description: 'Specifies the traffic direction pattern. Must be one of ["INGRESS", "EGRESS", "BIDIRECTIONAL"].'
 
       option :bucket,

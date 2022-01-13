@@ -22,6 +22,9 @@ knife ionoscloud datacenter create (options)
 * ionoscloud\_password
 
 ```text
+    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
+        path to the additional config file
+
     name: --name NAME, -n NAME
         name of the data center
 
@@ -37,12 +40,12 @@ knife ionoscloud datacenter create (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
-        path to the additional config file
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
 
 ```
 ## Example
 
 ```text
-knife ionoscloud datacenter create --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD --extra-config EXTRA_CONFIG_FILE_PATH
+knife ionoscloud datacenter create --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --description DESCRIPTION --location LOCATION --username USERNAME --password PASSWORD --url URL
 ```
