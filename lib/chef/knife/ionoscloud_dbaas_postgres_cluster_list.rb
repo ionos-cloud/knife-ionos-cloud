@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasClusterList < Knife
+    class IonoscloudDbaasPostgresClusterList < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas cluster list'
+      banner 'knife ionoscloud dbaas postgres cluster list'
 
       attr_reader :description, :required_options
 
@@ -37,7 +37,7 @@ class Chef
           ui.color('Lifecycle Status', :bold),
         ]
 
-        clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
 
         clusters_api.clusters_get({ depth: 1 }).items.each do |cluster|
           dbaas_cluster_list << cluster.id

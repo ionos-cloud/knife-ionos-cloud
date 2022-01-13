@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasVersionList < Knife
+    class IonoscloudDbaasPostgresVersionList < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas version list'
+      banner 'knife ionoscloud dbaas postgres version list'
 
       option :cluster_id,
               short: '-C CLUSTER_ID',
@@ -31,7 +31,7 @@ class Chef
           ui.color('Version', :bold),
         ]
 
-        clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
 
         if config[:cluster_id]
           versions = clusters_api.cluster_postgres_versions_get(config[:cluster_id])

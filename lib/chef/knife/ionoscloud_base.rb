@@ -20,7 +20,7 @@ class Chef
             warn_level = $VERBOSE
             $VERBOSE = nil
             require 'ionoscloud'
-            require 'ionoscloud-dbaas'
+            require 'ionoscloud-dbaas-postgres'
             $VERBOSE = warn_level
           end
 
@@ -112,14 +112,14 @@ class Chef
       def api_client_dbaas
         return @api_client_dbaas if @api_client_dbaas
 
-        api_config_dbaas = IonoscloudDbaas::Configuration.new()
+        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
 
         api_config_dbaas.username = config[:ionoscloud_username]
         api_config_dbaas.password = config[:ionoscloud_password]
 
         api_config_dbaas.debugging = config[:ionoscloud_debug] || false
 
-        @api_client_dbaas = IonoscloudDbaas::ApiClient.new(api_config_dbaas)
+        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
 
         @api_client_dbaas.user_agent =  [
           'knife/v' + MODULE_VERSION,
@@ -472,7 +472,6 @@ class Chef
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{backup.id}"
         puts "#{ui.color('Cluster ID', :cyan)}: #{backup.properties.cluster_id}"
-        puts "#{ui.color('Display Name', :cyan)}: #{backup.properties.display_name}"
         puts "#{ui.color('Version', :cyan)}: #{backup.properties.version}"
         puts "#{ui.color('Is Active', :cyan)}: #{backup.properties.is_active}"
         puts "#{ui.color('Earliest Recovery Target Time', :cyan)}: #{backup.properties.earliest_recovery_target_time}"

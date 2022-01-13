@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasBackupGet < Knife
+    class IonoscloudDbaasPostgresBackupGet < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas cluster get (options)'
+      banner 'knife ionoscloud dbaas postgres cluster get (options)'
 
       option :backup_id,
               short: '-B BACKUP_ID',
@@ -26,7 +26,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print_cluster_backup(IonoscloudDbaas::BackupsApi.new(api_client_dbaas).clusters_backups_find_by_id(config[:backup_id]))
+        print_cluster_backup(IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas).clusters_backups_find_by_id(config[:backup_id]))
       end
     end
   end

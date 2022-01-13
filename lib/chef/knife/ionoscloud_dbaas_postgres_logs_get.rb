@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasLogsGet < Knife
+    class IonoscloudDbaasPostgresLogsGet < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas logs get'
+      banner 'knife ionoscloud dbaas postgres logs get'
 
       option :cluster_id,
               short: '-C CLUSTER_ID',
@@ -39,7 +39,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        logs = IonoscloudDbaas::LogsApi.new(api_client_dbaas).cluster_logs_get(
+        logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas).cluster_logs_get(
           config[:cluster_id],
           {
             limit: Integer(config[:limit]),

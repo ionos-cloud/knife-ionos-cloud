@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudDbaasClusterCreate < Knife
+    class IonoscloudDbaasPostgresClusterCreate < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud dbaas cluster create (options)'
+      banner 'knife ionoscloud dbaas postgres cluster create (options)'
 
       option :postgres_version,
               long: '--postgres-version POSTGRES_VERSION',
@@ -111,16 +111,16 @@ class Chef
 
         config[:connections] = config[:connections].map do
           |connection|
-          IonoscloudDbaas::Connection.new(
+          IonoscloudDbaasPostgres::Connection.new(
             datacenter_id: connection['datacenter_id'],
             lan_id: String(connection['lan_id']),
             cidr: connection['cidr'],
           )
         end if config[:connections]
 
-        clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
 
-        cluster_properties = IonoscloudDbaas::CreateClusterProperties.new(
+        cluster_properties = IonoscloudDbaasPostgres::CreateClusterProperties.new(
           postgres_version: config[:postgres_version],
           instances: Integer(config[:instances]),
           cores: Integer(config[:cores]),
@@ -130,22 +130,22 @@ class Chef
           connections: config[:connections],
           location: config[:location],
           display_name: config[:display_name],
-          maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
+          maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
             time: config[:time],
             day_of_the_week: config[:day_of_the_week],
           ) : nil,
-          credentials: IonoscloudDbaas::DBUser.new(
+          credentials: IonoscloudDbaasPostgres::DBUser.new(
             username: config[:username],
             password: config[:password],
           ),
           synchronization_mode: config[:synchronization_mode],
-          from_backup: IonoscloudDbaas::CreateRestoreRequest.new(
+          from_backup: IonoscloudDbaasPostgres::CreateRestoreRequest.new(
             backup_id: config[:backup_id],
             recovery_target_time: config[:recovery_target_time],
           ),
         )
 
-        cluster_request = IonoscloudDbaas::CreateClusterRequest.new()
+        cluster_request = IonoscloudDbaasPostgres::CreateClusterRequest.new()
         cluster_request.properties = cluster_properties
 
         cluster, _, headers  = clusters_api.clusters_post_with_http_info(cluster_request)

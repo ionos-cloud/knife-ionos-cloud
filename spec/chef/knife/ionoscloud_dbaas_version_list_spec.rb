@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_version_list'
+require 'ionoscloud_dbaas_postgres_version_list'
 
-Chef::Knife::IonoscloudDbaasVersionList.load_deps
+Chef::Knife::IonoscloudDbaasPostgresVersionList.load_deps
 
-describe Chef::Knife::IonoscloudDbaasVersionList do
+describe Chef::Knife::IonoscloudDbaasPostgresVersionList do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasVersionList.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresVersionList.new }
 
     @postgres_versions = postgres_version_list_mock
 

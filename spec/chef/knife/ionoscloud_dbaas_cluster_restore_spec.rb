@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_cluster_restore'
+require 'ionoscloud_dbaas_postgres_cluster_restore'
 
-Chef::Knife::IonoscloudDbaasClusterRestore.load_deps
+Chef::Knife::IonoscloudDbaasPostgresClusterRestore.load_deps
 
-describe Chef::Knife::IonoscloudDbaasClusterRestore do
+describe Chef::Knife::IonoscloudDbaasPostgresClusterRestore do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasClusterRestore.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresClusterRestore.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
