@@ -31,7 +31,6 @@ class Chef
           ui.color('ID', :bold),
           ui.color('Type', :bold),
           ui.color('Cluster ID', :bold),
-          ui.color('Display Name', :bold),
           ui.color('Is Active', :bold),
           ui.color('Earliest Recovery Target Time', :bold),
           ui.color('Created Date', :bold),
@@ -49,13 +48,12 @@ class Chef
           backup_list << backup.id
           backup_list << backup.type
           backup_list << backup.properties.cluster_id
-          backup_list << backup.properties.display_name
           backup_list << backup.properties.is_active
           backup_list << backup.properties.earliest_recovery_target_time
           backup_list << backup.metadata.created_date
         end
 
-        puts ui.list(backup_list, :uneven_columns_across, 7)
+        puts ui.list(backup_list, :uneven_columns_across, 6)
       end
     end
   end

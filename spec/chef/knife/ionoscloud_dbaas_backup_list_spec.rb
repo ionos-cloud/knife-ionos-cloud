@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_backup_list'
+require 'ionoscloud_dbaas_postgres_backup_list'
 
 Chef::Knife::IonoscloudDbaasPostgresBackupList.load_deps
 
@@ -13,7 +13,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
       subject.ui.color('ID', :bold),
       subject.ui.color('Type', :bold),
       subject.ui.color('Cluster ID', :bold),
-      subject.ui.color('Display Name', :bold),
       subject.ui.color('Is Active', :bold),
       subject.ui.color('Earliest Recovery Target Time', :bold),
       subject.ui.color('Created Date', :bold),
@@ -21,7 +20,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
       @cluster_backups.items.first.id,
       @cluster_backups.items.first.type,
       @cluster_backups.items.first.properties.cluster_id,
-      @cluster_backups.items.first.properties.display_name,
       @cluster_backups.items.first.properties.is_active,
       @cluster_backups.items.first.properties.earliest_recovery_target_time,
       @cluster_backups.items.first.metadata.created_date,
@@ -29,7 +27,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
       @cluster_backups.items[1].id,
       @cluster_backups.items[1].type,
       @cluster_backups.items[1].properties.cluster_id,
-      @cluster_backups.items[1].properties.display_name,
       @cluster_backups.items[1].properties.is_active,
       @cluster_backups.items[1].properties.earliest_recovery_target_time,
       @cluster_backups.items[1].metadata.created_date,
@@ -48,7 +45,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 7)
+      expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 6)
 
       mock_dbaas_call_api(
         subject,
@@ -75,7 +72,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 7)
+      expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 6)
 
       mock_dbaas_call_api(
         subject,

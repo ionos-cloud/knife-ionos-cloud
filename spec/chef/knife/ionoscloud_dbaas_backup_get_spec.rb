@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_backup_get'
+require 'ionoscloud_dbaas_postgres_backup_get'
 
 Chef::Knife::IonoscloudDbaasPostgresBackupGet.load_deps
 
@@ -25,7 +25,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupGet do
 
       expect(subject).to receive(:puts).with("ID: #{backup.id}")
       expect(subject).to receive(:puts).with("Cluster ID: #{backup.properties.cluster_id}")
-      expect(subject).to receive(:puts).with("Display Name: #{backup.properties.display_name}")
       expect(subject).to receive(:puts).with("Is Active: #{backup.properties.is_active}")
       expect(subject).to receive(:puts).with("Version: #{backup.properties.version}")
       expect(subject).to receive(:puts).with("Earliest Recovery Target Time: #{backup.properties.earliest_recovery_target_time}")

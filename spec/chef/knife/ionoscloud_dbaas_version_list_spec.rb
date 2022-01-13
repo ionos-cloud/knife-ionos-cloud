@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_version_list'
+require 'ionoscloud_dbaas_postgres_version_list'
 
 Chef::Knife::IonoscloudDbaasPostgresVersionList.load_deps
 

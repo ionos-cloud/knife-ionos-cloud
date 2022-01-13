@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_cluster_delete'
+require 'ionoscloud_dbaas_postgres_cluster_delete'
 
 Chef::Knife::IonoscloudDbaasPostgresClusterDelete.load_deps
 

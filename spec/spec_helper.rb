@@ -953,7 +953,6 @@ def cluster_backup_mock(opts = {})
     properties: IonoscloudDbaasPostgres::ClusterBackup.new(
       id: SecureRandom.uuid.to_s,
       cluster_id: SecureRandom.uuid.to_s,
-      display_name: 'name_' + SecureRandom.uuid.to_s,
       is_active: true,
       version: opts[:version] || '10',
       earliest_recovery_target_time: Time.now

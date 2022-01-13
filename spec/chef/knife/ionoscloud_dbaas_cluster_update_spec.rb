@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_cluster_update'
+require 'ionoscloud_dbaas_postgres_cluster_update'
 
 Chef::Knife::IonoscloudDbaasPostgresClusterUpdate.load_deps
 

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_logs_get'
+require 'ionoscloud_dbaas_postgres_logs_get'
 
 Chef::Knife::IonoscloudDbaasPostgresLogsGet.load_deps
 
