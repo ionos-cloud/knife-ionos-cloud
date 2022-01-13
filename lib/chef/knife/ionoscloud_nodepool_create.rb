@@ -45,8 +45,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'Sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE]',
-              default: 'INTEL_SKYLAKE'
+              description: 'Sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE]'
 
       option :cores,
               long: '--cores CORES',
@@ -60,13 +59,11 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the node pool',
-              default: 'AUTO'
+              description: 'The availability zone of the node pool'
 
       option :storage_type,
               long: '--storage-type STORAGE_TYPE',
-              description: 'Sets the storage type. [HDD, SSD]',
-              default: 'HDD'
+              description: 'Sets the storage type. [HDD, SSD]'
 
       option :storage_size,
               long: '--storage-size STORAGE_SIZE',

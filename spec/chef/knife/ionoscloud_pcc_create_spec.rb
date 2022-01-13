@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'PATCH',
             path: "/datacenters/#{pcc.properties.connectable_datacenters[0].id}/lans/#{pcc.properties.peers[0].id}",
-            operation: :'LansApi.datacenters_lans_patch',
+            operation: :'LANsApi.datacenters_lans_patch',
             return_type: 'Lan',
             body: { pcc: pcc.id },
             result: pcc.properties.peers[0],
@@ -65,7 +65,7 @@ describe Chef::Knife::IonoscloudPccCreate do
           {
             method: 'PATCH',
             path: "/datacenters/#{pcc.properties.connectable_datacenters[1].id}/lans/#{pcc.properties.peers[1].id}",
-            operation: :'LansApi.datacenters_lans_patch',
+            operation: :'LANsApi.datacenters_lans_patch',
             return_type: 'Lan',
             body: { pcc: pcc.id },
             result: pcc.properties.peers[1],

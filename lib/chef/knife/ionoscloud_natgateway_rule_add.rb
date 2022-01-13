@@ -25,15 +25,13 @@ class Chef
       option :type,
               short: '-t TYPE',
               long: '--type TYPE',
-              description: 'Type of the NAT gateway rule',
-              default: 'SNAT'
+              description: 'Type of the NAT gateway rule'
 
       option :protocol,
               short: '-p PROTOCOL',
               long: '--protocol PROTOCOL',
               description: "Protocol of the NAT gateway rule. Defaults to ALL. If protocol is "\
-              "'ICMP' then target_port_range start and end cannot be set.",
-              default: 'ALL'
+              "'ICMP' then target_port_range start and end cannot be set."
 
       option :source_subnet,
               long: '--source SOURCE_SUBNET',

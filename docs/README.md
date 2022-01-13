@@ -87,6 +87,17 @@ When using the command `knife ionoscloud datacenter create --extra-config EXTRA_
 * Only Ionoscloud specific options may be altered using this option.
 * If an option is ignored because it is not on the available options list or if it is overwritten in another way then a warning message will be displayed.
 
+### Changing the API url
+
+By changing API url the module will make all calls using the provided url. To change the API url used by the knife module, one can do either of the following:
+* specify the new url using `--url NEW_URL`
+* set it in a json file, using the `ionoscloud_url` key, and passing the file to the command like described in the section above
+* set the new url in the knife.rb file. It could be set using an environmental variable, same as with the username and the password.
+
+```text
+knife[:ionoscloud_url] = NEW_API_URL
+```
+
 ## Feature Reference
 
 The IONOS Cloud plugin for Knife aims to offer access to all resources in the IONOS Cloud API and also offers some additional features that make the integration easier:

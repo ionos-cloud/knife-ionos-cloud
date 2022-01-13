@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanGet do
   end
 
   describe '#run' do
-    it 'should call LansApi.datacenters_lans_find_by_id' do
+    it 'should call LANsApi.datacenters_lans_find_by_id' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudLanGet do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
