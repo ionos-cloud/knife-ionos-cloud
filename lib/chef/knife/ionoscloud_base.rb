@@ -20,7 +20,7 @@ class Chef
             warn_level = $VERBOSE
             $VERBOSE = nil
             require 'ionoscloud'
-            require 'ionoscloud-dbaas'
+            require 'ionoscloud-dbaas-postgres'
             $VERBOSE = warn_level
           end
 
