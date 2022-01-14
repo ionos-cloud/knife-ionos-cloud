@@ -27,35 +27,27 @@ class Chef
           ui.color('Postgres Version', :bold),
           ui.color('Location', :bold),
           ui.color('Instances', :bold),
-          ui.color('Cores', :bold),
-          ui.color('RAM Size', :bold),
-          ui.color('Storage Size', :bold),
-          ui.color('Storage Type', :bold),
-          ui.color('Connections', :bold),
-          ui.color('Maintenance Window', :bold),
-          ui.color('Synchronization Mode', :bold),
-          ui.color('Lifecycle Status', :bold),
+          ui.color('Datacenter ID', :bold),
+          ui.color('Lan ID', :bold),
+          ui.color('cidr', :bold),
+          ui.color('Status', :bold),
         ]
 
         clusters_api = IonoscloudDbaas::ClustersApi.new(api_client_dbaas)
 
-        clusters_api.clusters_get({ depth: 1 }).items.each do |cluster|
+        clusters_api.clusters_get(depth: 1).items.each do |cluster|
           dbaas_cluster_list << cluster.id
           dbaas_cluster_list << cluster.properties.display_name
           dbaas_cluster_list << cluster.properties.postgres_version
           dbaas_cluster_list << cluster.properties.location
           dbaas_cluster_list << cluster.properties.instances
-          dbaas_cluster_list << cluster.properties.cores
-          dbaas_cluster_list << cluster.properties.ram
-          dbaas_cluster_list << cluster.properties.storage_size
-          dbaas_cluster_list << cluster.properties.storage_type
-          dbaas_cluster_list << cluster.properties.connections
-          dbaas_cluster_list << cluster.properties.maintenance_window
-          dbaas_cluster_list << cluster.properties.synchronization_mode
+          dbaas_cluster_list << cluster.properties.connections.first.datacenter_id
+          dbaas_cluster_list << cluster.properties.connections.first.lan_id
+          dbaas_cluster_list << cluster.properties.connections.first.cidr
           dbaas_cluster_list << cluster.metadata.state
         end
 
-        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 13)
+        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 9)
       end
     end
   end
