@@ -884,6 +884,124 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
+def vm_autoscailing_group_mock(opts = {})
+  IonoscloudAutoscaling::Group.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudAutoscaling::GroupProperties.new(
+      max_replica_count: opts[:max_replica_count] || 4,
+      min_replica_count: opts[:min_replica_count] || 2,
+      target_replica_count: opts[:target_replica_count] || 3,
+      name: opts[:name] || 'vm_autoscailing_group',
+      policy: opts[:policy] || IonoscloudAutoscaling::GroupPolicy.new(
+        metric: opts[:metric] || 'INSTANCE_CPU_UTILIZATION_AVERAGE',
+        range: opts[:range] || 'range',
+        scale_in_action: opts[:scale_in_action] || IonoscloudAutoscaling::GroupPolicyScaleInAction.new(
+          amount: opts[:amount] || 2.2,
+          amount_type: opts[:amount_type] || 'ABSOLUTE',
+          cooldown_period: opts[:cooldown_period] || 'cooldown period',
+          termination_policy: opts[:termination_policy] || 'OLDEST_SERVER_FIRST',
+        ),
+        scale_in_threshold: opts[:amount] || 3.3,
+        scale_out_action: opts[:scale_out_action] || IonoscloudAutoscaling::GroupPolicyScaleOutAction.new(
+          amount: opts[:amount] || 2.1,
+          amount_type: opts[:amount_type] || 'ABSOLUTE',
+          cooldown_period: opts[:cooldown_period] || 'cooldown period',
+        ),
+        scale_out_threshold: opts[:scale_out_threshold] || 4.4,
+        unit: opts[:unit] || 'PER_HOUR',
+      ),
+      replica_configuration: opts[:replica_configuration] || IonoscloudAutoscaling::ReplicaPropertiesPost.new(
+        availability_zone: opts[:availability_zone] || 'ZONE_1',
+        cores: opts[:cores] || 8,
+        cpu_family: opts[:cpu_family] || 'AMD_OPTERON',
+        nics: opts[:nics] || [IonoscloudAutoscaling::ReplicaNic.new(
+          lan: opts[:lan] || 5,
+          name: opts[:name] || 'dhcp',
+          dhcp: opts[:dhcp] || false,
+        ),],
+        ram: opts[:cores] || 4096,
+        volumes: opts[:nics] || [IonoscloudAutoscaling::ReplicaVolumePost.new(
+          image: opts[:image] || 'volume image',
+          name: opts[:name] || 'volume name',
+          size: opts[:size] || 2048,
+          ssh_keys: opts[:ssh_keys] || ['ssh_key_1'],
+          type: opts[:name] || 'SSD',
+          user_data: opts[:user_data] || 'user data',
+          image_password: opts[:image_password] || 'image passw',
+        ),],
+      ),
+      datacenter: opts[:datacenter] || IonoscloudAutoscaling::Resource.new(
+        id: opts[:id] || 'group_resource_id',
+        type: opts[:type] || 'group_resource_type',
+      ),
+      location: opts[:location] || 'us/las',
+    )
+  )
+end
+
+def vm_autoscailing_groups_mock(opts = {})
+  IonoscloudAutoscaling::GroupCollection.new(
+    id: SecureRandom.uuid,
+    type: 'collection',
+    items: [vm_autoscailing_group_mock, vm_autoscailing_group_mock],
+  )
+end
+
+def vm_autoscailing_action_mock(opts = {})
+  IonoscloudAutoscaling::ActionResource.new(
+    id: opts[:id] || SecureRandom.uuid,
+    type: opts[:type] || 'datacenter',
+    properties: IonoscloudAutoscaling::ActionProperties.new(
+      action_status: opts[:action_status] || 'SUCCESSFUL',
+      action_type: opts[:action_type] || 'SCALE_IN',
+      target_replica_count: opts[:target_replica_count] || 1,
+    )
+  )
+end
+
+def vm_autoscailing_action_resource_mock(opts = {})
+  IonoscloudAutoscaling::ActionResource.new(
+    id: opts[:id] || SecureRandom.uuid,
+    type: opts[:type] || 'datacenter',
+  )
+end
+
+def vm_autoscailing_actions_mock(opts = {})
+  IonoscloudAutoscaling::ActionCollection.new(
+    id: SecureRandom.uuid,
+    type: 'collection',
+    items: [vm_autoscailing_action_resource_mock, vm_autoscailing_action_resource_mock],
+  )
+end
+
+def vm_autoscailing_group_server_mock(opts = {})
+  IonoscloudAutoscaling::Server.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudAutoscaling::ServerProperties.new(
+      datacenter_server: opts[:datacenter_server] || IonoscloudAutoscaling::DatacenterServer.new(
+        id: opts[:id] || SecureRandom.uuid,
+        type: opts[:type] || 'datacenter'
+      ),
+      name: opts[:name] || 'server name',
+    )
+  )
+end
+
+def vm_autoscailing_server_resource_mock(opts = {})
+  IonoscloudAutoscaling::ActionResource.new(
+    id: opts[:id] || SecureRandom.uuid,
+    type: opts[:type] || 'server',
+  )
+end
+
+def vm_autoscailing_servers_group(opts = {})
+  IonoscloudAutoscaling::ServerCollection.new(
+    id: SecureRandom.uuid,
+    type: 'collection',
+    items: [vm_autoscailing_server_resource_mock, vm_autoscailing_server_resource_mock],
+  )
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
