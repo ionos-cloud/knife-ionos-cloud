@@ -92,9 +92,9 @@ def generate_subcommand_doc(subcommand)
   }
 
   puts "Generated documentation for #{subcommand_name}."
-  return {
+  {
     title: subcommand_name,
-    filename: filename, 
+    filename: filename,
     category: category,
   }
 end
@@ -107,12 +107,12 @@ begin
   }.each {
     |subcommand|
     # if subcommand.to_s == 'IonoscloudBackupunitCreate'
-      begin
-        subcommands.append(generate_subcommand_doc(Chef::Knife.const_get(subcommand).new))
-      rescue Exception => exc
-        puts "Could not generate doc for #{subcommand}. Error: #{exc}"
-        # raise exc
-      end
+    begin
+      subcommands.append(generate_subcommand_doc(Chef::Knife.const_get(subcommand).new))
+    rescue Exception => exc
+      puts "Could not generate doc for #{subcommand}. Error: #{exc}"
+      # raise exc
+    end
     # end
   }
 rescue NameError => exc
