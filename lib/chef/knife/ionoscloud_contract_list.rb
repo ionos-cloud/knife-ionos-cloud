@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud contract list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists information about available contract resources.'
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

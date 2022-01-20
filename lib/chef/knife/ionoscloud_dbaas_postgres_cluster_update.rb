@@ -54,12 +54,11 @@ class Chef
               description: 'The total number of instances in the cluster (one master and n-1 standbys).'
 
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
+        @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances]
       end

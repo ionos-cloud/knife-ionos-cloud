@@ -12,12 +12,11 @@ class Chef
               long: '--backupunit-id BACKUPUNIT_ID',
               description: 'The ID of the Backup unit.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a backup unit.'
+        @directory = 'backup'
         @required_options = [:backupunit_id, :ionoscloud_username, :ionoscloud_password]
       end
 

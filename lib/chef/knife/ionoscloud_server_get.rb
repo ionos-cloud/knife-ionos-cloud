@@ -17,12 +17,11 @@ class Chef
               long: '--server-id SERVER_ID',
               description: 'The ID of the server to which the NIC is assigned'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given Server.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 

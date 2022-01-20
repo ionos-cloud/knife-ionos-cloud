@@ -88,12 +88,11 @@ class Chef
               long: '--recovery-target-time RECOVERY_TARGET_TIME',
               description: 'Recovery target time'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new PostgreSQL cluster.'
+        @directory = 'dbaas-postgres'
         @required_options = [
           :postgres_version, :instances, :cores, :ram, :storage_size, :storage_type,
           :connections, :location, :display_name, :synchronization_mode, :username, :password, :ionoscloud_username, :ionoscloud_password,

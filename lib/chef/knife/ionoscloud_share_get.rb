@@ -17,12 +17,11 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'The ID of the resource.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given Group Share.'
+        @directory = 'user'
         @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
       end
 

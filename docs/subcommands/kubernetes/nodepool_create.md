@@ -15,7 +15,7 @@ knife ionoscloud nodepool create (options)
 * datacenter\_id
 * cluster\_id
 * name
-* k8s\_version
+* version
 * node\_count
 * cpu\_family
 * cores
@@ -39,10 +39,10 @@ knife ionoscloud nodepool create (options)
     name: --name NAME, -n NAME
         name of the Kubernetes node pool (required)
 
-    k8s_version: --version VERSION, -v VERSION
-        the version for the Kubernetes Nodepool. (required)
+    version: --version VERSION, -v VERSION
+        the version for the Kubernetes cluster. (required)
 
-    maintenance_day: --maintenance-day MAINTENANCE_DAY
+    maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
 
     maintenance_time: --maintenance-time MAINTENANCE_TIME, -t MAINTENANCE_TIME

@@ -34,9 +34,6 @@ knife ionoscloud lan update (options)
     pcc: --pcc PCC_ID
         iD of the PCC to connect the LAN to
 
-    ip_failover: --ip-failover IPFAILOVER [IPFAILOVER]
-        iP failover configurations for lan
-
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username (required)
 
@@ -50,5 +47,5 @@ knife ionoscloud lan update (options)
 ## Example
 
 ```text
-knife ionoscloud lan update --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --lan-id LAN_ID --name NAME --public PUBLIC --pcc PCC_ID --ip-failover IPFAILOVER [IPFAILOVER] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud lan update --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --lan-id LAN_ID --name NAME --public PUBLIC --pcc PCC_ID --username USERNAME --password PASSWORD --url URL
 ```

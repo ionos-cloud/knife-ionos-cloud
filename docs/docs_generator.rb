@@ -3,10 +3,19 @@
 # This must be run from /docs directory
 
 require 'mustache'
+require 'fileutils'
 
 $LOAD_PATH << '.'
 
 Dir["../lib/chef/knife/*.rb"].each { |file| require file }
+
+FOLDER_TO_NAME_MAP = {
+  'backup' => 'Managed Backup',
+  'user' => 'User Management',
+  'compute-engine' => 'Compute Engine',
+  'kubernetes' => 'Managed Kubernetes',
+  'dbaas-postgres' => 'DbaaS Postgres',
+}.freeze
 
 def underscore_string(s)
   s.gsub(/::/, '/').
@@ -36,10 +45,10 @@ class Summary < Mustache
   self.template_path = './templates'
   self.template_file = './templates/summary.mustache'
 
-  attr_accessor :subcommands
+  attr_accessor :categories
 
-  def initialize(subcommands)
-    @subcommands = subcommands || []
+  def initialize(categories)
+    @categories = categories || []
   end
 end
 
@@ -54,13 +63,21 @@ def generate_subcommand_doc(subcommand)
   subcommand_name = subcommand.class.to_s
   subcommand_name.slice!('Chef::Knife::Ionoscloud')
 
-  filename = "subcommands/#{underscore_string(subcommand_name)}.md"
+  begin
+    filename = "subcommands/#{subcommand.directory}/#{underscore_string(subcommand_name)}.md"
+    category = FOLDER_TO_NAME_MAP[subcommand.directory]
+  rescue NoMethodError
+    filename = "subcommands/#{underscore_string(subcommand_name)}.md"
+    category = ''
+  end
 
   begin
     description = subcommand.description
   rescue NoMethodError
     description = ''
   end
+
+  FileUtils.mkdir_p(File.dirname(filename)) unless File.directory?(File.dirname(filename))
 
   File.open(filename, 'w') { |f|
     f.write(
@@ -75,7 +92,11 @@ def generate_subcommand_doc(subcommand)
   }
 
   puts "Generated documentation for #{subcommand_name}."
-  return subcommand_name, filename
+  return {
+    title: subcommand_name,
+    filename: filename, 
+    category: category,
+  }
 end
 
 subcommands = []
@@ -85,13 +106,14 @@ begin
     Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud')
   }.each {
     |subcommand|
-    begin
-      subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
-      subcommands.append({ title: subcommand_name, filename: filename })
-    rescue Exception => exc
-      puts "Could not generate doc for #{subcommand}. Error: #{exc}"
-      # raise exc
-    end
+    # if subcommand.to_s == 'IonoscloudBackupunitCreate'
+      begin
+        subcommands.append(generate_subcommand_doc(Chef::Knife.const_get(subcommand).new))
+      rescue Exception => exc
+        puts "Could not generate doc for #{subcommand}. Error: #{exc}"
+        # raise exc
+      end
+    # end
   }
 rescue NameError => exc
   if exc.message == 'uninitialized constant Chef'
@@ -100,8 +122,21 @@ rescue NameError => exc
   raise exc
 end
 
-subcommands.sort! { |a, b| a[:title] <=> b[:title] }
+categories = {}
+
+subcommands.map do |subcommand|
+  if categories.key?(subcommand[:category])
+    categories[subcommand[:category]] << subcommand
+  else
+    categories[subcommand[:category]] = [subcommand]
+  end
+end
+
+
+final = []
+
+categories.map { |key, value| final << { category: key, subcommands: value } }
 
 File.open('summary.md', 'w') { |f|
-  f.write(Summary.new(subcommands).render,)
+  f.write(Summary.new(final).render)
 }

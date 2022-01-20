@@ -17,12 +17,11 @@ class Chef
               long: '--loadbalancer-id LOADBALANCER_ID',
               description: 'Name of the load balancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Removes the association of a NIC with a load balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
       end
 

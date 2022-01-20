@@ -37,12 +37,11 @@ class Chef
               long: '--buckets S3_BUCKET [S3_BUCKET]',
               description: 'List of S3 bucket configured for K8s usage. For now it contains only an S3 bucket used to store K8s API audit logs'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new Managed Kubernetes cluster.'
+        @directory = 'kubernetes'
         @required_options = [:name, :ionoscloud_username, :ionoscloud_password]
       end
 

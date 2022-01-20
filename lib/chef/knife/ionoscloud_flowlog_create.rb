@@ -56,12 +56,11 @@ class Chef
               long: '--bucket BUCKET',
               description: 'S3 bucket name of an existing IONOS Cloud S3 bucket. Ex. bucketName/key'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This will add a Flow Log to the network interface, NAT Gateway or Network Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 

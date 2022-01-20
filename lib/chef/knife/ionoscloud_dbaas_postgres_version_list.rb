@@ -12,13 +12,12 @@ class Chef
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'If cluster_id is provided, retrieves a list of all PostgreSQL versions available for a cluster including the current version,
         otherwise retrieves a list of all available PostgreSQL versions.'
+        @directory = 'dbaas-postgres'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

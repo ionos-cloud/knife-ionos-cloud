@@ -27,12 +27,11 @@ class Chef
               long: '--firewall-id FIREWALL_ID',
               description: 'ID of the Firewall Rule'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a Ionoscloud Firewall Rule.'
+        @directory = 'compute-engine'
         @required_options = [:firewall_id, :datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -25,12 +25,11 @@ class Chef
               long: '--end END',
               description: 'The end time for the query in RFC3339 format.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Get logs of your cluster'
+        @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 
