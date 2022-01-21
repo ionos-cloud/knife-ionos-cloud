@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_autoscailing_server_list'
+require 'ionoscloud_autoscaling_server_list'
 
-Chef::Knife::IonoscloudAutoscailingGroupServerList.load_deps
+Chef::Knife::IonoscloudAutoscalingGroupServerList.load_deps
 
-describe Chef::Knife::IonoscloudAutoscailingGroupServerList do
+describe Chef::Knife::IonoscloudAutoscalingGroupServerList do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscailingGroupServerList.new }
+    subject { Chef::Knife::IonoscloudAutoscalingGroupServerList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -36,12 +36,12 @@ describe Chef::Knife::IonoscloudAutoscailingGroupServerList do
 
       expect(subject.ui).to receive(:list).with(servers_list, :uneven_columns_across, 3)
 
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/autoscaling/groups/#{subject_config[:group_id]}/servers",
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/servers",
             operation: :'GroupsApi.autoscaling_groups_servers_get',
             return_type: 'ServerCollection',
             result: servers_group,

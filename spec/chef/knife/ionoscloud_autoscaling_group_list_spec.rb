@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_autoscailing_group_list'
+require 'ionoscloud_autoscaling_group_list'
 
-Chef::Knife::IonoscloudAutoscailingGroupList.load_deps
+Chef::Knife::IonoscloudAutoscalingGroupList.load_deps
 
-describe Chef::Knife::IonoscloudAutoscailingGroupList do
+describe Chef::Knife::IonoscloudAutoscalingGroupList do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscailingGroupList.new }
+    subject { Chef::Knife::IonoscloudAutoscalingGroupList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -49,12 +49,12 @@ describe Chef::Knife::IonoscloudAutoscailingGroupList do
 
       expect(subject.ui).to receive(:list).with(autoscailing_group_list, :uneven_columns_across, 10)
 
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: '/autoscaling/groups',
+            path: '/cloudapi/autoscaling/groups',
             operation: :'GroupsApi.autoscaling_groups_get',
             return_type: 'GroupCollection',
             result: autoscailing_groups,

@@ -2,15 +2,15 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudAutoscailingGroupCreate < Knife
+    class IonoscloudAutoscalingGroupCreate < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscailing group create (options)'
 
-      option :type,
-              short: '-T TYPE',
-              long: '--type TYPE',
-              description: 'The type of object that has been created.'
+      # option :type,
+      #         short: '-T TYPE',
+      #         long: '--type TYPE',
+      #         description: 'The type of object that has been created.'
 
       option :max_replica_count,
               long: '--max-replica-count MAX_REPLICA_COUNT',
@@ -27,7 +27,7 @@ class Chef
       option :name,
               short: '-N NAME',
               long: '--name NAME',
-              description: 'The type of object that has been created.'
+              description: 'The name of the object that will be created.'
 
       option :policy,
               long: '--policy POLICY',
@@ -57,7 +57,7 @@ class Chef
         @description =
         'Creates a new vm Autoscailing Group.'
         @required_options = [
-          :type, :max_replica_count, :min_replica_count, :target_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type,
+          :max_replica_count, :min_replica_count, :target_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type,
           :location, :ionoscloud_username, :ionoscloud_password,
         ] # todo eu le-am pus pe toate aici, dar nu stiu care sunt required si care nu
       end
@@ -70,10 +70,12 @@ class Chef
         print "#{ui.color('Creating vm Autoscailing Group...', :magenta)}"
 
         policy = JSON[config[:policy]] if config[:policy] && config[:policy].instance_of?(String)
+        # print('HJASHJDSHJAASJHKG AAAAAAAAAAAAAA')
+        # print(policy)
         replica_configuration = JSON[config[:replica_configuration]] if config[:replica_configuration] && config[:replica_configuration].instance_of?(String)
 
-        configuration[:policy] = IonoscloudAutoscaling::GroupPolicy.new(
-          metric: policyp['metric'], # e enum
+        config[:policy] = IonoscloudAutoscaling::GroupPolicy.new(
+          metric: policy['metric'], # e enum
           range: policy['range'],
           scale_in_action: IonoscloudAutoscaling::GroupPolicyScaleInAction.new(
             amount: Float(policy['amount']),
@@ -138,7 +140,7 @@ class Chef
 
         group = IonoscloudAutoscaling::Group.new()
         group.properties = group_properties
-        group.type = config[:type]
+        # group.type = config[:type]
 
         group, _, headers  = groups_api.autoscaling_groups_post_with_http_info(group)
 

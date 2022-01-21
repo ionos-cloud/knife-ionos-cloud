@@ -2,7 +2,7 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudAutoscailingGrouServerpGet < Knife
+    class IonoscloudAutoscalingGrouServerpGet < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscailing group server get (options)'

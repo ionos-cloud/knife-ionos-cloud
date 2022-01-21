@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_autoscailing_group_delete'
+require 'ionoscloud_autoscaling_group_delete'
 
-Chef::Knife::IonoscloudAutoscailingGroupCDelete.load_deps
+Chef::Knife::IonoscloudAutoscalingGroupCDelete.load_deps
 
-describe Chef::Knife::IonoscloudAutoscailingGroupCDelete do
+describe Chef::Knife::IonoscloudAutoscalingGroupCDelete do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscailingGroupCDelete.new }
+    subject { Chef::Knife::IonoscloudAutoscalingGroupCDelete.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -29,19 +29,19 @@ describe Chef::Knife::IonoscloudAutoscailingGroupCDelete do
       expect(subject).to receive(:puts).with("ACTION TYPE: #{autoscailing_group.properties.action_type}")
       expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscailing_group.properties.target_replica_count}")
       
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/autoscaling/groups/#{autoscailing_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{autoscailing_group.id}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
             result: autoscailing_group,
           },
           {
             method: 'DELETE',
-            path: "/autoscaling/groups/#{autoscailing_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{autoscailing_group.id}",
             operation: :'GroupsApi.autoscaling_groups_delete',
             return_type: nil,
             body: {},
@@ -64,12 +64,12 @@ describe Chef::Knife::IonoscloudAutoscailingGroupCDelete do
 
       expect(subject.ui).to receive(:error).with("Cluster ID #{group_id} not found. Skipping.")
 
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/autoscaling/groups/#{autoscailing_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{autoscailing_group.id}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
             exception: IonoscloudAutoscaling::ApiError.new(code: 404),

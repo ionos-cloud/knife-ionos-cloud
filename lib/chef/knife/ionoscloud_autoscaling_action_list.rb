@@ -2,7 +2,7 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudAutoscailingGroupServerList < Knife
+    class IonoscloudAutoscalingActionsList < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscailing group actions list'
@@ -31,6 +31,7 @@ class Chef
           ui.color('Type', :bold),
         ]
 
+        opts = { depth: 1 }
         groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
 
         groups_api.autoscaling_groups_actions_get(config[:group_id], opts).items.each do |group_action|

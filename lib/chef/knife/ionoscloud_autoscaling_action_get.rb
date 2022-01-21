@@ -2,7 +2,7 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudAutoscailingActionGet < Knife
+    class IonoscloudAutoscalingActionGet < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscailing action get (options)'
@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_autoscailing_action(
-          IonoscloudAutoscaling::GroupsApi.new(api_client).autoscaling_groups_actions_find_by_id_with_http_info(
+          IonoscloudAutoscaling::GroupsApi.new(api_client).autoscaling_groups_actions_find_by_id(
             config[:action_id], 
             config[:group_id],
             )

@@ -1,0 +1,12 @@
+{
+"connections": [
+    {
+    "datacenter_id":"b8ea58f4-76d0-4830-852e-f20ed05e66f7",
+    "lan_id":"1",
+    "cidr":"192.168.1.100/24"
+    }
+]
+}
+
+
+  

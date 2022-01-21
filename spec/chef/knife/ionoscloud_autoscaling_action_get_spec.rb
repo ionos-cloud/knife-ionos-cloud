@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_autoscailing_action_get'
+require 'ionoscloud_autoscaling_action_get'
 
-Chef::Knife::IonoscloudAutoscailingActionGet.load_deps
+Chef::Knife::IonoscloudAutoscalingActionGet.load_deps
 
-describe Chef::Knife::IonoscloudAutoscailingActionGet do
+describe Chef::Knife::IonoscloudAutoscalingActionGet do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscailingActionGet.new }
+    subject { Chef::Knife::IonoscloudAutoscalingActionGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -30,20 +30,21 @@ describe Chef::Knife::IonoscloudAutoscailingActionGet do
       expect(subject).to receive(:puts).with("ACTION TYPE: #{autoscailing_action.properties.action_type}")
       expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscailing_action.properties.target_replica_count}")
 
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/autoscaling/groups/#{subject_config[:group_id]}/actions/#{subject_config[:action_id]}",
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/actions/#{subject_config[:action_id]}",
             operation: :'GroupsApi.autoscaling_groups_actions_find_by_id',
-            return_type: 'Group',
+            return_type: 'Action',
             result: autoscailing_action,
           },
         ],
       )
 
-      expect { subject.run }.not_to raise_error(Exception)
+      # expect { subject.run }.not_to raise_error(Exception)
+      subject.run
     end
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
@@ -53,7 +54,7 @@ describe Chef::Knife::IonoscloudAutoscailingActionGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

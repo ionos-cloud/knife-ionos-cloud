@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_autoscailing_group_get'
+require 'ionoscloud_autoscaling_group_get'
 
-Chef::Knife::IonoscloudAutoscailingGroupGet.load_deps
+Chef::Knife::IonoscloudAutoscalingGroupGet.load_deps
 
-describe Chef::Knife::IonoscloudAutoscailingGroupGet do
+describe Chef::Knife::IonoscloudAutoscalingGroupGet do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscailingGroupGet.new }
+    subject { Chef::Knife::IonoscloudAutoscalingGroupGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -34,12 +34,12 @@ describe Chef::Knife::IonoscloudAutoscailingGroupGet do
       expect(subject).to receive(:puts).with("DATACENTER: #{autoscailing_group.properties.datacenter}")
       expect(subject).to receive(:puts).with("LOCATION: #{autoscailing_group.properties.location}")
 
-      mock_dbaas_call_api(
+      mock_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/autoscaling/groups/#{subject_config[:group_id]}",
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
             result: autoscailing_group,
@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudAutoscailingGroupGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

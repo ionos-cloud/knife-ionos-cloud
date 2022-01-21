@@ -18,6 +18,7 @@ class Chef
         includer.class_eval do
           deps do
             require 'ionoscloud'
+            require 'ionoscloud-autoscaling'
           end
 
           option :ionoscloud_username,

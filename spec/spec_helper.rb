@@ -905,7 +905,7 @@ def vm_autoscailing_group_mock(opts = {})
         scale_out_action: opts[:scale_out_action] || IonoscloudAutoscaling::GroupPolicyScaleOutAction.new(
           amount: opts[:amount] || 2.1,
           amount_type: opts[:amount_type] || 'ABSOLUTE',
-          cooldown_period: opts[:cooldown_period] || 'cooldown period',
+          cooldown_period: opts[:cooldown_period] || 'cooldown period o',
         ),
         scale_out_threshold: opts[:scale_out_threshold] || 4.4,
         unit: opts[:unit] || 'PER_HOUR',
@@ -916,12 +916,12 @@ def vm_autoscailing_group_mock(opts = {})
         cpu_family: opts[:cpu_family] || 'AMD_OPTERON',
         nics: opts[:nics] || [IonoscloudAutoscaling::ReplicaNic.new(
           lan: opts[:lan] || 5,
-          name: opts[:name] || 'dhcp',
+          name: opts[:name] || 'nic name',
           dhcp: opts[:dhcp] || false,
         ),],
         ram: opts[:cores] || 4096,
         volumes: opts[:nics] || [IonoscloudAutoscaling::ReplicaVolumePost.new(
-          image: opts[:image] || 'volume image',
+          image: opts[:image] || SecureRandom.uuid,
           name: opts[:name] || 'volume name',
           size: opts[:size] || 2048,
           ssh_keys: opts[:ssh_keys] || ['ssh_key_1'],
@@ -948,14 +948,14 @@ def vm_autoscailing_groups_mock(opts = {})
 end
 
 def vm_autoscailing_action_mock(opts = {})
-  IonoscloudAutoscaling::ActionResource.new(
+  IonoscloudAutoscaling::Action.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'datacenter',
     properties: IonoscloudAutoscaling::ActionProperties.new(
       action_status: opts[:action_status] || 'SUCCESSFUL',
       action_type: opts[:action_type] || 'SCALE_IN',
       target_replica_count: opts[:target_replica_count] || 1,
-    )
+    ),
   )
 end
 
