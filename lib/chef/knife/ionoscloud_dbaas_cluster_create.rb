@@ -93,7 +93,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Creates a new PostgreSQL cluster.'
+        'Creates a new PostgreSQL cluster.
+        If the `fromBackup` field is populated, the new cluster will be created
+        based on the given backup.'
         @required_options = [
           :postgres_version, :instances, :cores, :ram, :storage_size, :storage_type,
           :connections, :location, :display_name, :synchronization_mode, :username, :password, :ionoscloud_username, :ionoscloud_password,

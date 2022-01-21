@@ -12,7 +12,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'retrieves a list of all PostgreSQL clusters.'
+        'Retrieves a list of PostgreSQL clusters.'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

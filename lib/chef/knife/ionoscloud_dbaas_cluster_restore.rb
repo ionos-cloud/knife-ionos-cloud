@@ -27,7 +27,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Restore a Ionoscloud DBaaS Cluster.'
+        'Triggers an in-place restore of the given PostgreSQL.'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 

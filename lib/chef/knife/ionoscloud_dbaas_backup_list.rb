@@ -17,8 +17,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'If cluster_id is provided, retrieves a list of all backups of the given PostgreSQL cluster,
-        otherwise retrieves a list of all PostgreSQL cluster backups.'
+        'Retrieves a list of all PostgreSQL cluster backups.'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

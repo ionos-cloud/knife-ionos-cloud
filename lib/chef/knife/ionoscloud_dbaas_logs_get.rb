@@ -30,7 +30,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Get logs of your cluster'
+        'Retrieves PostgreSQL logs based on the given parameters.'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 

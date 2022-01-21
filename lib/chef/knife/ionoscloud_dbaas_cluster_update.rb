@@ -59,7 +59,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Updates information about a Ionoscloud Dbaas Cluster.'
+        'Patch attributes of a PostgreSQL cluster.'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :day_of_the_week, :postgres_version, :instances]
       end
