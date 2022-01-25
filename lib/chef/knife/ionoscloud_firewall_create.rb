@@ -74,12 +74,11 @@ class Chef
               long: '--type TYPE',
               description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new firewall rule on an existing NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

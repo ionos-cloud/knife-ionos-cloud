@@ -12,12 +12,11 @@ class Chef
               long: '--request-id REQUEST_ID',
               description: 'The ID of the Backup unit.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Waits until a request status is either DONE or FAILED.'
+        @directory = 'compute-engine'
         @required_options = [:request_id, :ionoscloud_username, :ionoscloud_password]
       end
 

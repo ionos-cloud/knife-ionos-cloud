@@ -17,8 +17,6 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'The ID of the specific resource to retrieve information about.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -40,6 +38,7 @@ class Chef
         "resource_type and resource_id specified: Retrieves a specific resource."\
         "**NOTE:** if you pass the *resource_id* option it is necessary to also pass the "\
         "*resource_type* option or a list of all resources will be returned."
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

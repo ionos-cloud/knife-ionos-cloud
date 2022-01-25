@@ -11,8 +11,11 @@ class Chef
       def initialize(args = [])
         super(args)
         @description = ''
+        @directory = ''
         @required_options = []
       end
+
+      attr_reader :description, :required_options, :directory
 
       def self.included(includer)
         includer.class_eval do

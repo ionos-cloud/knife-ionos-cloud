@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud dbaas postgres cluster list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'retrieves a list of all PostgreSQL clusters.'
+        @directory = 'dbaas-postgres'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

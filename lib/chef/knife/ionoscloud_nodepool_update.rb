@@ -63,12 +63,11 @@ class Chef
               long: '--annotations ANNOTATION [ANNOTATION]',
               description: 'map of annotations attached to node pool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud K8s Nodepool.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :k8s_version, :node_count, :public_ips, :lans, :maintenance_day, :maintenance_time,

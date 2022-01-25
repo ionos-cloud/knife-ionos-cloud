@@ -48,12 +48,11 @@ class Chef
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
               'default value INGRESS'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :ips, :dhcp, :lan, :nat]
       end

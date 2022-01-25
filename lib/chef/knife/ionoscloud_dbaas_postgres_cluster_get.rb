@@ -12,12 +12,11 @@ class Chef
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the cluster'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a Ionoscloud DBaaS Cluster.'
+        @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 

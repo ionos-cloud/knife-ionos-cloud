@@ -25,12 +25,11 @@ class Chef
               long: '--sec-auth-protection SEC_AUTH_PROTECTION',
               description: 'Boolean value representing if the data center requires extra protection e.g. two factor protection'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Datacenter.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :description, :sec_auth_protection]
       end

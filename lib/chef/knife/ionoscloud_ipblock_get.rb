@@ -12,12 +12,11 @@ class Chef
               long: '--ipblock-id IPBLOCK_ID',
               description: 'ID of the IPBlock.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about an IP Block.'
+        @directory = 'compute-engine'
         @required_options = [:ipblock_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -12,12 +12,11 @@ class Chef
               long: '--user USER_ID',
               description: 'The ID of the user'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new S3 key for a particular user.'
+        @directory = 'user'
         @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
       end
 

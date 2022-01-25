@@ -124,12 +124,11 @@ class Chef
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
               'default value INGRESS'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan, :ionoscloud_username, :ionoscloud_password,
         ]

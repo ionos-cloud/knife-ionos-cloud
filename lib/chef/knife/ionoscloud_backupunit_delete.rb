@@ -7,8 +7,6 @@ class Chef
 
       banner 'knife ionoscloud backupunit delete BACKUPUNIT_ID [BACKUPUNIT_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -16,6 +14,7 @@ class Chef
         'is a dangerous operation. A successful DELETE request will remove the backup '\
         'plans inside a backup unit, ALL backups associated with the backup unit, the '\
         'backup user and finally the backup unit itself.'
+        @directory = 'backup'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

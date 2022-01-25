@@ -36,14 +36,13 @@ class Chef
               long: '--sec-auth',
               description: 'Indicates if secure (two-factor) authentication should be forced for the user.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new user under a particular contract. **Please Note**: The password set '\
         'here cannot be updated through the API currently. It is recommended that a new user '\
         'log into the DCD and change their password.'
+        @directory = 'user'
         @required_options = [:firstname, :lastname, :email, :password, :ionoscloud_username, :ionoscloud_password]
       end
 

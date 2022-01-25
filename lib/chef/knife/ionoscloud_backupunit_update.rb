@@ -21,12 +21,11 @@ class Chef
               long: '--email EMAIL',
               description: 'The e-mail address you want assigned to the backup unit.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a backup unit.'
+        @directory = 'backup'
         @required_options = [:backupunit_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:email, :password]
       end

@@ -25,7 +25,7 @@ knife ionoscloud share create (options)
     resource_id: --resource-id RESOURCE_ID, -R RESOURCE_ID
         the ID of the resource. (required)
 
-    edit_privilege: --edit
+    edit_privilege: --edit, -e
         the group has permission to edit privileges on this resource.
 
     share_privilege: --share, -s

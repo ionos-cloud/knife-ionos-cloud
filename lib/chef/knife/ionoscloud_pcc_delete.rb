@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud pcc delete PCC_ID [PCC_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes a Private Cross-Connect.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

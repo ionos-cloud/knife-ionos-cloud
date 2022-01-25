@@ -17,12 +17,11 @@ class Chef
               long: '--nodepool NODEPOOL_ID',
               description: 'The ID of the K8s Nodepool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds or updates a LAN within a Nodepool.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
       end
 

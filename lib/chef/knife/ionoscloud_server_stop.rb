@@ -12,13 +12,12 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This will stop a server. The machine will be forcefully powered off, '\
         'billing will cease, and the public IP, if one is allocated, will be deallocated.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

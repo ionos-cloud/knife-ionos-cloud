@@ -42,12 +42,11 @@ class Chef
               long: '--flowlog-id FLOWLOG_ID',
               description: 'The ID of the Flow Log'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a Ionoscloud Flow Log.'
+        @directory = 'compute-engine'
         @required_options = [:flowlog_id, :datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 

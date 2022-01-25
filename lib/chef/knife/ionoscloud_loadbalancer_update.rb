@@ -30,12 +30,11 @@ class Chef
               long: '--dhcp DHCP',
               description: 'Indicates if the load balancer will reserve an IP using DHCP.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :ip, :dhcp]
       end

@@ -22,12 +22,11 @@ class Chef
               long: '--recovery-target-time RECOVERY_TARGET_TIME',
               description: 'Recovery target time'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Restore a Ionoscloud DBaaS Cluster.'
+        @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 

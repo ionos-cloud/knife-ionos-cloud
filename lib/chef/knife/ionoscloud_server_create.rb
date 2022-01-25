@@ -45,8 +45,6 @@ class Chef
               long: '--boot-cdrom CDROM_ID',
               description: 'Reference to a CD-ROM used for booting'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -54,6 +52,7 @@ class Chef
         "with the other providers is that they allow you to define your own settings "\
         "for cores, memory, and disk size without being tied to a particular size or flavor.\n\n"\
         "Note: _The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth._"
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :cores, :ram, :ionoscloud_username, :ionoscloud_password]
       end
 

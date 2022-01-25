@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud dbaas postgres cluster delete CLUSTER_ID [CLUSTER_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Delete a Ionoscloud Dbaas Cluster'
+        @directory = 'dbaas-postgres'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

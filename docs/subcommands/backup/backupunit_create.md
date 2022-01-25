@@ -26,7 +26,7 @@ knife ionoscloud backupunit create (options)
     password: --password PASSWORD, -p PASSWORD
         alphanumeric password you want assigned to the backup unit (required)
 
-    email: --email EMAIL
+    email: --email EMAIL, -e EMAIL
         the e-mail address you want assigned to the backup unit. (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
