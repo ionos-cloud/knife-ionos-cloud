@@ -475,7 +475,6 @@ class Chef
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{backup.id}"
         puts "#{ui.color('Cluster ID', :cyan)}: #{backup.properties.cluster_id}"
-        puts "#{ui.color('Display Name', :cyan)}: #{backup.properties.display_name}"
         puts "#{ui.color('Version', :cyan)}: #{backup.properties.version}"
         puts "#{ui.color('Is Active', :cyan)}: #{backup.properties.is_active}"
         puts "#{ui.color('Earliest Recovery Target Time', :cyan)}: #{backup.properties.earliest_recovery_target_time}"

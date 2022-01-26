@@ -80,11 +80,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterDelete do
             path: "/clusters/#{cluster_id}",
             operation: :'ClustersApi.clusters_find_by_id',
             return_type: 'ClusterResponse',
-<<<<<<< HEAD
-            exception: IonoscloudDbaas::ApiError.new(code: 404),
-=======
             exception: IonoscloudDbaasPostgres::ApiError.new(code: 404),
->>>>>>> dbaas
           },
         ],
       )
