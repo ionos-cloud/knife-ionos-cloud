@@ -1,5 +1,10 @@
 require 'chef/knife'
 
+require 'knife-ionoscloud/version'
+
+
+MODULE_VERSION = Knife::Ionoscloud::VERSION unless defined? MODULE_VERSION
+
 class Chef
   class Knife
     module IonoscloudBase
@@ -59,6 +64,8 @@ class Chef
       end
 
       def api_client
+        return @api_client if @api_client
+
         api_config = Ionoscloud::Configuration.new()
 
         api_config.username = config[:ionoscloud_username]
@@ -75,7 +82,15 @@ class Chef
 
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        @api_client ||= Ionoscloud::ApiClient.new(api_config)
+        @api_client = Ionoscloud::ApiClient.new(api_config)
+
+        @api_client.user_agent =  [
+          'knife/v' + MODULE_VERSION,
+          @api_client.default_headers['User-Agent'],
+          'chef/' + Chef::VERSION,
+        ].join('_')
+
+        @api_client
       end
 
       def get_request_id(headers)
