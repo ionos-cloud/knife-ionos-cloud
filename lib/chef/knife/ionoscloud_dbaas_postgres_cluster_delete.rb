@@ -10,7 +10,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Delete a Ionoscloud Dbaas Cluster'
+        'Delete a PostgreSQL cluster.'
         @directory = 'dbaas-postgres'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end

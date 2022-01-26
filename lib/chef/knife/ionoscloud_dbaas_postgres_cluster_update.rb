@@ -39,9 +39,9 @@ class Chef
               long: '--time TIME',
               description: 'Time Of the day when to perform the maintenance.'
 
-      option :weekday,
-              short: '-d WEEKDAY',
-              long: '--weekday WEEKDAY',
+      option :day_of_the_week,
+              short: '-d DAY_OF_THE_WEEK',
+              long: '--day-of-the-week DAY_OF_THE_WEEK',
               description: 'Day Of the week when to perform the maintenance.'
 
       option :postgres_version,
@@ -60,7 +60,7 @@ class Chef
         'Updates information about a Ionoscloud Dbaas Cluster.'
         @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
-        @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :weekday, :postgres_version, :instances]
+        @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :day_of_the_week, :postgres_version, :instances]
       end
 
       def run
@@ -78,9 +78,9 @@ class Chef
             ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
             storage_size: (config[:storage_size].nil? ? nil : Integer(config[:storage_size])),
             display_name: config[:display_name],
-            maintenance_window: (config[:time] && config[:weekday]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
+            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
               time: config[:time],
-              weekday: config[:weekday],
+              day_of_the_week: config[:day_of_the_week],
             ) : nil,
             postgres_version: config[:postgres_version],
             instances: config[:instances],

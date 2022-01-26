@@ -15,7 +15,8 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retrieves information about a Ionoscloud DBaaS Cluster Backup.'
+        'Retrieve a PostgreSQL cluster backup by using its ID. This value can be
+        found when you GET a list of PostgreSQL cluster backups.'
         @directory = 'dbaas-postgres'
         @required_options = [:backup_id, :ionoscloud_username, :ionoscloud_password]
       end

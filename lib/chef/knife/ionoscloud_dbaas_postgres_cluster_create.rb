@@ -91,7 +91,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Creates a new PostgreSQL cluster.'
+        'Creates a new PostgreSQL cluster.
+        If the `fromBackup` field is populated, the new cluster will be created
+        based on the given backup.'
         @directory = 'dbaas-postgres'
         @required_options = [
           :postgres_version, :instances, :cores, :ram, :storage_size, :storage_type,

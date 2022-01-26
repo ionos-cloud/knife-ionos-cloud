@@ -28,7 +28,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Get logs of your cluster'
+        'Retrieves PostgreSQL logs based on the given parameters.'
         @directory = 'dbaas-postgres'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
@@ -41,7 +41,7 @@ class Chef
         logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas).cluster_logs_get(
           config[:cluster_id],
           {
-            limit: Integer(config[:limit]),
+            limit: (config[:limit] != nil ? Integer(config[:limit]) : nil),
             start: config[:start],
             end: config[:end],
           },
