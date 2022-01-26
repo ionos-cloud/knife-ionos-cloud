@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_logs_get'
+require 'ionoscloud_dbaas_postgres_logs_get'
 
-Chef::Knife::IonoscloudDbaasLogsGet.load_deps
+Chef::Knife::IonoscloudDbaasPostgresLogsGet.load_deps
 
-describe Chef::Knife::IonoscloudDbaasLogsGet do
+describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasLogsGet.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresLogsGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)

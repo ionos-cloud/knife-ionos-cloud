@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_cluster_list'
+require 'ionoscloud_dbaas_postgres_cluster_list'
 
-Chef::Knife::IonoscloudDbaasClusterList.load_deps
+Chef::Knife::IonoscloudDbaasPostgresClusterList.load_deps
 
-describe Chef::Knife::IonoscloudDbaasClusterList do
+describe Chef::Knife::IonoscloudDbaasPostgresClusterList do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasClusterList.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresClusterList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)

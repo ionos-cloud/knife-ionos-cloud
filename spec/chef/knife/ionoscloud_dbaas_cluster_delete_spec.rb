@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_cluster_delete'
+require 'ionoscloud_dbaas_postgres_cluster_delete'
 
-Chef::Knife::IonoscloudDbaasClusterDelete.load_deps
+Chef::Knife::IonoscloudDbaasPostgresClusterDelete.load_deps
 
-describe Chef::Knife::IonoscloudDbaasClusterDelete do
+describe Chef::Knife::IonoscloudDbaasPostgresClusterDelete do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasClusterDelete.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresClusterDelete.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -80,7 +80,11 @@ describe Chef::Knife::IonoscloudDbaasClusterDelete do
             path: "/clusters/#{cluster_id}",
             operation: :'ClustersApi.clusters_find_by_id',
             return_type: 'ClusterResponse',
+<<<<<<< HEAD
             exception: IonoscloudDbaas::ApiError.new(code: 404),
+=======
+            exception: IonoscloudDbaasPostgres::ApiError.new(code: 404),
+>>>>>>> dbaas
           },
         ],
       )

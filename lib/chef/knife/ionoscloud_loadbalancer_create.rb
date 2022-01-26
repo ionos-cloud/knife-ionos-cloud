@@ -30,12 +30,11 @@ class Chef
               long: '--nics NIC_ID [NIC_ID]',
               description: 'An array of additional private NICs attached to worker nodes'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a load balancer within the VDC. Load balancers can be used for public or private IP traffic.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :name, :ionoscloud_username, :ionoscloud_password]
       end
 

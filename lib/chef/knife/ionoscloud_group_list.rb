@@ -12,12 +12,11 @@ class Chef
               long: '--user-id USER_ID',
               description: 'ID of the user.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This retrieves a full list of all groups.'
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

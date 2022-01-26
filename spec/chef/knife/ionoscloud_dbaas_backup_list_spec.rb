@@ -1,11 +1,11 @@
 require 'spec_helper'
-require 'ionoscloud_dbaas_backup_list'
+require 'ionoscloud_dbaas_postgres_backup_list'
 
-Chef::Knife::IonoscloudDbaasBackupList.load_deps
+Chef::Knife::IonoscloudDbaasPostgresBackupList.load_deps
 
-describe Chef::Knife::IonoscloudDbaasBackupList do
+describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
   before :each do
-    subject { Chef::Knife::IonoscloudDbaasBackupList.new }
+    subject { Chef::Knife::IonoscloudDbaasPostgresBackupList.new }
 
     @cluster_backups = cluster_backups_mock
 

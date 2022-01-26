@@ -71,12 +71,11 @@ class Chef
               long: '--manage-certificates ACCESS_AND_MANAGE_CERTIFICATES',
               description: 'Privilege for a group to access and manage certificates.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Group.'
+        @directory = 'user'
         @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :create_data_center, :create_snapshot, :reserve_ip, :access_activity_log, :s3_privilege,

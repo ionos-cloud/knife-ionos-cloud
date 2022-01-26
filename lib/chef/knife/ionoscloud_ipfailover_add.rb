@@ -27,8 +27,6 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'NIC to be added to IP failover group'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -36,6 +34,7 @@ class Chef
         "* Add a reserved IP address to a NIC that will become the IP Failover master.\n"\
         "* Use PATCH or PUT to enable ipFailover by providing the relevant ip and nicUuid values.\n"\
         "* Add the same reserved IP address to any other NICs that are a member of the same LAN. Those NICs will become IP Failover members.\n"
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :lan_id, :ip, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -44,7 +43,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
 
         lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], config[:lan_id])
 

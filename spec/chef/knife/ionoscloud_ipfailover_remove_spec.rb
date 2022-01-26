@@ -41,21 +41,21 @@ describe Chef::Knife::IonoscloudIpfailoverRemove do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
           {
             method: 'PATCH',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_patch',
+            operation: :'LANsApi.datacenters_lans_patch',
             body: Ionoscloud::LanProperties.new({ ip_failover: [] }).to_hash,
             return_type: 'Lan',
           },
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan_copy,
           },
@@ -91,7 +91,7 @@ describe Chef::Knife::IonoscloudIpfailoverRemove do
           {
               method: 'GET',
               path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-              operation: :'LansApi.datacenters_lans_find_by_id',
+              operation: :'LANsApi.datacenters_lans_find_by_id',
               return_type: 'Lan',
               result: lan,
           },

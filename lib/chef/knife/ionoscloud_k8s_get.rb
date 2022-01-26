@@ -12,12 +12,11 @@ class Chef
               long: '--cluster-id CLUSTER_ID',
               description: 'ID of the Kubernetes cluster'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a K8s Cluster.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 

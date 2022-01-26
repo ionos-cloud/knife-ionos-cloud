@@ -7,8 +7,6 @@ class Chef
 
       banner 'knife ionoscloud datacenter list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -18,6 +16,7 @@ class Chef
         'networking, and other resources. The goal is to give you the same '\
         'experience as you would have if you were running your own physical '\
         'data center. A list of available data centers can be obtained with the following command.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud snapshot delete SNAPSHOT_ID [SNAPSHOT_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes the specified snapshot.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

@@ -32,12 +32,11 @@ class Chef
               long: '--port PORT',
               description: 'Port of the balanced target service. (range: 1 to 65535)'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a target to a Network Load Balancer Forwarding Rule under a data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ip, :port, :ionoscloud_username, :ionoscloud_password,
         ]

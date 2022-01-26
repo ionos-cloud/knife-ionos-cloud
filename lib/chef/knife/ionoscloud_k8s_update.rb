@@ -41,12 +41,11 @@ class Chef
               long: '--s3-buckets BUCKET[,BUCKET,...]',
               description: 'List of S3 bucket configured for K8s usage. For now it contains only one S3 bucket used to store K8s API audit logs.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud K8s Cluster.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :version, :maintenance_day, :maintenance_time, :api_subnet_allow_list, :s3_buckets,

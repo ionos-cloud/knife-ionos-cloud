@@ -11,8 +11,11 @@ class Chef
       def initialize(args = [])
         super(args)
         @description = ''
+        @directory = ''
         @required_options = []
       end
+
+      attr_reader :description, :required_options, :directory
 
       def self.included(includer)
         includer.class_eval do
@@ -20,7 +23,7 @@ class Chef
             warn_level = $VERBOSE
             $VERBOSE = nil
             require 'ionoscloud'
-            require 'ionoscloud-dbaas'
+            require 'ionoscloud-dbaas-postgres'
             $VERBOSE = warn_level
           end
 
@@ -33,6 +36,10 @@ class Chef
                   short: '-p PASSWORD',
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
+
+          option :ionoscloud_url,
+                  long: '--url URL',
+                  description: 'The Ionoscloud API URL'
 
           option :extra_config_file,
                   short: '-e EXTRA_CONFIG_FILE_PATH',
@@ -76,27 +83,46 @@ class Chef
       end
 
       def api_client
+        return @api_client if @api_client
+
         api_config = Ionoscloud::Configuration.new()
 
         api_config.username = config[:ionoscloud_username]
         api_config.password = config[:ionoscloud_password]
 
+        if config[:ionoscloud_url]
+          uri = URI.parse(config[:ionoscloud_url])
+
+          api_config.scheme = uri.scheme
+          api_config.host = uri.host
+          api_config.base_path = uri.path
+          api_config.server_index = nil
+        end
+
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        @api_client ||= Ionoscloud::ApiClient.new(api_config)
+        @api_client = Ionoscloud::ApiClient.new(api_config)
+
+        @api_client.user_agent =  [
+          'knife/v' + MODULE_VERSION,
+          @api_client.default_headers['User-Agent'],
+          'chef/' + Chef::VERSION,
+        ].join('_')
+
+        @api_client
       end
 
       def api_client_dbaas
         return @api_client_dbaas if @api_client_dbaas
 
-        api_config_dbaas = IonoscloudDbaas::Configuration.new()
+        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
 
         api_config_dbaas.username = config[:ionoscloud_username]
         api_config_dbaas.password = config[:ionoscloud_password]
 
         api_config_dbaas.debugging = config[:ionoscloud_debug] || false
 
-        @api_client_dbaas = IonoscloudDbaas::ApiClient.new(api_config_dbaas)
+        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
 
         @api_client_dbaas.user_agent =  [
           'knife/v' + MODULE_VERSION,

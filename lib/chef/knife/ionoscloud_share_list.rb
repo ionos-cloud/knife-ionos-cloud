@@ -12,13 +12,12 @@ class Chef
               long: '--group-id GROUP_ID',
               description: 'ID of the group.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves a full list of all the resources that are shared through this '\
         'group and lists the permissions granted to the group members for each shared resource.'
+        @directory = 'user'
         @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
       end
 

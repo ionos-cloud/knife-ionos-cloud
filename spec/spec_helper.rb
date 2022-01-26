@@ -502,9 +502,9 @@ def datacenters_mock(opts = {})
 end
 
 def cluster_mock(opts = {})
-  IonoscloudDbaas::ClusterResponse.new(
+  IonoscloudDbaasPostgres::ClusterResponse.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: IonoscloudDbaas::ClusterProperties.new(
+    properties: IonoscloudDbaasPostgres::ClusterProperties.new(
       display_name: opts[:display_name] || 'dbaas_Cluster',
       postgres_version: opts[:postgres_version] || '10',
       location: opts[:location] || 'us/las',
@@ -513,25 +513,25 @@ def cluster_mock(opts = {})
       cores: opts[:cores] || 4,
       storage_size: opts[:storage_size] || 4096,
       storage_type: opts[:storage_type] || 'HDD',
-      connections: opts[:connections] || [IonoscloudDbaas::Connection.new(
+      connections: opts[:connections] || [IonoscloudDbaasPostgres::Connection.new(
         datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
         lan_id: opts[:lan_id] || '1',
         cidr: opts[:cidr] || '192.168.1.100/24',
       ),],
-      maintenance_window: opts[:maintenance_window] || IonoscloudDbaas::MaintenanceWindow.new(
+      maintenance_window: opts[:maintenance_window] || IonoscloudDbaasPostgres::MaintenanceWindow.new(
         time: opts[:time] || "00:29:15", 
         day_of_the_week: opts[:day_of_the_week] || "Monday", 
       ),
       synchronization_mode: opts[:synchronization_mode] || 'ASYNCHRONOUS',
     ),
-    metadata: IonoscloudDbaas::Metadata.new(
+    metadata: IonoscloudDbaasPostgres::Metadata.new(
       state: 'Busy',
     ),
   )
 end
 
 def clusters_mock(opts = {})
-  IonoscloudDbaas::ClusterList.new(
+  IonoscloudDbaasPostgres::ClusterList.new(
     id: SecureRandom.uuid,
     type: 'collection',
     items: [cluster_mock, cluster_mock],
@@ -922,50 +922,49 @@ def network_loadbalancer_rule_target_mock(opts = {})
 end
 
 def postgres_version_data_mock(opts = {})
-  IonoscloudDbaas::PostgresVersionListData.new(name: opts[:name] || 12)
+  IonoscloudDbaasPostgres::PostgresVersionListData.new(name: opts[:name] || 12)
 end
 
 def postgres_version_list_mock(opts = {})
-  IonoscloudDbaas::PostgresVersionList.new(data: [postgres_version_data_mock(name: 11), postgres_version_data_mock(name: 12)])
+  IonoscloudDbaasPostgres::PostgresVersionList.new(data: [postgres_version_data_mock(name: 11), postgres_version_data_mock(name: 12)])
 end
 
 def cluster_logs_message(opts = {})
-  IonoscloudDbaas::ClusterLogsMessages.new(
+  IonoscloudDbaasPostgres::ClusterLogsMessages.new(
     time: Time.now,
     message: SecureRandom.uuid.to_s,
   )
 end
 
 def cluster_logs_instance(opts = {})
-  IonoscloudDbaas::ClusterLogsInstances.new(
+  IonoscloudDbaasPostgres::ClusterLogsInstances.new(
     name: 'test_' + SecureRandom.uuid.to_s,
     messages: [cluster_logs_message, cluster_logs_message],
   )
 end
 
 def cluster_logs_mock(opts = {})
-  IonoscloudDbaas::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
+  IonoscloudDbaasPostgres::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
 end
 
 def cluster_backup_mock(opts = {})
-  IonoscloudDbaas::BackupResponse.new(
+  IonoscloudDbaasPostgres::BackupResponse.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: IonoscloudDbaas::ClusterBackup.new(
+    properties: IonoscloudDbaasPostgres::ClusterBackup.new(
       id: SecureRandom.uuid.to_s,
       cluster_id: SecureRandom.uuid.to_s,
-      display_name: 'name_' + SecureRandom.uuid.to_s,
       is_active: true,
       version: opts[:version] || '10',
       earliest_recovery_target_time: Time.now
     ),
-    metadata: IonoscloudDbaas::Metadata.new(
+    metadata: IonoscloudDbaasPostgres::Metadata.new(
       created_date: Time.now,
     ),
   )
 end
 
 def cluster_backups_mock(opts = {})
-  IonoscloudDbaas::ClusterBackupList.new(items: [cluster_backup_mock, cluster_backup_mock])
+  IonoscloudDbaasPostgres::ClusterBackupList.new(items: [cluster_backup_mock, cluster_backup_mock])
 end
 
 def arrays_without_one_element(arr)

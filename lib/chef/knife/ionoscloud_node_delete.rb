@@ -18,12 +18,11 @@ class Chef
               long: '--nodepool-id NODEPOOL_ID',
               description: 'The ID of the K8s Nodepool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Delete a single Kubernetes Node.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
       end
 

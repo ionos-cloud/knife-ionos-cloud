@@ -21,12 +21,11 @@ class Chef
               long: '--peers DATACENTER_ID,LAN_ID [DATACENTER_ID,LAN_ID]',
               description: 'An array of LANs joined to this private cross connect'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a Private Cross-Connect.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -60,7 +59,7 @@ class Chef
         pcc = pcc_api.pccs_find_by_id(pcc.id)
 
         if config[:peers]
-          lan_api = Ionoscloud::LansApi.new(api_client)
+          lan_api = Ionoscloud::LANsApi.new(api_client)
 
           header_list = []
           allowed_datacenters_ids = pcc.properties.connectable_datacenters.map { |datacenter| datacenter.id }

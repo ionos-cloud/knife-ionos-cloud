@@ -71,13 +71,12 @@ class Chef
               'immutable and is only allowed to be set on a new volume creation. It is mandatory to provide either \'public image\' '\
               'or \'imageAlias\' that has cloud-init compatibility in conjunction with this property.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a volume within the data center. This will NOT attach the volume to a server. '\
         'Please see the Servers section for details on how to attach storage volumes.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :name, :type, :size, :ionoscloud_username, :ionoscloud_password]
       end
 

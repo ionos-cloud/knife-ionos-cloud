@@ -45,8 +45,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'Sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE]',
-              default: 'INTEL_SKYLAKE'
+              description: 'Sets the CPU type. [AMD_OPTERON, INTEL_XEON, INTEL_SKYLAKE]'
 
       option :cores,
               long: '--cores CORES',
@@ -60,13 +59,11 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the node pool',
-              default: 'AUTO'
+              description: 'The availability zone of the node pool'
 
       option :storage_type,
               long: '--storage-type STORAGE_TYPE',
-              description: 'Sets the storage type. [HDD, SSD]',
-              default: 'HDD'
+              description: 'Sets the storage type. [HDD, SSD]'
 
       option :storage_size,
               long: '--storage-size STORAGE_SIZE',
@@ -99,14 +96,13 @@ class Chef
               long: '--annotations ANNOTATION [ANNOTATION]',
               description: 'map of annotations attached to node pool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         "Creates a node pool into an existing Kubernetes cluster. "\
         "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
         "The worker nodes within the node pools will be deployed into an existing data centers."
+        @directory = 'kubernetes'
         @required_options = [
           :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram,
           :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,
