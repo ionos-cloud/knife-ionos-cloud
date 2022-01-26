@@ -50,12 +50,11 @@ class Chef
               long: '--boot-cdrom CDROM_ID',
               description: 'Reference to a CD-ROM used for booting'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Server.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :cores, :cpu_family, :ram, :availability_zone, :boot_volume, :boot_cdrom]
       end

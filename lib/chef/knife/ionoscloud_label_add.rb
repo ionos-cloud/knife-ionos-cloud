@@ -31,12 +31,11 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'ID of the resource.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Add a Label to a Resource.'
+        @directory = 'compute-engine'
         @required_options = [:type, :resource_id, :key, :value, :ionoscloud_username, :ionoscloud_password]
       end
 

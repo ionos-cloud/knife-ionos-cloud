@@ -12,12 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'Name of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes an existing LAN.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

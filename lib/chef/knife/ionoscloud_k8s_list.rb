@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud k8s list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieve a list of Kubernetes clusters.'
+        @directory = 'kubernetes'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

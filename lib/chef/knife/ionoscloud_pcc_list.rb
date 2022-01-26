@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud pcc list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists all Private Cross-Connect instances.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

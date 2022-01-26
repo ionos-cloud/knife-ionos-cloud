@@ -18,8 +18,6 @@ class Chef
               long: '--nodepool-id NODEPOOL_ID',
               description: 'The ID of the K8s Nodepool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -28,6 +26,7 @@ class Chef
         "template creates & configures a new node, waits for status \"ACTIVE\", "\
         "and migrates all the pods from the faulty node, deleting it once empty. "\
         "While this operation occurs, the nodepool will have an extra billable \"ACTIVE\" node."
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
       end
 

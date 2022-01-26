@@ -501,6 +501,43 @@ def datacenters_mock(opts = {})
   )
 end
 
+def cluster_mock(opts = {})
+  IonoscloudDbaasPostgres::ClusterResponse.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudDbaasPostgres::ClusterProperties.new(
+      display_name: opts[:display_name] || 'dbaas_Cluster',
+      postgres_version: opts[:postgres_version] || '10',
+      location: opts[:location] || 'us/las',
+      instances: opts[:instances] || 2,
+      ram: opts[:ram] || 8192,
+      cores: opts[:cores] || 4,
+      storage_size: opts[:storage_size] || 4096,
+      storage_type: opts[:storage_type] || 'HDD',
+      connections: opts[:connections] || [IonoscloudDbaasPostgres::Connection.new(
+        datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
+        lan_id: opts[:lan_id] || '1',
+        cidr: opts[:cidr] || '192.168.1.100/24',
+      ),],
+      maintenance_window: opts[:maintenance_window] || IonoscloudDbaasPostgres::MaintenanceWindow.new(
+        time: opts[:time] || "00:29:15", 
+        day_of_the_week: opts[:day_of_the_week] || "Monday", 
+      ),
+      synchronization_mode: opts[:synchronization_mode] || 'ASYNCHRONOUS',
+    ),
+    metadata: IonoscloudDbaasPostgres::Metadata.new(
+      state: 'Busy',
+    ),
+  )
+end
+
+def clusters_mock(opts = {})
+  IonoscloudDbaasPostgres::ClusterList.new(
+    id: SecureRandom.uuid,
+    type: 'collection',
+    items: [cluster_mock, cluster_mock],
+  )
+end
+
 def pcc_mock(opts = {})
   Ionoscloud::PrivateCrossConnect.new(
     id: opts[:id] || SecureRandom.uuid,
@@ -884,6 +921,52 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
+def postgres_version_data_mock(opts = {})
+  IonoscloudDbaasPostgres::PostgresVersionListData.new(name: opts[:name] || 12)
+end
+
+def postgres_version_list_mock(opts = {})
+  IonoscloudDbaasPostgres::PostgresVersionList.new(data: [postgres_version_data_mock(name: 11), postgres_version_data_mock(name: 12)])
+end
+
+def cluster_logs_message(opts = {})
+  IonoscloudDbaasPostgres::ClusterLogsMessages.new(
+    time: Time.now,
+    message: SecureRandom.uuid.to_s,
+  )
+end
+
+def cluster_logs_instance(opts = {})
+  IonoscloudDbaasPostgres::ClusterLogsInstances.new(
+    name: 'test_' + SecureRandom.uuid.to_s,
+    messages: [cluster_logs_message, cluster_logs_message],
+  )
+end
+
+def cluster_logs_mock(opts = {})
+  IonoscloudDbaasPostgres::ClusterLogs.new(instances: [cluster_logs_instance, cluster_logs_instance])
+end
+
+def cluster_backup_mock(opts = {})
+  IonoscloudDbaasPostgres::BackupResponse.new(
+    id: opts[:id] || SecureRandom.uuid,
+    properties: IonoscloudDbaasPostgres::ClusterBackup.new(
+      id: SecureRandom.uuid.to_s,
+      cluster_id: SecureRandom.uuid.to_s,
+      is_active: true,
+      version: opts[:version] || '10',
+      earliest_recovery_target_time: Time.now
+    ),
+    metadata: IonoscloudDbaasPostgres::Metadata.new(
+      created_date: Time.now,
+    ),
+  )
+end
+
+def cluster_backups_mock(opts = {})
+  IonoscloudDbaasPostgres::ClusterBackupList.new(items: [cluster_backup_mock, cluster_backup_mock])
+end
+
 def arrays_without_one_element(arr)
   result = [{ array: arr[1..], removed: [arr[0]] }]
   (1..arr.length - 1).each { |i| result.append({ array: arr[0..i - 1] + arr[i + 1..], removed: [arr[i]] }) }
@@ -892,6 +975,30 @@ end
 
 def mock_wait_for(subject)
   expect(subject.api_client).to receive(:wait_for).once { true }
+end
+
+def mock_dbaas_call_api(subject, rules)
+  rules.each do |rule|
+    expect(subject.api_client_dbaas).to receive(:call_api).once do |method, path, opts|
+      result = nil
+      received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
+
+      expect(method.to_s).to eq(rule[:method])
+      expect(path).to eq(rule[:path])
+      expect(opts[:operation]).to eq(rule[:operation])
+      expect(opts[:form_params]).to eq(rule[:form_params] || {})
+      expect(opts[:return_type]).to eq(rule[:return_type] || nil)
+      expect(received_body).to eq(rule[:body] || nil)
+      expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
+
+      if rule[:exception]
+        raise rule[:exception]
+      end
+
+      rule[:result]
+    end
+  end
+  expect(subject.api_client_dbaas).not_to receive(:call_api)
 end
 
 def mock_call_api(subject, rules)

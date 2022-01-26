@@ -27,12 +27,11 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'NIC to be removed from the IP failover group'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Remove IP Failover from LAN'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :lan_id, :ip, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

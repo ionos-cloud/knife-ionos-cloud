@@ -22,12 +22,11 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'ID of the NIC'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes a firewall rule from an existing NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -12,12 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This will start a server. If the server\'s public IP was deallocated then a new IP will be assigned.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

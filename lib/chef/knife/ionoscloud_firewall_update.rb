@@ -75,12 +75,11 @@ class Chef
               description: 'Defines the allowed code (from 0 to 254) if the' \
                           ' protocol ICMP is chosen; null allows all codes'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Firewall Rule.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :protocol, :source_mac, :source_ip, :target_ip,

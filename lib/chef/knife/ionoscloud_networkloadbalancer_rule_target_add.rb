@@ -63,12 +63,11 @@ class Chef
               description: 'Maintenance specifies if a target VM should be marked as down, even if it is not.',
               boolean: true
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a target to a Network Load Balancer Forwarding Rule under a data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ip, :port, :weight, :ionoscloud_username, :ionoscloud_password,
         ]

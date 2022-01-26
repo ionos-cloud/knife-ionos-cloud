@@ -27,8 +27,6 @@ class Chef
               long: '--method METHOD',
               description: 'Request method filter to fetch all the request based on a particular method [POST, PUT, PATCH, DELETE]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -37,6 +35,7 @@ class Chef
         'the request and its current status. The "list request" operation described here will '\
         'return an array of request items. Each returned request item will have an id that can be '\
         'used to get additional information as described in the Get Request and Get Request Status sections.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

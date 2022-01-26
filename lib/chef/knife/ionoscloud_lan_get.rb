@@ -17,12 +17,11 @@ class Chef
               long: '--lan-id LAN_ID',
               description: 'ID of the LAN'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a Ionoscloud LAN.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :lan_id, :ionoscloud_username, :ionoscloud_password]
       end
 

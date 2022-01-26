@@ -7,14 +7,13 @@ class Chef
 
       banner 'knife ionoscloud datacenter delete DATACENTER_ID [DATACENTER_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'You will want to exercise a bit of caution here. Removing a data center will destroy '\
         'all objects contained within that data center -- servers, volumes, snapshots, and so on. '\
         'The objects -- once removed -- will be unrecoverable.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

@@ -37,12 +37,11 @@ class Chef
               long: '--network-loadbalancer NETWORK_LOADBALANCER',
               description: 'ID of the Network Load Balancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists all available flow logs assigned to a NIC, NAT Gateway or Network Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 

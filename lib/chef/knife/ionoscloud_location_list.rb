@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud location list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'List available physical locations where resources can reside.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

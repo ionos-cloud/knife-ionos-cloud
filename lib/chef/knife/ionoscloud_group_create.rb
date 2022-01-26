@@ -66,12 +66,11 @@ class Chef
               long: '--manage-certificates',
               description: 'Privilege for a group to access and manage certificates.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Use this operation to create a new group and set group privileges.'
+        @directory = 'user'
         @required_options = [:name, :ionoscloud_username, :ionoscloud_password]
       end
 

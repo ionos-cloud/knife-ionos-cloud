@@ -22,8 +22,6 @@ class Chef
               long: '--name NAME',
               description: 'Name of the IP block'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -31,6 +29,7 @@ class Chef
         'within any VDCs provisioned in that same location. An IP block consists of '\
         'one or more static IP addresses. The IP block size \(number of IP addresses\) '\
         'and location are required to reserve an IP block.'
+        @directory = 'compute-engine'
         @required_options = [:size, :location, :ionoscloud_username, :ionoscloud_password]
       end
 

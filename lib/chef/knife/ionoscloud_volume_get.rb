@@ -16,12 +16,11 @@ class Chef
               long: '--volume VOLUME_ID',
               description: 'ID of the volume.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given Volume.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :volume_id, :ionoscloud_username, :ionoscloud_password]
       end
 

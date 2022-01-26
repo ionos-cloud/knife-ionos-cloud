@@ -33,12 +33,11 @@ class Chef
               long: '--pcc PCC_ID',
               description: 'ID of the PCC to connect the LAN to'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud LAN.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :lan_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :public, :pcc, :description]
       end
