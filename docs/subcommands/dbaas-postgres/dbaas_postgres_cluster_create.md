@@ -1,6 +1,6 @@
 # DbaasPostgresClusterCreate
 
-Creates a new PostgreSQL cluster.
+Creates a new PostgreSQL cluster. If the `fromBackup` field is populated, the new cluster will be created based on the given backup.
 
 ```text
 knife ionoscloud dbaas postgres cluster create (options)

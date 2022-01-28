@@ -1,7 +1,6 @@
 # DbaasPostgresVersionList
 
-If cluster_id is provided, retrieves a list of all PostgreSQL versions available for a cluster including the current version,
-        otherwise retrieves a list of all available PostgreSQL versions.
+If cluster_id is provided, retrieves a list of all PostgreSQL versions available for a cluster including the current version, otherwise retrieves a list of all available PostgreSQL versions.
 
 ```text
 knife ionoscloud dbaas postgres version list

@@ -1,7 +1,6 @@
 # DbaasPostgresBackupList
 
-If cluster_id is provided, retrieves a list of all backups of the given PostgreSQL cluster,
-        otherwise retrieves a list of all PostgreSQL cluster backups.
+If cluster_id is provided, retrieves a list of all backups of the given PostgreSQL cluster, otherwise retrieves a list of all PostgreSQL cluster backups.
 
 ```text
 knife ionoscloud dbaas postgres backup list (options)

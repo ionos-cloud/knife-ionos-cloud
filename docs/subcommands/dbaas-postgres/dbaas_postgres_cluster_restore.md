@@ -1,6 +1,6 @@
 # DbaasPostgresClusterRestore
 
-Restore a Ionoscloud DBaaS Cluster.
+Triggers an in-place restore of the given PostgreSQL.
 
 ```text
 knife ionoscloud dbaas postgres cluster restore (options)

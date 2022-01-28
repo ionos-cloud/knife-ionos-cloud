@@ -1,6 +1,6 @@
 # DbaasPostgresClusterDelete
 
-Delete a Ionoscloud Dbaas Cluster
+Delete a PostgreSQL cluster.
 
 ```text
 knife ionoscloud dbaas postgres cluster delete CLUSTER_ID [CLUSTER_ID]

@@ -15,8 +15,9 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'If cluster_id is provided, retrieves a list of all PostgreSQL versions available for a cluster including the current version,
-        otherwise retrieves a list of all available PostgreSQL versions.'
+        'If cluster_id is provided, retrieves a list of all PostgreSQL versions '\
+        'available for a cluster including the current version, '\
+        'otherwise retrieves a list of all available PostgreSQL versions.'
         @directory = 'dbaas-postgres'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end

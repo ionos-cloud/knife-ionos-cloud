@@ -1,6 +1,6 @@
 # DbaasPostgresLogsGet
 
-Get logs of your cluster
+Retrieves PostgreSQL logs based on the given parameters.
 
 ```text
 knife ionoscloud dbaas postgres logs get
