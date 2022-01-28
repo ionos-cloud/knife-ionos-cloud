@@ -1,6 +1,6 @@
 # DbaasPostgresBackupGet
 
-Retrieves information about a Ionoscloud DBaaS Cluster Backup.
+Retrieve a PostgreSQL cluster backup by using its ID. This value can be found when you GET a list of PostgreSQL cluster backups.
 
 ```text
 knife ionoscloud dbaas postgres cluster get (options)

@@ -1,6 +1,6 @@
 # DbaasPostgresClusterGet
 
-Retrieves information about a Ionoscloud DBaaS Cluster.
+You can retrieve a PostgreSQL cluster by using its ID. This value can be found in the response body when a PostgreSQL cluster is created or when you GET a list of PostgreSQL clusters.
 
 ```text
 knife ionoscloud dbaas postgres cluster get (options)

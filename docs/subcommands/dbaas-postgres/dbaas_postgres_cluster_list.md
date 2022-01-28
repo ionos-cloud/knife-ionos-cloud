@@ -1,6 +1,6 @@
 # DbaasPostgresClusterList
 
-retrieves a list of all PostgreSQL clusters.
+Retrieves a list of PostgreSQL clusters.
 
 ```text
 knife ionoscloud dbaas postgres cluster list

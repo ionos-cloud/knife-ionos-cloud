@@ -39,7 +39,7 @@ knife ionoscloud dbaas postgres cluster update (options)
     time: --time TIME
         time Of the day when to perform the maintenance.
 
-    weekday: --weekday WEEKDAY, -d WEEKDAY
+    day_of_the_week: --day-of-the-week DAY_OF_THE_WEEK, -d DAY_OF_THE_WEEK
         day Of the week when to perform the maintenance.
 
     postgres_version: --postgres-version POSTGRES_VERSION
@@ -61,5 +61,5 @@ knife ionoscloud dbaas postgres cluster update (options)
 ## Example
 
 ```text
-knife ionoscloud dbaas postgres cluster update --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --cores CORES --ram RAM --size STORAGE_SIZE --connections CONNECTIONS --name DISPLAY_NAME --time TIME --weekday WEEKDAY --postgres-version POSTGRES_VERSION --instances INSTANCES --username USERNAME --password PASSWORD --url URL
+knife ionoscloud dbaas postgres cluster update --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --cores CORES --ram RAM --size STORAGE_SIZE --connections CONNECTIONS --name DISPLAY_NAME --time TIME --day-of-the-week DAY_OF_THE_WEEK --postgres-version POSTGRES_VERSION --instances INSTANCES --username USERNAME --password PASSWORD --url URL
 ```
