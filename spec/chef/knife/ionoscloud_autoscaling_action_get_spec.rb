@@ -1,34 +1,34 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_action_get'
 
-Chef::Knife::IonoscloudAutoscalingActionGet.load_deps
+Chef::Knife::IonoscloudVmAutoscalingActionGet.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingActionGet do
+describe Chef::Knife::IonoscloudVmAutoscalingActionGet do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingActionGet.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingActionGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call AutoscailingApi.autoscaling_groups_actions_find_by_id' do
-      autoscailing_action = vm_autoscailing_action_mock
+    it 'should call AutoscalingApi.autoscaling_groups_actions_find_by_id' do
+      autoscaling_action = vm_autoscaling_action_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         group_id: 'group_id',
-        action_id: autoscailing_action.id,
+        action_id: autoscaling_action.id,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{autoscailing_action.id}")
-      expect(subject).to receive(:puts).with("TYPE: #{autoscailing_action.type}")
-      expect(subject).to receive(:puts).with("ACTION STATUS: #{autoscailing_action.properties.action_status}")
-      expect(subject).to receive(:puts).with("ACTION TYPE: #{autoscailing_action.properties.action_type}")
-      expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscailing_action.properties.target_replica_count}")
+      expect(subject).to receive(:puts).with("ID: #{autoscaling_action.id}")
+      expect(subject).to receive(:puts).with("TYPE: #{autoscaling_action.type}")
+      expect(subject).to receive(:puts).with("ACTION STATUS: #{autoscaling_action.properties.action_status}")
+      expect(subject).to receive(:puts).with("ACTION TYPE: #{autoscaling_action.properties.action_type}")
+      expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscaling_action.properties.target_replica_count}")
 
       mock_call_api(
         subject,
@@ -38,7 +38,7 @@ describe Chef::Knife::IonoscloudAutoscalingActionGet do
             path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/actions/#{subject_config[:action_id]}",
             operation: :'GroupsApi.autoscaling_groups_actions_find_by_id',
             return_type: 'Action',
-            result: autoscailing_action,
+            result: autoscaling_action,
           },
         ],
       )

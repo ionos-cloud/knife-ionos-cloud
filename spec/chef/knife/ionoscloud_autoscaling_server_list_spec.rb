@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_server_list'
 
-Chef::Knife::IonoscloudAutoscalingGroupServerList.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupServerList.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingGroupServerList do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupServerList do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingGroupServerList.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupServerList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudAutoscalingGroupServerList do
 
   describe '#run' do
     it 'should call GroupsApi.autoscaling_groups_servers_get' do
-      servers_group = vm_autoscailing_servers_group
+      servers_group = vm_autoscaling_servers_group
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -24,17 +24,19 @@ describe Chef::Knife::IonoscloudAutoscalingGroupServerList do
 
       servers_list = [
         subject.ui.color('ID', :bold),
-        subject.ui.color('DATACENTER SERVER', :bold),
-        subject.ui.color('NAME', :bold),
+        # subject.ui.color('DATACENTER SERVER', :bold),
+        # subject.ui.color('NAME', :bold),
+        subject.ui.color('TYPE', :bold),
       ]
 
       servers_group.items.each do |server|
         servers_list << server.id
-        servers_list << server.datacenter_server
-        servers_list << server.name
+        # servers_list << server.datacenter_server
+        # servers_list << server.name
+        servers_list << server.type
       end
 
-      expect(subject.ui).to receive(:list).with(servers_list, :uneven_columns_across, 3)
+      expect(subject.ui).to receive(:list).with(servers_list, :uneven_columns_across, 2)
 
       mock_call_api(
         subject,

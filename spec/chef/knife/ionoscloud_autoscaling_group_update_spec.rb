@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_group_update'
 
-Chef::Knife::IonoscloudAutoscalingGroupUpdate.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupUpdate.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingGroupUpdate do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingGroupUpdate.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupUpdate.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -13,51 +13,51 @@ describe Chef::Knife::IonoscloudAutoscalingGroupUpdate do
 
   describe '#run' do
     it 'should call ClustersApi.clusters_patch' do
-      autoscailing_group = vm_autoscailing_group_mock
+      autoscaling_group = vm_autoscaling_group_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        group_id: autoscailing_group.id,
-        name: autoscailing_group.properties.name + '_edited',
+        group_id: autoscaling_group.id,
+        name: autoscaling_group.properties.name + '_edited',
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      expect(subject).to receive(:puts).with("ID: #{autoscailing_group.id}")
-      expect(subject).to receive(:puts).with("TYPE: #{autoscailing_group.type}")
-      expect(subject).to receive(:puts).with("MAX REPLICA COUNT: #{autoscailing_group.properties.max_replica_count}")
-      expect(subject).to receive(:puts).with("MIN REPLICA COUNT: #{autoscailing_group.properties.min_replica_count}")
-      expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscailing_group.properties.target_replica_count}")
+      expect(subject).to receive(:puts).with("ID: #{autoscaling_group.id}")
+      expect(subject).to receive(:puts).with("TYPE: #{autoscaling_group.type}")
+      expect(subject).to receive(:puts).with("MAX REPLICA COUNT: #{autoscaling_group.properties.max_replica_count}")
+      expect(subject).to receive(:puts).with("MIN REPLICA COUNT: #{autoscaling_group.properties.min_replica_count}")
+      expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscaling_group.properties.target_replica_count}")
       expect(subject).to receive(:puts).with("Display Name: #{subject_config[:name]}")
-      expect(subject).to receive(:puts).with("POLICY: #{autoscailing_group.properties.policy}")
-      expect(subject).to receive(:puts).with("REPLICA CONFIGURATION: #{autoscailing_group.properties.replica_configuration}")
-      expect(subject).to receive(:puts).with("DATACENTER: #{autoscailing_group.properties.datacenter}")
-      expect(subject).to receive(:puts).with("LOCATION: #{autoscailing_group.properties.location}")
+      expect(subject).to receive(:puts).with("POLICY: #{autoscaling_group.properties.policy}")
+      expect(subject).to receive(:puts).with("REPLICA CONFIGURATION: #{autoscaling_group.properties.replica_configuration}")
+      expect(subject).to receive(:puts).with("DATACENTER: #{autoscaling_group.properties.datacenter}")
+      expect(subject).to receive(:puts).with("LOCATION: #{autoscaling_group.properties.location}")
 
       expected_body = {
         displayName: subject_config[:name],
       }
 
-      autoscailing_group.properties.name = subject_config[:name]
+      autoscaling_group.properties.name = subject_config[:name]
 
       mock_call_api(
         subject,
         [
           {
             method: 'PATCH',
-            path: "/cloudapi/autoscaling/groups/#{autoscailing_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
             operation: :'GroupsApi.autoscaling_groups_put',
             return_type: 'Group',
             body: { properties: expected_body },
-            result: autoscailing_group,
+            result: autoscaling_group,
           },
           {
             method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{autoscailing_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
-            result: autoscailing_group,
+            result: autoscaling_group,
           },
         ],
       )

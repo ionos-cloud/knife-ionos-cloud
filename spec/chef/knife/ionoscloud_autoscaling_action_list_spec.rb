@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_action_list'
 
-Chef::Knife::IonoscloudAutoscalingActionsList.load_deps
+Chef::Knife::IonoscloudVmAutoscalingActionsList.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingActionsList do
+describe Chef::Knife::IonoscloudVmAutoscalingActionsList do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingActionsList.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingActionsList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudAutoscalingActionsList do
 
   describe '#run' do
     it 'should call GroupsApi.autoscaling_groups_actions_get' do
-      vm_autoscailing_actions = vm_autoscailing_actions_mock
+      vm_autoscaling_actions = vm_autoscaling_actions_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudAutoscalingActionsList do
         subject.ui.color('Type', :bold),
       ]
 
-      vm_autoscailing_actions.items.each do |action|
+      vm_autoscaling_actions.items.each do |action|
         actions_list << action.id
         actions_list << action.type
       end
@@ -42,7 +42,7 @@ describe Chef::Knife::IonoscloudAutoscalingActionsList do
             path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/actions",
             operation: :'GroupsApi.autoscaling_groups_actions_get',
             return_type: 'ActionCollection',
-            result: vm_autoscailing_actions,
+            result: vm_autoscaling_actions,
           },
         ],
       )

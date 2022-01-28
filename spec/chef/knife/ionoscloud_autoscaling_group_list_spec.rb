@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_group_list'
 
-Chef::Knife::IonoscloudAutoscalingGroupList.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupList.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingGroupList do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupList do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingGroupList.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupList.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
@@ -13,7 +13,7 @@ describe Chef::Knife::IonoscloudAutoscalingGroupList do
 
   describe '#run' do
     it 'should call GroupsApi.clusters_get' do
-      autoscailing_groups = vm_autoscailing_groups_mock
+      autoscaling_groups = vm_autoscaling_groups_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudAutoscalingGroupList do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      autoscailing_group_list = [
+      autoscaling_group_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Type', :bold),
         subject.ui.color('Max Replica Count', :bold),
@@ -34,20 +34,20 @@ describe Chef::Knife::IonoscloudAutoscalingGroupList do
         subject.ui.color('Location', :bold),
       ]
 
-      autoscailing_groups.items.each do |autoscailing_group|
-        autoscailing_group_list << autoscailing_group.id
-        autoscailing_group_list << autoscailing_group.type
-        autoscailing_group_list << autoscailing_group.properties.max_replica_count
-        autoscailing_group_list << autoscailing_group.properties.min_replica_count
-        autoscailing_group_list << autoscailing_group.properties.target_replica_count
-        autoscailing_group_list << autoscailing_group.properties.name
-        autoscailing_group_list << autoscailing_group.properties.policy
-        autoscailing_group_list << autoscailing_group.properties.replica_configuration
-        autoscailing_group_list << autoscailing_group.properties.datacenter
-        autoscailing_group_list << autoscailing_group.properties.location 
+      autoscaling_groups.items.each do |autoscaling_group|
+        autoscaling_group_list << autoscaling_group.id
+        autoscaling_group_list << autoscaling_group.type
+        autoscaling_group_list << autoscaling_group.properties.max_replica_count
+        autoscaling_group_list << autoscaling_group.properties.min_replica_count
+        autoscaling_group_list << autoscaling_group.properties.target_replica_count
+        autoscaling_group_list << autoscaling_group.properties.name
+        autoscaling_group_list << autoscaling_group.properties.policy
+        autoscaling_group_list << autoscaling_group.properties.replica_configuration
+        autoscaling_group_list << autoscaling_group.properties.datacenter
+        autoscaling_group_list << autoscaling_group.properties.location 
       end
 
-      expect(subject.ui).to receive(:list).with(autoscailing_group_list, :uneven_columns_across, 10)
+      expect(subject.ui).to receive(:list).with(autoscaling_group_list, :uneven_columns_across, 10)
 
       mock_call_api(
         subject,
@@ -57,7 +57,7 @@ describe Chef::Knife::IonoscloudAutoscalingGroupList do
             path: '/cloudapi/autoscaling/groups',
             operation: :'GroupsApi.autoscaling_groups_get',
             return_type: 'GroupCollection',
-            result: autoscailing_groups,
+            result: autoscaling_groups,
           },
         ],
       )

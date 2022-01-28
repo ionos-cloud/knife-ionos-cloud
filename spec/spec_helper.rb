@@ -884,14 +884,14 @@ def network_loadbalancer_rule_target_mock(opts = {})
   )
 end
 
-def vm_autoscailing_group_mock(opts = {})
+def vm_autoscaling_group_mock(opts = {})
   IonoscloudAutoscaling::Group.new(
     id: opts[:id] || SecureRandom.uuid,
     properties: IonoscloudAutoscaling::GroupProperties.new(
       max_replica_count: opts[:max_replica_count] || 4,
       min_replica_count: opts[:min_replica_count] || 2,
       target_replica_count: opts[:target_replica_count] || 3,
-      name: opts[:name] || 'vm_autoscailing_group',
+      name: opts[:name] || 'vm_autoscaling_group',
       policy: opts[:policy] || IonoscloudAutoscaling::GroupPolicy.new(
         metric: opts[:metric] || 'INSTANCE_CPU_UTILIZATION_AVERAGE',
         range: opts[:range] || 'range',
@@ -939,15 +939,15 @@ def vm_autoscailing_group_mock(opts = {})
   )
 end
 
-def vm_autoscailing_groups_mock(opts = {})
+def vm_autoscaling_groups_mock(opts = {})
   IonoscloudAutoscaling::GroupCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
-    items: [vm_autoscailing_group_mock, vm_autoscailing_group_mock],
+    items: [vm_autoscaling_group_mock, vm_autoscaling_group_mock],
   )
 end
 
-def vm_autoscailing_action_mock(opts = {})
+def vm_autoscaling_action_mock(opts = {})
   IonoscloudAutoscaling::Action.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'datacenter',
@@ -959,22 +959,22 @@ def vm_autoscailing_action_mock(opts = {})
   )
 end
 
-def vm_autoscailing_action_resource_mock(opts = {})
+def vm_autoscaling_action_resource_mock(opts = {})
   IonoscloudAutoscaling::ActionResource.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'datacenter',
   )
 end
 
-def vm_autoscailing_actions_mock(opts = {})
+def vm_autoscaling_actions_mock(opts = {})
   IonoscloudAutoscaling::ActionCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
-    items: [vm_autoscailing_action_resource_mock, vm_autoscailing_action_resource_mock],
+    items: [vm_autoscaling_action_resource_mock, vm_autoscaling_action_resource_mock],
   )
 end
 
-def vm_autoscailing_group_server_mock(opts = {})
+def vm_autoscaling_group_server_mock(opts = {})
   IonoscloudAutoscaling::Server.new(
     id: opts[:id] || SecureRandom.uuid,
     properties: IonoscloudAutoscaling::ServerProperties.new(
@@ -987,18 +987,18 @@ def vm_autoscailing_group_server_mock(opts = {})
   )
 end
 
-def vm_autoscailing_server_resource_mock(opts = {})
+def vm_autoscaling_server_resource_mock(opts = {})
   IonoscloudAutoscaling::ActionResource.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'server',
   )
 end
 
-def vm_autoscailing_servers_group(opts = {})
+def vm_autoscaling_servers_group(opts = {})
   IonoscloudAutoscaling::ServerCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
-    items: [vm_autoscailing_server_resource_mock, vm_autoscailing_server_resource_mock],
+    items: [vm_autoscaling_server_resource_mock, vm_autoscaling_server_resource_mock],
   )
 end
 

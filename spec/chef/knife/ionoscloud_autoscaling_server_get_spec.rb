@@ -1,19 +1,19 @@
 require 'spec_helper'
 require 'ionoscloud_autoscaling_server_get'
 
-Chef::Knife::IonoscloudAutoscalingGrouServerpGet.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet.load_deps
 
-describe Chef::Knife::IonoscloudAutoscalingGrouServerpGet do
+describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
   before :each do
-    subject { Chef::Knife::IonoscloudAutoscalingGrouServerpGet.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call AutoscailingApi.autoscaling_groups_servers_find_by_id' do
-      group_server = vm_autoscailing_group_server_mock
+    it 'should call AutoscalingApi.autoscaling_groups_servers_find_by_id' do
+      group_server = vm_autoscaling_group_server_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -25,7 +25,8 @@ describe Chef::Knife::IonoscloudAutoscalingGrouServerpGet do
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{group_server.id}")
-      expect(subject).to receive(:puts).with("DATACENTER SERVER: #{group_server.properties.datacenter_server}")
+      expect(subject).to receive(:puts).with("DATACENTER SERVER: SERVER ID: #{group_server.properties.datacenter_server.id}, TYPE: #{group_server.properties.datacenter_server.type}")
+      # expect(subject).to receive(:puts).with("DATACENTER SERVER: #{group_server.properties.datacenter_server}")
       expect(subject).to receive(:puts).with("NAME: #{group_server.properties.name}")
       
 
@@ -34,15 +35,16 @@ describe Chef::Knife::IonoscloudAutoscalingGrouServerpGet do
         [
           {
             method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/servers//#{subject_config[:server_id]}",
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/servers/#{subject_config[:server_id]}",
             operation: :'GroupsApi.autoscaling_groups_servers_find_by_id',
-            return_type: 'Group',
+            return_type: 'Server',
             result: group_server,
           },
         ],
       )
 
-      expect { subject.run }.not_to raise_error(Exception)
+      # expect { subject.run }.not_to raise_error(Exception)
+      subject.run
     end
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)

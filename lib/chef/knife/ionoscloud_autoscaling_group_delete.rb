@@ -2,17 +2,17 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudAutoscalingGroupCDelete < Knife
+    class IonoscloudVmAutoscalingGroupCDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud vm autoscailing group delete GROUP_ID [GROUP_ID]'
+      banner 'knife ionoscloud vm autoscaling group delete GROUP_ID [GROUP_ID]'
 
       attr_reader :description, :required_options
 
       def initialize(args = [])
         super(args)
         @description =
-        'Delete a Ionoscloud vm Autoscailing Group'
+        'Delete a Ionoscloud vm Autoscaling Group'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -32,7 +32,7 @@ class Chef
             next
           end
 
-          print_autoscailing_group(group)
+          print_autoscaling_group(group)
           puts "\n"
 
           begin
@@ -42,7 +42,7 @@ class Chef
           end
 
           _, _, headers = groups_api.autoscaling_groups_delete_with_http_info(group_id)
-          ui.warn("Deleted Group #{cluster.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted Group #{group.id}. Request ID: #{get_request_id headers}")
         end
       end
     end
