@@ -24,15 +24,11 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupServerList do
 
       servers_list = [
         subject.ui.color('ID', :bold),
-        # subject.ui.color('DATACENTER SERVER', :bold),
-        # subject.ui.color('NAME', :bold),
         subject.ui.color('TYPE', :bold),
       ]
 
       servers_group.items.each do |server|
         servers_list << server.id
-        # servers_list << server.datacenter_server
-        # servers_list << server.name
         servers_list << server.type
       end
 

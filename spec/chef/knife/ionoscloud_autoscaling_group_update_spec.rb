@@ -29,14 +29,14 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
       expect(subject).to receive(:puts).with("MAX REPLICA COUNT: #{autoscaling_group.properties.max_replica_count}")
       expect(subject).to receive(:puts).with("MIN REPLICA COUNT: #{autoscaling_group.properties.min_replica_count}")
       expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscaling_group.properties.target_replica_count}")
-      expect(subject).to receive(:puts).with("Display Name: #{subject_config[:name]}")
+      expect(subject).to receive(:puts).with("NAME: #{subject_config[:name]}")
       expect(subject).to receive(:puts).with("POLICY: #{autoscaling_group.properties.policy}")
       expect(subject).to receive(:puts).with("REPLICA CONFIGURATION: #{autoscaling_group.properties.replica_configuration}")
-      expect(subject).to receive(:puts).with("DATACENTER: #{autoscaling_group.properties.datacenter}")
+      expect(subject).to receive(:puts).with("DATACENTER: DATACENTER ID: #{autoscaling_group.properties.datacenter.id}, TYPE: #{autoscaling_group.properties.datacenter.type}")
       expect(subject).to receive(:puts).with("LOCATION: #{autoscaling_group.properties.location}")
 
       expected_body = {
-        displayName: subject_config[:name],
+        name: subject_config[:name],
       }
 
       autoscaling_group.properties.name = subject_config[:name]
@@ -45,7 +45,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
         subject,
         [
           {
-            method: 'PATCH',
+            method: 'PUT',
             path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
             operation: :'GroupsApi.autoscaling_groups_put',
             return_type: 'Group',

@@ -7,11 +7,6 @@ class Chef
 
       banner 'knife ionoscloud vm autoscaling group create (options)'
 
-      # option :type,
-      #         short: '-T TYPE',
-      #         long: '--type TYPE',
-      #         description: 'The type of object that has been created.'
-
       option :max_replica_count,
               long: '--max-replica-count MAX_REPLICA_COUNT',
               description: 'Maximum replica count value for `targetReplicaCount`. Will be enforced for both automatic and manual changes.'
@@ -57,9 +52,9 @@ class Chef
         @description =
         'Creates a new vm Autoscaling Group.'
         @required_options = [
-          :max_replica_count, :min_replica_count, :target_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type,
+          :max_replica_count, :min_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type,
           :location, :ionoscloud_username, :ionoscloud_password,
-        ] # todo eu le-am pus pe toate aici, dar nu stiu care sunt required si care nu
+        ]
       end
 
       def run
@@ -71,54 +66,6 @@ class Chef
 
         config[:policy] = JSON[config[:policy]] if config[:policy] && config[:policy].instance_of?(String)
         config[:replica_configuration] = JSON[config[:replica_configuration]] if config[:replica_configuration] && config[:replica_configuration].instance_of?(String)
-
-        # config[:policy] = IonoscloudAutoscaling::GroupPolicy.new(
-        #   metric: policy['metric'], # e enum
-        #   range: policy['range'],
-        #   scale_in_action: IonoscloudAutoscaling::GroupPolicyScaleInAction.new(
-        #     amount: Float(policy['amount']),
-        #     amount_type: policy['amount_type'], # e enum
-        #     cooldown_period: policy['cooldown_period'],
-        #     termination_policy: policy['cooldown_period'], # e enum
-        #   ),
-        #   scale_in_threshold: policy['scale_in_threshold'],
-        #   scale_out_action: IonoscloudAutoscaling::GroupPolicyScaleOutAction.new(
-        #     amount: Float(policy['amount']),
-        #     amount_type: policy['amount_type'], # e enum
-        #     cooldown_period: policy['cooldown_period'],
-        #   ),
-        #   scale_out_threshold: policy['scale_out_threshold'],
-        #   unit: policy['unit'], # e enum
-        # )
-
-        # nics = replica_configuration['nics'].map do |nic|
-        #   IonoscloudAutoscaling::ReplicaNic.new(
-        #     lan: Integer(nic['lan']),
-        #     name: nic['name'],
-        #     dhcp: Boolean(nic['dhcp']),
-        #   )
-        # end
-
-        # volumes = eplica_configuration['volumes'].map do |volume|
-        #   IonoscloudAutoscaling::ReplicaVolumePost.new(
-        #     image: volume['image'],
-        #     name: volume['name'],
-        #     size: Integer(volume['size']),
-        #     ssh_keys: volume['ssh_keys'],
-        #     type: volume['type'], # e enum
-        #     user_data: volume['user_data'],
-        #     image_password: volume['image_password'],
-        #   )
-        # end
-
-        # config[:replica_configuration] = IonoscloudAutoscaling::ReplicaPropertiesPost.new(
-        #   availability_zone: replica_configuration['availability_zone'], # e enum
-        #   cores: Integer(eplica_configuration['cores']),
-        #   cpu_family: replica_configuration['cpu_family'],
-        #   nics: nics,
-        #   ram: Integer(replica_configuration['ram']),
-        #   volumes: volumes,
-        # )
 
         groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
 
@@ -138,9 +85,8 @@ class Chef
 
         group = IonoscloudAutoscaling::Group.new()
         group.properties = group_properties
-        # group.type = config[:type]
 
-        group, _, headers  = groups_api.autoscaling_groups_post_with_http_info(group)
+        group  = groups_api.autoscaling_groups_post_with_http_info(group)
 
         print_autoscaling_group(group)
       end

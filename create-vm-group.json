@@ -1,0 +1,52 @@
+{
+"policy": {
+    "metric":"INSTANCE_CPU_UTILIZATION_AVERAGE",
+    "range":"range",
+    "scale_in_action": {
+    	"amount": 2.2,
+    	"amount_type": "ABSOLUTE",
+    	"cooldown_period": "cooldown period",
+    	"termination_policy": "OLDEST_SERVER_FIRST",
+    },
+    "scale_in_threshold": 3.3,
+    "scale_out_action": {
+    	"amount": 2.1,
+    	"amount_type": "ABSOLUTE",
+    	"cooldown_period": "cooldown period 0",
+    },
+    "scale_out_threshold": 4.4,
+    "unit": "PER_HOUR"
+},
+"replica_configuration": {
+    "availability_zone": "ZONE_1",
+    "cores": 8,
+    "cpu_family": "AMD_OPTERON",
+    "nics": [
+    {
+    	"lan": 5,
+    	"name": "nic name",
+    	"dhcp": false,
+    }
+    ],
+    "ram": 4096,
+    "volumes": [
+    {
+    	"image": "2e9c8b1f-0908-49df-83fe-5c262117a066",
+    	"name": "volume 1",
+    	"size": 2048,
+    	"ssh_keys": [
+    		"ssh_key_1, ssh_key_2"
+    	],
+    	"type": "SSD",
+    	"user_data": "user data",
+    	"image_password": "passw",
+    }
+    ],
+},
+"datacenter": {
+	"id": "f23798fb-cf3f-4140-b80f-f3b8d5a8e6ec",
+	"type": "datacenter",
+},
+"location": "us/las",
+}
+

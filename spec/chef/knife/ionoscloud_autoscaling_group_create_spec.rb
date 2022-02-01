@@ -18,13 +18,12 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         group_id: 'group_id',
-        # todo vezi daca trebuie sa pui si type
         max_replica_count: autoscaling_group.properties.max_replica_count,
         min_replica_count: autoscaling_group.properties.min_replica_count,
         target_replica_count: autoscaling_group.properties.target_replica_count,
         name: autoscaling_group.properties.name,
-        policy: autoscaling_group.properties.policy, # todo vezi daca e ok sunt json date din fisier
-        replica_configuration: autoscaling_group.properties.replica_configuration, # todo vezi daca e ok
+        policy: autoscaling_group.properties.policy,
+        replica_configuration: autoscaling_group.properties.replica_configuration,
         resource_id: autoscaling_group.properties.datacenter.id,
         resource_type: autoscaling_group.properties.datacenter.type,
         location: autoscaling_group.properties.location,
@@ -33,19 +32,16 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
       subject_config.each { |key, value| subject.config[key] = value }
      
       expect(subject).to receive(:puts).with("ID: #{autoscaling_group.id}")
-      # expect(subject).to receive(:puts).with("TYPE: #{autoscaling_group.type}")
       expect(subject).to receive(:puts).with("MAX REPLICA COUNT: #{autoscaling_group.properties.max_replica_count}")
       expect(subject).to receive(:puts).with("MIN REPLICA COUNT: #{autoscaling_group.properties.min_replica_count}")
       expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscaling_group.properties.target_replica_count}")
       expect(subject).to receive(:puts).with("NAME: #{autoscaling_group.properties.name}")
       expect(subject).to receive(:puts).with("POLICY: #{autoscaling_group.properties.policy}")
       expect(subject).to receive(:puts).with("REPLICA CONFIGURATION: #{autoscaling_group.properties.replica_configuration}")
-      expect(subject).to receive(:puts).with("DATACENTER: #{autoscaling_group.properties.datacenter}")
+      expect(subject).to receive(:puts).with("DATACENTER: DATACENTER ID: #{autoscaling_group.properties.datacenter.id}, TYPE: #{autoscaling_group.properties.datacenter.type}")
       expect(subject).to receive(:puts).with("LOCATION: #{autoscaling_group.properties.location}")
 
       expected_body = autoscaling_group.properties.to_hash
-      expected_body[:credentials] = { username: subject_config[:username], password: subject_config[:password] }
-      # expected_body[:fromBackup] = {}
 
       mock_call_api(
         subject,
@@ -61,8 +57,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
         ],
       )
 
-      # expect { subject.run }.not_to raise_error(Exception)
-      subject.run
+      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should not make any call if any required option is missing' do

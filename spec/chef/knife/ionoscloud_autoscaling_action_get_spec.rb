@@ -43,8 +43,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingActionGet do
         ],
       )
 
-      # expect { subject.run }.not_to raise_error(Exception)
-      subject.run
+      expect { subject.run }.not_to raise_error(Exception)
     end
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)

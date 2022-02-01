@@ -49,13 +49,11 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
             path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
             operation: :'GroupsApi.autoscaling_groups_delete',
             return_type: nil,
-            # body: {},
           },
         ],
       )
 
-      # expect { subject.run }.not_to raise_error(Exception)
-      subject.run
+      expect { subject.run }.not_to raise_error(Exception)
     end
 
     it 'should not call GroupsApi.autoscaling_groups_delete when the user ID is not valid' do

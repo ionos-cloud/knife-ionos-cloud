@@ -26,7 +26,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
 
       expect(subject).to receive(:puts).with("ID: #{group_server.id}")
       expect(subject).to receive(:puts).with("DATACENTER SERVER: SERVER ID: #{group_server.properties.datacenter_server.id}, TYPE: #{group_server.properties.datacenter_server.type}")
-      # expect(subject).to receive(:puts).with("DATACENTER SERVER: #{group_server.properties.datacenter_server}")
       expect(subject).to receive(:puts).with("NAME: #{group_server.properties.name}")
       
 
@@ -43,8 +42,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
         ],
       )
 
-      # expect { subject.run }.not_to raise_error(Exception)
-      subject.run
+      expect { subject.run }.not_to raise_error(Exception)
     end
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)

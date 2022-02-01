@@ -52,7 +52,7 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
-        @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]# todo asta nu stiu inca (ce required params trebuiuesc pusi)
+        @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:max_replica_count, :min_replica_count, :target_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type]
       end
 
