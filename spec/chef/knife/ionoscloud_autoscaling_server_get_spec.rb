@@ -25,8 +25,8 @@ describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{group_server.id}")
-      expect(subject).to receive(:puts).with("DATACENTER SERVER: SERVER ID: #{group_server.properties.datacenter_server.id}, TYPE: #{group_server.properties.datacenter_server.type}")
-      expect(subject).to receive(:puts).with("NAME: #{group_server.properties.name}")
+      expect(subject).to receive(:puts).with("Datacenter Server: Server ID: #{group_server.properties.datacenter_server.id}, Type: #{group_server.properties.datacenter_server.type}")
+      expect(subject).to receive(:puts).with("Name: #{group_server.properties.name}")
       
 
       mock_call_api(

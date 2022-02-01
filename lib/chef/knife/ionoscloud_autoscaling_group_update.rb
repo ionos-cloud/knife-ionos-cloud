@@ -68,54 +68,6 @@ class Chef
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating the vm Autoscaling Group...', :magenta)}"
-
-          # config[:policy] = IonoscloudAutoscaling::GroupPolicy.new(
-          #   metric: policy['metric'], # e enum
-          #   range: policy['range'],
-          #   scale_in_action: IonoscloudAutoscaling::GroupPolicyScaleInAction.new(
-          #     amount: (config[:amount].nil? ? nil : Float(config[:amount])),
-          #     amount_type: policy['amount_type'], # e enum
-          #     cooldown_period: policy['cooldown_period'],
-          #     termination_policy: policy['cooldown_period'], # e enum
-          #   ),
-          #   scale_in_threshold: policy['scale_in_threshold'],
-          #   scale_out_action: IonoscloudAutoscaling::GroupPolicyScaleOutAction.new(
-          #     amount: F(config[:amount].nil? ? nil : Float(config[:amount])),
-          #     amount_type: policy['amount_type'], # e enum
-          #     cooldown_period: policy['cooldown_period'],
-          #   ),
-          #   scale_out_threshold: policy['scale_out_threshold'],
-          #   unit: policy['unit'], # e enum
-          # )
-  
-          # nics = replica_configuration['nics'].map do |nic|
-          #   IonoscloudAutoscaling::ReplicaNic.new(
-          #     lan: (config[:lan].nil? ? nil : Integer(config[:lan])),
-          #     name: nic['name'],
-          #     dhcp: Boolean(nic['dhcp']),
-          #   )
-          # end
-  
-          # volumes = replica_configuration['volumes'].map do |volume|
-          #   IonoscloudAutoscaling::ReplicaVolumePost.new(
-          #     image: volume['image'],
-          #     name: volume['name'],
-          #     size: (config[:size].nil? ? nil : Integer(config[:size])),
-          #     ssh_keys: volume['ssh_keys'],
-          #     type: volume['type'], # e enum
-          #     user_data: volume['user_data'],
-          #     image_password: volume['image_password'],
-          #   )
-          # end
-  
-          # config[:replica_configuration] = IonoscloudAutoscaling::ReplicaPropertiesPost.new(
-          #   availability_zone: replica_configuration['availability_zone'], # e enum
-          #   cores: (config[:cores].nil? ? nil : Integer(config[:cores])),
-          #   cpu_family: replica_configuration['cpu_family'],
-          #   nics: nics,
-          #   ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
-          #   volumes: volumes,
-          # )
           
           group_properties = IonoscloudAutoscaling::GroupUpdatableProperties.new(
             max_replica_count: (config[:max_replica_count].nil? ? nil : Integer(config[:max_replica_count])),

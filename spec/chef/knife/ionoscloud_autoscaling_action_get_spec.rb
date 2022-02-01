@@ -25,10 +25,10 @@ describe Chef::Knife::IonoscloudVmAutoscalingActionGet do
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{autoscaling_action.id}")
-      expect(subject).to receive(:puts).with("TYPE: #{autoscaling_action.type}")
-      expect(subject).to receive(:puts).with("ACTION STATUS: #{autoscaling_action.properties.action_status}")
-      expect(subject).to receive(:puts).with("ACTION TYPE: #{autoscaling_action.properties.action_type}")
-      expect(subject).to receive(:puts).with("TARGET REPLICA COUNT: #{autoscaling_action.properties.target_replica_count}")
+      expect(subject).to receive(:puts).with("Type: #{autoscaling_action.type}")
+      expect(subject).to receive(:puts).with("Action Status: #{autoscaling_action.properties.action_status}")
+      expect(subject).to receive(:puts).with("Action Type: #{autoscaling_action.properties.action_type}")
+      expect(subject).to receive(:puts).with("Target Replica Count: #{autoscaling_action.properties.target_replica_count}")
 
       mock_call_api(
         subject,
