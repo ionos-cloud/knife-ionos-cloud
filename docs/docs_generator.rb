@@ -135,7 +135,7 @@ end
 
 final = []
 
-categories.map { |key, value| final << { category: key, subcommands: value.sort { |a,b| a[:title] <=> b[:title] } } }
+categories.map { |key, value| final << { category: key, subcommands: value.sort { |a, b| a[:title] <=> b[:title] } } }
 
 File.open('summary.md', 'w') { |f|
   f.write(Summary.new(final).render)
