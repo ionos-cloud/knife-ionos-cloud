@@ -372,9 +372,7 @@ def k8s_cluster_mock(opts = {})
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       api_subnet_allow_list: opts[:api_subnet_allow_list] || [
         '127.0.0.1/32',
-        '2002::1234:abcd:ffff:c0a8:101/64',
         '127.0.0.1',
-        '2002::1234:abcd:ffff:c0a8:101'
       ],
       s3_buckets: opts[:s3_buckets] || [
         Ionoscloud::S3Bucket.new(name: 'test_name1'),
