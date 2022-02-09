@@ -94,19 +94,19 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
       network_loadbalancer_rule = network_loadbalancer_rule_mock(
         targets: [
           network_loadbalancer_rule_target_mock(
-            port: 123, ip: '1.1.1.1', check_interval: 2345, maintenance: true, check: true, weight: 13,
+            port: 123, ip: '127.0.0.3', check_interval: 2345, maintenance: true, check: true, weight: 13,
           ),
           network_loadbalancer_rule_target_mock(
-            port: 1234, ip: '1.1.122.1', check_interval: 1231, maintenance: true, check: false, weight: 456,
+            port: 1234, ip: '127.0.0.6', check_interval: 1231, maintenance: true, check: false, weight: 456,
           ),
           network_loadbalancer_rule_target_mock(
-            port: 112, ip: '1.133.1.1', check_interval: 2525, maintenance: true, check: true, weight: 425,
+            port: 112, ip: '127.0.0.8', check_interval: 2525, maintenance: true, check: true, weight: 425,
           ),
           network_loadbalancer_rule_target_mock(
-            port: 123, ip: '1.133.1.1', check_interval: 36346, maintenance: false, check: false, weight: 4,
+            port: 123, ip: '127.0.0.8', check_interval: 36346, maintenance: false, check: false, weight: 4,
           ),
           network_loadbalancer_rule_target_mock(
-            port: 164, ip: '1.1.1.1', check_interval: 243, maintenance: true, check: false, weight: 123,
+            port: 164, ip: '127.0.0.3', check_interval: 243, maintenance: true, check: false, weight: 123,
           ),
         ]
       )
@@ -198,7 +198,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
       network_loadbalancer_rule = network_loadbalancer_rule_mock(
         targets: [
           network_loadbalancer_rule_target_mock(
-            port: 123, ip: '1.1.1.1', check_interval: 2345, maintenance: true, check: true, weight: 13,
+            port: 123, ip: '127.0.0.3', check_interval: 2345, maintenance: true, check: true, weight: 13,
           ),
         ]
       )
@@ -208,7 +208,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
         datacenter_id: 'datacenter_id',
         network_loadbalancer_id: network_loadbalancer.id,
         forwarding_rule_id: network_loadbalancer_rule.id,
-        ip: '1.1.1.2',
+        ip: '127.0.0.4',
         port: 123,
         yes: true,
       }

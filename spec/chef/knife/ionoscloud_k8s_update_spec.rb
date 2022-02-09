@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudK8sUpdate do
         version: '19.9.9',
         maintenance_day: 'Monday',
         maintenance_time: '13:03:19Z',
-        api_subnet_allow_list: (cluster.properties.api_subnet_allow_list + ['1.1.1.1']).join(','),
+        api_subnet_allow_list: (cluster.properties.api_subnet_allow_list + ['127.0.0.3']).join(','),
         s3_buckets: (cluster.properties.s3_buckets.map { |el| el.name } + ['new_bucket']).join(','),
         yes: true,
       }
@@ -38,7 +38,7 @@ describe Chef::Knife::IonoscloudK8sUpdate do
       expect(subject).to receive(:puts).with("k8s Version: #{subject_config[:version]}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")
-      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list + ['1.1.1.1']}")
+      expect(subject).to receive(:puts).with("Api Subnet Allow List: #{cluster.properties.api_subnet_allow_list + ['127.0.0.3']}")
       expect(subject).to receive(:puts).with("S3 Buckets: #{s3_buckets}")
       expect(subject).to receive(:puts).with("Available Upgrade Versions: #{cluster.properties.available_upgrade_versions}")
       expect(subject).to receive(:puts).with("Viable NodePool Versions: #{cluster.properties.viable_node_pool_versions}")

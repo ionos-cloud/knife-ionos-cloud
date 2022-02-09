@@ -371,10 +371,10 @@ def k8s_cluster_mock(opts = {})
       k8s_version: opts[:k8s_version] || '1.15.4,',
       maintenance_window: opts[:maintenance_window] || maintenance_window_mock,
       api_subnet_allow_list: opts[:api_subnet_allow_list] || [
-        "1.2.3.4/32",
-        "2002::1234:abcd:ffff:c0a8:101/64",
-        "1.2.3.4",
-        "2002::1234:abcd:ffff:c0a8:101"
+        '127.0.0.1/32',
+        '2002::1234:abcd:ffff:c0a8:101/64',
+        '127.0.0.1',
+        '2002::1234:abcd:ffff:c0a8:101'
       ],
       s3_buckets: opts[:s3_buckets] || [
         Ionoscloud::S3Bucket.new(name: 'test_name1'),
@@ -407,8 +407,8 @@ def nodepool_lan_mock(opts = {})
     dhcp: opts[:dhcp] || false,
     routes: opts[:routes] || [
       Ionoscloud::KubernetesNodePoolLanRoutes.new(
-        network: opts[:network] || '127.2.3.4/24',
-        gateway_ip: opts[:gateway_ip] || '127.1.5.16',
+        network: opts[:network] || '127.0.0.1/24',
+        gateway_ip: opts[:gateway_ip] || '127.0.0.1',
       ),
     ],
   )
@@ -516,7 +516,7 @@ def cluster_mock(opts = {})
       connections: opts[:connections] || [IonoscloudDbaasPostgres::Connection.new(
         datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
         lan_id: opts[:lan_id] || '1',
-        cidr: opts[:cidr] || '192.168.1.100/24',
+        cidr: opts[:cidr] || '127.0.0.3/24',
       ),],
       maintenance_window: opts[:maintenance_window] || IonoscloudDbaasPostgres::MaintenanceWindow.new(
         time: opts[:time] || "00:29:15", 

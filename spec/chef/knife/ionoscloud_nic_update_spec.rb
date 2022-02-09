@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudNicUpdate do
         lan: 13,
         name: nic.properties.name + '_edited',
         dhcp: (!nic.properties.dhcp).to_s,
-        ips: (nic.properties.ips + ['3.3.3.3']).join(','),
+        ips: (nic.properties.ips + ['127.0.0.3']).join(','),
         firewall_type: 'EGRESS',
         yes: true,
       }

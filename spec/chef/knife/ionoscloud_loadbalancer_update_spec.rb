@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudLoadbalancerUpdate do
         loadbalancer_id: load_balancer.id,
         name: load_balancer.properties.name + '_edited',
         dhcp: (!load_balancer.properties.dhcp).to_s,
-        ip: '3.3.3.3',
+        ip: '127.0.0.3',
         yes: true,
       }
 

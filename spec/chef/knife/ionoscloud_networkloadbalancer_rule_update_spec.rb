@@ -25,7 +25,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
         name: network_loadbalancer_rule.properties.name + '_edited',
         algorithm: 'LEAST_CONNECTION',
         protocol: 'HTTP',
-        listener_ip: '1.1.1.1',
+        listener_ip: '127.0.0.3',
         listener_port: network_loadbalancer_rule.properties.listener_port + 10,
         client_timeout: network_loadbalancer_rule.properties.health_check.client_timeout + 100,
         connect_timeout: network_loadbalancer_rule.properties.health_check.connect_timeout + 100,
@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
         retries: network_loadbalancer_rule.properties.health_check.retries + 1,
         targets: [
           {
-            'ip' => '1.1.1.1',
+            'ip' => '127.0.0.3',
             'port' => 11,
             'weight' => 15,
             'health_check' => {
@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
             },
           },
           {
-            'ip' => '1.1.1.1',
+            'ip' => '127.0.0.3',
             'port' => 14,
             'weight' => 18,
             'health_check' => {

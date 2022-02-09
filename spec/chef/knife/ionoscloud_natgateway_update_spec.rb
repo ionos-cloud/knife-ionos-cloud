@@ -20,13 +20,13 @@ describe Chef::Knife::IonoscloudNatgatewayUpdate do
         datacenter_id: 'datacenter_id',
         natgateway_id: natgateway.id,
         name: natgateway.properties.name + '_edited',
-        ips: (natgateway.properties.public_ips + ['3.3.3.3']).join(','),
+        ips: (natgateway.properties.public_ips + ['127.0.0.3']).join(','),
         lans: [
           {
             'id' => 1,
             'gateway_ips' => [
-              '10.8.152.227/24',
-              '10.8.152.227/24',
+              '127.0.0.3/24',
+              '127.0.0.4/24',
             ],
           },
         ],

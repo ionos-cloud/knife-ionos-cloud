@@ -90,7 +90,7 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
     end
 
     it 'should call KubernetesApi.k8s_nodepools_put to update the lan when the ID is valid' do
-      new_gateway = '1.11.1.1'
+      new_gateway = '127.0.0.3'
       nodepool = k8s_nodepool_mock()
       nodepool_lan = nodepool_lan_mock(id: nodepool.properties.lans.first.id, gateway_ip: new_gateway)
       subject_config = {

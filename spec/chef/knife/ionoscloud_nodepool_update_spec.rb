@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
         nodepool_id: nodepool.id,
         k8s_version: '18.18.18',
         node_count: nodepool.properties.node_count + 1,
-        public_ips: '1.1.1.1,2.2.2.2,3.3.3.3',
+        public_ips: '127.0.0.3,127.0.0.4,127.0.0.5',
         labels: { "new_test": "new_test", "new_test2": "new_test2" },
         lans: '13',
         maintenance_day: 'Tuesday',

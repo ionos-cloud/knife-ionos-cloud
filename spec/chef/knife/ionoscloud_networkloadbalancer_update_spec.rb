@@ -22,8 +22,8 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerUpdate do
         name: network_loadbalancer.properties.name + '_edited',
         listener_lan: Integer(network_loadbalancer.properties.listener_lan) + 1,
         target_lan: Integer(network_loadbalancer.properties.target_lan) + 1,
-        ips: (network_loadbalancer.properties.ips + ['3.3.3.3']).join(','),
-        lb_private_ips: (network_loadbalancer.properties.lb_private_ips + ['22.231.2.5/24']).join(','),
+        ips: (network_loadbalancer.properties.ips + ['127.0.0.3']).join(','),
+        lb_private_ips: (network_loadbalancer.properties.lb_private_ips + ['127.0.0.7/24']).join(','),
         yes: true,
       }
 

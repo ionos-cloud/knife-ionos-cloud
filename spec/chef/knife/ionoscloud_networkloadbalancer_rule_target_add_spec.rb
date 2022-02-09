@@ -16,7 +16,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetAdd do
       network_loadbalancer = network_loadbalancer_mock
       network_loadbalancer_rule = network_loadbalancer.entities.forwardingrules.items[0]
       network_loadbalancer_rule_target = network_loadbalancer_rule_target_mock(
-        port: 123, ip: '1.1.1.1', check_interval: 2345, maintenance: true, check: false, weight: 13,
+        port: 123, ip: '127.0.0.3', check_interval: 2345, maintenance: true, check: false, weight: 13,
       )
       subject_config = {
         ionoscloud_username: 'email',
