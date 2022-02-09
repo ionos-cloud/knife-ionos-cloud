@@ -68,24 +68,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
     end
 
     it 'should not make any call if any required option is missing' do
-      required_options = subject.instance_variable_get(:@required_options)
-      allow(subject).to receive(:puts)
-      allow(subject).to receive(:print)
-
-      arrays_without_one_element(required_options).each {
-        |test_case|
-
-        test_case[:array].each { |value| subject.config[value] = 'test' }
-
-        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)
-
-        expect { subject.run }.to raise_error(SystemExit) do |error|
-          expect(error.status).to eq(1)
-        end
-
-        required_options.each { |value| subject.config[value] = nil }
-      }
+      check_required_options(subject)
     end
   end
 end
