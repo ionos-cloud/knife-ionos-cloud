@@ -221,6 +221,8 @@ class Chef
         s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
         puts "#{ui.color('Name', :cyan)}: #{cluster.properties.name}"
+        puts "#{ui.color('Public', :cyan)}: #{cluster.properties.public}"
+        puts "#{ui.color('Gateway IP', :cyan)}: #{cluster.properties.gateway_ip}"
         puts "#{ui.color('k8s Version', :cyan)}: #{cluster.properties.k8s_version}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
         puts "#{ui.color('State', :cyan)}: #{cluster.metadata.state}"
