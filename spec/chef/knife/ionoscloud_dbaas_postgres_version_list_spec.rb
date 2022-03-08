@@ -9,7 +9,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresVersionList do
 
     @postgres_versions = postgres_version_list_mock
 
-    @postgres_version_list = postgres_version_list = [
+    @postgres_version_list = [
       subject.ui.color('Version', :bold),
       @postgres_versions.data.first.name,
       @postgres_versions.data[1].name,
@@ -50,7 +50,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresVersionList do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        cluster_id: 'cluster_id'
+        cluster_id: 'cluster_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -77,7 +77,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresVersionList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

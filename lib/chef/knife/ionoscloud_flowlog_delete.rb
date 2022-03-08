@@ -50,8 +50,6 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
-
         case config[:type]
         when 'nic'
           validate_required_params([:server_id, :nic_id], config)
@@ -89,7 +87,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Flow Log')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

@@ -84,8 +84,7 @@ class Chef
         config[:gateway_ips] = config[:gateway_ips].split(',') if config[:gateway_ips] && config[:gateway_ips].instance_of?(String)
         config[:targets] = JSON[config[:targets]] if config[:targets] && config[:targets].instance_of?(String)
 
-        config[:targets] = config[:targets].map do
-          |condition|
+        config[:targets] = config[:targets].map do |condition|
           Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
             ip: condition['ip'],
             port: condition['port'],

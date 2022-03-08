@@ -24,8 +24,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      cluster_logs.instances.each do
-        |instance|
+      cluster_logs.instances.each do |instance|
         expect(subject).to receive(:puts).with("Instance Name: #{instance.name}")
         expect(subject).to receive(:puts).with(instance.messages.map { |message| message.message })
       end
@@ -50,7 +49,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

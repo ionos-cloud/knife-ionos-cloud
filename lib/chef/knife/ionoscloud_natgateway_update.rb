@@ -49,8 +49,7 @@ class Chef
 
         config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
         config[:lans] = JSON[config[:lans]] if config[:lans] && config[:lans].instance_of?(String)
-        config[:lans] = config[:lans].map do
-          |lan|
+        config[:lans] = config[:lans].map do |lan|
           Ionoscloud::NatGatewayLanProperties.new(
             id: lan['id'],
             gateway_ips: lan['gateway_ips'],

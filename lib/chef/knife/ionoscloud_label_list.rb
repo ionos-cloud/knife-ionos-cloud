@@ -56,9 +56,7 @@ class Chef
           validate_required_params([:resource_id], config)
           labels = label_api.snapshots_labels_get(config[:resource_id], opts)
         else
-          if !config[:type].nil?
-            ui.warn("#{config[:type]} is not a valid Resource Type. Returning all available labels.")
-          end
+          ui.warn("#{config[:type]} is not a valid Resource Type. Returning all available labels.") if !config[:type].nil?
           labels = label_api.labels_get(opts)
         end
 

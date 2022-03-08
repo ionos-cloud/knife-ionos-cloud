@@ -58,8 +58,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      parsed_targets = subject_config[:targets].map do
-        |target|
+      parsed_targets = subject_config[:targets].map do |target|
         Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
           ip: target['ip'],
           port: target['port'],
@@ -146,7 +145,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

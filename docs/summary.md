@@ -161,7 +161,7 @@
   * [BackupunitList](subcommands/backup/backupunit_list.md)
   * [BackupunitSsourl](subcommands/backup/backupunit_ssourl.md)
   * [BackupunitUpdate](subcommands/backup/backupunit_update.md)
-* DbaaS Postgres
+* DBaaS Postgres
   * [DbaasPostgresBackupGet](subcommands/dbaas-postgres/dbaas_postgres_backup_get.md)
   * [DbaasPostgresBackupList](subcommands/dbaas-postgres/dbaas_postgres_backup_list.md)
   * [DbaasPostgresClusterCreate](subcommands/dbaas-postgres/dbaas_postgres_cluster_create.md)

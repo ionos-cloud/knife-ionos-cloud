@@ -62,14 +62,10 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating K8s Cluster...', :magenta)}"
 
-          if config[:api_subnet_allow_list] && config[:api_subnet_allow_list].instance_of?(String)
-            config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',')
-          end
+          config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',') if config[:api_subnet_allow_list] && config[:api_subnet_allow_list].instance_of?(String)
           config[:s3_buckets] = config[:s3_buckets].split(',') if config[:s3_buckets] && config[:s3_buckets].instance_of?(String)
 
-          if config.key?(:s3_buckets)
-            config[:s3_buckets] = config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) }
-          end
+          config[:s3_buckets] = config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) } if config.key?(:s3_buckets)
 
           cluster = kubernetes_api.k8s_find_by_cluster_id(config[:cluster_id])
 

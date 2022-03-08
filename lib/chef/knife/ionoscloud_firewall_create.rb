@@ -99,7 +99,7 @@ class Chef
           port_range_end: config[:port_range_end],
           icmp_type: config[:icmp_type],
           icmp_code: config[:icmp_code],
-          type: config[:type]
+          type: config[:type],
         }
 
         firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)

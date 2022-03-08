@@ -56,8 +56,7 @@ class Chef
 
         initial_length = network_load_balancer_rule.properties.targets.length
 
-        network_load_balancer_rule.properties.targets = network_load_balancer_rule.properties.targets.reject do
-          |target|
+        network_load_balancer_rule.properties.targets = network_load_balancer_rule.properties.targets.reject do |target|
           target.ip == config[:ip] && target.port == Integer(config[:port])
         end
 

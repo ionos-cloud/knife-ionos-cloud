@@ -36,11 +36,11 @@ class Chef
 
           begin
             confirm('Do you really want to delete this cluster')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 
-          _, _, headers = clusters_api.clusters_delete_with_http_info(cluster_id)
+          clusters_api.clusters_delete_with_http_info(cluster_id)
           ui.warn("Deleted Cluster #{cluster.id}.")
         end
       end

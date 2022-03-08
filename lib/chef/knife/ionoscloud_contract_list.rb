@@ -22,8 +22,7 @@ class Chef
 
         contracts = Ionoscloud::ContractResourcesApi.new(api_client).contracts_get()
 
-        contracts.items.each do
-          |contract|
+        contracts.items.each do |contract|
           puts "#{ui.color('Contract Type', :cyan)}: #{contract.type}"
           puts "#{ui.color('Contract Owner', :cyan)}: #{contract.properties.owner}"
           puts "#{ui.color('Contract Number', :cyan)}: #{contract.properties.contract_number}"

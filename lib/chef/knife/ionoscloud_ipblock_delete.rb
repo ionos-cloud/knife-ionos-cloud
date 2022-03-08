@@ -34,7 +34,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this IP block')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

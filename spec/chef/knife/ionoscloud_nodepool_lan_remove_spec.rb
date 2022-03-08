@@ -98,28 +98,25 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [123]
 
+      expect(subject.ui).to receive(:info).with("None of the specified Lan IDs (#{subject.name_args}) are present on the Nodepoool.")
+
       auto_scaling = "Min node count: #{nodepool.properties.auto_scaling.min_node_count}, Max node count:#{nodepool.properties.auto_scaling.max_node_count}"
       maintenance_window = "#{nodepool.properties.maintenance_window.day_of_the_week}, #{nodepool.properties.maintenance_window.time}"
+      lans = nodepool.properties.lans.map { |lan| lan.to_hash }
 
-      expect(subject.ui).to receive(:info).with("None of the specified Lan IDs (#{subject.name_args}) are present on the Nodepoool.")
       expect(subject).to receive(:puts).with("ID: #{nodepool.id}")
       expect(subject).to receive(:puts).with("Name: #{nodepool.properties.name}")
       expect(subject).to receive(:puts).with("K8s Version: #{nodepool.properties.k8s_version}")
+      expect(subject).to receive(:puts).with("Datacenter ID: #{nodepool.properties.datacenter_id}")
       expect(subject).to receive(:puts).with("Node Count: #{nodepool.properties.node_count}")
-      expect(subject).to receive(:puts).with("Lans: #{nodepool.properties.lans.map do
-        |lan|
-        {
-          id: lan.id,
-          dhcp: lan.dhcp,
-          routes: lan.routes ? lan.routes.map do
-            |route|
-            {
-              network: route.network,
-              gateway_ip: route.gateway_ip,
-            }
-          end : []
-        }
-      end}")
+      expect(subject).to receive(:puts).with("CPU Family: #{nodepool.properties.cpu_family}")
+      expect(subject).to receive(:puts).with("Cores Count: #{nodepool.properties.cores_count}")
+      expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
+      expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
+      expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
+      expect(subject).to receive(:puts).with("LANs: #{lans}")
+      expect(subject).to receive(:puts).with("Availability Zone: #{nodepool.properties.availability_zone}")
       expect(subject).to receive(:puts).with("Auto Scaling: #{auto_scaling}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{nodepool.metadata.state}")
@@ -142,7 +139,6 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
 
     it 'should not call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is not valid' do
       nodepool = k8s_nodepool_mock
-      nic_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -179,7 +175,6 @@ describe Chef::Knife::IonoscloudNodepoolLanRemove do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

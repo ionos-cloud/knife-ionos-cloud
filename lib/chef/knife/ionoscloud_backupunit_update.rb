@@ -40,7 +40,7 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating Backup unit...', :magenta)}"
 
-          backupunit, _, headers  = backupunit_api.backupunits_patch_with_http_info(
+          _, _, headers  = backupunit_api.backupunits_patch_with_http_info(
             config[:backupunit_id],
             Ionoscloud::BackupUnitProperties.new(
               password: config[:password],

@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudLocationList do
         subject.ui.color('CPU Architectures', :bold),
         locations.items.first.id,
         locations.items.first.properties.name,
-        locations.items.first.properties.cpu_architecture.map { |arch| arch.cpu_family }
+        locations.items.first.properties.cpu_architecture.map { |arch| arch.cpu_family },
       ]
 
       expect(subject.ui).to receive(:list).with(location_list, :uneven_columns_across, 3)
@@ -52,7 +52,6 @@ describe Chef::Knife::IonoscloudLocationList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

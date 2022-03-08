@@ -168,7 +168,6 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
 
     it 'should not call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is not valid' do
       nodepool = k8s_nodepool_mock
-      nic_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -205,7 +204,6 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

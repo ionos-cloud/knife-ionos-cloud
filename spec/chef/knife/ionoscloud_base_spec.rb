@@ -99,14 +99,13 @@ describe Chef::Knife::IonoscloudBaseTest do
       expect { subject.is_done? request_id }.to raise_error(SystemExit) do |error|
         expect(error.status).to eq(1)
       end
-
     end
   end
 
   describe '#get_request_id' do
     it 'should return nil when Headers has no Location key' do
       headers = {
-        'another_key' => '/requests/123'
+        'another_key' => '/requests/123',
       }
 
       expect(subject.get_request_id headers).to be_nil
@@ -114,7 +113,7 @@ describe Chef::Knife::IonoscloudBaseTest do
 
     it 'should return nil when Headers[\'Location\'] contains no uuid' do
       headers = {
-        'Location' => '/requests/123'
+        'Location' => '/requests/123',
       }
 
       expect(subject.get_request_id headers).to be_nil
@@ -123,7 +122,7 @@ describe Chef::Knife::IonoscloudBaseTest do
     it 'should extract the ID from the headers' do
       request_id = SecureRandom.uuid
       headers = {
-        'Location' => "/requests/#{request_id}"
+        'Location' => "/requests/#{request_id}",
       }
 
       expect(subject.get_request_id headers).to eql(request_id)

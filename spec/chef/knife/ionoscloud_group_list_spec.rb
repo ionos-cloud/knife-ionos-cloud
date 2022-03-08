@@ -8,7 +8,7 @@ describe Chef::Knife::IonoscloudGroupList do
     subject { Chef::Knife::IonoscloudGroupList.new }
 
     @groups = groups_mock
-    @group_list = group_list = [
+    @group_list = [
       subject.ui.color('ID', :bold),
       subject.ui.color('Name', :bold),
       subject.ui.color('Datacenter', :bold),
@@ -88,7 +88,7 @@ describe Chef::Knife::IonoscloudGroupList do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        user_id: 'user_id'
+        user_id: 'user_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -116,7 +116,6 @@ describe Chef::Knife::IonoscloudGroupList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

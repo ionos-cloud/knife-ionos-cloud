@@ -199,7 +199,6 @@ describe Chef::Knife::IonoscloudFlowlogUpdate do
     end
 
     it 'should not call anything when the wrong type is given' do
-      flowlog = flowlog_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -227,7 +226,6 @@ describe Chef::Knife::IonoscloudFlowlogUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

@@ -44,13 +44,13 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating data center...', :magenta)}"
 
-          datacenter, _, headers  = datacenter_api.datacenters_patch_with_http_info(
+          _, _, headers  = datacenter_api.datacenters_patch_with_http_info(
             config[:datacenter_id],
             Ionoscloud::DatacenterProperties.new(
               name: config[:name],
               description: config[:description],
               sec_auth_protection: (config.key?(:sec_auth_protection) ? config[:sec_auth_protection].to_s.downcase == 'true' : nil),
-            )
+            ),
           )
 
           dot = ui.color('.', :magenta)

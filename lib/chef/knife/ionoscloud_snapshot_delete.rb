@@ -36,7 +36,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Snapshot')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 
