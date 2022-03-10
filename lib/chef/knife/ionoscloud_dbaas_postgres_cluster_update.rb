@@ -78,7 +78,7 @@ class Chef
             ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
             storage_size: (config[:storage_size].nil? ? nil : Integer(config[:storage_size])),
             display_name: config[:display_name],
-            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
+            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
               time: config[:time],
               day_of_the_week: config[:day_of_the_week],
             ) : nil,
