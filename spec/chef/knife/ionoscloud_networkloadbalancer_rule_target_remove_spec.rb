@@ -26,8 +26,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
         yes: true,
       }
 
-      remaining_targets = network_loadbalancer_rule.properties.targets.reject do
-        |target|
+      remaining_targets = network_loadbalancer_rule.properties.targets.reject do |target|
         target.ip == subject_config[:ip] && target.port == subject_config[:port]
       end
 
@@ -108,14 +107,14 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           network_loadbalancer_rule_target_mock(
             port: 164, ip: '127.0.0.3', check_interval: 243, maintenance: true, check: false, weight: 123,
           ),
-        ]
+        ],
       )
       network_loadbalancer = network_loadbalancer_mock(
         rules: Ionoscloud::NetworkLoadBalancers.new(
           id: 'network_loadbalancers',
           type: 'collection',
           items: [network_loadbalancer_rule, network_loadbalancer_rule_mock],
-        )
+        ),
       )
 
       subject_config = {
@@ -129,8 +128,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
         yes: true,
       }
 
-      remaining_targets = network_loadbalancer_rule.properties.targets.reject do
-        |target|
+      remaining_targets = network_loadbalancer_rule.properties.targets.reject do |target|
         target.ip == subject_config[:ip] && target.port == subject_config[:port]
       end
 
@@ -200,7 +198,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
           network_loadbalancer_rule_target_mock(
             port: 123, ip: '127.0.0.3', check_interval: 2345, maintenance: true, check: true, weight: 13,
           ),
-        ]
+        ],
       )
       subject_config = {
         ionoscloud_username: 'email',
@@ -264,7 +262,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleTargetRemove do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

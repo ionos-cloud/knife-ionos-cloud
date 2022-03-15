@@ -8,7 +8,7 @@ describe Chef::Knife::IonoscloudRequestList do
     subject { Chef::Knife::IonoscloudRequestList.new }
 
     @requests = requests_mock
-    @request_list = request_list = [
+    @request_list = [
       subject.ui.color('ID', :bold),
       subject.ui.color('Status', :bold),
       subject.ui.color('Method', :bold),
@@ -20,7 +20,6 @@ describe Chef::Knife::IonoscloudRequestList do
       @request_list << request.metadata.request_status.metadata.status
       @request_list << request.properties.method
       @request_list << request.metadata.request_status.metadata.targets.map { |target| [target.target.id, target.target.type] }.to_s
-
     end
 
     allow(subject).to receive(:puts)
@@ -267,7 +266,6 @@ describe Chef::Knife::IonoscloudRequestList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

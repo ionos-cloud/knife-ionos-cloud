@@ -34,7 +34,7 @@ class Chef
           unless ['ACTIVE', 'TERMINATED'].include? cluster.metadata.state
             ui.error(
               "K8s Cluster #{cluster_id} state must be one of ['ACTIVE', 'TERMINATED'], "\
-              "actual state is '#{cluster.metadata.state}'. Skipping."
+              "actual state is '#{cluster.metadata.state}'. Skipping.",
             )
             next
           end
@@ -49,7 +49,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this K8s Cluster')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

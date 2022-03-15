@@ -110,8 +110,7 @@ class Chef
 
         config[:connections] = JSON[config[:connections]] if config[:connections] && config[:connections].instance_of?(String)
 
-        config[:connections] = config[:connections].map do
-          |connection|
+        config[:connections] = config[:connections].map do |connection|
           IonoscloudDbaasPostgres::Connection.new(
             datacenter_id: connection['datacenter_id'],
             lan_id: String(connection['lan_id']),
@@ -149,7 +148,7 @@ class Chef
         cluster_request = IonoscloudDbaasPostgres::CreateClusterRequest.new()
         cluster_request.properties = cluster_properties
 
-        cluster, _, headers  = clusters_api.clusters_post_with_http_info(cluster_request)
+        cluster, _, _  = clusters_api.clusters_post_with_http_info(cluster_request)
 
         print_cluster(cluster)
       end

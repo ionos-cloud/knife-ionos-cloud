@@ -5,7 +5,6 @@ require 'ionoscloud_resource_list'
 Chef::Knife::IonoscloudResourceList.load_deps
 
 describe Chef::Knife::IonoscloudResourceList do
-
   before :each do
     subject { Chef::Knife::IonoscloudResourceList.new }
 
@@ -110,7 +109,7 @@ describe Chef::Knife::IonoscloudResourceList do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        resource_id: 'resource_id'
+        resource_id: 'resource_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -138,7 +137,6 @@ describe Chef::Knife::IonoscloudResourceList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

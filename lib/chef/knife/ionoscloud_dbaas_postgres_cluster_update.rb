@@ -88,9 +88,7 @@ class Chef
           cluster_request = IonoscloudDbaasPostgres::PatchClusterRequest.new()
           cluster_request.properties = cluster_properties
 
-          cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
-
-          dot = ui.color('.', :magenta)
+          clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end

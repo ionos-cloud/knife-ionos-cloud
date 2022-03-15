@@ -158,7 +158,7 @@ class Chef
             availability_zone: config[:volume_availability_zone],
             backupunit_id: config[:backupunit_id],
             user_data: config[:user_data],
-          }.compact)
+          }.compact),
         )
 
         nic = Ionoscloud::Nic.new(
@@ -168,7 +168,7 @@ class Chef
             dhcp: config[:dhcp],
             lan: config[:lan],
             firewall_type: config[:firewall_type],
-          }.compact)
+          }.compact),
         )
 
         server = Ionoscloud::Server.new(

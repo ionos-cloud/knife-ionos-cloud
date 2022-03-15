@@ -97,8 +97,8 @@ describe Chef::Knife::IonoscloudK8sDelete do
           state: 'DEPLOYING',
           entities: Ionoscloud::KubernetesClusterEntities.new(
             nodepools: k8s_nodepools_mock({ items: [] }),
-          )
-        }
+          ),
+        },
       )
       subject_config = {
         ionoscloud_username: 'email',
@@ -110,7 +110,7 @@ describe Chef::Knife::IonoscloudK8sDelete do
 
       expect(subject.ui).to receive(:error).with(
         "K8s Cluster #{k8s_cluster.id} state must be one of ['ACTIVE', 'TERMINATED'], "\
-        "actual state is '#{k8s_cluster.metadata.state}'. Skipping."
+        "actual state is '#{k8s_cluster.metadata.state}'. Skipping.",
       )
 
       expect(subject.api_client).not_to receive(:wait_for)
@@ -163,7 +163,6 @@ describe Chef::Knife::IonoscloudK8sDelete do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

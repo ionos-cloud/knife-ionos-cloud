@@ -8,7 +8,7 @@ describe Chef::Knife::IonoscloudLabelList do
     subject { Chef::Knife::IonoscloudLabelList.new }
 
     @labels = labels_mock
-    @label_list = label_list = [
+    @label_list = [
       subject.ui.color('Resource ID', :bold),
       subject.ui.color('Resource Type', :bold),
       subject.ui.color('Label key', :bold),
@@ -24,7 +24,7 @@ describe Chef::Knife::IonoscloudLabelList do
     ]
 
     @label_resources = label_resources_mock
-    @label_resource_list = label_resource_list = [
+    @label_resource_list = [
       subject.ui.color('Resource ID', :bold),
       subject.ui.color('Resource Type', :bold),
       subject.ui.color('Label key', :bold),
@@ -260,7 +260,7 @@ describe Chef::Knife::IonoscloudLabelList do
     end
 
     it 'should not call anything when the type is one of [datacenter, server, volume, ipblock, snapshot] and resource_id is not given' do
-      types = [
+      [
         'datacenter',
         'server',
         'volume',
@@ -290,7 +290,7 @@ describe Chef::Knife::IonoscloudLabelList do
     end
 
     it 'should not call anything when the type is server or volume and datacenter_id is not given' do
-      types = [
+      [
         'server',
         'volume',
       ].each do |resource_type|
@@ -320,7 +320,6 @@ describe Chef::Knife::IonoscloudLabelList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

@@ -40,7 +40,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this NAT Gateway')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

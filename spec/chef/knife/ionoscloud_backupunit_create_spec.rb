@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudBackupunitCreate do
   describe '#run' do
     it 'should call BackupUnitsApi.backupunits_post with the expected arguments and output based on what it receives' do
       backupunit = backupunit_mock
-      subject_config = {
+      {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         name: backupunit.properties.name,
@@ -48,7 +48,6 @@ describe Chef::Knife::IonoscloudBackupunitCreate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

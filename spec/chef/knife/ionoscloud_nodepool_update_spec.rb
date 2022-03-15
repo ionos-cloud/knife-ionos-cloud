@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
         k8s_version: '18.18.18',
         node_count: nodepool.properties.node_count + 1,
         public_ips: '127.0.0.3,127.0.0.4,127.0.0.5',
-        labels: { "new_test": "new_test", "new_test2": "new_test2" },
+        labels: { "new_test": 'new_test', "new_test2": 'new_test2' },
         lans: '13',
         maintenance_day: 'Tuesday',
         maintenance_time: '03:48:30Z',
@@ -117,7 +117,6 @@ describe Chef::Knife::IonoscloudNodepoolUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

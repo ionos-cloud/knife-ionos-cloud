@@ -41,7 +41,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this K8s Nodepool')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

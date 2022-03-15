@@ -47,12 +47,12 @@ class Chef
           },
         )
 
-        logs.instances.each { |instance|
+        logs.instances.each do |instance|
           puts "Instance Name: #{instance.name}"
           print "\n"
           puts instance.messages.map { |message| message.message }
           puts "\n"
-        }
+        end
       end
     end
   end

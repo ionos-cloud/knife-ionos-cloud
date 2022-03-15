@@ -43,7 +43,7 @@ class Chef
           properties: Ionoscloud::NatGatewayProperties.new(
             name: config[:name],
             public_ips: config[:ips],
-          )
+          ),
         )
 
         natgateway, _, headers = natgateways_api.datacenters_natgateways_post_with_http_info(config[:datacenter_id], natgateway)
