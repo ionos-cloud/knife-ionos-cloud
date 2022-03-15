@@ -35,7 +35,7 @@ class Chef
       option :protocol,
               short: '-p PROTOCOL',
               long: '--protocol PROTOCOL',
-              description: "Protocol of the NAT gateway rule. Defaults to ALL. If protocol is "\
+              description: 'Protocol of the NAT gateway rule. Defaults to ALL. If protocol is '\
               "'ICMP' then target_port_range start and end cannot be set."
 
       option :source_subnet,

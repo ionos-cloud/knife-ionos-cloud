@@ -41,7 +41,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Resource Share')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

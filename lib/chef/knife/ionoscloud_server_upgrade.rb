@@ -20,7 +20,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        "This will upgrade the version of the server, if needed. To verify if there is an upgrade available for a server, "\
+        'This will upgrade the version of the server, if needed. To verify if there is an upgrade available for a server, '\
         "call '/datacenters/{datacenterId}/servers?upgradeNeeded=true'."
         @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]

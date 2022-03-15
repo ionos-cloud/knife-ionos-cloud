@@ -56,18 +56,14 @@ class Chef
         begin
           config[:limit] = Integer(config[:limit])
         rescue *[ArgumentError, TypeError]
-          if config[:limit]
-            ui.warn('limit should be an Integer!')
-          end
+          ui.warn('limit should be an Integer!') if config[:limit]
           config[:limit] = 20
         end
 
         begin
           config[:offset] = Integer(config[:offset])
         rescue *[ArgumentError, TypeError]
-          if config[:offset]
-            ui.warn('offset should be an Integer!')
-          end
+          ui.warn('offset should be an Integer!') if config[:offset]
           config[:offset] = 0
         end
 
@@ -77,21 +73,13 @@ class Chef
           offset: config[:offset],
         }
 
-        if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-          opts[:filter_request_status] = config[:status]
-        end
+        opts[:filter_request_status] = config[:status] if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
 
-        if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-          ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]')
-        end
+        ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]') if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
 
-        if config[:method] && ['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
-          opts[:filter_method] = config[:method]
-        end
+        opts[:filter_method] = config[:method] if config[:method] && ['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
 
-        if config[:method] && !['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
-          ui.warn('method should be one of [POST, PUT, PATCH, DELETE]')
-        end
+        ui.warn('method should be one of [POST, PUT, PATCH, DELETE]') if config[:method] && !['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
 
         request_api.requests_get(opts).items.each do |request|
           request_list << request.id

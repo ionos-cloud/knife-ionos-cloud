@@ -135,7 +135,7 @@ class Chef
             licence_type: config[:licence_type],
             backupunit_id: config[:backupunit_id],
             user_data: config[:user_data],
-          }.compact)
+          }.compact),
         )]
 
         nics = []
@@ -149,8 +149,8 @@ class Chef
                 dhcp: config[:dhcp],
                 lan: config[:lan],
                 firewall_type: config[:firewall_type],
-              }.compact)
-            )
+              }.compact),
+            ),
           ]
         end
 

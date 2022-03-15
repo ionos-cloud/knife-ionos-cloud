@@ -45,7 +45,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Nic')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

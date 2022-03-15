@@ -46,7 +46,7 @@ class Chef
             Ionoscloud::PrivateCrossConnectProperties.new(
               name: config[:name],
               description: config[:description],
-            )
+            ),
           )
 
           dot = ui.color('.', :magenta)

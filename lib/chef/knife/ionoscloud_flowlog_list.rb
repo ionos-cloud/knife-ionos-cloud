@@ -64,26 +64,24 @@ class Chef
           validate_required_params([:server_id, :nic_id], config)
           flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
           flowlogs = flowlogs_api.datacenters_servers_nics_flowlogs_get(
-            config[:datacenter_id], config[:server_id], config[:nic_id], { depth: 1 }
+            config[:datacenter_id], config[:server_id], config[:nic_id], { depth: 1 },
           )
         when 'natgateway'
           validate_required_params([:natgateway_id], config)
           flowlogs_api = Ionoscloud::NATGatewaysApi.new(api_client)
           flowlogs = flowlogs_api.datacenters_natgateways_flowlogs_get(
-            config[:datacenter_id], config[:natgateway_id], { depth: 1 }
+            config[:datacenter_id], config[:natgateway_id], { depth: 1 },
           )
         when 'networkloadbalancer'
           validate_required_params([:network_loadbalancer_id], config)
           flowlogs_api = Ionoscloud::NetworkLoadBalancersApi.new(api_client)
           flowlogs = flowlogs_api.datacenters_networkloadbalancers_flowlogs_get(
-            config[:datacenter_id], config[:network_loadbalancer_id], { depth: 1 }
+            config[:datacenter_id], config[:network_loadbalancer_id], { depth: 1 },
           )
         else
           ui.error "Flow log cannot belong to #{config[:type]}. Value must be one of ['nic', 'natgateway', 'networkloadbalancer']"
           exit(1)
         end
-
-        flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
 
         flowlogs.items.each do |flowlog|
           flowlog_list << flowlog.id

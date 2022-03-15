@@ -41,7 +41,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this S3 key')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

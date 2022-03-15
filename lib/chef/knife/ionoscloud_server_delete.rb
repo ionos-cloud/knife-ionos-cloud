@@ -16,8 +16,8 @@ class Chef
         super(args)
         @description =
         "This will remove a server from a VDC.\n\n"\
-        "**NOTE**: This will not automatically remove the storage volume\\(s\\) "\
-        "attached to a server. A separate API call is required to perform that action."
+        '**NOTE**: This will not automatically remove the storage volume\\(s\\) '\
+        'attached to a server. A separate API call is required to perform that action.'
         @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
@@ -43,7 +43,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this server')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

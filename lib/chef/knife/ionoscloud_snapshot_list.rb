@@ -25,7 +25,7 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Description', :bold),
           ui.color('Location', :bold),
-          ui.color('Size', :bold)
+          ui.color('Size', :bold),
         ]
 
         snapshot_api = Ionoscloud::SnapshotsApi.new(api_client)

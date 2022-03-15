@@ -37,8 +37,8 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterCreate do
         day_of_the_week: cluster.properties.maintenance_window.day_of_the_week,
         synchronization_mode: cluster.properties.synchronization_mode,
         state: cluster.metadata.state,
-        username: "usr",
-        password: "pass123",
+        username: 'usr',
+        password: 'pass123',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -82,7 +82,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterCreate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

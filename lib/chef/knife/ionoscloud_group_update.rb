@@ -96,7 +96,7 @@ class Chef
 
           existing_group = user_management_api.um_groups_find_by_id(config[:group_id], depth: 1)
 
-          group, _, headers = user_management_api.um_groups_put_with_http_info(
+          _, _, headers = user_management_api.um_groups_put_with_http_info(
             config[:group_id],
             Ionoscloud::Group.new(
               properties: Ionoscloud::GroupProperties.new(

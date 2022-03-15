@@ -67,7 +67,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
-        cluster_id: 'cluster_id'
+        cluster_id: 'cluster_id',
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
@@ -94,7 +94,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

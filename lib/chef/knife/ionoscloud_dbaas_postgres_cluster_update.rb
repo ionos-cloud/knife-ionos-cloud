@@ -78,7 +78,7 @@ class Chef
             ram: (config[:ram].nil? ? nil : Integer(config[:ram])),
             storage_size: (config[:storage_size].nil? ? nil : Integer(config[:storage_size])),
             display_name: config[:display_name],
-            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaas::MaintenanceWindow.new(
+            maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
               time: config[:time],
               day_of_the_week: config[:day_of_the_week],
             ) : nil,
@@ -88,9 +88,7 @@ class Chef
           cluster_request = IonoscloudDbaasPostgres::PatchClusterRequest.new()
           cluster_request.properties = cluster_properties
 
-          cluster, _, headers  = clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
-
-          dot = ui.color('.', :magenta)
+          clusters_api.clusters_patch_with_http_info(config[:cluster_id], cluster_request)
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end
