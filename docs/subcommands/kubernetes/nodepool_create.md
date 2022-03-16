@@ -78,6 +78,9 @@ knife ionoscloud nodepool create (options)
     lans: --lans LAN_ID [LAN_ID]
         an array of additional private LANs attached to worker nodes
 
+    gateway_ip: --gateway GATEWAY_IP
+        the IP address of the gateway used by the cluster. This is mandatory when `public` is set to `false` and should not be 
+
     public_ips: --ips PUBLIC_IP [PUBLIC_IP]
         optional array of reserved public IP addresses to be used by the nodes. IPs must be from same location as the data center used for the node pool. The array must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.
 
@@ -100,5 +103,5 @@ knife ionoscloud nodepool create (options)
 ## Example
 
 ```text
-knife ionoscloud nodepool create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud nodepool create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --cluster-id CLUSTER_ID --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --node-count NODE_COUNT --cpu-family CPU_FAMILY --cores CORES --ram RAM --availability-zone AVAILABILITY_ZONE --storage-type STORAGE_TYPE --storage-size STORAGE_SIZE --min-node-count MIN_NODE_COUNT --max-node-count MAX_NODE_COUNT --lans LAN_ID [LAN_ID] --gateway GATEWAY_IP --ips PUBLIC_IP [PUBLIC_IP] --labels LABEL [LABEL] --annotations ANNOTATION [ANNOTATION] --username USERNAME --password PASSWORD --url URL
 ```

@@ -36,7 +36,6 @@ describe Chef::Knife::IonoscloudK8sUpdate do
       expect(subject).to receive(:puts).with("ID: #{cluster.id}")
       expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
       expect(subject).to receive(:puts).with("Public: #{cluster.properties.public}")
-      expect(subject).to receive(:puts).with("Gateway IP: #{cluster.properties.gateway_ip}")
       expect(subject).to receive(:puts).with("k8s Version: #{subject_config[:version]}")
       expect(subject).to receive(:puts).with("Maintenance Window: #{maintenance_window}")
       expect(subject).to receive(:puts).with("State: #{cluster.metadata.state}")

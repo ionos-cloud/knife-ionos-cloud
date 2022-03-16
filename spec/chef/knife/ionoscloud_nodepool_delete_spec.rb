@@ -37,6 +37,8 @@ describe Chef::Knife::IonoscloudNodepoolDelete do
       expect(subject).to receive(:puts).with("RAM: #{k8s_nodepool.properties.ram_size}")
       expect(subject).to receive(:puts).with("Storage Type: #{k8s_nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{k8s_nodepool.properties.storage_size}")
+      expect(subject).to receive(:puts).with("Gateway IP: #{k8s_nodepool.properties.gateway_ip}")
+      expect(subject).to receive(:puts).with("Public IPs: #{k8s_nodepool.properties.public_ips}")
       expect(subject).to receive(:puts).with("Labels: #{k8s_nodepool.properties.labels}")
       expect(subject).to receive(:puts).with("Annotations: #{k8s_nodepool.properties.annotations}")
       expect(subject).to receive(:puts).with("LANs: #{k8s_nodepool.properties.lans.map { |lan| lan.to_hash }}")
