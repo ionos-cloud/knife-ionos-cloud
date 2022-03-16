@@ -20,7 +20,7 @@ class Chef
       option :private,
               long: '--private',
               default: false,
-              description: 'The indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.'
+              description: 'The indicator if the cluster is public or private. Be aware that creating a private cluster is currently in beta phase.'
 
       option :maintenance_day,
               short: '-d MAINTENANCE_DAY',

@@ -79,7 +79,7 @@ knife ionoscloud nodepool create (options)
         an array of additional private LANs attached to worker nodes
 
     gateway_ip: --gateway GATEWAY_IP
-        the IP address of the gateway used by the cluster. This is mandatory when `public` is set to `false` and should not be 
+        public IP address for the gateway performing source NAT for the node pool's nodes belonging to a private cluster. Required only if the node pool belongs to a private cluster.
 
     public_ips: --ips PUBLIC_IP [PUBLIC_IP]
         optional array of reserved public IP addresses to be used by the nodes. IPs must be from same location as the data center used for the node pool. The array must contain one extra IP than maximum number of nodes could be. (nodeCount+1 if fixed node amount or maxNodeCount+1 if auto scaling is used) The extra provided IP Will be used during rebuilding of nodes.

@@ -25,7 +25,7 @@ knife ionoscloud k8s create (options)
         the version for the Kubernetes cluster.
 
     private: --private
-        the indicator if the cluster is public or private. Be aware that setting it to false is currently in beta phase.
+        the indicator if the cluster is public or private. Be aware that creating a private cluster is currently in beta phase.
 
     maintenance_day: --maintenance-day MAINTENANCE_DAY, -d MAINTENANCE_DAY
         day Of the week when to perform the maintenance.
