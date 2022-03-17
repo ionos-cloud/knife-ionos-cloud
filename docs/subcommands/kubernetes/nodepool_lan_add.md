@@ -13,10 +13,11 @@ knife ionoscloud nodepool lan add (options)
 * cluster\_id
 * nodepool\_id
 * lan\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -36,17 +37,17 @@ knife ionoscloud nodepool lan add (options)
         an array of additional LANs attached to worker nodes
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nodepool lan add --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --nodepool NODEPOOL_ID --lan LAN_ID --nodhcp --routes NETWORK,GATEWAY_IP [NETWORK,GATEWAY_IP] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud nodepool lan add --url URL --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --nodepool NODEPOOL_ID --lan LAN_ID --nodhcp --routes NETWORK,GATEWAY_IP [NETWORK,GATEWAY_IP] --username USERNAME --password PASSWORD --token PASSWORD
 ```

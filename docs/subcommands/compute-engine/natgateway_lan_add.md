@@ -13,10 +13,11 @@ knife ionoscloud natgateway lan add (options)
 * datacenter\_id
 * natgateway\_id
 * lan\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -33,17 +34,17 @@ knife ionoscloud natgateway lan add (options)
         collection of gateway IP addresses of the NAT gateway. Will be auto-generated if not provided. Should ideally be an IP belonging to the same subnet as the LAN
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud natgateway lan add --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --natgateway-id NATGATEWAY_ID --lan LAN_ID --ips IP[,IP,...] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud natgateway lan add --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --natgateway-id NATGATEWAY_ID --lan LAN_ID --ips IP[,IP,...] --username USERNAME --password PASSWORD --token PASSWORD
 ```

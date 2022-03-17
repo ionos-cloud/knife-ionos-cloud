@@ -22,7 +22,7 @@ class Chef
         @description =
         'Removes the specified rules from a Network Loadbalancer under a data center.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :network_loadbalancer_id]
       end
 
       def run

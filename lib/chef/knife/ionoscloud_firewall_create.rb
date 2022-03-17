@@ -79,7 +79,7 @@ class Chef
         @description =
         'Creates a new firewall rule on an existing NIC.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id, :nic_id]
       end
 
       def run

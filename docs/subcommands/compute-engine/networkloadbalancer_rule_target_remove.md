@@ -15,10 +15,11 @@ knife ionoscloud networkloadbalancer rule target remove (options)
 * forwarding\_rule\_id
 * ip
 * port
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -38,17 +39,17 @@ knife ionoscloud networkloadbalancer rule target remove (options)
         port of the balanced target service. (range: 1 to 65535) (required)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule target remove --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --username USERNAME --password PASSWORD --url URL
+knife ionoscloud networkloadbalancer rule target remove --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --username USERNAME --password PASSWORD --token PASSWORD
 ```

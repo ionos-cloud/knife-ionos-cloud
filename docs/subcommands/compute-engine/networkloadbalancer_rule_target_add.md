@@ -16,10 +16,11 @@ knife ionoscloud networkloadbalancer rule target add (options)
 * ip
 * port
 * weight
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -51,17 +52,17 @@ knife ionoscloud networkloadbalancer rule target add (options)
         maintenance specifies if a target VM should be marked as down, even if it is not.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule target add --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --weight WEIGTH --check --check-interval CHECK_INTERVAL --maintenance MAINTENANCE --username USERNAME --password PASSWORD --url URL
+knife ionoscloud networkloadbalancer rule target add --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --forwarding-rule FORWARDING_RULE_ID --ip IP --port PORT --weight WEIGTH --check --check-interval CHECK_INTERVAL --maintenance MAINTENANCE --username USERNAME --password PASSWORD --token PASSWORD
 ```

@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieves information about a backup unit.'
         @directory = 'backup'
-        @required_options = [:backupunit_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:backupunit_id]
       end
 
       def run

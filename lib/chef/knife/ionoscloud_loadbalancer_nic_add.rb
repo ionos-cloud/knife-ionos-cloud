@@ -22,7 +22,7 @@ class Chef
         @description =
         'Adds the association of a NIC with a load balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :loadbalancer_id]
       end
 
       def run

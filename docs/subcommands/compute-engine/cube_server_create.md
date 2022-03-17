@@ -13,10 +13,11 @@ knife ionoscloud cube server create (options)
 * datacenter\_id
 * name
 * template
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -78,17 +79,17 @@ knife ionoscloud cube server create (options)
         the type of firewall rules that will be allowed on the NIC. If it is not specified it will take the default value INGRESS
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud cube server create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --name NAME --template TEMPLATE_UUID --cpu-family CPU_FAMILY --availability-zone AVAILABILITY_ZONE --volume-name NAME --bus BUS --image ID --licence-type LICENCE --image-password PASSWORD --ssh-keys SSHKEY1,SSHKEY2,... --backupunit BACKUPUNIT_ID --user-data USER_DATA --set-boot --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --url URL
+knife ionoscloud cube server create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --name NAME --template TEMPLATE_UUID --cpu-family CPU_FAMILY --availability-zone AVAILABILITY_ZONE --volume-name NAME --bus BUS --image ID --licence-type LICENCE --image-password PASSWORD --ssh-keys SSHKEY1,SSHKEY2,... --backupunit BACKUPUNIT_ID --user-data USER_DATA --set-boot --nic-name NAME --ips IP[,IP,...] --dhcp --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --token PASSWORD
 ```

@@ -59,7 +59,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Dbaas Cluster.'
         @directory = 'dbaas-postgres'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
         @updatable_fields = [:cores, :ram, :storage_size, :display_name, :time, :day_of_the_week, :postgres_version, :instances]
       end
 

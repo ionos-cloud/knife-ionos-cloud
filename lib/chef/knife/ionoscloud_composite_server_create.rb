@@ -130,7 +130,7 @@ class Chef
         'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
         @directory = 'compute-engine'
         @required_options = [
-          :datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan, :ionoscloud_username, :ionoscloud_password,
+          :datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan,
         ]
       end
 

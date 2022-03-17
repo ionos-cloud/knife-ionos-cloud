@@ -22,7 +22,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given Network Load Balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :network_loadbalancer_id]
       end
 
       def run

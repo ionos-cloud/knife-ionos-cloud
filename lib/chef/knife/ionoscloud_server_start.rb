@@ -17,7 +17,7 @@ class Chef
         @description =
         'This will start a server. If the server\'s public IP was deallocated then a new IP will be assigned.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

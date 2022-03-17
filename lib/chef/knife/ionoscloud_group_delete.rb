@@ -14,7 +14,6 @@ class Chef
         'assigned to the group are NOT deleted, but are no longer accessible '\
         'to the group members unless the member is a Contract Owner, Admin, or Resource Owner.'
         @directory = 'user'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

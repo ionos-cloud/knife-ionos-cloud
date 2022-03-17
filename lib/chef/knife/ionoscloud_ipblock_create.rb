@@ -30,7 +30,7 @@ class Chef
         'one or more static IP addresses. The IP block size \(number of IP addresses\) '\
         'and location are required to reserve an IP block.'
         @directory = 'compute-engine'
-        @required_options = [:size, :location, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:size, :location]
       end
 
       def run

@@ -46,7 +46,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud K8s Cluster.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
         @updatable_fields = [
           :name, :version, :maintenance_day, :maintenance_time, :api_subnet_allow_list, :s3_buckets,
         ]

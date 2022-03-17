@@ -12,10 +12,11 @@ knife ionoscloud share update (options)
 
 * group\_id
 * resource\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -32,17 +33,17 @@ knife ionoscloud share update (options)
         the group has permission to share this resource.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud share update --extra-config EXTRA_CONFIG_FILE_PATH --group-id GROUP_ID --resource-id RESOURCE_ID --edit EDIT_PRIVILEGE --share SHARE_PRIVILEGE --username USERNAME --password PASSWORD --url URL
+knife ionoscloud share update --url URL --extra-config EXTRA_CONFIG_FILE_PATH --group-id GROUP_ID --resource-id RESOURCE_ID --edit EDIT_PRIVILEGE --share SHARE_PRIVILEGE --username USERNAME --password PASSWORD --token PASSWORD
 ```

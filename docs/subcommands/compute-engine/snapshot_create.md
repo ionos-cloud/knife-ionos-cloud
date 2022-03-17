@@ -12,10 +12,11 @@ knife ionoscloud snapshot create (options)
 
 * datacenter\_id
 * volume\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -38,17 +39,17 @@ knife ionoscloud snapshot create (options)
         the OS type of this Snapshot
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud snapshot create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter DATACENTER_ID --volume VOLUME_ID --name SNAPSHOT_NAME --description SNAPSHOT_DESCRIPTION --sec-auth --licence LICENCE_TYPE --username USERNAME --password PASSWORD --url URL
+knife ionoscloud snapshot create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter DATACENTER_ID --volume VOLUME_ID --name SNAPSHOT_NAME --description SNAPSHOT_DESCRIPTION --sec-auth --licence LICENCE_TYPE --username USERNAME --password PASSWORD --token PASSWORD
 ```

@@ -18,7 +18,7 @@ class Chef
         'Retrieves detailed information about a specific group. This will also '\
         'retrieve a list of users who are members of the group.'
         @directory = 'user'
-        @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id]
       end
 
       def run

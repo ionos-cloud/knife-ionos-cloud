@@ -27,7 +27,7 @@ class Chef
         @description =
         'Lists all available firewall rules assigned to a NIC.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id, :nic_id]
       end
 
       def run

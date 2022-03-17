@@ -19,7 +19,6 @@ class Chef
         'You can retrieve a list of users who are members of the group by passing the '\
         '_group\_id_ option.'
         @directory = 'user'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

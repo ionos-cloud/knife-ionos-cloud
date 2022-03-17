@@ -17,7 +17,7 @@ class Chef
         @description =
         'Waits until a request status is either DONE or FAILED.'
         @directory = 'compute-engine'
-        @required_options = [:request_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:request_id]
       end
 
       def run

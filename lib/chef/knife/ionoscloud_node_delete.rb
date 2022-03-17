@@ -23,7 +23,7 @@ class Chef
         @description =
         'Delete a single Kubernetes Node.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
       end
 
       def run

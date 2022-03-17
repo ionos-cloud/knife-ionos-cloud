@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieve a list of Network Load Balancers within the datacenter.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

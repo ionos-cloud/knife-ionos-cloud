@@ -105,7 +105,7 @@ class Chef
         @directory = 'kubernetes'
         @required_options = [
           :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram,
-          :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,
+          :availability_zone, :storage_type, :storage_size,
         ]
       end
 

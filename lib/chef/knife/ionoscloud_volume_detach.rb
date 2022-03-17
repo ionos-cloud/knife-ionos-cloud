@@ -25,7 +25,7 @@ class Chef
         'This will NOT delete the volume from your virtual data center. You will '\
         'need to make a separate request to delete a volume.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id]
       end
 
       def run

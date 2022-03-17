@@ -23,7 +23,7 @@ class Chef
         'List all available volumes under a data center. '\
         'You can also list all volumes attached to a specific server.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

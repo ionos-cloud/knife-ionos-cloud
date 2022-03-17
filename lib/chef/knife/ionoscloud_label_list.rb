@@ -28,7 +28,6 @@ class Chef
         'List all Labels available to the user. Specify the type and required resource ID '\
         'to list labels for a specific resource instead.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

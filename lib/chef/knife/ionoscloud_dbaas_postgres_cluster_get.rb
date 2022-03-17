@@ -19,7 +19,7 @@ class Chef
         'found in the response body when a PostgreSQL cluster is created or when '\
         'you GET a list of PostgreSQL clusters.'
         @directory = 'dbaas-postgres'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run

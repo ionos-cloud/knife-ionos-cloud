@@ -22,7 +22,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given K8S Nodepool.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
       end
 
       def run

@@ -17,7 +17,7 @@ class Chef
         @description =
         'This operation deletes a specific S3 key.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
       end
 
       def run

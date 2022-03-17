@@ -15,7 +15,6 @@ class Chef
         'plans inside a backup unit, ALL backups associated with the backup unit, the '\
         'backup user and finally the backup unit itself.'
         @directory = 'backup'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

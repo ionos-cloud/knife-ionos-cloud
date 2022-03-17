@@ -34,7 +34,7 @@ class Chef
         'for that resource. As an example, you might use this to grant permissions to use an image '\
         'or snapshot to a specific group.'
         @directory = 'user'
-        @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id, :resource_id]
       end
 
       def run

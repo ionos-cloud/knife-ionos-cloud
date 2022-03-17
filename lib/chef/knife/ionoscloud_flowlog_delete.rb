@@ -42,7 +42,7 @@ class Chef
         @description =
         'Removes the specified Flow Logs.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :type]
       end
 
       def run

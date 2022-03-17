@@ -21,7 +21,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given Volume.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :volume_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :volume_id]
       end
 
       def run

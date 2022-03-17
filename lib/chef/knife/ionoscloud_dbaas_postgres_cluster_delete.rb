@@ -12,7 +12,6 @@ class Chef
         @description =
         'Delete a PostgreSQL cluster.'
         @directory = 'dbaas-postgres'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

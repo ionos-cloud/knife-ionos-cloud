@@ -34,19 +34,19 @@ An IONOS account is required for access to the Cloud API; credentials from your 
 
 The `knife-ionoscloud` plugin can be installed as a gem:
 
-```text
+```shell
 $ gem install knife-ionoscloud
 ```
 
 Or the plugin can be installed by adding the following line to your application's Gemfile:
 
-```text
+```gemfile
 gem 'knife-ionoscloud'
 ```
 
 And then execute:
 
-```text
+```shell
 $ bundle
 ```
 
@@ -54,14 +54,14 @@ $ bundle
 
 The Ionoscloud account credentials can be added to the `knife.rb` configuration file.
 
-```text
+```ruby
 knife[:ionoscloud_username] = 'username'
 knife[:ionoscloud_password] = 'password'
 ```
 
 If a virtual data center has already been created under the Ionoscloud account, then the data center UUID can be added to the `knife.rb` which reduces the need to include the `--datacenter-id [datacenter_id]` parameter for each action within the data center.
 
-```text
+```ruby
 knife[:datacenter_id] = 'f3f3b6fe-017d-43a3-b42a-a759144b2e99'
 
 knife[:ionoscloud_debug] = true
@@ -69,21 +69,29 @@ knife[:ionoscloud_debug] = true
 
 The configuration parameters can also be passed using shell environment variables. First, the following should be added to the `knife.rb` configuration file:
 
-```text
+```ruby
 knife[:ionoscloud_username] = ENV['IONOSCLOUD_USERNAME']
 knife[:ionoscloud_password] = ENV['IONOSCLOUD_PASSWORD']
 ```
 
 Now the parameters can be set as environment variables:
 
-```text
+```shell
 $ export IONOSCLOUD_USERNAME='username'
 $ export IONOSCLOUD_PASSWORD='password'
 ```
 
+Instead of using username and password to authenticate, one can a Ionoscloud access token, setting it using the :ionoscloud_token argument:.
+
+```ruby
+knife[:ionoscloud_token] = '<token>'
+```
+
+**Be aware that setting the token makes the username and password be ignored, in order to use the username nad password one must unset the token value.**
+
 ### Testing
 
-```text
+```shell
 $ rspec spec
 ```
 

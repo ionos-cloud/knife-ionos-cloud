@@ -22,7 +22,7 @@ class Chef
         @description =
         'Returns the link with the jwToken to access the server remote console.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id]
       end
 
       def run

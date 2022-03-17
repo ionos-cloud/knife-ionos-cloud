@@ -77,7 +77,7 @@ class Chef
         'Creates a volume within the data center. This will NOT attach the volume to a server. '\
         'Please see the Servers section for details on how to attach storage volumes.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :name, :type, :size, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :name, :type, :size]
       end
 
       def run

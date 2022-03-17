@@ -13,7 +13,6 @@ class Chef
         'A list of disk and ISO images are available from Ionoscloud for immediate use. '\
         'Make sure the image you use is in the same location as the virtual data center.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

@@ -15,10 +15,11 @@ knife ionoscloud networkloadbalancer create (options)
 * listener\_lan
 * target\_lan
 * ips
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -41,17 +42,17 @@ knife ionoscloud networkloadbalancer create (options)
         collection of private IP addresses with subnet mask of the Network Load Balancer. IPs must contain valid subnet mask. If user will not provide any IP then the system will generate one IP with /24 subnet.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --name NAME --listener-lan LISTENER_LAN_ID --target-lan TARGET_LAN_ID --ips IP[,IP,...] --private-ips IP[,IP,...] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud networkloadbalancer create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --name NAME --listener-lan LISTENER_LAN_ID --target-lan TARGET_LAN_ID --ips IP[,IP,...] --private-ips IP[,IP,...] --username USERNAME --password PASSWORD --token PASSWORD
 ```

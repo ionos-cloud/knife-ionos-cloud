@@ -12,7 +12,6 @@ class Chef
         @description =
         'Retrieve a list of available templates. Templates can be used on specific server types only (CUBE at the moment)'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run
