@@ -60,7 +60,7 @@ class Chef
 
       def validate_required_params(required_params, params)
         if !params[:ionoscloud_token] && !(params[:ionoscloud_username] && params[:ionoscloud_password])
-          puts 'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API'
+          puts 'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.'
           exit(1)
         end
 
