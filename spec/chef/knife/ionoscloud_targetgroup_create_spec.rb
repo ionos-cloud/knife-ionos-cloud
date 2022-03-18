@@ -30,8 +30,7 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
         algorithm: target_group.properties.algorithm,
         protocol: target_group.properties.protocol,
         check_timeout: target_group.properties.health_check.check_timeout,
-        connect_timeout: target_group.properties.health_check.connect_timeout,
-        target_timeout: target_group.properties.health_check.target_timeout,
+        check_interval: target_group.properties.health_check.check_interval,
         retries: target_group.properties.health_check.retries,
         path: target_group.properties.http_health_check.path,
         method: target_group.properties.http_health_check.method,
@@ -43,11 +42,8 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
           'ip' => new_target.ip,
           'port' => new_target.port,
           'weight' => new_target.weight,
-          'health_check' => {
-            'check' => new_target.health_check.check,
-            'check_interval' => new_target.health_check.check_interval,
-            'maintenance' => new_target.health_check.maintenance,
-          },
+          'health_check_enabled' => new_target.health_check_enabled,
+          'maintenance_enabled' => new_target.maintenance_enabled,
         }],
       }
 
@@ -94,7 +90,6 @@ describe Chef::Knife::IonoscloudTargetgroupCreate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

@@ -23,9 +23,8 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        check: target.health_check.check,
-        check_interval: target.health_check.check_interval,
-        maintenance: target.health_check.maintenance,
+        health_check_disabled: !target.health_check_enabled,
+        maintenance_enabled: target.maintenance_enabled,
         yes: true,
       }
 
@@ -43,11 +42,8 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        health_check: {
-          check: target.health_check.check,
-          check_interval: target.health_check.check_interval,
-          maintenance: target.health_check.maintenance,
-        },
+        health_check_enabled: target.health_check_enabled,
+        maintenance_enabled: target.maintenance_enabled,
       }]}")
 
       expected_properties = target_group.properties.to_hash
@@ -96,15 +92,14 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target.ip,
         port: target.port,
         weight: target.weight,
-        skip_check: !target.health_check.check,
-        check_interval: target.health_check.check_interval,
-        maintenance: target.health_check.maintenance,
+        health_check_disabled: !target.health_check_enabled,
+        maintenance_enabled: target.maintenance_enabled,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      health_check, http_health_check, targets = subject.get_target_group_extended_properties(target_group)
+      health_check, http_health_check, _ = subject.get_target_group_extended_properties(target_group)
 
       expect(subject.ui).to receive(:warn).with("Specified target already exists (#{target_group.properties.targets.first}).")
 
@@ -118,11 +113,8 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
         ip: target_group.properties.targets.first.ip,
         port: target_group.properties.targets.first.port,
         weight: target_group.properties.targets.first.weight,
-        health_check: {
-          check: target_group.properties.targets.first.health_check.check,
-          check_interval: target_group.properties.targets.first.health_check.check_interval,
-          maintenance: target_group.properties.targets.first.health_check.maintenance,
-        }
+        health_check_enabled: target_group.properties.targets.first.health_check_enabled,
+        maintenance_enabled: target_group.properties.targets.first.maintenance_enabled,
       }]}")
 
       expect(subject).not_to receive(:wait_for)
@@ -153,7 +145,6 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

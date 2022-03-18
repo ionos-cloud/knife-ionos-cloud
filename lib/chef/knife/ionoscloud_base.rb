@@ -507,9 +507,7 @@ class Chef
             protocol: rule.properties.protocol,
             listener_ip: rule.properties.listener_ip,
             listener_port: rule.properties.listener_port,
-            health_check: rule.properties.health_check.nil? ? nil : {
-              client_timeout: rule.properties.health_check.client_timeout,
-            },
+            client_timeout: rule.properties.client_timeout,
             server_certificates: rule.properties.server_certificates,
             http_rules: rule.properties.http_rules.nil? ? [] : rule.properties.http_rules.map do |http_rule|
               {
@@ -552,8 +550,7 @@ class Chef
       def get_target_group_extended_properties(target_group)
         health_check = target_group.properties.health_check.nil? ? nil : {
           check_timeout: target_group.properties.health_check.check_timeout,
-          connect_timeout: target_group.properties.health_check.connect_timeout,
-          target_timeout: target_group.properties.health_check.target_timeout,
+          check_interval: target_group.properties.health_check.check_interval,
           retries: target_group.properties.health_check.retries,
         }
         http_health_check = target_group.properties.http_health_check.nil? ? nil : {
@@ -570,11 +567,8 @@ class Chef
             ip: target.ip,
             port: target.port,
             weight: target.weight,
-            health_check: target.health_check.nil? ? nil : {
-              check: target.health_check.check,
-              check_interval: target.health_check.check_interval,
-              maintenance: target.health_check.maintenance,
-            },
+            health_check_enabled: target.health_check_enabled,
+            maintenance_enabled: target.maintenance_enabled,
           }
         end
 

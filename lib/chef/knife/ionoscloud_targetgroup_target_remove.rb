@@ -39,14 +39,12 @@ class Chef
 
         target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
 
-        existing_target = target_group.properties.targets.find do
-          |target|
+        existing_target = target_group.properties.targets.find do |target|
           target.ip == config[:ip] && target.port == Integer(config[:port])
         end
 
         if existing_target
-          target_group.properties.targets = target_group.properties.targets.reject do
-            |target|
+          target_group.properties.targets = target_group.properties.targets.reject do |target|
             target.ip == config[:ip] && target.port == Integer(config[:port])
           end
 

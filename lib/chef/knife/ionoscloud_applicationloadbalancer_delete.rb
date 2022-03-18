@@ -47,7 +47,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Application Load balancer')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

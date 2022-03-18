@@ -30,8 +30,7 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
         name: target_group.properties.name + '_edited',
         algorithm: 'RANDOM',
         check_timeout: target_group.properties.health_check.check_timeout + 100,
-        connect_timeout: target_group.properties.health_check.connect_timeout + 100,
-        target_timeout: target_group.properties.health_check.target_timeout + 100,
+        check_interval: target_group.properties.health_check.check_interval + 100,
         retries: target_group.properties.health_check.retries + 10,
         path: target_group.properties.http_health_check.path + '_edited',
         method: 'POST',
@@ -42,11 +41,8 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
           'ip' => new_target.ip,
           'port' => new_target.port,
           'weight' => new_target.weight,
-          'health_check' => {
-            'check' => new_target.health_check.check,
-            'check_interval' => new_target.health_check.check_interval,
-            'maintenance' => new_target.health_check.maintenance,
-          },
+          'health_check_enabled' => new_target.health_check_enabled,
+          'maintenance_enabled' => new_target.maintenance_enabled,
         }],
         yes: true,
       }
@@ -57,8 +53,7 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
       target_group.properties.name = subject_config[:name]
       target_group.properties.algorithm = subject_config[:algorithm]
       target_group.properties.health_check.check_timeout = subject_config[:check_timeout]
-      target_group.properties.health_check.connect_timeout = subject_config[:connect_timeout]
-      target_group.properties.health_check.target_timeout = subject_config[:target_timeout]
+      target_group.properties.health_check.check_interval = subject_config[:check_interval]
       target_group.properties.health_check.retries = subject_config[:retries]
       target_group.properties.health_check.check_timeout = subject_config[:check_timeout]
       target_group.properties.http_health_check.method = subject_config[:method]
@@ -93,8 +88,7 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
               algorithm: subject_config[:algorithm],
               healthCheck: {
                 checkTimeout: subject_config[:check_timeout],
-                connectTimeout: subject_config[:connect_timeout],
-                targetTimeout: subject_config[:target_timeout],
+                checkInterval: subject_config[:check_interval],
                 retries: subject_config[:retries],
               },
               httpHealthCheck: {
@@ -108,11 +102,8 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
                 ip: new_target.ip,
                 port: new_target.port,
                 weight: new_target.weight,
-                healthCheck: {
-                  check: new_target.health_check.check,
-                  checkInterval: new_target.health_check.check_interval,
-                  maintenance: new_target.health_check.maintenance,
-                },
+                healthCheckEnabled: new_target.health_check_enabled,
+                maintenanceEnabled: new_target.maintenance_enabled,
               }],
             },
             result: target_group,
@@ -134,7 +125,6 @@ describe Chef::Knife::IonoscloudTargetgroupUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

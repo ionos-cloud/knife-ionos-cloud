@@ -39,8 +39,6 @@ describe Chef::Knife::IonoscloudTargetgroupTargetRemove do
 
       expect(subject.ui).to receive(:warn).with("Specified target does not exist (#{subject_config[:ip]}:#{subject_config[:port]}).")
 
-      expected_properties = target_group.properties.to_hash
-
       expect(subject).not_to receive(:wait_for)
       mock_call_api(
         subject,
@@ -73,7 +71,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetRemove do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      health_check, http_health_check, targets = subject.get_target_group_extended_properties(target_group)
+      health_check, http_health_check, _ = subject.get_target_group_extended_properties(target_group)
 
       expect(subject).to receive(:puts).with("ID: #{target_group.id}")
       expect(subject).to receive(:puts).with("Name: #{target_group.properties.name}")
@@ -122,7 +120,6 @@ describe Chef::Knife::IonoscloudTargetgroupTargetRemove do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

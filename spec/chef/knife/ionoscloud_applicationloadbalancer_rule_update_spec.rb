@@ -44,12 +44,10 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
         listener_ip: '127.1.1.1',
         listener_port: 30,
         client_timeout: 3000,
-        http_rules: application_loadbalancer_rule.properties.http_rules.map do
-          |el|
+        http_rules: application_loadbalancer_rule.properties.http_rules.map do |el|
           hash = el.to_hash
-          hash[:conditions].map! do
-            |condition|
-            condition.collect{|k,v| [k.to_s, v]}.to_h
+          hash[:conditions].map! do |condition|
+            condition.collect { |k, v| [k.to_s, v] }.to_h
           end
           {
             'name' => existing_httprule_new_name,
@@ -62,12 +60,10 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
             'content_type' => existing_httprule_new_content_type,
             'conditions' => hash[:conditions],
           }
-        end + [application_loadbalancer_rule_httprule].map do
-          |el|
+        end + [application_loadbalancer_rule_httprule].map do |el|
           hash = el.to_hash
-          hash[:conditions].map! do
-            |condition|
-            condition.collect{|k,v| [k.to_s, v]}.to_h
+          hash[:conditions].map! do |condition|
+            condition.collect { |k, v| [k.to_s, v] }.to_h
           end
           {
             'name' => hash[:name],
@@ -97,7 +93,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
       application_loadbalancer.entities.forwardingrules.items.first.properties.name = subject_config[:name]
       application_loadbalancer.entities.forwardingrules.items.first.properties.listener_ip = subject_config[:listener_ip]
       application_loadbalancer.entities.forwardingrules.items.first.properties.listener_port = subject_config[:listener_port]
-      application_loadbalancer.entities.forwardingrules.items.first.properties.health_check.client_timeout = subject_config[:client_timeout]
+      application_loadbalancer.entities.forwardingrules.items.first.properties.client_timeout = subject_config[:client_timeout]
 
       application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.first.name = existing_httprule_new_name
       application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.first.location = existing_httprule_new_location
@@ -115,9 +111,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
           protocol: application_loadbalancer_rule.properties.protocol,
           listener_ip: subject_config[:listener_ip],
           listener_port: subject_config[:listener_port],
-          health_check: {
-            client_timeout: subject_config[:client_timeout],
-          },
+          client_timeout: subject_config[:client_timeout],
           server_certificates: application_loadbalancer_rule.properties.server_certificates,
           http_rules: rule.properties.http_rules.map do |http_rule|
             {
@@ -137,18 +131,16 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
                   key: condition.key,
                   value: condition.value,
                 }
-              end
+              end,
             }
-          end
+          end,
         }
       end}")
 
-      http_rules_body = application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.map do
-        |el|
+      http_rules_body = application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.map do |el|
         hash = el.to_hash
-        hash[:conditions].map! do
-          |condition|
-          condition.collect{|k,v| [k.to_s, v]}.to_h
+        hash[:conditions].map! do |condition|
+          condition.collect { |k, v| [k.to_s, v] }.to_h
         end
         {
           name: hash[:name],
@@ -159,8 +151,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
           statusCode: hash[:statusCode],
           responseMessage: hash[:responseMessage],
           contentType: hash[:contentType],
-          conditions: hash[:conditions].map do
-            |condition|
+          conditions: hash[:conditions].map do |condition|
             condition
             {
               type: condition['type'],
@@ -187,9 +178,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
               name: subject_config[:name],
               listenerIp: subject_config[:listener_ip],
               listenerPort: subject_config[:listener_port],
-              healthCheck: {
-                clientTimeout: subject_config[:client_timeout],
-              },
+              clientTimeout: subject_config[:client_timeout],
               httpRules: http_rules_body,
             },
             result: application_loadbalancer.entities.forwardingrules.items.first,
@@ -211,7 +200,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

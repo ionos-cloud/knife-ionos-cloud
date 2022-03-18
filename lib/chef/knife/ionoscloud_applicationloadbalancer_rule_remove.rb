@@ -50,7 +50,7 @@ class Chef
         end
 
         if removed_rules.empty?
-          ui.warn("No valid rules to remove.")
+          ui.warn('No valid rules to remove.')
         else
           print "#{ui.color("Removing rules #{removed_rules} from the Application Loadbalancer...", :magenta)}"
           dot = ui.color('.', :magenta)

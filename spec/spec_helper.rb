@@ -955,9 +955,7 @@ def application_loadbalancer_rule_mock(opts = {})
       protocol: opts[:protocol] || 'HTTP',
       listener_ip: opts[:listener_ip] || '1.1.1.1',
       listener_port: opts[:listener_port] || '22',
-      health_check: Ionoscloud::ApplicationLoadBalancerForwardingRuleHealthCheck.new(
-        client_timeout: opts[:client_timeout] || 2000,
-      ),
+      client_timeout: opts[:client_timeout] || 2000,
       server_certificates: opts[:server_certificates] || [],
       http_rules: opts.key?(:http_rules) ? opts[:http_rules] : [application_loadbalancer_rule_httprule_mock]
     )
@@ -1001,11 +999,8 @@ def target_group_target_mock(opts = {})
     ip: opts[:ip] || '1.1.1.1',
     port: opts[:port] || 20,
     weight: opts[:weight] || 15,
-    health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
-      check: opts[:check] || true,
-      check_interval: opts[:check_interval] || 2000,
-      maintenance: opts[:maintenance] || false,
-    ),
+    health_check_enabled: opts[:health_check_enabled] || true,
+    maintenance_enabled: opts[:maintenance_enabled] || false,
   )
 end
 
@@ -1018,8 +1013,7 @@ def target_group_mock(opts = {})
       protocol: opts[:protocol] || 'HTTP',
       health_check: Ionoscloud::TargetGroupHealthCheck.new(
         check_timeout: opts[:check_timeout] || 60,
-        connect_timeout: opts[:connect_timeout] || 4000,
-        target_timeout: opts[:target_timeout] || 50000,
+        check_interval: opts[:check_interval] || 4000,
         retries: opts[:retries] || 3,
       ),
       http_health_check: Ionoscloud::TargetGroupHttpHealthCheck.new(

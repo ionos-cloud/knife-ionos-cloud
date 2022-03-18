@@ -76,13 +76,11 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating Application LoadBalancer Forwarding Rule...', :magenta)}"
 
-          if config[:server_certificates] && config[:server_certificates].instance_of?(String)
-            config[:server_certificates] = config[:server_certificates].split(',')
-          end
-  
+          config[:server_certificates] = config[:server_certificates].split(',') if config[:server_certificates] && config[:server_certificates].instance_of?(String)
+
           unless config[:http_rules].nil?
             config[:http_rules] = JSON[config[:http_rules]] if config[:http_rules].instance_of?(String)
-  
+
             config[:http_rules].map! do |target|
               Ionoscloud::ApplicationLoadBalancerHttpRule.new(
                 name: target['name'],
@@ -93,8 +91,7 @@ class Chef
                 status_code: target['status_code'],
                 response_message: target['response_message'],
                 content_type: target['content_type'],
-                conditions: target['conditions'].nil? ? nil : target['conditions'].map do
-                  |condition|
+                conditions: target['conditions'].nil? ? nil : target['conditions'].map do |condition|
                   Ionoscloud::ApplicationLoadBalancerHttpRuleCondition.new(
                     type: condition['type'],
                     condition: condition['condition'],
@@ -116,9 +113,7 @@ class Chef
               protocol: config[:protocol],
               listener_ip: config[:listener_ip],
               listener_port: config[:listener_port],
-              health_check: Ionoscloud::ApplicationLoadBalancerForwardingRuleHealthCheck.new(
-                client_timeout: config[:client_timeout],
-              ),
+              client_timeout: config[:client_timeout],
               server_certificates: config[:server_certificates],
               http_rules: config[:http_rules],
             ),

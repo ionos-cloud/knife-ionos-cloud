@@ -65,7 +65,7 @@ class Chef
 
           config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
           config[:lb_private_ips] = config[:lb_private_ips].split(',') if config[:lb_private_ips] && config[:lb_private_ips].instance_of?(String)
-  
+
           _, _, headers  = application_load_balancers_api.datacenters_applicationloadbalancers_patch_with_http_info(
             config[:datacenter_id],
             config[:application_loadbalancer_id],

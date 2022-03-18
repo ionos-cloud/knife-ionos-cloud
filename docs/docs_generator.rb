@@ -135,5 +135,5 @@ final_categories = []
 categories.map { |key, value| final_categories << { category: key, subcommands: value.sort_by { |a| a[:title] } } }
 
 File.open('summary.md', 'w') do |f|
-  f.write(Summary.new(final_categories).render)
+  f.write(Summary.new(final_categories.sort_by { |a| a[:category].to_s }).render)
 end

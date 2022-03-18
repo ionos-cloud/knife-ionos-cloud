@@ -28,15 +28,10 @@ class Chef
               'a target VM has CheckInterval set and CheckTimeout is set too, then the smaller value of the two is used '\
               'after the TCP connection is established.'
 
-      option :connect_timeout,
-              long: '--connect-timeout CONNECT_TIMEOUT',
+      option :check_interval,
+              long: '--check-interval check_interval',
               description: 'It specifies the maximum time (in milliseconds) to wait for a connection attempt to a target '\
               'VM to succeed. If unset, the default of 5 seconds will be used.'
-
-      option :target_timeout,
-              long: '--target-timeout TARGET_TIMEOUT',
-              description: 'TargetTimeout specifies the maximum inactivity time (in milliseconds) on the target VM side. '\
-              'If unset, the default of 50 seconds will be used.'
 
       option :retries,
               short: '-r RETRIES',
@@ -97,11 +92,8 @@ class Chef
               ip: target['ip'],
               port: Integer(target['port']),
               weight: Integer(target['weight']),
-              health_check: Ionoscloud::TargetGroupTargetHealthCheck.new(
-                check: target['health_check']['check'],
-                check_interval: target['health_check']['check_interval'],
-                maintenance: target['health_check']['maintenance'],
-              ),
+              health_check_enabled: target['health_check_enabled'],
+              maintenance_enabled: target['maintenance_enabled'],
             )
           end
         end
@@ -115,8 +107,7 @@ class Chef
           targets: config[:targets],
           health_check: Ionoscloud::TargetGroupHealthCheck.new(
             check_timeout: config[:check_timeout],
-            connect_timeout: config[:connect_timeout],
-            target_timeout: config[:target_timeout],
+            check_interval: config[:check_interval],
             retries: config[:retries],
           ),
           http_health_check: send_http_health_check ? Ionoscloud::TargetGroupHttpHealthCheck.new(

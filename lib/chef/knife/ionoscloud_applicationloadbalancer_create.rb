@@ -76,7 +76,7 @@ class Chef
         api_client.wait_for { print dot; is_done? get_request_id headers }
 
         print_application_loadbalancer(application_load_balancers_api.datacenters_applicationloadbalancers_find_by_application_load_balancer_id(
-          config[:datacenter_id], application_load_balancer.id, depth: 2,
+                                         config[:datacenter_id], application_load_balancer.id, depth: 2,
         ))
       end
     end

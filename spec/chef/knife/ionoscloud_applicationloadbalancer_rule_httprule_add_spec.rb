@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         status_code: application_loadbalancer_rule_httprule.status_code,
         response_message: application_loadbalancer_rule_httprule.response_message,
         content_type: application_loadbalancer_rule_httprule.content_type,
-        conditions: application_loadbalancer_rule_httprule.conditions.map {|el| el.to_hash.collect{|k,v| [k.to_s, v]}.to_h },
+        conditions: application_loadbalancer_rule_httprule.conditions.map { |el| el.to_hash.collect { |k, v| [k.to_s, v] }.to_h },
         yes: true,
       }
 
@@ -61,9 +61,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,
         listener_port: forwarding_rule.properties.listener_port,
-        health_check: {
-          client_timeout: forwarding_rule.properties.health_check.client_timeout,
-        },
+        client_timeout: forwarding_rule.properties.client_timeout,
         server_certificates: forwarding_rule.properties.server_certificates,
         http_rules: forwarding_rule.properties.http_rules.map do |http_rule|
           {
@@ -83,10 +81,10 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
                 key: condition.key,
                 value: condition.value,
               }
-            end
+            end,
           }
-        end + [expected_rule_print]
-      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1]]}")
+        end + [expected_rule_print],
+      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1],]}")
 
       expected_added_httprule_body = application_loadbalancer_rule_httprule.to_hash
 
@@ -139,8 +137,8 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         type: application_loadbalancer_rule_httprule.type,
         location: application_loadbalancer_rule_httprule.location,
         response_message: application_loadbalancer_rule_httprule.response_message,
-        conditions: "[" + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] +
-        ',' + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + "]",
+        conditions: '[' + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] +
+        ',' + JSON[application_loadbalancer_rule_httprule.conditions.first.to_hash] + ']',
         yes: true,
       }
 
@@ -148,17 +146,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
 
       forwarding_rule = application_loadbalancer.entities.forwardingrules.items.first
 
-      expected_rule_print = {
-        name: application_loadbalancer_rule_httprule.name,
-        type: application_loadbalancer_rule_httprule.type,
-        target_group: application_loadbalancer_rule_httprule.target_group,
-        drop_query: application_loadbalancer_rule_httprule.drop_query,
-        location: application_loadbalancer_rule_httprule.location,
-        status_code: application_loadbalancer_rule_httprule.status_code,
-        response_message: application_loadbalancer_rule_httprule.response_message,
-        content_type: application_loadbalancer_rule_httprule.content_type,
-        conditions: [],
-      }
       expect(subject).to receive(:puts).with("ID: #{application_loadbalancer.id}")
       expect(subject).to receive(:puts).with("Name: #{application_loadbalancer.properties.name}")
       expect(subject).to receive(:puts).with("Listener LAN: #{application_loadbalancer.properties.listener_lan}")
@@ -171,9 +158,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,
         listener_port: forwarding_rule.properties.listener_port,
-        health_check: {
-          client_timeout: forwarding_rule.properties.health_check.client_timeout,
-        },
+        client_timeout: forwarding_rule.properties.client_timeout,
         server_certificates: forwarding_rule.properties.server_certificates,
         http_rules: [{
           name: application_loadbalancer_rule_httprule.name,
@@ -187,9 +172,9 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
           conditions: [
             application_loadbalancer_rule_httprule.conditions.first.to_hash,
             application_loadbalancer_rule_httprule.conditions.first.to_hash,
-          ]
-        }]
-      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1]]}")
+          ],
+        }],
+      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1],]}")
 
       expected_added_httprule_body = application_loadbalancer_rule_httprule.to_hash
       expected_added_httprule_body[:targetGroup] = application_loadbalancer.entities.forwardingrules.items.first.properties.http_rules.first.target_group
@@ -234,7 +219,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

@@ -37,7 +37,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Target Group')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

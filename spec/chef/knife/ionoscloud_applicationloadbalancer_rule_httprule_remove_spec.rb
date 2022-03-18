@@ -15,7 +15,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleRemove do
     it 'should call ApplicationLoadBalancersApi.datacenters_applicationloadbalancers_forwardingrules_patch_with_http_info '\
   'when the ID is valid' do
       application_loadbalancer = application_loadbalancer_mock
-      application_loadbalancer_rule = application_loadbalancer_rule_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -42,12 +41,10 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleRemove do
         protocol: forwarding_rule.properties.protocol,
         listener_ip: forwarding_rule.properties.listener_ip,
         listener_port: forwarding_rule.properties.listener_port,
-        health_check: {
-          client_timeout: forwarding_rule.properties.health_check.client_timeout,
-        },
+        client_timeout: forwarding_rule.properties.client_timeout,
         server_certificates: forwarding_rule.properties.server_certificates,
-        http_rules: []
-      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1]]}")
+        http_rules: [],
+      }, subject.get_application_loadbalancer_extended_properties(application_loadbalancer)[1],]}")
       expect(subject).to receive(:print).with("Removing the Http Rules #{[subject.name_args.first]} from the Application Loadbalancer Forwarding Rule...")
 
       mock_wait_for(subject)
@@ -188,7 +185,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleHttpruleRemove do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

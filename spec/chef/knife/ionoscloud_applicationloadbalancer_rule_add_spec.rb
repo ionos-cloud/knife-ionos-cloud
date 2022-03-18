@@ -15,7 +15,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
     it 'should call ApplicationLoadBalancersApi.datacenters_applicationloadbalancers_forwardingrules_post_with_http_info' do
       application_loadbalancer = application_loadbalancer_mock
       application_loadbalancer_rule = application_loadbalancer_rule_mock
-      
+
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -25,14 +25,12 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
         protocol: application_loadbalancer_rule.properties.protocol,
         listener_ip: application_loadbalancer_rule.properties.listener_ip,
         listener_port: application_loadbalancer_rule.properties.listener_port,
-        client_timeout: application_loadbalancer_rule.properties.health_check.client_timeout,
+        client_timeout: application_loadbalancer_rule.properties.client_timeout,
         server_certificates: application_loadbalancer_rule.properties.server_certificates.join(','),
-        http_rules: application_loadbalancer_rule.properties.http_rules.map do
-          |el|
+        http_rules: application_loadbalancer_rule.properties.http_rules.map do |el|
           hash = el.to_hash
-          hash[:conditions].map! do
-            |condition|
-            condition.collect{|k,v| [k.to_s, v]}.to_h
+          hash[:conditions].map! do |condition|
+            condition.collect { |k, v| [k.to_s, v] }.to_h
           end
           {
             'name' => hash[:name],
@@ -49,7 +47,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
         yes: true,
 
       }
- 
+
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{application_loadbalancer.id}")
@@ -66,9 +64,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
           protocol: application_loadbalancer_rule.properties.protocol,
           listener_ip: application_loadbalancer_rule.properties.listener_ip,
           listener_port: application_loadbalancer_rule.properties.listener_port,
-          health_check: {
-            client_timeout: application_loadbalancer_rule.properties.health_check.client_timeout,
-          },
+          client_timeout: application_loadbalancer_rule.properties.client_timeout,
           server_certificates: application_loadbalancer_rule.properties.server_certificates,
           http_rules: rule.properties.http_rules.nil? ? [] : rule.properties.http_rules.map do |http_rule|
             {
@@ -88,9 +84,9 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
                   key: condition.key,
                   value: condition.value,
                 }
-              end
+              end,
             }
-          end
+          end,
         }
       end}")
 
@@ -125,7 +121,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

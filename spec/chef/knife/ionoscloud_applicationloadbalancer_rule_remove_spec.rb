@@ -79,7 +79,7 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleRemove do
       expect(subject).to receive(:puts).with("Rules: #{subject.get_application_loadbalancer_extended_properties(application_loadbalancer)}")
 
       expect(subject.ui).to receive(:warn).with("Error removing Forwarding Rule #{rule_id}. Skipping.")
-      expect(subject.ui).to receive(:warn).with("No valid rules to remove.")
+      expect(subject.ui).to receive(:warn).with('No valid rules to remove.')
 
       expect(subject.api_client).not_to receive(:wait_for)
       mock_call_api(
@@ -108,7 +108,6 @@ describe Chef::Knife::IonoscloudApplicationloadbalancerRuleRemove do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

@@ -32,22 +32,16 @@ class Chef
               'recommended to start with values which can both grow and shrink, for instance between 10 and 100 to leave '\
               'enough room above and below for later adjustments.'
 
-      option :check,
-              long: '--check CHECK',
-              description: 'Check specifies whether the target VM\'s health is checked. If turned off, a target VM is '\
-              'always considered available. If turned on, the target VM is available when accepting periodic TCP connections, '\
-              'to ensure that it is really able to serve requests. The address and port to send the tests to are those of the '\
-              'target VM. The health check only consists of a connection attempt. If unspecified the default value: false is used.',
+      option :health_check_disable,
+              long: '--health-check-disable',
+              description: 'Enabling the health check makes the target available only if it accepts periodic health check '\
+              'TCP connection attempts; when turned off, the target is considered always available. The health check only '\
+              'consists of a connection attempt to the address and port of the target. Default is having the health check enabled.',
               boolean: true
 
-      option :check_interval,
-              long: '--check-interval CHECK_INTERVAL',
-              description: 'CheckInterval determines the duration (in milliseconds) between consecutive health checks. If '\
-              'unspecified a default of 2000 ms is used.'
-
-      option :maintenance,
+      option :maintenance_enabled,
               long: '--maintenance',
-              description: 'Maintenance specifies if a target VM should be marked as down, even if it is not.',
+              description: 'Maintenance mode prevents the target from receiving balanced traffic.',
               boolean: true
 
       attr_reader :description, :required_options
@@ -68,8 +62,7 @@ class Chef
 
         target_group = target_groups_api.targetgroups_find_by_target_group_id(config[:target_group_id])
 
-        existing_target = target_group.properties.targets.find do
-          |target|
+        existing_target = target_group.properties.targets.find do |target|
           target.ip == config[:ip] && target.port == Integer(config[:port])
         end
 
@@ -81,12 +74,9 @@ class Chef
               ip: config[:ip],
               port: Integer(config[:port]),
               weight: Integer(config[:weight]),
-              health_check: Ionoscloud::TargetGroupTargetHealthCheck.new({
-                check: config[:check],
-                check_interval: config[:check_interval],
-                maintenance: config[:maintenance],
-              }.compact),
-            )
+              health_check_enabled: !config[:health_check_disable],
+              maintenance_enabled: config[:maintenance_enabled],
+            ),
           )
 
           _, _, headers = target_groups_api.targetgroups_patch_with_http_info(config[:target_group_id], target_group.properties)

@@ -50,11 +50,6 @@ class Chef
 
           existing_http_rules_names = application_load_balancer_rule.properties.http_rules.map { |rule| rule.name }
 
-          existing_http_rule = application_load_balancer_rule.properties.http_rules.nil? ? nil : application_load_balancer_rule.properties.http_rules.find do
-            |rule|
-            rule.name == config[:name]
-          end
-
           valid_names = @name_args.select do |http_rule_name|
             existing_http_rules_names.include? http_rule_name
           end
