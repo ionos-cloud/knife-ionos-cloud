@@ -21,7 +21,6 @@ class Chef
               short: '-p',
               long: '--public',
               boolean: true,
-              default: false,
               description: 'Boolean indicating if the LAN faces the public ' \
                           'Internet or not; defaults to false'
 
@@ -29,12 +28,11 @@ class Chef
               long: '--pcc PCC_ID',
               description: 'ID of the PCC to connect the LAN to'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new LAN under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -45,7 +43,7 @@ class Chef
 
         print "#{ui.color('Creating LAN...', :magenta)}"
 
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
 
         lan, _, headers = lan_api.datacenters_lans_post_with_http_info(
           config[:datacenter_id],

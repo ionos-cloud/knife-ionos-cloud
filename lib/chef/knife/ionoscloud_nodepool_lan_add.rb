@@ -25,19 +25,17 @@ class Chef
       option :no_dhcp,
               long: '--nodhcp',
               boolean: true,
-              default: false,
               description: 'Indicates if the Kubernetes Node Pool LAN will reserve an IP using DHCP'
 
       option :routes,
               long: '--routes NETWORK,GATEWAY_IP [NETWORK,GATEWAY_IP]',
               description: 'An array of additional LANs attached to worker nodes'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds or updates a LAN within a Nodepool.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :lan_id, :ionoscloud_username, :ionoscloud_password]
       end
 

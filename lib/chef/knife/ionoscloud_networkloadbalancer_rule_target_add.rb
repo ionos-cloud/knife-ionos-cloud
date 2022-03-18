@@ -55,8 +55,7 @@ class Chef
       option :check_interval,
               long: '--check-interval CHECK_INTERVAL',
               description: 'CheckInterval determines the duration (in milliseconds) between consecutive health checks. '\
-              'If unspecified a default of 2000 ms is used.',
-              default: 2000
+              'If unspecified a default of 2000 ms is used.'
 
       option :maintenance,
               short: '-m',
@@ -64,12 +63,11 @@ class Chef
               description: 'Maintenance specifies if a target VM should be marked as down, even if it is not.',
               boolean: true
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a target to a Network Load Balancer Forwarding Rule under a data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :network_loadbalancer_id, :forwarding_rule_id, :ip, :port, :weight, :ionoscloud_username, :ionoscloud_password,
         ]

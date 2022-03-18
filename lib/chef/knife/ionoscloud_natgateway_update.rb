@@ -31,12 +31,11 @@ class Chef
               long: '--lans LAN[,LAN,...]',
               description: 'Collection of LANs connected to the NAT gateway. IPs must contain valid subnet mask. If user will not provide any IP then system will generate an IP with /24 subnet.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud NAT Gateway.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :natgateway_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :ips, :lans]
       end
@@ -50,8 +49,7 @@ class Chef
 
         config[:ips] = config[:ips].split(',') if config[:ips] && config[:ips].instance_of?(String)
         config[:lans] = JSON[config[:lans]] if config[:lans] && config[:lans].instance_of?(String)
-        config[:lans] = config[:lans].map do
-          |lan|
+        config[:lans] = config[:lans].map do |lan|
           Ionoscloud::NatGatewayLanProperties.new(
             id: lan['id'],
             gateway_ips: lan['gateway_ips'],

@@ -17,18 +17,16 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'The ID of the specific resource to retrieve information about.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "No option: Retrieves a list of all resources and optionally their group associations. "\
-        "Please Note: This API call can take a significant amount of time to return when there "\
-        "are a large number of provisioned resources. You may wish to consult the next section "\
+        'No option: Retrieves a list of all resources and optionally their group associations. '\
+        'Please Note: This API call can take a significant amount of time to return when there '\
+        'are a large number of provisioned resources. You may wish to consult the next section '\
         "on how to list resources of a particular type.\n\n"
-        "resource_type specified: Lists all shareable resources of a specific type. Optionally include their "\
-        "association with groups, permissions that a group has for the resource, and "\
-        "users that are members of the group. Because you are scoping your request to "\
+        'resource_type specified: Lists all shareable resources of a specific type. Optionally include their '\
+        'association with groups, permissions that a group has for the resource, and '\
+        'users that are members of the group. Because you are scoping your request to '\
         "a specific resource type, this API will likely return faster than querying */um/resources*.\n\n"\
         "The values available for resourceType are listed in this table:\n\n"\
         "| ResourceType | Description |\n"\
@@ -37,9 +35,10 @@ class Chef
         "| snapshot | A snapshot of a storage volume. |\n"\
         "| ipblock | An IP block that has been reserved. |\n"\
         "| k8s | A Kubernetes cluster. |\n\n"\
-        "resource_type and resource_id specified: Retrieves a specific resource."\
-        "**NOTE:** if you pass the *resource_id* option it is necessary to also pass the "\
-        "*resource_type* option or a list of all resources will be returned."
+        'resource_type and resource_id specified: Retrieves a specific resource.'\
+        '**NOTE:** if you pass the *resource_id* option it is necessary to also pass the '\
+        '*resource_type* option or a list of all resources will be returned.'
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -56,9 +55,7 @@ class Chef
           ui.color('Name', :bold),
         ]
 
-        if config[:resource_id] && !config[:resource_type]
-          ui.warn('Ignoring resource_id because no resource_type was specified.')
-        end
+        ui.warn('Ignoring resource_id because no resource_type was specified.') if config[:resource_id] && !config[:resource_type]
 
         opts = { depth: 1 }
 

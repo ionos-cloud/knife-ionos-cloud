@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud k8s delete CLUSTER_ID [CLUSTER_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes a Kubernetes cluster. The cluster cannot contain any node pools when deleting.'
+        @directory = 'kubernetes'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -35,7 +34,7 @@ class Chef
           unless ['ACTIVE', 'TERMINATED'].include? cluster.metadata.state
             ui.error(
               "K8s Cluster #{cluster_id} state must be one of ['ACTIVE', 'TERMINATED'], "\
-              "actual state is '#{cluster.metadata.state}'. Skipping."
+              "actual state is '#{cluster.metadata.state}'. Skipping.",
             )
             next
           end
@@ -50,7 +49,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this K8s Cluster')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

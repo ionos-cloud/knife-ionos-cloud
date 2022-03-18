@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud contract list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists information about available contract resources.'
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -23,8 +22,7 @@ class Chef
 
         contracts = Ionoscloud::ContractResourcesApi.new(api_client).contracts_get()
 
-        contracts.items.each do
-          |contract|
+        contracts.items.each do |contract|
           puts "#{ui.color('Contract Type', :cyan)}: #{contract.type}"
           puts "#{ui.color('Contract Owner', :cyan)}: #{contract.properties.owner}"
           puts "#{ui.color('Contract Number', :cyan)}: #{contract.properties.contract_number}"

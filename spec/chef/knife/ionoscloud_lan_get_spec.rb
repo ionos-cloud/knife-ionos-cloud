@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanGet do
   end
 
   describe '#run' do
-    it 'should call LansApi.datacenters_lans_find_by_id' do
+    it 'should call LANsApi.datacenters_lans_find_by_id' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudLanGet do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{subject_config[:lan_id]}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
@@ -51,7 +51,6 @@ describe Chef::Knife::IonoscloudLanGet do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

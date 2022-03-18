@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudLanCreate do
   end
 
   describe '#run' do
-    it 'should call LansApi.datacenters_lans_post with the expected arguments and output based on what it receives' do
+    it 'should call LANsApi.datacenters_lans_post with the expected arguments and output based on what it receives' do
       lan = lan_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -41,7 +41,7 @@ describe Chef::Knife::IonoscloudLanCreate do
           {
             method: 'POST',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans",
-            operation: :'LansApi.datacenters_lans_post',
+            operation: :'LANsApi.datacenters_lans_post',
             return_type: 'LanPost',
             body: { properties: expected_body },
             result: lan,
@@ -49,7 +49,7 @@ describe Chef::Knife::IonoscloudLanCreate do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
@@ -63,7 +63,6 @@ describe Chef::Knife::IonoscloudLanCreate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

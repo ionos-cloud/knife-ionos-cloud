@@ -28,12 +28,11 @@ class Chef
               description: 'Collection of gateway IP addresses of the NAT gateway. '\
                           'Will be auto-generated if not provided. Should ideally be an IP belonging to the same subnet as the LAN'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a LAN to a Nat Gateway under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :natgateway_id, :lan_id, :ionoscloud_username, :ionoscloud_password]
       end
 

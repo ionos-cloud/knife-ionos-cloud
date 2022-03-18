@@ -17,13 +17,12 @@ class Chef
               long: '--server-id SERVER_ID',
               description: 'The ID of the server'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'List all available volumes under a data center. '\
         'You can also list all volumes attached to a specific server.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

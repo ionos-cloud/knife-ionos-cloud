@@ -1,18 +1,30 @@
 require 'chef/knife'
 
+require 'knife-ionoscloud/version'
+
+
+MODULE_VERSION = Knife::Ionoscloud::VERSION unless defined? MODULE_VERSION
+
 class Chef
   class Knife
     module IonoscloudBase
       def initialize(args = [])
         super(args)
         @description = ''
+        @directory = ''
         @required_options = []
       end
+
+      attr_reader :description, :required_options, :directory
 
       def self.included(includer)
         includer.class_eval do
           deps do
+            warn_level = $VERBOSE
+            $VERBOSE = nil
             require 'ionoscloud'
+            require 'ionoscloud-dbaas-postgres'
+            $VERBOSE = warn_level
           end
 
           option :ionoscloud_username,
@@ -24,6 +36,10 @@ class Chef
                   short: '-p PASSWORD',
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
+
+          option :ionoscloud_url,
+                  long: '--url URL',
+                  description: 'The Ionoscloud API URL'
 
           option :extra_config_file,
                   short: '-e EXTRA_CONFIG_FILE_PATH',
@@ -67,14 +83,54 @@ class Chef
       end
 
       def api_client
+        return @api_client if @api_client
+
         api_config = Ionoscloud::Configuration.new()
 
         api_config.username = config[:ionoscloud_username]
         api_config.password = config[:ionoscloud_password]
 
+        if config[:ionoscloud_url]
+          uri = URI.parse(config[:ionoscloud_url])
+
+          api_config.scheme = uri.scheme
+          api_config.host = uri.host
+          api_config.base_path = uri.path
+          api_config.server_index = nil
+        end
+
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        @api_client ||= Ionoscloud::ApiClient.new(api_config)
+        @api_client = Ionoscloud::ApiClient.new(api_config)
+
+        @api_client.user_agent =  [
+          'knife/v' + MODULE_VERSION,
+          @api_client.default_headers['User-Agent'],
+          'chef/' + Chef::VERSION,
+        ].join('_')
+
+        @api_client
+      end
+
+      def api_client_dbaas
+        return @api_client_dbaas if @api_client_dbaas
+
+        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
+
+        api_config_dbaas.username = config[:ionoscloud_username]
+        api_config_dbaas.password = config[:ionoscloud_password]
+
+        api_config_dbaas.debugging = config[:ionoscloud_debug] || false
+
+        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
+
+        @api_client_dbaas.user_agent =  [
+          'knife/v' + MODULE_VERSION,
+          @api_client_dbaas.default_headers['User-Agent'],
+          'chef/' + Chef::VERSION,
+        ].join('_')
+
+        @api_client_dbaas
       end
 
       def get_request_id(headers)
@@ -536,6 +592,35 @@ class Chef
         puts "#{ui.color('HTTP Health Check', :cyan)}: #{http_health_check}"
         puts "#{ui.color('Targets', :cyan)}: #{targets}"
         puts 'done'
+      end
+
+      def print_cluster(cluster)
+        connections = cluster.properties.connections.map { |connection| connection.to_hash }
+        
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
+        puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"
+        puts "#{ui.color('Postgres Version', :cyan)}: #{cluster.properties.postgres_version}"
+        puts "#{ui.color('Location', :cyan)}: #{cluster.properties.location}"
+        puts "#{ui.color('Instances', :cyan)}: #{cluster.properties.instances}"
+        puts "#{ui.color('RAM Size', :cyan)}: #{cluster.properties.ram}"
+        puts "#{ui.color('Cores', :cyan)}: #{cluster.properties.cores}"
+        puts "#{ui.color('Storage Size', :cyan)}: #{cluster.properties.storage_size}"
+        puts "#{ui.color('Storage Type', :cyan)}: #{cluster.properties.storage_type}"
+        puts "#{ui.color('Connections', :cyan)}: #{connections}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{cluster.properties.maintenance_window.to_hash}"
+        puts "#{ui.color('Synchronization Mode', :cyan)}: #{cluster.properties.synchronization_mode}"
+        puts "#{ui.color('Lifecycle Status', :cyan)}: #{cluster.metadata.state}"
+      end
+
+      def print_cluster_backup(backup)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{backup.id}"
+        puts "#{ui.color('Cluster ID', :cyan)}: #{backup.properties.cluster_id}"
+        puts "#{ui.color('Version', :cyan)}: #{backup.properties.version}"
+        puts "#{ui.color('Is Active', :cyan)}: #{backup.properties.is_active}"
+        puts "#{ui.color('Earliest Recovery Target Time', :cyan)}: #{backup.properties.earliest_recovery_target_time}"
+        puts "#{ui.color('Created Date', :cyan)}: #{backup.metadata.created_date}"
       end
     end
   end

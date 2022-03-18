@@ -37,12 +37,11 @@ class Chef
               long: '--network-loadbalancer NETWORK_LOADBALANCER',
               description: 'ID of the Network Load Balancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Removes the specified Flow Logs.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -50,8 +49,6 @@ class Chef
         $stdout.sync = true
         handle_extra_config
         validate_required_params(@required_options, config)
-
-        flowlogs_api = Ionoscloud::FlowLogsApi.new(api_client)
 
         case config[:type]
         when 'nic'
@@ -90,7 +87,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Flow Log')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

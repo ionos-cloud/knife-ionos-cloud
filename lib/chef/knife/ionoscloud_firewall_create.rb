@@ -30,7 +30,6 @@ class Chef
       option :protocol,
               short: '-P PROTOCOL',
               long: '--protocol PROTOCOL',
-              default: 'TCP',
               description: 'The protocol of the firewall rule (TCP, UDP, ICMP, ANY)'
 
       option :source_mac,
@@ -73,15 +72,13 @@ class Chef
       option :type,
               short: '--t TYPE',
               long: '--type TYPE',
-              description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS',
-              default: 'INGRESS'
-
-      attr_reader :description, :required_options
+              description: 'The type of firewall rule. If is not specified, it will take the default value INGRESS'
 
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new firewall rule on an existing NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -102,7 +99,7 @@ class Chef
           port_range_end: config[:port_range_end],
           icmp_type: config[:icmp_type],
           icmp_code: config[:icmp_code],
-          type: config[:type]
+          type: config[:type],
         }
 
         firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)

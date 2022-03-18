@@ -2,6 +2,12 @@
 
 ![CI](https://github.com/ionos-cloud/knife-ionos-cloud/workflows/CI/badge.svg) [![Gem Version](https://badge.fury.io/rb/knife-ionoscloud.svg)](https://badge.fury.io/rb/knife-ionoscloud) [![Gitter](https://badges.gitter.im/ionos-cloud/sdk-general.png)](https://gitter.im/ionos-cloud/sdk-general)
 
+---
+**NOTE:**
+Be aware that the Chef IonosCloud Provider v6 will become main branch and it will be using the latest stable API Version.
+
+---
+
 ## Overview
 
 Chef is a popular configuration management tool that allows simplified configuration and maintenance of both servers and cloud provider environments through the use of common templates called recipes. The Chef `knife` command line tool allows management of various nodes within those environments. The `knife-ionoscloud` plugin utilizes the IONOS Cloud REST API to provision and manage various cloud resources on the IONOS Cloud platform.
@@ -86,6 +92,17 @@ When using the command `knife ionoscloud datacenter create --extra-config EXTRA_
 * If any of the arguments are set in any other way, the values from the file will be ignored. Running the command `knife ionoscloud datacenter create --location us/las --extra-config EXTRA_CONFIG_FILE_PATH` will create a datacenter in the 'us/las' location. In the same way if the values for ionoscloud_username and ionoscloud_password are already set in the knife.rb file, the contents from the JSON will be ignored.
 * Only Ionoscloud specific options may be altered using this option.
 * If an option is ignored because it is not on the available options list or if it is overwritten in another way then a warning message will be displayed.
+
+### Changing the API url
+
+By changing API url the module will make all calls using the provided url. To change the API url used by the knife module, one can do either of the following:
+* specify the new url using `--url NEW_URL`
+* set it in a json file, using the `ionoscloud_url` key, and passing the file to the command like described in the section above
+* set the new url in the knife.rb file. It could be set using an environmental variable, same as with the username and the password.
+
+```text
+knife[:ionoscloud_url] = NEW_API_URL
+```
 
 ## Feature Reference
 

@@ -27,8 +27,6 @@ class Chef
               long: '--method METHOD',
               description: 'Request method filter to fetch all the request based on a particular method [POST, PUT, PATCH, DELETE]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
@@ -37,6 +35,7 @@ class Chef
         'the request and its current status. The "list request" operation described here will '\
         'return an array of request items. Each returned request item will have an id that can be '\
         'used to get additional information as described in the Get Request and Get Request Status sections.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -57,18 +56,14 @@ class Chef
         begin
           config[:limit] = Integer(config[:limit])
         rescue *[ArgumentError, TypeError]
-          if config[:limit]
-            ui.warn('limit should be an Integer!')
-          end
+          ui.warn('limit should be an Integer!') if config[:limit]
           config[:limit] = 20
         end
 
         begin
           config[:offset] = Integer(config[:offset])
         rescue *[ArgumentError, TypeError]
-          if config[:offset]
-            ui.warn('offset should be an Integer!')
-          end
+          ui.warn('offset should be an Integer!') if config[:offset]
           config[:offset] = 0
         end
 
@@ -78,21 +73,13 @@ class Chef
           offset: config[:offset],
         }
 
-        if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-          opts[:filter_request_status] = config[:status]
-        end
+        opts[:filter_request_status] = config[:status] if config[:status] && ['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
 
-        if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
-          ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]')
-        end
+        ui.warn('status should be one of [QUEUED, RUNNING, DONE, FAILED]') if config[:status] && !['QUEUED', 'RUNNING', 'DONE', 'FAILED'].include?(config[:status])
 
-        if config[:method] && ['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
-          opts[:filter_method] = config[:method]
-        end
+        opts[:filter_method] = config[:method] if config[:method] && ['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
 
-        if config[:method] && !['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
-          ui.warn('method should be one of [POST, PUT, PATCH, DELETE]')
-        end
+        ui.warn('method should be one of [POST, PUT, PATCH, DELETE]') if config[:method] && !['POST', 'PUT', 'PATCH', 'DELETE'].include?(config[:method])
 
         request_api.requests_get(opts).items.each do |request|
           request_list << request.id

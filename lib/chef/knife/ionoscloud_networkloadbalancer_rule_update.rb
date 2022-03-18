@@ -71,12 +71,11 @@ class Chef
               long: '--targets TARGETS',
               description: 'Array of targets'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Network Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :algorithm, :protocol, :listener_ip, :listener_port, :targets,
@@ -94,8 +93,7 @@ class Chef
         config[:gateway_ips] = config[:gateway_ips].split(',') if config[:gateway_ips] && config[:gateway_ips].instance_of?(String)
         config[:targets] = JSON[config[:targets]] if config[:targets] && config[:targets].instance_of?(String)
 
-        config[:targets] = config[:targets].map do
-          |target|
+        config[:targets] = config[:targets].map do |target|
           Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
             ip: target['ip'],
             port: target['port'],

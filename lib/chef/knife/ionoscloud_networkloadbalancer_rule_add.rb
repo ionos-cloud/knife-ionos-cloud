@@ -25,13 +25,11 @@ class Chef
       option :algorithm,
               short: '-a ALGORITHM',
               long: '--algorithm ALGORITHM',
-              description: 'Algorithm for the balancing',
-              default: 'ROUND_ROBIN'
+              description: 'Algorithm for the balancing'
 
       option :protocol,
               long: '--protocol PROTOCOL',
-              description: 'Protocol of the balancing',
-              default: 'TCP'
+              description: 'Protocol of the balancing'
 
       option :listener_ip,
               short: '-i LISTENER_IP',
@@ -46,38 +44,33 @@ class Chef
       option :client_timeout,
               long: '--client-timeout CLIENT_TIMEOUT',
               description: 'ClientTimeout is expressed in milliseconds. This inactivity timeout applies when '\
-              'the client is expected to acknowledge or send data. If unset the default of 50 seconds will be used.',
-              default: 50
+              'the client is expected to acknowledge or send data. If unset the default of 50 seconds will be used.'
 
       option :connect_timeout,
               long: '--connect-timeout CONNECT_TIMEOUT',
               description: 'It specifies the maximum time (in milliseconds) to wait for a connection attempt to a '\
-              'target VM to succeed. If unset, the default of 5 seconds will be used.',
-              default: 5000
+              'target VM to succeed. If unset, the default of 5 seconds will be used.'
 
       option :target_timeout,
               long: '--terget-timeout TARGET_TIMEOUT',
               description: 'TargetTimeout specifies the maximum inactivity time (in milliseconds) on the target VM side. '\
-              'If unset, the default of 50 seconds will be used.',
-              default: 50000
+              'If unset, the default of 50 seconds will be used.'
 
       option :retries,
               short: '-r RETRIES',
               long: '--retries RETRIES',
               description: 'Retries specifies the number of retries to perform on a target VM after a connection failure. '\
-              'If unset, the default value of 3 will be used. (valid range: [0, 65535])',
-              default: 3
+              'If unset, the default value of 3 will be used. (valid range: [0, 65535])'
 
       option :targets,
               long: '--targets TARGETS',
               description: 'Array of targets'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a Forwarding Rule to a Network Load Balancer under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :network_loadbalancer_id, :name, :listener_ip, :listener_port, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -91,8 +84,7 @@ class Chef
         config[:gateway_ips] = config[:gateway_ips].split(',') if config[:gateway_ips] && config[:gateway_ips].instance_of?(String)
         config[:targets] = JSON[config[:targets]] if config[:targets] && config[:targets].instance_of?(String)
 
-        config[:targets] = config[:targets].map do
-          |condition|
+        config[:targets] = config[:targets].map do |condition|
           Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
             ip: condition['ip'],
             port: condition['port'],

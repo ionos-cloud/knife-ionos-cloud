@@ -22,12 +22,11 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'ID of the load balancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 

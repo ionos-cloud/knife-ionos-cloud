@@ -3,17 +3,26 @@
 # This must be run from /docs directory
 
 require 'mustache'
+require 'fileutils'
 
 $LOAD_PATH << '.'
 
-Dir["../lib/chef/knife/*.rb"].each { |file| require file }
+Dir['../lib/chef/knife/*.rb'].each { |file| require file }
+
+FOLDER_TO_NAME_MAP = {
+  'backup' => 'Managed Backup',
+  'user' => 'User Management',
+  'compute-engine' => 'Compute Engine',
+  'kubernetes' => 'Managed Kubernetes',
+  'dbaas-postgres' => 'DBaaS Postgres',
+}.freeze
 
 def underscore_string(s)
-  s.gsub(/::/, '/').
-  gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
-  gsub(/([a-z\d])([A-Z])/, '\1_\2').
-  tr("-", "_").
-  downcase
+  s.gsub(/::/, '/')
+  .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+  .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+  .tr('-', '_')
+  .downcase
 end
 
 class Subcommand < Mustache
@@ -36,25 +45,31 @@ class Summary < Mustache
   self.template_path = './templates'
   self.template_file = './templates/summary.mustache'
 
-  attr_accessor :subcommands
+  attr_accessor :categories
 
-  def initialize(subcommands)
-    @subcommands = subcommands || []
+  def initialize(categories)
+    @categories = categories || []
   end
 end
 
 def generate_subcommand_doc(subcommand)
-  options = subcommand.options.map { |key, value|
+  options = subcommand.options.map do |key, value|
     value[:name] = key
     value[:required] = subcommand.required_options.include? key
     value[:description][0] = value[:description][0].downcase
     value
-  }.rotate(3)
+  end.rotate(3)
 
   subcommand_name = subcommand.class.to_s
   subcommand_name.slice!('Chef::Knife::Ionoscloud')
 
-  filename = "subcommands/#{underscore_string(subcommand_name)}.md"
+  begin
+    filename = "subcommands/#{subcommand.directory}/#{underscore_string(subcommand_name)}.md"
+    category = FOLDER_TO_NAME_MAP[subcommand.directory]
+  rescue NoMethodError
+    filename = "subcommands/#{underscore_string(subcommand_name)}.md"
+    category = ''
+  end
 
   begin
     description = subcommand.description
@@ -62,7 +77,9 @@ def generate_subcommand_doc(subcommand)
     description = ''
   end
 
-  File.open(filename, 'w') { |f|
+  FileUtils.mkdir_p(File.dirname(filename)) unless File.directory?(File.dirname(filename))
+
+  File.open(filename, 'w') do |f|
     f.write(
       Subcommand.new(
         subcommand.banner,
@@ -72,36 +89,51 @@ def generate_subcommand_doc(subcommand)
         subcommand.required_options.map { |el| el.to_s.gsub '_', '\_' },
       ).render,
     )
-  }
+  end
 
   puts "Generated documentation for #{subcommand_name}."
-  return subcommand_name, filename
+  {
+    title: subcommand_name,
+    filename: filename,
+    category: category,
+  }
 end
 
 subcommands = []
 
 begin
-  Chef::Knife.constants.select { |c|
+  Chef::Knife.constants.select do |c|
     Chef::Knife.const_get(c).is_a?(Class) && c.to_s.start_with?('Ionoscloud')
-  }.each {
-    |subcommand|
+  end.each do |subcommand|
+    # if subcommand.to_s == 'IonoscloudBackupunitCreate'
     begin
-      subcommand_name, filename = generate_subcommand_doc(Chef::Knife.const_get(subcommand).new)
-      subcommands.append({ title: subcommand_name, filename: filename })
-    rescue Exception => exc
+      subcommands.append(generate_subcommand_doc(Chef::Knife.const_get(subcommand).new))
+    rescue StandardError => exc
       puts "Could not generate doc for #{subcommand}. Error: #{exc}"
       # raise exc
     end
-  }
-rescue NameError => exc
-  if exc.message == 'uninitialized constant Chef'
-    puts 'This must be run from /docs directory!'
+    # end
   end
+rescue NameError => exc
+  puts 'This must be run from /docs directory!' if exc.message == 'uninitialized constant Chef'
   raise exc
 end
 
-subcommands.sort! { |a, b| a[:title] <=> b[:title] }
+categories = {}
 
-File.open('summary.md', 'w') { |f|
-  f.write(Summary.new(subcommands).render,)
-}
+subcommands.map do |subcommand|
+  if categories.key?(subcommand[:category])
+    categories[subcommand[:category]] << subcommand
+  else
+    categories[subcommand[:category]] = [subcommand]
+  end
+end
+
+
+final_categories = []
+
+categories.map { |key, value| final_categories << { category: key, subcommands: value.sort_by { |a| a[:title] } } }
+
+File.open('summary.md', 'w') do |f|
+  f.write(Summary.new(final_categories).render)
+end

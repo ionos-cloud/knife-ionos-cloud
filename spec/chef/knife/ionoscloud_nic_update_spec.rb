@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudNicUpdate do
         lan: 13,
         name: nic.properties.name + '_edited',
         dhcp: (!nic.properties.dhcp).to_s,
-        ips: (nic.properties.ips + ['3.3.3.3']).join(','),
+        ips: (nic.properties.ips + ['127.0.0.3']).join(','),
         firewall_type: 'EGRESS',
         yes: true,
       }
@@ -80,7 +80,6 @@ describe Chef::Knife::IonoscloudNicUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

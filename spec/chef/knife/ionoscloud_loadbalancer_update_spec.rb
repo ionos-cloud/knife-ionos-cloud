@@ -21,7 +21,7 @@ describe Chef::Knife::IonoscloudLoadbalancerUpdate do
         loadbalancer_id: load_balancer.id,
         name: load_balancer.properties.name + '_edited',
         dhcp: (!load_balancer.properties.dhcp).to_s,
-        ip: '3.3.3.3',
+        ip: '127.0.0.3',
         yes: true,
       }
 
@@ -72,7 +72,6 @@ describe Chef::Knife::IonoscloudLoadbalancerUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

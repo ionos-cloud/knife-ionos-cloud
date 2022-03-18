@@ -38,21 +38,21 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
           {
             method: 'PATCH',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_patch',
+            operation: :'LANsApi.datacenters_lans_patch',
             body: Ionoscloud::LanProperties.new({ ip_failover: [({ ip: subject_config[:ip], nicUuid: subject_config[:nic_id] })] }).to_hash,
             return_type: 'Lan',
           },
           {
             method: 'GET',
             path: "/datacenters/#{subject_config[:datacenter_id]}/lans/#{lan.id}",
-            operation: :'LansApi.datacenters_lans_find_by_id',
+            operation: :'LANsApi.datacenters_lans_find_by_id',
             return_type: 'Lan',
             result: lan,
           },
@@ -66,7 +66,6 @@ describe Chef::Knife::IonoscloudIpfailoverAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

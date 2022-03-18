@@ -55,12 +55,11 @@ class Chef
               long: '--disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG',
               description: 'The licence type of the volume (LINUX, WINDOWS, UNKNOWN, OTHER)'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Volume.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :volume_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :size, :bus, :cpu_hot_plug, :ram_hot_plug, :nic_hot_plug, :nic_hot_unplug, :disc_virtio_hot_plug, :disc_virtio_hot_unplug,

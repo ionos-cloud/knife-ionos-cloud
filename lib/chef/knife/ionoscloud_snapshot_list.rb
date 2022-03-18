@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud snapshot list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieve a list of snapshots.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -26,7 +25,7 @@ class Chef
           ui.color('Name', :bold),
           ui.color('Description', :bold),
           ui.color('Location', :bold),
-          ui.color('Size', :bold)
+          ui.color('Size', :bold),
         ]
 
         snapshot_api = Ionoscloud::SnapshotsApi.new(api_client)

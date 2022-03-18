@@ -17,15 +17,14 @@ class Chef
               long: '--server-id SERVER_ID',
               description: 'The ID of the server'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "This will detach the volume from the server. Depending on the volume "\
+        'This will detach the volume from the server. Depending on the volume '\
         "HotUnplug settings, this may result in the server being rebooted.\n\n"\
-        "This will NOT delete the volume from your virtual data center. You will "\
-        "need to make a separate request to delete a volume."
+        'This will NOT delete the volume from your virtual data center. You will '\
+        'need to make a separate request to delete a volume.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -60,7 +59,7 @@ class Chef
 
           begin
             confirm('Do you really want to detach this volume')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

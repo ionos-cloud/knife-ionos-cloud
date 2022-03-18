@@ -17,12 +17,11 @@ class Chef
               long: '--natgateway-id NATGATEWAY_ID',
               description: 'ID of the NAT Gateway'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists all available rules in a NAT Gateways under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

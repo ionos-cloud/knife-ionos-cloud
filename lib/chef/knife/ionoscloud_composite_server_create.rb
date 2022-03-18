@@ -25,8 +25,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)',
-              default: 'INTEL_SKYLAKE'
+              description: 'The family of processor cores (INTEL_XEON or AMD_OPTERON)'
 
       option :ram,
               short: '-r RAM',
@@ -36,8 +35,7 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the server',
-              default: 'AUTO'
+              description: 'The availability zone of the server'
 
       option :volume_name,
               long: '--volume-name NAME',
@@ -114,7 +112,6 @@ class Chef
               short: '-h',
               long: '--dhcp',
               boolean: true | false,
-              default: true,
               description: 'Set to false if you wish to disable DHCP'
 
       option :lan,
@@ -125,15 +122,13 @@ class Chef
       option :firewall_type,
               long: '--firewall-type FIREWALL_TYPE',
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
-              'default value INGRESS',
-              default: 'INGRESS'
-
-      attr_reader :description, :required_options
+              'default value INGRESS'
 
       def initialize(args = [])
         super(args)
         @description =
         'This creates a new composite server with an attached volume and NIC in a specified virtual data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :name, :cores, :ram, :size, :type, :dhcp, :lan, :ionoscloud_username, :ionoscloud_password,
         ]
@@ -163,7 +158,7 @@ class Chef
             availability_zone: config[:volume_availability_zone],
             backupunit_id: config[:backupunit_id],
             user_data: config[:user_data],
-          }.compact)
+          }.compact),
         )
 
         nic = Ionoscloud::Nic.new(
@@ -173,7 +168,7 @@ class Chef
             dhcp: config[:dhcp],
             lan: config[:lan],
             firewall_type: config[:firewall_type],
-          }.compact)
+          }.compact),
         )
 
         server = Ionoscloud::Server.new(

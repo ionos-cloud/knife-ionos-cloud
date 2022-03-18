@@ -12,12 +12,11 @@ class Chef
               long: '--user USER_ID',
               description: 'The ID of the user'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This operation deletes a specific S3 key.'
+        @directory = 'user'
         @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -42,7 +41,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this S3 key')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

@@ -17,12 +17,11 @@ class Chef
               long: '--upgrade-needed',
               description: 'It can be used to filter which servers can be upgraded'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'List all available servers under a specified data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

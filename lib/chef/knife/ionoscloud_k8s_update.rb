@@ -41,12 +41,11 @@ class Chef
               long: '--s3-buckets BUCKET[,BUCKET,...]',
               description: 'List of S3 bucket configured for K8s usage. For now it contains only one S3 bucket used to store K8s API audit logs.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud K8s Cluster.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :version, :maintenance_day, :maintenance_time, :api_subnet_allow_list, :s3_buckets,
@@ -63,14 +62,10 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating K8s Cluster...', :magenta)}"
 
-          if config[:api_subnet_allow_list] && config[:api_subnet_allow_list].instance_of?(String)
-            config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',')
-          end
+          config[:api_subnet_allow_list] = config[:api_subnet_allow_list].split(',') if config[:api_subnet_allow_list] && config[:api_subnet_allow_list].instance_of?(String)
           config[:s3_buckets] = config[:s3_buckets].split(',') if config[:s3_buckets] && config[:s3_buckets].instance_of?(String)
 
-          if config.key?(:s3_buckets)
-            config[:s3_buckets] = config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) }
-          end
+          config[:s3_buckets] = config[:s3_buckets].map { |el| Ionoscloud::S3Bucket.new(name: el) } if config.key?(:s3_buckets)
 
           cluster = kubernetes_api.k8s_find_by_cluster_id(config[:cluster_id])
 

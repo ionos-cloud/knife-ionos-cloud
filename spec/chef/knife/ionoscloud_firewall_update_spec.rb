@@ -24,8 +24,8 @@ describe Chef::Knife::IonoscloudFirewallUpdate do
         name: firewall.properties.name + '_edited',
         protocol: 'TCP',
         source_mac: '01:11:11:11:22:00',
-        source_ip: '1.2.3.4',
-        target_ip: '2.2.3.1',
+        source_ip: '127.0.0.3',
+        target_ip: '127.0.0.4',
         port_range_start: 100,
         port_range_end: 145,
         icmp_type: 15,
@@ -100,7 +100,6 @@ describe Chef::Knife::IonoscloudFirewallUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

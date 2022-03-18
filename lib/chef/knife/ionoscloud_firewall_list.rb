@@ -22,12 +22,11 @@ class Chef
               long: '--nic-id NIC_ID',
               description: 'ID of the NIC'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists all available firewall rules assigned to a NIC.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -53,7 +52,7 @@ class Chef
         firewallrules_api = Ionoscloud::FirewallRulesApi.new(api_client)
 
         firewallrules_api.datacenters_servers_nics_firewallrules_get(
-          config[:datacenter_id], config[:server_id], config[:nic_id], { depth: 1 }
+          config[:datacenter_id], config[:server_id], config[:nic_id], { depth: 1 },
         ).items.each do |firewall|
           firewall_list << firewall.id
           firewall_list << firewall.properties.name

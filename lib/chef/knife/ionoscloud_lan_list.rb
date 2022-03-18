@@ -12,12 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'The ID of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Lists all available LANs under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -34,7 +33,7 @@ class Chef
           ui.color('Public', :bold),
           ui.color('PCC', :bold),
         ]
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
 
         lan_api.datacenters_lans_get(config[:datacenter_id], { depth: 1 }).items.each do |lan|
           lan_list << lan.id

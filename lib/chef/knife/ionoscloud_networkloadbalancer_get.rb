@@ -17,12 +17,11 @@ class Chef
               long: '--network-loadbalancer NETWORK_LOADBALANCER_ID',
               description: 'ID of the Network Loadbalancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given Network Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
       end
 

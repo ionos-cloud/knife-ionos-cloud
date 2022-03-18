@@ -25,8 +25,7 @@ class Chef
       option :cpu_family,
               short: '-f CPU_FAMILY',
               long: '--cpu-family CPU_FAMILY',
-              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)',
-              default: 'INTEL_SKYLAKE'
+              description: 'The family of the CPU (INTEL_XEON or AMD_OPTERON)'
 
       option :ram,
               short: '-r RAM',
@@ -36,8 +35,7 @@ class Chef
       option :availability_zone,
               short: '-a AVAILABILITY_ZONE',
               long: '--availability-zone AVAILABILITY_ZONE',
-              description: 'The availability zone of the server',
-              default: 'AUTO'
+              description: 'The availability zone of the server'
 
       option :boot_volume,
               long: '--boot-volume VOLUME_ID',
@@ -47,15 +45,14 @@ class Chef
               long: '--boot-cdrom CDROM_ID',
               description: 'Reference to a CD-ROM used for booting'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "One of the unique features of the Ionoscloud platform when compared "\
-        "with the other providers is that they allow you to define your own settings "\
+        'One of the unique features of the Ionoscloud platform when compared '\
+        'with the other providers is that they allow you to define your own settings '\
         "for cores, memory, and disk size without being tied to a particular size or flavor.\n\n"\
-        "Note: _The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth._"
+        'Note: _The memory parameter value must be a multiple of 256, e.g. 256, 512, 768, 1024, and so forth._'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :cores, :ram, :ionoscloud_username, :ionoscloud_password]
       end
 

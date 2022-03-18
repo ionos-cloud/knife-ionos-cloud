@@ -12,12 +12,11 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'Name of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes an existing LAN.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -26,7 +25,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        lan_api = Ionoscloud::LansApi.new(api_client)
+        lan_api = Ionoscloud::LANsApi.new(api_client)
         @name_args.each do |lan_id|
           begin
             lan = lan_api.datacenters_lans_find_by_id(config[:datacenter_id], lan_id)
@@ -41,7 +40,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this LAN')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 
