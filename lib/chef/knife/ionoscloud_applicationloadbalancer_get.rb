@@ -23,6 +23,7 @@ class Chef
         super(args)
         @description =
         'Retrieves the attributes of a given Application Load Balancer.'
+        @directory = 'application-loadbalancers'
         @required_options = [:datacenter_id, :application_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -18,6 +18,7 @@ class Chef
         super(args)
         @description =
         'Gets information about a Target Group.'
+        @directory = 'application-loadbalancers'
         @required_options = [:target_group_id, :ionoscloud_username, :ionoscloud_password]
       end
 

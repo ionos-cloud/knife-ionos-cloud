@@ -13,6 +13,7 @@ class Chef
         super(args)
         @description =
         'Deletes a Target Group'
+        @directory = 'application-loadbalancers'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

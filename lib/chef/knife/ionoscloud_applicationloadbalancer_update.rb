@@ -49,6 +49,7 @@ class Chef
         super(args)
         @description =
         'Updates information about a Ionoscloud Application LoadBalancer.'
+        @directory = 'application-loadbalancers'
         @required_options = [:datacenter_id, :application_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :listener_lan, :target_lan, :ips, :lb_private_ips]
       end

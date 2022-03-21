@@ -57,6 +57,7 @@ class Chef
         super(args)
         @description =
         'Adds a Forwarding Rule to a Application Load Balancer under a data center.'
+        @directory = 'application-loadbalancers'
         @required_options = [
           :datacenter_id, :application_loadbalancer_id, :name, :listener_ip, :listener_port, :ionoscloud_username, :ionoscloud_password,
         ]
