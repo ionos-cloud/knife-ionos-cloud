@@ -13,8 +13,8 @@ class Chef
               description: 'Name of the data center'
 
       option :application_loadbalancer_id,
-              short: '-L NETWORK_LOADBALANCER_ID',
-              long: '--application-loadbalancer NETWORK_LOADBALANCER_ID',
+              short: '-L APPLICATION_LOADBALANCER_ID',
+              long: '--application-loadbalancer APPLICATION_LOADBALANCER_ID',
               description: 'ID of the Application Loadbalancer'
 
       option :name,
