@@ -28,7 +28,7 @@ class Chef
         super(args)
         @description =
         'Removes a Http Rule from a Application Load Balancer Forwarding Rule.'
-        @directory = 'application-loadbalancers'
+        @directory = 'application-loadbalancer'
         @required_options = [
           :datacenter_id, :application_loadbalancer_id, :forwarding_rule_id, :ionoscloud_username, :ionoscloud_password,
         ]

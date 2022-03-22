@@ -74,7 +74,7 @@ class Chef
         super(args)
         @description =
         'Creates a new Target Group.'
-        @directory = 'application-loadbalancers'
+        @directory = 'application-loadbalancer'
         @required_options = [:name, :algorithm, :protocol, :ionoscloud_username, :ionoscloud_password]
       end
 

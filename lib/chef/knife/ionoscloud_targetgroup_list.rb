@@ -12,7 +12,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description = 'Lists all available Target Groups.'
-        @directory = 'application-loadbalancers'
+        @directory = 'application-loadbalancer'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

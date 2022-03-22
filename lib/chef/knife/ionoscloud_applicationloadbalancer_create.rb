@@ -44,7 +44,7 @@ class Chef
         super(args)
         @description =
         'Creates an Application Load Balancer within the datacenter.'
-        @directory = 'application-loadbalancers'
+        @directory = 'application-loadbalancer'
         @required_options = [:datacenter_id, :name, :listener_lan, :target_lan, :ips, :ionoscloud_username, :ionoscloud_password]
       end
 

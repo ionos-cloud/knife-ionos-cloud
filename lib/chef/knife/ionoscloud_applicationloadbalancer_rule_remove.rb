@@ -23,7 +23,7 @@ class Chef
         super(args)
         @description =
         'Removes the specified rules from a Application Loadbalancer under a data center.'
-        @directory = 'application-loadbalancers'
+        @directory = 'application-loadbalancer'
         @required_options = [:datacenter_id, :application_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -15,7 +15,7 @@ FOLDER_TO_NAME_MAP = {
   'compute-engine' => 'Compute Engine',
   'kubernetes' => 'Managed Kubernetes',
   'dbaas-postgres' => 'DBaaS Postgres',
-  'application-loadbalancers' => 'Application Load Balancers',
+  'application-loadbalancer' => 'Application Load Balancer',
 }.freeze
 
 def underscore_string(s)
