@@ -28,6 +28,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterUpdate do
       expect(subject).to receive(:puts).with("Display Name: #{subject_config[:display_name]}")
       expect(subject).to receive(:puts).with("Postgres Version: #{cluster.properties.postgres_version}")
       expect(subject).to receive(:puts).with("Location: #{cluster.properties.location}")
+      expect(subject).to receive(:puts).with("Backup location: #{cluster.properties.backup_location}")
       expect(subject).to receive(:puts).with("Instances: #{cluster.properties.instances}")
       expect(subject).to receive(:puts).with("RAM Size: #{cluster.properties.ram}")
       expect(subject).to receive(:puts).with("Cores: #{cluster.properties.cores}")
