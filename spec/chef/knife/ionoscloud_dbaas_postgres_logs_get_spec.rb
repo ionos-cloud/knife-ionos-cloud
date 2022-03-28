@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
   end
 
   describe '#run' do
-    it 'should call LogsApi.cluster_logs_get' do
+    it 'should call LogsApi.cluster_logs_get and use start and end even if since and until are also provided' do
       cluster_logs = cluster_logs_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -21,6 +21,8 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
         limit: 3,
         start: '2022-03-22T01:01:01Z',
         end: '2022-03-22T09:01:01Z',
+        since: '2h',
+        until: '20m',
         direction: 'FORWARD',
         yes: true,
       }
@@ -54,15 +56,15 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
       expect { subject.run }.not_to raise_error(Exception)
     end
 
-    it 'should call LogsApi.cluster_logs_get using time deltas' do
+    it 'should call LogsApi.cluster_logs_get using since and until' do
       cluster_logs = cluster_logs_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
         limit: 3,
-        start: '2h',
-        end: '20m',
+        since: '2h',
+        until: '20m',
         direction: 'FORWARD',
         yes: true,
       }
@@ -102,7 +104,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         cluster_id: 'cluster_id',
-        start: '2d',
+        since: '2d',
         yes: true,
       }
 

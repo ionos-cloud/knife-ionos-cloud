@@ -19,15 +19,21 @@ class Chef
 
       option :start,
               long: '--start START',
-              description: 'The start time for the query in RFC3339 format. '\
-              'Can also be specified as a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
-              'Only hours and minutes ar supported, and not at the same time.'
+              description: 'The start time for the query in RFC3339 format. If both start and since are set, start will be used.'
+
+      option :since,
+              long: '--since SINCE',
+              description: 'The start time for the query using a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
+              'Only hours and minutes ar supported, and not at the same time. If both start and since are set, start will be used.'
 
       option :end,
               long: '--end END',
-              description: 'The end time for the query in RFC3339 format. '\
-              'Can also be specified as a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
-              'Only hours and minutes ar supported, and not at the same time.'
+              description: 'The end time for the query in RFC3339 format. If both end and until are set, end will be used.'
+
+      option :until,
+              long: '--until UNTIL',
+              description: 'The end time for the query using a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
+              'Only hours and minutes ar supported, and not at the same time. If both end and until are set, end will be used.'
 
       option :direction,
               long: '--direction DIRECTION',
@@ -47,9 +53,9 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        match_time_delta = /^\d+\D$/
-
         def delta_to_date(delta)
+          return nil if delta.nil?
+
           unit = delta[-1]
           unless ['h', 'm'].include? unit
             ui.error('Time delta may only be specified in hours(h) or minutes(m)!')
@@ -62,20 +68,12 @@ class Chef
           (Time.now - minute_count * 60).iso8601
         end
 
-        if config[:start] && config[:start].match(match_time_delta)
-          config[:start] = delta_to_date(config[:start])
-        end
-        if config[:end] && config[:end].match(match_time_delta)
-          config[:end] = delta_to_date(config[:end])
-        end
-
-
         logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas).cluster_logs_get(
           config[:cluster_id],
           {
             limit: (config[:limit] != nil ? Integer(config[:limit]) : nil),
-            start: config[:start],
-            end: config[:end],
+            start: config[:start].nil? ? delta_to_date(config[:since]) : config[:start],
+            end: config[:end].nil? ? delta_to_date(config[:until]) : config[:end],
             direction: config[:direction],
           },
         )
