@@ -99,7 +99,6 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
     end
 
     it 'should call not LogsApi.cluster_logs_get when using something different from minutes and hours for delta' do
-      cluster_logs = cluster_logs_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
