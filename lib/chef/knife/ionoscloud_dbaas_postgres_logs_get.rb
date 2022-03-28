@@ -64,7 +64,7 @@ class Chef
 
           minute_count = Integer(delta[0..-2])
           minute_count *= 60 if unit == 'h'
-           
+
           (Time.now - minute_count * 60).iso8601
         end
 
