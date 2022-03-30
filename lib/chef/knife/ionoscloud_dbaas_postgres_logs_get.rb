@@ -73,7 +73,7 @@ class Chef
           {
             limit: (config[:limit] != nil ? Integer(config[:limit]) : nil),
             start: config[:start].nil? ? delta_to_date(config[:since]) : config[:start],
-            end: config[:end].nil? ? delta_to_date(config[:until]) : config[:end],
+            _end: config[:end].nil? ? delta_to_date(config[:until]) : config[:end],
             direction: config[:direction],
           },
         )
