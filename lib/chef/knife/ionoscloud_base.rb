@@ -460,6 +460,7 @@ class Chef
         puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"
         puts "#{ui.color('Postgres Version', :cyan)}: #{cluster.properties.postgres_version}"
         puts "#{ui.color('Location', :cyan)}: #{cluster.properties.location}"
+        puts "#{ui.color('Backup location', :cyan)}: #{cluster.properties.backup_location}"
         puts "#{ui.color('Instances', :cyan)}: #{cluster.properties.instances}"
         puts "#{ui.color('RAM Size', :cyan)}: #{cluster.properties.ram}"
         puts "#{ui.color('Cores', :cyan)}: #{cluster.properties.cores}"

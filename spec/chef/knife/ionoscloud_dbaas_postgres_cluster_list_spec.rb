@@ -26,6 +26,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterList do
         subject.ui.color('Display Name', :bold),
         subject.ui.color('Postgres Version', :bold),
         subject.ui.color('Location', :bold),
+        subject.ui.color('Backup location', :bold),
         subject.ui.color('Instances', :bold),
         subject.ui.color('Datacenter ID', :bold),
         subject.ui.color('Lan ID', :bold),
@@ -38,6 +39,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterList do
         cluster_list << cluster.properties.display_name
         cluster_list << cluster.properties.postgres_version
         cluster_list << cluster.properties.location
+        cluster_list << cluster.properties.backup_location
         cluster_list << cluster.properties.instances
         cluster_list << cluster.properties.connections.first.datacenter_id
         cluster_list << cluster.properties.connections.first.lan_id
@@ -45,7 +47,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterList do
         cluster_list << cluster.metadata.state
       end
 
-      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 9)
+      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 10)
 
       mock_dbaas_call_api(
         subject,
