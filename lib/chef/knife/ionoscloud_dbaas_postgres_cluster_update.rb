@@ -68,7 +68,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres)
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating cluster...', :magenta)}"

@@ -38,7 +38,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas).cluster_logs_get(
+        logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas_postgres).cluster_logs_get(
           config[:cluster_id],
           {
             limit: (config[:limit] != nil ? Integer(config[:limit]) : nil),

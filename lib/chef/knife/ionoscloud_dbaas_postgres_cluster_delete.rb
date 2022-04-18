@@ -20,7 +20,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres)
 
         @name_args.each do |cluster_id|
           begin

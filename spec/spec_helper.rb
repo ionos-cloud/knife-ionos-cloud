@@ -924,24 +924,24 @@ def network_loadbalancer_rule_target_mock(opts = {})
 end
 
 def vm_autoscaling_group_mock(opts = {})
-  IonoscloudAutoscaling::Group.new(
+  IonoscloudVmAutoscaling::Group.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: IonoscloudAutoscaling::GroupProperties.new(
+    properties: IonoscloudVmAutoscaling::GroupProperties.new(
       max_replica_count: opts[:max_replica_count] || 4,
       min_replica_count: opts[:min_replica_count] || 2,
       target_replica_count: opts[:target_replica_count] || 3,
       name: opts[:name] || 'vm_autoscaling_group',
-      policy: opts[:policy] || IonoscloudAutoscaling::GroupPolicy.new(
+      policy: opts[:policy] || IonoscloudVmAutoscaling::GroupPolicy.new(
         metric: opts[:metric] || 'INSTANCE_CPU_UTILIZATION_AVERAGE',
         range: opts[:range] || 'range',
-        scale_in_action: opts[:scale_in_action] || IonoscloudAutoscaling::GroupPolicyScaleInAction.new(
+        scale_in_action: opts[:scale_in_action] || IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(
           amount: opts[:amount] || 2.2,
           amount_type: opts[:amount_type] || 'ABSOLUTE',
           cooldown_period: opts[:cooldown_period] || 'cooldown period',
           termination_policy: opts[:termination_policy] || 'OLDEST_SERVER_FIRST',
         ),
         scale_in_threshold: opts[:amount] || 3.3,
-        scale_out_action: opts[:scale_out_action] || IonoscloudAutoscaling::GroupPolicyScaleOutAction.new(
+        scale_out_action: opts[:scale_out_action] || IonoscloudVmAutoscaling::GroupPolicyScaleOutAction.new(
           amount: opts[:amount] || 2.1,
           amount_type: opts[:amount_type] || 'ABSOLUTE',
           cooldown_period: opts[:cooldown_period] || 'cooldown period o',
@@ -949,17 +949,17 @@ def vm_autoscaling_group_mock(opts = {})
         scale_out_threshold: opts[:scale_out_threshold] || 4.4,
         unit: opts[:unit] || 'PER_HOUR',
       ),
-      replica_configuration: opts[:replica_configuration] || IonoscloudAutoscaling::ReplicaPropertiesPost.new(
+      replica_configuration: opts[:replica_configuration] || IonoscloudVmAutoscaling::ReplicaPropertiesPost.new(
         availability_zone: opts[:availability_zone] || 'ZONE_1',
         cores: opts[:cores] || 8,
         cpu_family: opts[:cpu_family] || 'AMD_OPTERON',
-        nics: opts[:nics] || [IonoscloudAutoscaling::ReplicaNic.new(
+        nics: opts[:nics] || [IonoscloudVmAutoscaling::ReplicaNic.new(
           lan: opts[:lan] || 5,
           name: opts[:name] || 'nic name',
           dhcp: opts[:dhcp] || false,
         ),],
         ram: opts[:cores] || 4096,
-        volumes: opts[:nics] || [IonoscloudAutoscaling::ReplicaVolumePost.new(
+        volumes: opts[:nics] || [IonoscloudVmAutoscaling::ReplicaVolumePost.new(
           image: opts[:image] || SecureRandom.uuid,
           name: opts[:name] || 'volume name',
           size: opts[:size] || 2048,
@@ -969,7 +969,7 @@ def vm_autoscaling_group_mock(opts = {})
           image_password: opts[:image_password] || 'image passw',
         ),],
       ),
-      datacenter: opts[:datacenter] || IonoscloudAutoscaling::Resource.new(
+      datacenter: opts[:datacenter] || IonoscloudVmAutoscaling::Resource.new(
         id: opts[:id] || 'group_resource_id',
         type: opts[:type] || 'group_resource_type',
       ),
@@ -979,7 +979,7 @@ def vm_autoscaling_group_mock(opts = {})
 end
 
 def vm_autoscaling_groups_mock(opts = {})
-  IonoscloudAutoscaling::GroupCollection.new(
+  IonoscloudVmAutoscaling::GroupCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
     items: [vm_autoscaling_group_mock, vm_autoscaling_group_mock],
@@ -987,10 +987,10 @@ def vm_autoscaling_groups_mock(opts = {})
 end
 
 def vm_autoscaling_action_mock(opts = {})
-  IonoscloudAutoscaling::Action.new(
+  IonoscloudVmAutoscaling::Action.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'datacenter',
-    properties: IonoscloudAutoscaling::ActionProperties.new(
+    properties: IonoscloudVmAutoscaling::ActionProperties.new(
       action_status: opts[:action_status] || 'SUCCESSFUL',
       action_type: opts[:action_type] || 'SCALE_IN',
       target_replica_count: opts[:target_replica_count] || 1,
@@ -999,14 +999,14 @@ def vm_autoscaling_action_mock(opts = {})
 end
 
 def vm_autoscaling_action_resource_mock(opts = {})
-  IonoscloudAutoscaling::ActionResource.new(
+  IonoscloudVmAutoscaling::ActionResource.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'datacenter',
   )
 end
 
 def vm_autoscaling_actions_mock(opts = {})
-  IonoscloudAutoscaling::ActionCollection.new(
+  IonoscloudVmAutoscaling::ActionCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
     items: [vm_autoscaling_action_resource_mock, vm_autoscaling_action_resource_mock],
@@ -1014,10 +1014,10 @@ def vm_autoscaling_actions_mock(opts = {})
 end
 
 def vm_autoscaling_group_server_mock(opts = {})
-  IonoscloudAutoscaling::Server.new(
+  IonoscloudVmAutoscaling::Server.new(
     id: opts[:id] || SecureRandom.uuid,
-    properties: IonoscloudAutoscaling::ServerProperties.new(
-      datacenter_server: opts[:datacenter_server] || IonoscloudAutoscaling::DatacenterServer.new(
+    properties: IonoscloudVmAutoscaling::ServerProperties.new(
+      datacenter_server: opts[:datacenter_server] || IonoscloudVmAutoscaling::DatacenterServer.new(
         id: opts[:id] || SecureRandom.uuid,
         type: opts[:type] || 'datacenter'
       ),
@@ -1027,18 +1027,20 @@ def vm_autoscaling_group_server_mock(opts = {})
 end
 
 def vm_autoscaling_server_resource_mock(opts = {})
-  IonoscloudAutoscaling::ActionResource.new(
+  IonoscloudVmAutoscaling::ActionResource.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'server',
   )
 end
 
 def vm_autoscaling_servers_group(opts = {})
-  IonoscloudAutoscaling::ServerCollection.new(
+  IonoscloudVmAutoscaling::ServerCollection.new(
     id: SecureRandom.uuid,
     type: 'collection',
     items: [vm_autoscaling_server_resource_mock, vm_autoscaling_server_resource_mock],
   )
+end
+
 def postgres_version_data_mock(opts = {})
   IonoscloudDbaasPostgres::PostgresVersionListData.new(name: opts[:name] || 12)
 end
@@ -1095,9 +1097,10 @@ def mock_wait_for(subject)
   expect(subject.api_client).to receive(:wait_for).once { true }
 end
 
-def mock_dbaas_call_api(subject, rules)
+
+def mock_call_api_generic(client, rules)
   rules.each do |rule|
-    expect(subject.api_client_dbaas).to receive(:call_api).once do |method, path, opts|
+    expect(client).to receive(:call_api).once do |method, path, opts|
       result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
 
@@ -1116,29 +1119,17 @@ def mock_dbaas_call_api(subject, rules)
       rule[:result]
     end
   end
-  expect(subject.api_client_dbaas).not_to receive(:call_api)
+  expect(client).not_to receive(:call_api)
 end
 
 def mock_call_api(subject, rules)
-  rules.each do |rule|
-    expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
-      result = nil
-      received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
+  mock_call_api_generic(subject.api_client, rules)
+end
 
-      expect(method.to_s).to eq(rule[:method])
-      expect(path).to eq(rule[:path])
-      expect(opts[:operation]).to eq(rule[:operation])
-      expect(opts[:form_params]).to eq(rule[:form_params] || {})
-      expect(opts[:return_type]).to eq(rule[:return_type] || nil)
-      expect(received_body).to eq(rule[:body] || nil)
-      expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
+def mock_dbaas_postgres_call_api(subject, rules)
+  mock_call_api_generic(subject.api_client_dbaas_postgres, rules)
+end
 
-      if rule[:exception]
-        raise rule[:exception]
-      end
-
-      rule[:result]
-    end
-  end
-  expect(subject.api_client).not_to receive(:call_api)
+def mock_vm_autoscaling_call_api(subject, rules)
+  mock_call_api_generic(subject.api_client_vm_autoscaling, rules)
 end

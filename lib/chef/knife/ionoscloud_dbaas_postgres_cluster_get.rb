@@ -27,7 +27,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print_cluster(IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas).clusters_find_by_id(config[:cluster_id]))
+        print_cluster(IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres).clusters_find_by_id(config[:cluster_id]))
       end
     end
   end

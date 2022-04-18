@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterUpdate do
 
       cluster.properties.display_name = subject_config[:display_name]
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {

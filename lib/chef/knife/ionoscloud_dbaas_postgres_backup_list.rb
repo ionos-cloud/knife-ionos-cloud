@@ -35,7 +35,7 @@ class Chef
           ui.color('Created Date', :bold),
         ]
 
-        backups_api = IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas)
+        backups_api = IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas_postgres)
 
         if config[:cluster_id]
           backups = backups_api.cluster_backups_get(config[:cluster_id])

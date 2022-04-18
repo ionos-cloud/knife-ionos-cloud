@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupGet do
       expect(subject).to receive(:puts).with("Earliest Recovery Target Time: #{backup.properties.earliest_recovery_target_time}")
       expect(subject).to receive(:puts).with("Created Date: #{backup.metadata.created_date}")
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -53,7 +53,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client_dbaas_postgres).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

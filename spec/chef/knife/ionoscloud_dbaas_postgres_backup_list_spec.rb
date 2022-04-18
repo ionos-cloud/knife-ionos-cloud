@@ -47,7 +47,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
 
       expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 6)
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -74,7 +74,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
 
       expect(subject.ui).to receive(:list).with(@cluster_backup_list, :uneven_columns_across, 6)
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -97,7 +97,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresBackupList do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client_dbaas_postgres).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

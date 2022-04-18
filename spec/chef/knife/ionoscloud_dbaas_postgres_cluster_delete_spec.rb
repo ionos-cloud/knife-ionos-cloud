@@ -38,7 +38,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterDelete do
       expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
       expect(subject.ui).to receive(:warn).with("Deleted Cluster #{cluster.id}.")
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -72,7 +72,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterDelete do
 
       expect(subject.ui).to receive(:error).with("Cluster ID #{cluster_id} not found. Skipping.")
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {

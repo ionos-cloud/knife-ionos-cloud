@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterGet do
       expect(subject).to receive(:puts).with("Synchronization Mode: #{cluster.properties.synchronization_mode}")
       expect(subject).to receive(:puts).with("Lifecycle Status: #{cluster.metadata.state}")
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -59,7 +59,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client_dbaas_postgres).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

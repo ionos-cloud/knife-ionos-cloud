@@ -29,7 +29,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
         expect(subject).to receive(:puts).with(instance.messages.map { |message| message.message })
       end
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {
@@ -52,7 +52,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresLogsGet do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client_dbaas).not_to receive(:call_api)
+        expect(subject.api_client_dbaas_postgres).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

@@ -10,14 +10,14 @@ class Chef
       option :group_id,
               short: '-G GROUP_ID',
               long: '--group-id GROUP_ID',
-              description: 'ID of the vm autoscaling group'
+              description: 'ID of the VM Autoscaling Group'
 
       attr_reader :description, :required_options
 
       def initialize(args = [])
         super(args)
         @description =
-        'retrieves a list of all vm autoscaling group server.'
+        'retrieves a list of all VM Autoscaling Group server.'
         @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -31,7 +31,7 @@ class Chef
           ui.color('TYPE', :bold),
         ]
 
-        groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
         groups_api.autoscaling_groups_servers_get(config[:group_id]).items.each do |group_server|
           autoscaling_group_server_list << group_server.id

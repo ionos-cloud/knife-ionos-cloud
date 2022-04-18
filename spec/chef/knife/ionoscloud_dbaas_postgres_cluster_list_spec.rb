@@ -47,7 +47,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterList do
 
       expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 9)
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {

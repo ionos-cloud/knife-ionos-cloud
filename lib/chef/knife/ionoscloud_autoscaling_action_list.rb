@@ -17,7 +17,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'retrieves a list of all vm autoscaling group actions.'
+        'Retrieves a list of all VM Autoscaling Group actions.'
         @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -32,7 +32,7 @@ class Chef
         ]
 
         opts = { depth: 1 }
-        groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
         groups_api.autoscaling_groups_actions_get(config[:group_id], opts).items.each do |group_action|
           autoscaling_group_action_list << group_action.id

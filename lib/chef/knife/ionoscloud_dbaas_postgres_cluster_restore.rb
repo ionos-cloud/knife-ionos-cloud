@@ -39,7 +39,7 @@ class Chef
 
         restore_request = IonoscloudDbaasPostgres::CreateRestoreRequest.new(backup_id: config[:backup_id], recovery_target_time: config[:recovery_target_time])
 
-        IonoscloudDbaasPostgres::RestoresApi.new(api_client_dbaas).cluster_restore_post(config[:cluster_id], restore_request)
+        IonoscloudDbaasPostgres::RestoresApi.new(api_client_dbaas_postgres).cluster_restore_post(config[:cluster_id], restore_request)
 
         puts("\nCluster restored succsefully.")
       end

@@ -31,7 +31,7 @@ class Chef
           ui.color('Version', :bold),
         ]
 
-        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres)
 
         if config[:cluster_id]
           versions = clusters_api.cluster_postgres_versions_get(config[:cluster_id])

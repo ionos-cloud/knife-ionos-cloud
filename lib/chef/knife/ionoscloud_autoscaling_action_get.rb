@@ -22,7 +22,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Retrieves information about a Ionoscloud vm Autoscaling Action.'
+        'Retrieves information about a Ionoscloud VM Autoscaling Action.'
         @required_options = [:action_id, :group_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_autoscaling_action(
-          IonoscloudAutoscaling::GroupsApi.new(api_client).autoscaling_groups_actions_find_by_id(
+          IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling).autoscaling_groups_actions_find_by_id(
             config[:action_id], 
             config[:group_id],
             )

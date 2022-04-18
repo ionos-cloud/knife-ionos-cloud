@@ -62,33 +62,33 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print "#{ui.color('Creating vm Autoscaling Group...', :magenta)}"
+        print "#{ui.color('Creating VM Autoscaling Group...', :magenta)}"
 
         config[:policy] = JSON[config[:policy]] if config[:policy] && config[:policy].instance_of?(String)
         config[:replica_configuration] = JSON[config[:replica_configuration]] if config[:replica_configuration] && config[:replica_configuration].instance_of?(String)
 
-        groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
-        group_properties = IonoscloudAutoscaling::GroupProperties.new(
+        vm_autoscaling_group_properties = IonoscloudVmAutoscaling::GroupProperties.new(
           max_replica_count: Integer(config[:max_replica_count]),
           min_replica_count: Integer(config[:min_replica_count]),
           target_replica_count: Integer(config[:target_replica_count]),
           name: config[:name],
           policy: config[:policy],
           replica_configuration: config[:replica_configuration],
-          datacenter: IonoscloudAutoscaling::Resource.new(
+          datacenter: IonoscloudVmAutoscaling::Resource.new(
             id: config[:resource_id],
             type: config[:resource_type],
           ),
           location: config[:location],
         )
 
-        group = IonoscloudAutoscaling::Group.new()
-        group.properties = group_properties
+        vm_autoscaling_group = IonoscloudVmAutoscaling::Group.new()
+        vm_autoscaling_group.properties = vm_autoscaling_group_properties
 
-        group  = groups_api.autoscaling_groups_post_with_http_info(group)
+        vm_autoscaling_group = groups_api.autoscaling_groups_post(vm_autoscaling_group)
 
-        print_autoscaling_group(group)
+        print_autoscaling_group(vm_autoscaling_group)
       end
     end
   end

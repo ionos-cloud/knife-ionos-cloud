@@ -26,7 +26,7 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        print_cluster_backup(IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas).clusters_backups_find_by_id(config[:backup_id]))
+        print_cluster_backup(IonoscloudDbaasPostgres::BackupsApi.new(api_client_dbaas_postgres).clusters_backups_find_by_id(config[:backup_id]))
       end
     end
   end

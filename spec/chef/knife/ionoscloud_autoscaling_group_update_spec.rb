@@ -41,7 +41,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
 
       autoscaling_group.properties.name = subject_config[:name]
 
-      mock_call_api(
+      mock_vm_autoscaling_call_api(
         subject,
         [
           {
@@ -73,7 +73,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)
+        expect(subject.api_client_vm_autoscaling).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

@@ -33,8 +33,9 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
       expect(subject).to receive(:puts).with("Replica Configuration: #{autoscaling_group.properties.replica_configuration}")
       expect(subject).to receive(:puts).with("Datacenter: Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}")
       expect(subject).to receive(:puts).with("Location: #{autoscaling_group.properties.location}")
+      expect(subject.ui).to receive(:warn).with("Deleted VM Autoscaling Group #{autoscaling_group.id}. Request ID: ")
       
-      mock_call_api(
+      mock_vm_autoscaling_call_api(
         subject,
         [
           {
@@ -66,9 +67,9 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
       subject_config.each { |key, value| subject.config[key] = value }
       subject.name_args = [group_id]
 
-      expect(subject.ui).to receive(:error).with("Group ID #{group_id} not found. Skipping.")
+      expect(subject.ui).to receive(:error).with("VM Autoscaling Group ID #{group_id} not found. Skipping.")
 
-      mock_call_api(
+      mock_vm_autoscaling_call_api(
         subject,
         [
           {
@@ -76,7 +77,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
             path: "/cloudapi/autoscaling/groups/#{group_id}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
-            exception: IonoscloudAutoscaling::ApiError.new(code: 404),
+            exception: IonoscloudVmAutoscaling::ApiError.new(code: 404),
           },
         ],
       )
@@ -92,7 +93,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)
+        expect(subject.api_client_vm_autoscaling).not_to receive(:call_api)
 
         expect { subject.run }.to raise_error(SystemExit) do |error|
           expect(error.status).to eq(1)

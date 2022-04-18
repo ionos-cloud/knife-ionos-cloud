@@ -118,7 +118,7 @@ class Chef
           )
         end if config[:connections]
 
-        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres)
 
         cluster_properties = IonoscloudDbaasPostgres::CreateClusterProperties.new(
           postgres_version: config[:postgres_version],

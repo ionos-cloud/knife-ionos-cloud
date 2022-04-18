@@ -10,7 +10,7 @@ class Chef
       option :group_id,
               short: '-G GROUP_ID',
               long: '--group-id GROUP_ID',
-              description: 'ID of the vm autoscaling group'
+              description: 'ID of the VM Autoscaling Group'
 
       option :max_replica_count,
               long: '--max-replica-count MAX_REPLICA_COUNT',
@@ -31,7 +31,7 @@ class Chef
               
       option :policy,
               long: '--policy POLICY',
-              description: 'The policy for the vm autoscaling group.'
+              description: 'The policy for the VM Autoscaling Group.'
 
       option :replica_configuration,
               long: '--replica-configuration REPLICA_CONFIGURATION',
@@ -39,11 +39,11 @@ class Chef
         
       option :resource_id,
               long: '--resource-id RESOURCE_ID',
-              description: 'The id of the datacenter of the vm Autoscaling Group to create.'
+              description: 'The id of the datacenter of the VM Autoscaling Group to create.'
 
       option :resource_type,
               long: '--resource-type RESOURCE_TYPE',
-              description: 'The type of the resource of the vm Autoscaling Group to create.'
+              description: 'The type of the resource of the VM Autoscaling Group to create.'
 
 
       attr_reader :description, :required_options
@@ -61,38 +61,36 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        gropus_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
         config[:replica_configuration] = JSON[config[:replica_configuration]] if config[:replica_configuration] && config[:replica_configuration].instance_of?(String)
         config[:policy] = JSON[config[:policy]] if config[:policy] && config[:policy].instance_of?(String)
 
         if @updatable_fields.map { |el| config[el] }.any?
-          print "#{ui.color('Updating the vm Autoscaling Group...', :magenta)}"
+          print "#{ui.color('Updating the VM Autoscaling Group...', :magenta)}"
           
-          group_properties = IonoscloudAutoscaling::GroupUpdatableProperties.new(
+          group_properties = IonoscloudVmAutoscaling::GroupUpdatableProperties.new(
             max_replica_count: (config[:max_replica_count].nil? ? nil : Integer(config[:max_replica_count])),
             min_replica_count: (config[:min_replica_count].nil? ? nil : Integer(config[:min_replica_count])),
             target_replica_count: (config[:target_replica_count].nil? ? nil : Integer(config[:target_replica_count])),
             name: config[:name],
             policy: (config[:policy].nil? ? nil : config[:policy]),
             replica_configuration: (config[:replica_configuration].nil? ? nil : config[:replica_configuration]),
-            datacenter: (config[:resource_id] && config[:resource_type]) ? IonoscloudAutoscaling::Resource.new(
+            datacenter: (config[:resource_id] && config[:resource_type]) ? IonoscloudVmAutoscaling::Resource.new(
               resource_id: config[:resource_id],
               resource_type: config[:resource_type],
             ) : nil,
           )
 
-          group_update = IonoscloudAutoscaling::GroupUpdate.new()
-          group_update.properties = group_properties
+          vm_autoscaling_group_update = IonoscloudVmAutoscaling::GroupUpdate.new()
+          vm_autoscaling_group_update.properties = vm_autoscaling_group_properties
 
-          cluster, _, headers  = gropus_api.autoscaling_groups_put_with_http_info(config[:group_id], group_update)
-
-          dot = ui.color('.', :magenta)
+          groups_api.autoscaling_groups_put_with_http_info(config[:group_id], vm_autoscaling_group_update)
         else
           ui.warn("Nothing to update, please set one of the attributes #{@updatable_fields}.")
         end
 
-        print_autoscaling_group(gropus_api.autoscaling_groups_find_by_id(config[:group_id]))
+        print_autoscaling_group(groups_api.autoscaling_groups_find_by_id(config[:group_id]))
       end
     end
   end

@@ -12,7 +12,7 @@ class Chef
       def initialize(args = [])
         super(args)
         @description =
-        'Delete a Ionoscloud vm Autoscaling Group'
+        'Delete a Ionoscloud VM Autoscaling Group'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -21,14 +21,14 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
-        groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
         @name_args.each do |group_id|
           begin
             group = groups_api.autoscaling_groups_find_by_id(group_id)
-          rescue IonoscloudAutoscaling::ApiError => err
+          rescue IonoscloudVmAutoscaling::ApiError => err
             raise err unless err.code == 404
-            ui.error("Group ID #{group_id} not found. Skipping.")
+            ui.error("VM Autoscaling Group ID #{group_id} not found. Skipping.")
             next
           end
 
@@ -36,13 +36,13 @@ class Chef
           puts "\n"
 
           begin
-            confirm('Do you really want to delete this group')
+            confirm('Do you really want to delete this VM Autoscaling Group')
           rescue SystemExit => exc
             next
           end
 
           _, _, headers = groups_api.autoscaling_groups_delete_with_http_info(group_id)
-          ui.warn("Deleted Group #{group.id}. Request ID: #{get_request_id headers}")
+          ui.warn("Deleted VM Autoscaling Group #{group.id}. Request ID: #{get_request_id headers}")
         end
       end
     end

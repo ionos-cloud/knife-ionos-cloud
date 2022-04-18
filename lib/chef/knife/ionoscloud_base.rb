@@ -23,7 +23,7 @@ class Chef
             warn_level = $VERBOSE
             $VERBOSE = nil
             require 'ionoscloud'
-            require 'ionoscloud-autoscaling'
+            require 'ionoscloud-vm-autoscaling'
             require 'ionoscloud-dbaas-postgres'
             $VERBOSE = warn_level
           end
@@ -83,10 +83,15 @@ class Chef
         ui.warn "The following options #{ignored_options} from the specified JSON file will be ignored." unless ignored_options.empty?
       end
 
-      def api_client
-        return @api_client if @api_client
+      def api_client_generic(sdk_module)
+        calling_sdk_client = caller[0][/`([^']*)'/, 1]
 
-        api_config = Ionoscloud::Configuration.new()
+        begin
+          return instance_variable_get("@#{calling_sdk_client}") if instance_variable_get("@#{calling_sdk_client}")
+        rescue NameError
+        end
+
+        api_config = sdk_module::Configuration.new()
 
         api_config.username = config[:ionoscloud_username]
         api_config.password = config[:ionoscloud_password]
@@ -102,36 +107,27 @@ class Chef
 
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        @api_client = Ionoscloud::ApiClient.new(api_config)
+        instance_variable_set("@#{calling_sdk_client}", sdk_module::ApiClient.new(api_config))
 
-        @api_client.user_agent =  [
+        instance_variable_get("@#{calling_sdk_client}").user_agent =  [
           'knife/v' + MODULE_VERSION,
-          @api_client.default_headers['User-Agent'],
-          'chef/' + Chef::VERSION,
+          instance_variable_get("@#{calling_sdk_client}").default_headers['User-Agent'],
+          'chef/v' + Chef::VERSION,
         ].join('_')
 
-        @api_client
+        instance_variable_get("@#{calling_sdk_client}")
       end
 
-      def api_client_dbaas
-        return @api_client_dbaas if @api_client_dbaas
+      def api_client
+        api_client_generic(Ionoscloud)
+      end
 
-        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
+      def api_client_dbaas_postgres
+        api_client_generic(IonoscloudDbaasPostgres)
+      end
 
-        api_config_dbaas.username = config[:ionoscloud_username]
-        api_config_dbaas.password = config[:ionoscloud_password]
-
-        api_config_dbaas.debugging = config[:ionoscloud_debug] || false
-
-        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
-
-        @api_client_dbaas.user_agent =  [
-          'knife/v' + MODULE_VERSION,
-          @api_client_dbaas.default_headers['User-Agent'],
-          'chef/' + Chef::VERSION,
-        ].join('_')
-
-        @api_client_dbaas
+      def api_client_vm_autoscaling
+        api_client_generic(IonoscloudVmAutoscaling)
       end
 
       def get_request_id(headers)

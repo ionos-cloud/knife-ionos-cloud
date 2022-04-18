@@ -22,7 +22,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterRestore do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      mock_dbaas_call_api(
+      mock_dbaas_postgres_call_api(
         subject,
         [
           {

@@ -34,7 +34,7 @@ class Chef
           ui.color('Location', :bold),
         ]
 
-        groups_api = IonoscloudAutoscaling::GroupsApi.new(api_client)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
         groups_api.autoscaling_groups_get({ depth: 1 }).items.each do |group|
           autoscaling_group_list << group.id

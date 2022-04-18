@@ -32,7 +32,7 @@ class Chef
           ui.color('Status', :bold),
         ]
 
-        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas)
+        clusters_api = IonoscloudDbaasPostgres::ClustersApi.new(api_client_dbaas_postgres)
 
         clusters_api.clusters_get(depth: 1).items.each do |cluster|
           dbaas_cluster_list << cluster.id
