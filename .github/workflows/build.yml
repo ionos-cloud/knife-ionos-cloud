@@ -1,3 +1,5 @@
+
+  
 name: Build
 on:
   push:
@@ -13,6 +15,21 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.61.1
+        with:
+          ruby-version: 2.7
+
+      - name: Install the knife plugin
+        run: bundle
+
+      - name: Run the tests
+        run: rspec
+      
+      - name: Update file paths in coverage.json
+        run: sed -i 's+/home/runner/work/knife-ionos-cloud/knife-ionos-cloud+/github/workspace+g' coverage/coverage.json
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

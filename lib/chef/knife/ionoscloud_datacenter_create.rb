@@ -22,16 +22,15 @@ class Chef
               long: '--location LOCATION',
               description: 'Location of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "Unless you are planning to manage an existing Ionoscloud environment, "\
-        "the first step will typically involve choosing the location for a new virtual data center"\
+        'Unless you are planning to manage an existing Ionoscloud environment, '\
+        'the first step will typically involve choosing the location for a new virtual data center'\
         "A list of locations can be obtained with location command.\n\n\t"\
         "```text\nknife ionoscloud location list\n```\n\n"\
         "Make a note of the desired location ID and now the data center can be created.\n"
+        @directory = 'compute-engine'
         @required_options = [:location, :ionoscloud_username, :ionoscloud_password]
       end
 

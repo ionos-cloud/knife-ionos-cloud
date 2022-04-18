@@ -27,14 +27,13 @@ class Chef
               long: '--share',
               description: 'The group has permission to share this resource.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Adds a specific resource share to a group and optionally allows the setting of permissions '\
         'for that resource. As an example, you might use this to grant permissions to use an image '\
         'or snapshot to a specific group.'
+        @directory = 'user'
         @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
       end
 

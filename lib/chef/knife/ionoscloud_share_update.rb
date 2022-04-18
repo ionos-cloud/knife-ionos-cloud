@@ -26,12 +26,11 @@ class Chef
               long: '--share SHARE_PRIVILEGE',
               description: 'The group has permission to share this resource.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Group Share.'
+        @directory = 'user'
         @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:edit_privilege, :share_privilege]
       end

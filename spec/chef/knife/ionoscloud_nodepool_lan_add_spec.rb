@@ -90,7 +90,7 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
     end
 
     it 'should call KubernetesApi.k8s_nodepools_put to update the lan when the ID is valid' do
-      new_gateway = '1.11.1.1'
+      new_gateway = '127.0.0.3'
       nodepool = k8s_nodepool_mock()
       nodepool_lan = nodepool_lan_mock(id: nodepool.properties.lans.first.id, gateway_ip: new_gateway)
       subject_config = {
@@ -168,7 +168,6 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
 
     it 'should not call LoadBalancersApi.datacenters_loadbalancers_delete when the ID is not valid' do
       nodepool = k8s_nodepool_mock
-      nic_id = 'invalid_id'
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -205,7 +204,6 @@ describe Chef::Knife::IonoscloudNodepoolLanAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

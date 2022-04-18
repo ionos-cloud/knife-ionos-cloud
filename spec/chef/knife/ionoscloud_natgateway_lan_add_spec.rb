@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudNatgatewayLanAdd do
   describe '#run' do
     it 'should call NATGatewaysApi.datacenters_natgateways_patch and add a new lan when need' do
       natgateway = natgateway_mock
-      lan = natgateway_lan_mock(lan_id: 2, gateway_ips: ['0.8.152.237/24'])
+      lan = natgateway_lan_mock(lan_id: 2, gateway_ips: ['127.0.0.9/24'])
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -84,7 +84,7 @@ describe Chef::Knife::IonoscloudNatgatewayLanAdd do
 
     it 'should call NATGatewaysApi.datacenters_natgateways_patch and update an existing lan when need' do
       natgateway = natgateway_mock
-      lan = natgateway_lan_mock(lan_id: 1, gateway_ips: ['0.8.152.237/24'])
+      lan = natgateway_lan_mock(lan_id: 1, gateway_ips: ['127.0.0.9/24'])
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
@@ -141,7 +141,6 @@ describe Chef::Knife::IonoscloudNatgatewayLanAdd do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

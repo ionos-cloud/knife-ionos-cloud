@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud ipblock delete IPBLOCK_ID [IPBLOCK_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Releases a currently assigned IP block.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -35,7 +34,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this IP block')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

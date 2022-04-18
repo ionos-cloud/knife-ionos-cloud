@@ -22,8 +22,8 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerUpdate do
         name: network_loadbalancer.properties.name + '_edited',
         listener_lan: Integer(network_loadbalancer.properties.listener_lan) + 1,
         target_lan: Integer(network_loadbalancer.properties.target_lan) + 1,
-        ips: (network_loadbalancer.properties.ips + ['3.3.3.3']).join(','),
-        lb_private_ips: (network_loadbalancer.properties.lb_private_ips + ['22.231.2.5/24']).join(','),
+        ips: (network_loadbalancer.properties.ips + ['127.0.0.3']).join(','),
+        lb_private_ips: (network_loadbalancer.properties.lb_private_ips + ['127.0.0.7/24']).join(','),
         yes: true,
       }
 
@@ -90,7 +90,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

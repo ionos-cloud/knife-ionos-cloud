@@ -22,12 +22,11 @@ class Chef
               long: '--node-id NODE_ID',
               description: 'ID of the load balancer'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given K8S Node.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :nodepool_id, :node_id, :ionoscloud_username, :ionoscloud_password]
       end
 

@@ -35,7 +35,7 @@ class Chef
       option :protocol,
               short: '-p PROTOCOL',
               long: '--protocol PROTOCOL',
-              description: "Protocol of the NAT gateway rule. Defaults to ALL. If protocol is "\
+              description: 'Protocol of the NAT gateway rule. Defaults to ALL. If protocol is '\
               "'ICMP' then target_port_range start and end cannot be set."
 
       option :source_subnet,
@@ -62,12 +62,11 @@ class Chef
               long: '--port-end PORT_RANGE_START',
               description: 'Target port range end associated with the NAT gateway rule'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud NAT Gateway.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :natgateway_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :type, :protocol, :source_subnet, :public_ip, :target_subnet,

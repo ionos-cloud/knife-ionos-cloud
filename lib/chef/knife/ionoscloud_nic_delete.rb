@@ -17,12 +17,11 @@ class Chef
               long: '--server-id SERVER_ID',
               description: 'The ID of the server assigned the NIC'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes an existing NIC from a server.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -46,7 +45,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this Nic')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

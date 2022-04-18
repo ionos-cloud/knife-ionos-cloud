@@ -40,12 +40,11 @@ class Chef
                           'IPs must contain valid subnet mask. If user will not provide any IP then the system '\
                           'will generate one IP with /24 subnet.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates an Network Load Balancer within the datacenter.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :name, :listener_lan, :target_lan, :ips, :ionoscloud_username, :ionoscloud_password]
       end
 

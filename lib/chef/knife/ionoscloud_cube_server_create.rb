@@ -104,12 +104,11 @@ class Chef
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
               'default value INGRESS'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This creates a new cube server with an attached volume and NIC in a specified virtual data center.'
+        @directory = 'compute-engine'
         @required_options = [
           :datacenter_id, :name, :template, :ionoscloud_username, :ionoscloud_password,
         ]
@@ -136,7 +135,7 @@ class Chef
             licence_type: config[:licence_type],
             backupunit_id: config[:backupunit_id],
             user_data: config[:user_data],
-          }.compact)
+          }.compact),
         )]
 
         nics = []
@@ -150,8 +149,8 @@ class Chef
                 dhcp: config[:dhcp],
                 lan: config[:lan],
                 firewall_type: config[:firewall_type],
-              }.compact)
-            )
+              }.compact),
+            ),
           ]
         end
 

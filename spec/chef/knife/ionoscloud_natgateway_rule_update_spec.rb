@@ -25,9 +25,9 @@ describe Chef::Knife::IonoscloudNatgatewayRuleUpdate do
         name: natgateway_rule.properties.name + '_edited',
         type: 'SNAT',
         protocol: 'UDP',
-        source_subnet: '10.2.1.1/24',
-        public_ip: '1.1.1.1',
-        target_subnet: '123.2.1.1/24',
+        source_subnet: '127.0.0.3/24',
+        public_ip: '127.0.0.3',
+        target_subnet: '127.0.0.3/24',
         target_port_range_start: natgateway_rule.properties.target_port_range.start + 10,
         target_port_range_end: natgateway_rule.properties.target_port_range._end + 1,
         yes: true,
@@ -83,7 +83,7 @@ describe Chef::Knife::IonoscloudNatgatewayRuleUpdate do
               targetPortRange: {
                 start: subject_config[:target_port_range_start],
                 end: subject_config[:target_port_range_end],
-              }
+              },
             },
             result: natgateway,
           },
@@ -104,7 +104,6 @@ describe Chef::Knife::IonoscloudNatgatewayRuleUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

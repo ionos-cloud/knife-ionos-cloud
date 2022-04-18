@@ -22,13 +22,12 @@ class Chef
               long: '--resource-id RESOURCE_ID',
               description: 'ID of the resource.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'List all Labels available to the user. Specify the type and required resource ID '\
         'to list labels for a specific resource instead.'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -57,9 +56,7 @@ class Chef
           validate_required_params([:resource_id], config)
           labels = label_api.snapshots_labels_get(config[:resource_id], opts)
         else
-          if !config[:type].nil?
-            ui.warn("#{config[:type]} is not a valid Resource Type. Returning all available labels.")
-          end
+          ui.warn("#{config[:type]} is not a valid Resource Type. Returning all available labels.") if !config[:type].nil?
           labels = label_api.labels_get(opts)
         end
 

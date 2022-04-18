@@ -20,13 +20,13 @@ describe Chef::Knife::IonoscloudNatgatewayUpdate do
         datacenter_id: 'datacenter_id',
         natgateway_id: natgateway.id,
         name: natgateway.properties.name + '_edited',
-        ips: (natgateway.properties.public_ips + ['3.3.3.3']).join(','),
+        ips: (natgateway.properties.public_ips + ['127.0.0.3']).join(','),
         lans: [
           {
             'id' => 1,
             'gateway_ips' => [
-              '10.8.152.227/24',
-              '10.8.152.227/24',
+              '127.0.0.3/24',
+              '127.0.0.4/24',
             ],
           },
         ],
@@ -35,8 +35,7 @@ describe Chef::Knife::IonoscloudNatgatewayUpdate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      parsed_lans = subject_config[:lans].map do
-        |lan|
+      parsed_lans = subject_config[:lans].map do |lan|
         Ionoscloud::NatGatewayLanProperties.new(
           id: lan['id'],
           gateway_ips: lan['gateway_ips'],
@@ -104,7 +103,6 @@ describe Chef::Knife::IonoscloudNatgatewayUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

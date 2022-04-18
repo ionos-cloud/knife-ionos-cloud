@@ -12,12 +12,11 @@ class Chef
               long: '--snapshot-id SNAPSHOT_ID',
               description: 'ID of the group.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the attributes of a given Snapshot.'
+        @directory = 'compute-engine'
         @required_options = [:snapshot_id, :ionoscloud_username, :ionoscloud_password]
       end
 

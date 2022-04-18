@@ -7,12 +7,11 @@ class Chef
 
       banner 'knife ionoscloud template list'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieve a list of available templates. Templates can be used on specific server types only (CUBE at the moment)'
+        @directory = 'compute-engine'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 

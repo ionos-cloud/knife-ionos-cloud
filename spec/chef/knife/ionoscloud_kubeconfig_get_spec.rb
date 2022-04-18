@@ -72,9 +72,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
       allow(subject).to receive(:puts)
       allow(subject).to receive(:print)
 
-      arrays_without_one_element(required_options).each {
-        |test_case|
-
+      arrays_without_one_element(required_options).each do |test_case|
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
@@ -85,7 +83,7 @@ describe Chef::Knife::IonoscloudKubeconfigGet do
         end
 
         required_options.each { |value| subject.config[value] = nil }
-      }
+      end
     end
   end
 end

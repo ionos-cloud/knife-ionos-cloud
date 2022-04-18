@@ -46,12 +46,11 @@ class Chef
                           'will generate one IP with /24 subnet.'
 
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Network Load Balancer.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :listener_lan, :target_lan, :ips, :lb_private_ips]
       end

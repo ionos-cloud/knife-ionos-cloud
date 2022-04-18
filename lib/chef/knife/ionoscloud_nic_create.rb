@@ -44,13 +44,12 @@ class Chef
               description: 'The type of firewall rules that will be allowed on the NIC. If it is not specified it will take the '\
               'default value INGRESS'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs "\
-        "can be used to create different, segmented networks on the platform."
+        'Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs '\
+        'can be used to create different, segmented networks on the platform.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :lan, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -68,7 +67,7 @@ class Chef
           ips: config[:ips],
           dhcp: config[:dhcp],
           lan: config[:lan],
-          firewall_type: config[:firewall_type]
+          firewall_type: config[:firewall_type],
         }.compact
 
         nic_api = Ionoscloud::NetworkInterfacesApi.new(api_client)

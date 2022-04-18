@@ -12,13 +12,12 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'Name of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes the specified volume. This will result in the volume being '\
         'removed from your virtual data center. Please use this with caution!'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -46,7 +45,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this volume')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

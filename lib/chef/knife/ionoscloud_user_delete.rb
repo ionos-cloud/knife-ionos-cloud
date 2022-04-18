@@ -7,14 +7,13 @@ class Chef
 
       banner 'knife ionoscloud user delete USER_ID [USER_ID]'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Blacklists the user, disabling them. The user is not completely purged, '\
         'therefore if you anticipate needing to create a user with the same name '\
         'in the future, we suggest renaming the user before you delete it.'
+        @directory = 'user'
         @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
@@ -39,7 +38,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this User')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

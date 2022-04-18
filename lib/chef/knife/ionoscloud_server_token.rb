@@ -17,12 +17,11 @@ class Chef
               long: '--server-id SERVER_ID',
               description: 'The ID of the Server.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Returns the server json web token to be used for login operations (ex: accessing the server console).'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
       end
 

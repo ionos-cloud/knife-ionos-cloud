@@ -17,12 +17,11 @@ class Chef
               long: '--s3-key S3KEY_ID',
               description: 'The ID of the S3 Key.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the properties of an S3 Key.'
+        @directory = 'user'
         @required_options = [:user_id, :s3_key_id, :ionoscloud_username, :ionoscloud_password]
       end
 

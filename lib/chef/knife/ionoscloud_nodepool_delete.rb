@@ -12,12 +12,11 @@ class Chef
               long: '--cluster-id CLUSTER_ID',
               description: 'The ID of the K8s Cluster'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Deletes a node pool within an existing Kubernetes cluster.'
+        @directory = 'kubernetes'
         @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -42,7 +41,7 @@ class Chef
 
           begin
             confirm('Do you really want to delete this K8s Nodepool')
-          rescue SystemExit => exc
+          rescue SystemExit
             next
           end
 

@@ -12,14 +12,13 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This will force a hard reboot of the server. Do not use this method '\
         'if you want to gracefully reboot the machine. This is the equivalent '\
         'of powering off the machine and turning it back on.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

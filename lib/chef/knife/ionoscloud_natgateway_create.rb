@@ -22,12 +22,11 @@ class Chef
               long: '--ips IP[,IP,...]',
               description: 'Collection of public IP addresses of the NAT gateway. Should be customer reserved IP addresses in that location'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Creates a new Nat Gateway under a data center.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 
@@ -44,7 +43,7 @@ class Chef
           properties: Ionoscloud::NatGatewayProperties.new(
             name: config[:name],
             public_ips: config[:ips],
-          )
+          ),
         )
 
         natgateway, _, headers = natgateways_api.datacenters_natgateways_post_with_http_info(config[:datacenter_id], natgateway)

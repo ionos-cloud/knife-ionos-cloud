@@ -96,14 +96,13 @@ class Chef
               long: '--annotations ANNOTATION [ANNOTATION]',
               description: 'map of annotations attached to node pool'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
-        "Creates a node pool into an existing Kubernetes cluster. "\
+        'Creates a node pool into an existing Kubernetes cluster. '\
         "The Kubernetes cluster must be in state \"ACTIVE\" before creating a node pool.\n\n"\
-        "The worker nodes within the node pools will be deployed into an existing data centers."
+        'The worker nodes within the node pools will be deployed into an existing data centers.'
+        @directory = 'kubernetes'
         @required_options = [
           :datacenter_id, :cluster_id, :name, :version, :node_count, :cpu_family, :cores, :ram,
           :availability_zone, :storage_type, :storage_size, :ionoscloud_username, :ionoscloud_password,

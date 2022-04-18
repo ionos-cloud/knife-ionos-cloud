@@ -25,12 +25,11 @@ class Chef
               long: '--sec-auth-protection SEC_AUTH_PROTECTION',
               description: 'Boolean value representing if the data center requires extra protection e.g. two factor protection'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Datacenter.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :description, :sec_auth_protection]
       end
@@ -45,13 +44,13 @@ class Chef
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating data center...', :magenta)}"
 
-          datacenter, _, headers  = datacenter_api.datacenters_patch_with_http_info(
+          _, _, headers  = datacenter_api.datacenters_patch_with_http_info(
             config[:datacenter_id],
             Ionoscloud::DatacenterProperties.new(
               name: config[:name],
               description: config[:description],
               sec_auth_protection: (config.key?(:sec_auth_protection) ? config[:sec_auth_protection].to_s.downcase == 'true' : nil),
-            )
+            ),
           )
 
           dot = ui.color('.', :magenta)

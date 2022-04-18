@@ -12,12 +12,11 @@ class Chef
               long: '--pcc-id PRIVATE_CROSS_CONNECT_ID',
               description: 'ID of the Private Cross Connect'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves information about a Ionoscloud Private Cross Connect.'
+        @directory = 'compute-engine'
         @required_options = [:pcc_id, :ionoscloud_username, :ionoscloud_password]
       end
 

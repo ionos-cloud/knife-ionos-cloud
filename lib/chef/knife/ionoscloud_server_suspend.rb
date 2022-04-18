@@ -12,13 +12,12 @@ class Chef
               long: '--datacenter-id DATACENTER_ID',
               description: 'ID of the data center'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'This will suspend a server. The operation can only be applied to Cube servers. '\
         'Note: The virtual machine will not be deleted, and the consumed resources will continue to be billed.'
+        @directory = 'compute-engine'
         @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
       end
 

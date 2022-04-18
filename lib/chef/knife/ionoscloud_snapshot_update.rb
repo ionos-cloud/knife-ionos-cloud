@@ -70,12 +70,11 @@ class Chef
               long: '--disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG',
               description: 'The licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Snapshot.'
+        @directory = 'compute-engine'
         @required_options = [:snapshot_id, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [
           :name, :description, :sec_auth_protection, :licence_type, :cpu_hot_plug, :cpu_hot_unplug, :ram_hot_plug, :ram_hot_unplug,

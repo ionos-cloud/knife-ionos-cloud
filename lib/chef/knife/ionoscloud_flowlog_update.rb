@@ -61,12 +61,11 @@ class Chef
               long: '--bucket BUCKET',
               description: 'S3 bucket name of an existing IONOS Cloud S3 bucket. Ex. bucketName/key'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Updates information about a Ionoscloud Flow Log.'
+        @directory = 'compute-engine'
         @required_options = [:flowlog_id, :datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
         @updatable_fields = [:name, :action, :direction, :bucket]
       end

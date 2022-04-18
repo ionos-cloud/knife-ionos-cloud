@@ -25,7 +25,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
         name: network_loadbalancer_rule.properties.name + '_edited',
         algorithm: 'LEAST_CONNECTION',
         protocol: 'HTTP',
-        listener_ip: '1.1.1.1',
+        listener_ip: '127.0.0.3',
         listener_port: network_loadbalancer_rule.properties.listener_port + 10,
         client_timeout: network_loadbalancer_rule.properties.health_check.client_timeout + 100,
         connect_timeout: network_loadbalancer_rule.properties.health_check.connect_timeout + 100,
@@ -33,7 +33,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
         retries: network_loadbalancer_rule.properties.health_check.retries + 1,
         targets: [
           {
-            'ip' => '1.1.1.1',
+            'ip' => '127.0.0.3',
             'port' => 11,
             'weight' => 15,
             'health_check' => {
@@ -43,7 +43,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
             },
           },
           {
-            'ip' => '1.1.1.1',
+            'ip' => '127.0.0.3',
             'port' => 14,
             'weight' => 18,
             'health_check' => {
@@ -58,8 +58,7 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      parsed_targets = subject_config[:targets].map do
-        |target|
+      parsed_targets = subject_config[:targets].map do |target|
         Ionoscloud::NetworkLoadBalancerForwardingRuleTarget.new(
           ip: target['ip'],
           port: target['port'],
@@ -146,7 +145,6 @@ describe Chef::Knife::IonoscloudNetworkloadbalancerRuleUpdate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

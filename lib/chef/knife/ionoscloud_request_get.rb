@@ -12,12 +12,11 @@ class Chef
               long: '--request-id REQUEST_ID',
               description: 'The ID of the Request.'
 
-      attr_reader :description, :required_options
-
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves the properties of a specific request based on the supplied request id.'
+        @directory = 'compute-engine'
         @required_options = [:request_id, :ionoscloud_username, :ionoscloud_password]
       end
 
