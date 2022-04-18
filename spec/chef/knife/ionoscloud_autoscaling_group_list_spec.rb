@@ -44,7 +44,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupList do
         autoscaling_group_list << autoscaling_group.properties.policy
         autoscaling_group_list << autoscaling_group.properties.replica_configuration
         autoscaling_group_list << autoscaling_group.properties.datacenter
-        autoscaling_group_list << autoscaling_group.properties.location 
+        autoscaling_group_list << autoscaling_group.properties.location
       end
 
       expect(subject.ui).to receive(:list).with(autoscaling_group_list, :uneven_columns_across, 10)
@@ -69,7 +69,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupList do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

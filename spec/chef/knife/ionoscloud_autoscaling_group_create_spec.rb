@@ -30,7 +30,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-     
+
       expect(subject).to receive(:puts).with("ID: #{autoscaling_group.id}")
       expect(subject).to receive(:puts).with("Max Replica Count: #{autoscaling_group.properties.max_replica_count}")
       expect(subject).to receive(:puts).with("Min Replica Count: #{autoscaling_group.properties.min_replica_count}")
@@ -64,7 +64,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

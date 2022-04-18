@@ -28,7 +28,7 @@ class Chef
               short: '-N NAME',
               long: '--name NAME',
               description: 'The type of object that has been created.'
-              
+
       option :policy,
               long: '--policy POLICY',
               description: 'The policy for the VM Autoscaling Group.'
@@ -36,7 +36,7 @@ class Chef
       option :replica_configuration,
               long: '--replica-configuration REPLICA_CONFIGURATION',
               description: 'The replica configuration for ionoscloud autoscaling group.'
-        
+
       option :resource_id,
               long: '--resource-id RESOURCE_ID',
               description: 'The id of the datacenter of the VM Autoscaling Group to create.'
@@ -68,8 +68,8 @@ class Chef
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating the VM Autoscaling Group...', :magenta)}"
-          
-          group_properties = IonoscloudVmAutoscaling::GroupUpdatableProperties.new(
+
+          vm_autoscaling_group_properties = IonoscloudVmAutoscaling::GroupUpdatableProperties.new(
             max_replica_count: (config[:max_replica_count].nil? ? nil : Integer(config[:max_replica_count])),
             min_replica_count: (config[:min_replica_count].nil? ? nil : Integer(config[:min_replica_count])),
             target_replica_count: (config[:target_replica_count].nil? ? nil : Integer(config[:target_replica_count])),

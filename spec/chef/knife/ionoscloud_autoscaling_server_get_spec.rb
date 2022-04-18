@@ -27,7 +27,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
       expect(subject).to receive(:puts).with("ID: #{group_server.id}")
       expect(subject).to receive(:puts).with("Datacenter Server: Server ID: #{group_server.properties.datacenter_server.id}, Type: #{group_server.properties.datacenter_server.type}")
       expect(subject).to receive(:puts).with("Name: #{group_server.properties.name}")
-      
+
 
       mock_vm_autoscaling_call_api(
         subject,
@@ -49,7 +49,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGrouServerpGet do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

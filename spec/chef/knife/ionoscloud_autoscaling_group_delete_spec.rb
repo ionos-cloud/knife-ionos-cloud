@@ -34,7 +34,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
       expect(subject).to receive(:puts).with("Datacenter: Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}")
       expect(subject).to receive(:puts).with("Location: #{autoscaling_group.properties.location}")
       expect(subject.ui).to receive(:warn).with("Deleted VM Autoscaling Group #{autoscaling_group.id}. Request ID: ")
-      
+
       mock_vm_autoscaling_call_api(
         subject,
         [
@@ -89,7 +89,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
       required_options = subject.instance_variable_get(:@required_options)
 
       arrays_without_one_element(required_options).each do |test_case|
-
         test_case[:array].each { |value| subject.config[value] = 'test' }
 
         expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")

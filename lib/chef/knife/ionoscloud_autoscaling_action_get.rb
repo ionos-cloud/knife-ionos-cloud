@@ -11,7 +11,7 @@ class Chef
               short: '-A ACTION_ID',
               long: '--action-id ACTION_ID',
               description: 'ID of the vm autoscaling action'
-              
+
       option :group_id,
               short: '-G GROUP_ID',
               long: '--group-id GROUP_ID',
@@ -33,9 +33,9 @@ class Chef
 
         print_autoscaling_action(
           IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling).autoscaling_groups_actions_find_by_id(
-            config[:action_id], 
+            config[:action_id],
             config[:group_id],
-            )
+            ),
           )
       end
     end
