@@ -2,7 +2,7 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudVmAutoscalingActionsList < Knife
+    class IonoscloudVmAutoscalingGroupActionsList < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscaling group actions list'
@@ -25,21 +25,23 @@ class Chef
         $stdout.sync = true
         handle_extra_config
         validate_required_params(@required_options, config)
-
         autoscaling_group_action_list = [
           ui.color('ID', :bold),
+          ui.color('Status', :bold),
           ui.color('Type', :bold),
+          ui.color('Target Replicas', :bold),
         ]
 
-        opts = { depth: 1 }
         groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
-        groups_api.autoscaling_groups_actions_get(config[:group_id], opts).items.each do |group_action|
+        groups_api.autoscaling_groups_actions_get(config[:group_id], depth: 1).items.each do |group_action|
           autoscaling_group_action_list << group_action.id
-          autoscaling_group_action_list << group_action.type
+          autoscaling_group_action_list << group_action.properties.action_status
+          autoscaling_group_action_list << group_action.properties.action_type
+          autoscaling_group_action_list << group_action.properties.target_replica_count
         end
 
-        puts ui.list(autoscaling_group_action_list, :uneven_columns_across, 2)
+        puts ui.list(autoscaling_group_action_list, :uneven_columns_across, 4)
       end
     end
   end

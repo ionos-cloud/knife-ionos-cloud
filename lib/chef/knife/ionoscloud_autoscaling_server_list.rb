@@ -27,15 +27,15 @@ class Chef
         validate_required_params(@required_options, config)
 
         autoscaling_group_server_list = [
-          ui.color('ID', :bold),
-          ui.color('TYPE', :bold),
+          ui.color('Autoscaling Server ID', :bold),
+          ui.color('Server ID', :bold),
         ]
 
         groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
-        groups_api.autoscaling_groups_servers_get(config[:group_id]).items.each do |group_server|
+        groups_api.autoscaling_groups_servers_get(config[:group_id], depth: 1).items.each do |group_server|
           autoscaling_group_server_list << group_server.id
-          autoscaling_group_server_list << group_server.type
+          autoscaling_group_server_list << group_server.properties.datacenter_server.id
         end
 
         puts ui.list(autoscaling_group_server_list, :uneven_columns_across, 2)

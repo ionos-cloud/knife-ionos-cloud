@@ -453,29 +453,26 @@ class Chef
         datacenter = "Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}"
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{autoscaling_group.id}"
-        puts "#{ui.color('Type', :cyan)}: #{autoscaling_group.type}"
-        puts "#{ui.color('Max Replica Count', :cyan)}: #{autoscaling_group.properties.max_replica_count}"
         puts "#{ui.color('Min Replica Count', :cyan)}: #{autoscaling_group.properties.min_replica_count}"
+        puts "#{ui.color('Max Replica Count', :cyan)}: #{autoscaling_group.properties.max_replica_count}"
         puts "#{ui.color('Target Replica Count', :cyan)}: #{autoscaling_group.properties.target_replica_count}"
         puts "#{ui.color('Name', :cyan)}: #{autoscaling_group.properties.name}"
         puts "#{ui.color('Policy', :cyan)}: #{autoscaling_group.properties.policy}"
         puts "#{ui.color('Replica Configuration', :cyan)}: #{autoscaling_group.properties.replica_configuration}"
-        puts "#{ui.color('Datacenter', :cyan)}: #{datacenter}"
+        puts "#{ui.color('Datacenter ID', :cyan)}: #{datacenter.id}"
         puts "#{ui.color('Location', :cyan)}: #{autoscaling_group.properties.location}"
       end
 
       def print_autoscaling_group_server(autoscaling_group_server)
-        datacenter_server = "Server ID: #{autoscaling_group_server.properties.datacenter_server.id}, Type: #{autoscaling_group_server.properties.datacenter_server.type}"
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{autoscaling_group_server.id}"
-        puts "#{ui.color('Datacenter Server', :cyan)}: #{datacenter_server}"
+        puts "#{ui.color('Datacenter Server', :cyan)}: #{autoscaling_group_server.properties.datacenter_server.id}"
         puts "#{ui.color('Name', :cyan)}: #{autoscaling_group_server.properties.name}"
       end
 
       def print_autoscaling_action (autoscaling_group_action)
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{autoscaling_group_action.id}"
-        puts "#{ui.color('Type', :cyan)}: #{autoscaling_group_action.type}"
         puts "#{ui.color('Action Status', :cyan)}: #{autoscaling_group_action.properties.action_status}"
         puts "#{ui.color('Action Type', :cyan)}: #{autoscaling_group_action.properties.action_type}"
         puts "#{ui.color('Target Replica Count', :cyan)}: #{autoscaling_group_action.properties.target_replica_count}"

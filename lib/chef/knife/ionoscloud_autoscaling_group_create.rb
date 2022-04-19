@@ -32,13 +32,9 @@ class Chef
               long: '--replica-configuration REPLICA_CONFIGURATION',
               description: 'The replica configuration for ionoscloud autoscaling group.'
 
-      option :resource_id,
-              long: '--resource-id RESOURCE_ID',
-              description: 'The id of the datacenter of the vm Autoscaling Group to create.'
-
-      option :resource_type,
-              long: '--resource-type RESOURCE_TYPE',
-              description: 'The type of the resource of the vm Autoscaling Group to create.'
+      option :datacenter_id,
+              long: '--datacenter-id DATACENTER_ID',
+              description: 'VMs for this autoscaling group will be created in this virtual data center.'
 
       option :location,
               short: '-L LOCATION',
@@ -52,7 +48,7 @@ class Chef
         @description =
         'Creates a new vm Autoscaling Group.'
         @required_options = [
-          :max_replica_count, :min_replica_count, :name, :policy, :replica_configuration, :resource_id, :resource_type,
+          :max_replica_count, :min_replica_count, :name, :policy, :replica_configuration, :datacenter_id,
           :location, :ionoscloud_username, :ionoscloud_password,
         ]
       end
@@ -67,28 +63,68 @@ class Chef
         config[:policy] = JSON[config[:policy]] if config[:policy] && config[:policy].instance_of?(String)
         config[:replica_configuration] = JSON[config[:replica_configuration]] if config[:replica_configuration] && config[:replica_configuration].instance_of?(String)
 
-        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
-
-        vm_autoscaling_group_properties = IonoscloudVmAutoscaling::GroupProperties.new(
-          max_replica_count: Integer(config[:max_replica_count]),
-          min_replica_count: Integer(config[:min_replica_count]),
-          target_replica_count: Integer(config[:target_replica_count]),
-          name: config[:name],
-          policy: config[:policy],
-          replica_configuration: config[:replica_configuration],
-          datacenter: IonoscloudVmAutoscaling::Resource.new(
-            id: config[:resource_id],
-            type: config[:resource_type],
+        config[:policy] = IonoscloudVmAutoscaling::GroupPolicy.new(
+          metric: config[:policy]['metric'],
+          range: config[:policy]['range'],
+          scale_in_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(
+              amount: config[:policy].dig('scale_in_action', 'amount'),
+              amount_type: config[:policy].dig('scale_in_action', 'amount_type'),
+              cooldown_period: config[:policy].dig('scale_in_action', 'cooldown_period'),
+              termination_policy: config[:policy].dig('scale_in_action', 'termination_policy'),
           ),
-          location: config[:location],
+          scale_in_threshold: config[:policy]['scale_in_threshold'],
+          scale_out_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(
+            amount: config[:policy].dig('scale_out_action', 'amount'),
+            amount_type: config[:policy].dig('scale_out_action', 'amount_type'),
+            cooldown_period: config[:policy].dig('scale_out_action', 'cooldown_period'),
+          ),
+          scale_out_threshold: config[:policy]['scale_out_threshold'],
+          unit: config[:policy]['unit'],
         )
 
-        vm_autoscaling_group = IonoscloudVmAutoscaling::Group.new()
-        vm_autoscaling_group.properties = vm_autoscaling_group_properties
+        config[:replica_configuration] = IonoscloudVmAutoscaling::ReplicaPropertiesPost.new(
+          availability_zone: config[:replica_configuration]['availability_zone'],
+          cores: config[:replica_configuration]['cores'],
+          cpu_family: config[:replica_configuration]['cpu_family'],
+          ram: config[:replica_configuration]['ram'],
+          nics: config[:replica_configuration].fetch('nics', []).map do |nic|
+            IonoscloudVmAutoscaling::ReplicaNic.new(
+              lan: Integer(nic['lan']),
+              name: nic['name'],
+              dhcp: nic['dhcp'],
+            )
+          end,
+          volumes: config[:replica_configuration].fetch('volumes', []).map do |volume|
+            IonoscloudVmAutoscaling::ReplicaVolumePost.new(
+              image: volume['image'],
+              name: volume['name'],
+              size: volume['size'],
+              ssh_keys: volume['ssh_keys'],
+              type: volume['type'],
+              user_data: volume['user_data'],
+              bus: volume['bus'],
+              image_password: volume['image_password'],
+            )
+          end,
+        )
 
-        vm_autoscaling_group = groups_api.autoscaling_groups_post(vm_autoscaling_group)
+        groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
-        print_autoscaling_group(vm_autoscaling_group)
+
+        vm_autoscaling_group = IonoscloudVmAutoscaling::Group.new(
+          properties: IonoscloudVmAutoscaling::GroupProperties.new(
+            max_replica_count: Integer(config[:max_replica_count]),
+            min_replica_count: Integer(config[:min_replica_count]),
+            target_replica_count: config[:target_replica_count].nil? ? nil : Integer(config[:target_replica_count]),
+            name: config[:name],
+            policy: config[:policy],
+            replica_configuration: config[:replica_configuration],
+            datacenter: { id: config[:datacenter_id] },
+            location: config[:location],
+          ),
+        )
+
+        print_autoscaling_group(groups_api.autoscaling_groups_post(vm_autoscaling_group))
       end
     end
   end
