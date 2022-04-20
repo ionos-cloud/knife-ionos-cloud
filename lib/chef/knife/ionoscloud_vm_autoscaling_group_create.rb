@@ -67,10 +67,10 @@ class Chef
           metric: config[:policy]['metric'],
           range: config[:policy]['range'],
           scale_in_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(
-              amount: config[:policy].dig('scale_in_action', 'amount'),
-              amount_type: config[:policy].dig('scale_in_action', 'amount_type'),
-              cooldown_period: config[:policy].dig('scale_in_action', 'cooldown_period'),
-              termination_policy: config[:policy].dig('scale_in_action', 'termination_policy'),
+            amount: config[:policy].dig('scale_in_action', 'amount'),
+            amount_type: config[:policy].dig('scale_in_action', 'amount_type'),
+            cooldown_period: config[:policy].dig('scale_in_action', 'cooldown_period'),
+            termination_policy: config[:policy].dig('scale_in_action', 'termination_policy'),
           ),
           scale_in_threshold: config[:policy]['scale_in_threshold'],
           scale_out_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(

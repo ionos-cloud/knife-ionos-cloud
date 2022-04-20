@@ -58,7 +58,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
           }
         end,
       }
-      
+
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',

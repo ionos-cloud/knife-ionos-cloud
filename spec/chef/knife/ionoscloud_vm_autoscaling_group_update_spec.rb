@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
       expect(subject).to receive(:puts).with("Location: #{autoscaling_group.properties.location}")
 
       expected_body = autoscaling_group.properties.to_hash
-      
+
       expected_body.delete(:location)
       expected_body[:replicaConfiguration].delete(:volumes)
       expected_body[:name] = subject_config[:name]

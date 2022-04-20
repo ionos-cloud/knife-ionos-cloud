@@ -67,7 +67,7 @@ class Chef
 
         if @updatable_fields.map { |el| config[el] }.any?
           print "#{ui.color('Updating the VM Autoscaling Group...', :magenta)}"
-          
+
           existing_group = groups_api.autoscaling_groups_find_by_id(config[:group_id])
 
           if config[:replica_configuration].nil?
@@ -110,10 +110,10 @@ class Chef
               metric: ternary(config[:policy]['metric'], existing_group.properties.policy.metric),
               range: ternary(config[:policy]['range'], existing_group.properties.policy.range),
               scale_in_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(
-                  amount: ternary(config[:policy].dig('scale_in_action', 'amount'), existing_group.properties.policy.scale_in_action.amount),
-                  amount_type: ternary(config[:policy].dig('scale_in_action', 'amount_type'), existing_group.properties.policy.scale_in_action.amount_type),
-                  cooldown_period: ternary(config[:policy].dig('scale_in_action', 'cooldown_period'), existing_group.properties.policy.scale_in_action.cooldown_period),
-                  termination_policy: ternary(config[:policy].dig('scale_in_action', 'termination_policy'), existing_group.properties.policy.scale_in_action.termination_policy),
+                amount: ternary(config[:policy].dig('scale_in_action', 'amount'), existing_group.properties.policy.scale_in_action.amount),
+                amount_type: ternary(config[:policy].dig('scale_in_action', 'amount_type'), existing_group.properties.policy.scale_in_action.amount_type),
+                cooldown_period: ternary(config[:policy].dig('scale_in_action', 'cooldown_period'), existing_group.properties.policy.scale_in_action.cooldown_period),
+                termination_policy: ternary(config[:policy].dig('scale_in_action', 'termination_policy'), existing_group.properties.policy.scale_in_action.termination_policy),
               ),
               scale_in_threshold: ternary(config[:policy]['scale_in_threshold'], existing_group.properties.policy.scale_in_threshold),
               scale_out_action: IonoscloudVmAutoscaling::GroupPolicyScaleInAction.new(

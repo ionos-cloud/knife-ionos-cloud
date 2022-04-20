@@ -32,7 +32,7 @@ class Chef
         validate_required_params(@required_options, config)
 
         print_autoscaling_action(IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling).autoscaling_groups_actions_find_by_id(
-            config[:action_id],
+                                   config[:action_id],
             config[:group_id],
           ),
         )
