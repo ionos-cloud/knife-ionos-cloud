@@ -29,6 +29,7 @@ class Chef
         autoscaling_group_server_list = [
           ui.color('Autoscaling Server ID', :bold),
           ui.color('Server ID', :bold),
+          ui.color('Server Name', :bold),
         ]
 
         groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
@@ -36,6 +37,7 @@ class Chef
         groups_api.autoscaling_groups_servers_get(config[:group_id], depth: 1).items.each do |group_server|
           autoscaling_group_server_list << group_server.id
           autoscaling_group_server_list << group_server.properties.datacenter_server.id
+          autoscaling_group_server_list << group_server.properties.name
         end
 
         puts ui.list(autoscaling_group_server_list, :uneven_columns_across, 2)

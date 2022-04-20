@@ -110,7 +110,6 @@ class Chef
 
         groups_api = IonoscloudVmAutoscaling::GroupsApi.new(api_client_vm_autoscaling)
 
-
         vm_autoscaling_group = IonoscloudVmAutoscaling::Group.new(
           properties: IonoscloudVmAutoscaling::GroupProperties.new(
             max_replica_count: Integer(config[:max_replica_count]),

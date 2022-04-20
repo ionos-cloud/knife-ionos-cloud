@@ -1,48 +1,42 @@
 require 'spec_helper'
-require 'ionoscloud_autoscaling_server_list'
+require 'ionoscloud_vm_autoscaling_server_get'
 
-Chef::Knife::IonoscloudVmAutoscalingGroupServerList.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupServerGet.load_deps
 
-describe Chef::Knife::IonoscloudVmAutoscalingGroupServerList do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupServerGet do
   before :each do
-    subject { Chef::Knife::IonoscloudVmAutoscalingGroupServerList.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupServerGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call GroupsApi.autoscaling_groups_servers_get' do
-      servers_group = vm_autoscaling_servers_group
+    it 'should call AutoscalingApi.autoscaling_groups_servers_find_by_id' do
+      group_server = vm_autoscaling_group_server_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         group_id: 'group_id',
+        server_id: group_server.id,
+        yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      servers_list = [
-        subject.ui.color('ID', :bold),
-        subject.ui.color('TYPE', :bold),
-      ]
-
-      servers_group.items.each do |server|
-        servers_list << server.id
-        servers_list << server.type
-      end
-
-      expect(subject.ui).to receive(:list).with(servers_list, :uneven_columns_across, 2)
+      expect(subject).to receive(:puts).with("ID: #{group_server.id}")
+      expect(subject).to receive(:puts).with("Datacenter Server: #{group_server.properties.datacenter_server.id}")
+      expect(subject).to receive(:puts).with("Server Name: #{group_server.properties.name}")
 
       mock_vm_autoscaling_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/servers",
-            operation: :'GroupsApi.autoscaling_groups_servers_get',
-            return_type: 'ServerCollection',
-            result: servers_group,
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/servers/#{subject_config[:server_id]}",
+            operation: :'GroupsApi.autoscaling_groups_servers_find_by_id',
+            return_type: 'Server',
+            result: group_server,
           },
         ],
       )

@@ -1,83 +1,47 @@
 require 'spec_helper'
-require 'ionoscloud_autoscaling_group_delete'
+require 'ionoscloud_vm_autoscaling_group_get'
 
-Chef::Knife::IonoscloudVmAutoscalingGroupCDelete.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupGet.load_deps
 
-describe Chef::Knife::IonoscloudVmAutoscalingGroupCDelete do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupGet do
   before :each do
-    subject { Chef::Knife::IonoscloudVmAutoscalingGroupCDelete.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call GroupsApi.autoscaling_groups_delete when the ID is valid' do
+    it 'should call AutoscalingApi.autoscaling_groups_actions_find_by_id' do
       autoscaling_group = vm_autoscaling_group_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
+        group_id: autoscaling_group.id,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [autoscaling_group.id]
 
       expect(subject).to receive(:puts).with("ID: #{autoscaling_group.id}")
-      expect(subject).to receive(:puts).with("Type: #{autoscaling_group.type}")
       expect(subject).to receive(:puts).with("Max Replica Count: #{autoscaling_group.properties.max_replica_count}")
       expect(subject).to receive(:puts).with("Min Replica Count: #{autoscaling_group.properties.min_replica_count}")
       expect(subject).to receive(:puts).with("Target Replica Count: #{autoscaling_group.properties.target_replica_count}")
       expect(subject).to receive(:puts).with("Name: #{autoscaling_group.properties.name}")
       expect(subject).to receive(:puts).with("Policy: #{autoscaling_group.properties.policy}")
       expect(subject).to receive(:puts).with("Replica Configuration: #{autoscaling_group.properties.replica_configuration}")
-      expect(subject).to receive(:puts).with("Datacenter: Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}")
+      expect(subject).to receive(:puts).with("Datacenter ID: #{autoscaling_group.properties.datacenter.id}")
       expect(subject).to receive(:puts).with("Location: #{autoscaling_group.properties.location}")
-      expect(subject.ui).to receive(:warn).with("Deleted VM Autoscaling Group #{autoscaling_group.id}. Request ID: ")
 
       mock_vm_autoscaling_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}",
             operation: :'GroupsApi.autoscaling_groups_find_by_id',
             return_type: 'Group',
             result: autoscaling_group,
-          },
-          {
-            method: 'DELETE',
-            path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
-            operation: :'GroupsApi.autoscaling_groups_delete',
-            return_type: nil,
-          },
-        ],
-      )
-
-      expect { subject.run }.not_to raise_error(Exception)
-    end
-
-    it 'should not call GroupsApi.autoscaling_groups_delete when the user ID is not valid' do
-      group_id = 'invalid_id'
-      subject_config = {
-        ionoscloud_username: 'email',
-        ionoscloud_password: 'password',
-      }
-
-      subject_config.each { |key, value| subject.config[key] = value }
-      subject.name_args = [group_id]
-
-      expect(subject.ui).to receive(:error).with("VM Autoscaling Group ID #{group_id} not found. Skipping.")
-
-      mock_vm_autoscaling_call_api(
-        subject,
-        [
-          {
-            method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{group_id}",
-            operation: :'GroupsApi.autoscaling_groups_find_by_id',
-            return_type: 'Group',
-            exception: IonoscloudVmAutoscaling::ApiError.new(code: 404),
           },
         ],
       )

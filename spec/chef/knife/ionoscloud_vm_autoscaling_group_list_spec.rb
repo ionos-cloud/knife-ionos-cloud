@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_autoscaling_group_list'
+require 'ionoscloud_vm_autoscaling_group_list'
 
 Chef::Knife::IonoscloudVmAutoscalingGroupList.load_deps
 
@@ -12,7 +12,7 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupList do
   end
 
   describe '#run' do
-    it 'should call GroupsApi.clusters_get' do
+    it 'should call GroupsApi.autoscaling_groups_get' do
       autoscaling_groups = vm_autoscaling_groups_mock
       subject_config = {
         ionoscloud_username: 'email',
@@ -23,31 +23,25 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupList do
 
       autoscaling_group_list = [
         subject.ui.color('ID', :bold),
-        subject.ui.color('Type', :bold),
-        subject.ui.color('Max Replica Count', :bold),
-        subject.ui.color('Min Replica Count', :bold),
-        subject.ui.color('Target Replica Count', :bold),
         subject.ui.color('Name', :bold),
-        subject.ui.color('Policy', :bold),
-        subject.ui.color('Replica Configuration', :bold),
-        subject.ui.color('Datacenter', :bold),
+        subject.ui.color('Min Replicas', :bold),
+        subject.ui.color('Max Replicas', :bold),
+        subject.ui.color('Target Replicas', :bold),
+        subject.ui.color('Datacenter ID', :bold),
         subject.ui.color('Location', :bold),
       ]
 
       autoscaling_groups.items.each do |autoscaling_group|
         autoscaling_group_list << autoscaling_group.id
-        autoscaling_group_list << autoscaling_group.type
-        autoscaling_group_list << autoscaling_group.properties.max_replica_count
-        autoscaling_group_list << autoscaling_group.properties.min_replica_count
-        autoscaling_group_list << autoscaling_group.properties.target_replica_count
         autoscaling_group_list << autoscaling_group.properties.name
-        autoscaling_group_list << autoscaling_group.properties.policy
-        autoscaling_group_list << autoscaling_group.properties.replica_configuration
-        autoscaling_group_list << autoscaling_group.properties.datacenter
+        autoscaling_group_list << autoscaling_group.properties.min_replica_count
+        autoscaling_group_list << autoscaling_group.properties.max_replica_count
+        autoscaling_group_list << autoscaling_group.properties.target_replica_count
+        autoscaling_group_list << autoscaling_group.properties.datacenter.id
         autoscaling_group_list << autoscaling_group.properties.location
       end
 
-      expect(subject.ui).to receive(:list).with(autoscaling_group_list, :uneven_columns_across, 10)
+      expect(subject.ui).to receive(:list).with(autoscaling_group_list, :uneven_columns_across, 7)
 
       mock_vm_autoscaling_call_api(
         subject,

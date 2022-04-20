@@ -1,48 +1,43 @@
 require 'spec_helper'
-require 'ionoscloud_autoscaling_action_list'
+require 'ionoscloud_vm_autoscaling_group_action_get'
 
-Chef::Knife::IonoscloudVmAutoscalingActionsList.load_deps
+Chef::Knife::IonoscloudVmAutoscalingGroupActionGet.load_deps
 
-describe Chef::Knife::IonoscloudVmAutoscalingActionsList do
+describe Chef::Knife::IonoscloudVmAutoscalingGroupActionGet do
   before :each do
-    subject { Chef::Knife::IonoscloudVmAutoscalingActionsList.new }
+    subject { Chef::Knife::IonoscloudVmAutoscalingGroupActionGet.new }
 
     allow(subject).to receive(:puts)
     allow(subject).to receive(:print)
   end
 
   describe '#run' do
-    it 'should call GroupsApi.autoscaling_groups_actions_get' do
-      vm_autoscaling_actions = vm_autoscaling_actions_mock
+    it 'should call AutoscalingApi.autoscaling_groups_actions_find_by_id' do
+      autoscaling_action = vm_autoscaling_action_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         group_id: 'group_id',
+        action_id: autoscaling_action.id,
+        yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
-      actions_list = [
-        subject.ui.color('ID', :bold),
-        subject.ui.color('Type', :bold),
-      ]
-
-      vm_autoscaling_actions.items.each do |action|
-        actions_list << action.id
-        actions_list << action.type
-      end
-
-      expect(subject.ui).to receive(:list).with(actions_list, :uneven_columns_across, 2)
+      expect(subject).to receive(:puts).with("ID: #{autoscaling_action.id}")
+      expect(subject).to receive(:puts).with("Action Status: #{autoscaling_action.properties.action_status}")
+      expect(subject).to receive(:puts).with("Action Type: #{autoscaling_action.properties.action_type}")
+      expect(subject).to receive(:puts).with("Target Replica Count: #{autoscaling_action.properties.target_replica_count}")
 
       mock_vm_autoscaling_call_api(
         subject,
         [
           {
             method: 'GET',
-            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/actions",
-            operation: :'GroupsApi.autoscaling_groups_actions_get',
-            return_type: 'ActionCollection',
-            result: vm_autoscaling_actions,
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}/actions/#{subject_config[:action_id]}",
+            operation: :'GroupsApi.autoscaling_groups_actions_find_by_id',
+            return_type: 'Action',
+            result: autoscaling_action,
           },
         ],
       )

@@ -2,7 +2,7 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudVmAutoscalingGroupCDelete < Knife
+    class IonoscloudVmAutoscalingGroupDelete < Knife
       include Knife::IonoscloudBase
 
       banner 'knife ionoscloud vm autoscaling group delete GROUP_ID [GROUP_ID]'

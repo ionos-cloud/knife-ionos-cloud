@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'ionoscloud_autoscaling_group_update'
+require 'ionoscloud_vm_autoscaling_group_update'
 
 Chef::Knife::IonoscloudVmAutoscalingGroupUpdate.load_deps
 
@@ -12,38 +12,52 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
   end
 
   describe '#run' do
-    it 'should call ClustersApi.clusters_patch' do
+    it 'should call GroupsApi.autoscaling_groups_put' do
       autoscaling_group = vm_autoscaling_group_mock
       subject_config = {
         ionoscloud_username: 'email',
         ionoscloud_password: 'password',
         group_id: autoscaling_group.id,
         name: autoscaling_group.properties.name + '_edited',
+        target_replica_count: autoscaling_group.properties.target_replica_count + 1,
+        max_replica_count: autoscaling_group.properties.max_replica_count + 1,
         yes: true,
       }
 
       subject_config.each { |key, value| subject.config[key] = value }
 
       expect(subject).to receive(:puts).with("ID: #{autoscaling_group.id}")
-      expect(subject).to receive(:puts).with("Type: #{autoscaling_group.type}")
-      expect(subject).to receive(:puts).with("Max Replica Count: #{autoscaling_group.properties.max_replica_count}")
       expect(subject).to receive(:puts).with("Min Replica Count: #{autoscaling_group.properties.min_replica_count}")
-      expect(subject).to receive(:puts).with("Target Replica Count: #{autoscaling_group.properties.target_replica_count}")
+      expect(subject).to receive(:puts).with("Max Replica Count: #{subject_config[:max_replica_count]}")
+      expect(subject).to receive(:puts).with("Target Replica Count: #{subject_config[:target_replica_count]}")
       expect(subject).to receive(:puts).with("Name: #{subject_config[:name]}")
       expect(subject).to receive(:puts).with("Policy: #{autoscaling_group.properties.policy}")
       expect(subject).to receive(:puts).with("Replica Configuration: #{autoscaling_group.properties.replica_configuration}")
-      expect(subject).to receive(:puts).with("Datacenter: Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}")
+      expect(subject).to receive(:puts).with("Datacenter ID: #{autoscaling_group.properties.datacenter.id}")
       expect(subject).to receive(:puts).with("Location: #{autoscaling_group.properties.location}")
 
-      expected_body = {
-        name: subject_config[:name],
-      }
+      expected_body = autoscaling_group.properties.to_hash
+      
+      expected_body.delete(:location)
+      expected_body[:replicaConfiguration].delete(:volumes)
+      expected_body[:name] = subject_config[:name]
+      expected_body[:targetReplicaCount] = subject_config[:target_replica_count]
+      expected_body[:maxReplicaCount] = subject_config[:max_replica_count]
 
       autoscaling_group.properties.name = subject_config[:name]
+      autoscaling_group.properties.max_replica_count = subject_config[:max_replica_count]
+      autoscaling_group.properties.target_replica_count = subject_config[:target_replica_count]
 
       mock_vm_autoscaling_call_api(
         subject,
         [
+          {
+            method: 'GET',
+            path: "/cloudapi/autoscaling/groups/#{subject_config[:group_id]}",
+            operation: :'GroupsApi.autoscaling_groups_find_by_id',
+            return_type: 'Group',
+            result: autoscaling_group,
+          },
           {
             method: 'PUT',
             path: "/cloudapi/autoscaling/groups/#{autoscaling_group.id}",
@@ -61,7 +75,6 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupUpdate do
           },
         ],
       )
-
       expect { subject.run }.not_to raise_error(Exception)
     end
 

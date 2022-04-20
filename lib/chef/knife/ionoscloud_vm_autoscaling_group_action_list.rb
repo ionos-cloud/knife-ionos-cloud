@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudVmAutoscalingGroupActionsList < Knife
+    class IonoscloudVmAutoscalingGroupActionList < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud vm autoscaling group actions list'
+      banner 'knife ionoscloud vm autoscaling group action list'
 
       option :group_id,
               short: '-G GROUP_ID',
@@ -25,6 +25,7 @@ class Chef
         $stdout.sync = true
         handle_extra_config
         validate_required_params(@required_options, config)
+
         autoscaling_group_action_list = [
           ui.color('ID', :bold),
           ui.color('Status', :bold),

@@ -2,10 +2,10 @@ require_relative 'ionoscloud_base'
 
 class Chef
   class Knife
-    class IonoscloudVmAutoscalingActionGet < Knife
+    class IonoscloudVmAutoscalingGroupActionGet < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud vm autoscaling action get (options)'
+      banner 'knife ionoscloud vm autoscaling group action get (options)'
 
       option :action_id,
               short: '-A ACTION_ID',

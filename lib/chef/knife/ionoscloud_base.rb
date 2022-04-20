@@ -55,6 +55,10 @@ class Chef
         end
       end
 
+      def ternary(a, b)
+        a.nil? ? b : a
+      end
+
       def validate_required_params(required_params, params)
         missing_params = required_params.select do |param|
           params[param].nil?
@@ -450,7 +454,6 @@ class Chef
       end
 
       def print_autoscaling_group(autoscaling_group)
-        datacenter = "Datacenter ID: #{autoscaling_group.properties.datacenter.id}, Type: #{autoscaling_group.properties.datacenter.type}"
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{autoscaling_group.id}"
         puts "#{ui.color('Min Replica Count', :cyan)}: #{autoscaling_group.properties.min_replica_count}"
@@ -459,7 +462,7 @@ class Chef
         puts "#{ui.color('Name', :cyan)}: #{autoscaling_group.properties.name}"
         puts "#{ui.color('Policy', :cyan)}: #{autoscaling_group.properties.policy}"
         puts "#{ui.color('Replica Configuration', :cyan)}: #{autoscaling_group.properties.replica_configuration}"
-        puts "#{ui.color('Datacenter ID', :cyan)}: #{datacenter.id}"
+        puts "#{ui.color('Datacenter ID', :cyan)}: #{autoscaling_group.properties.datacenter.id}"
         puts "#{ui.color('Location', :cyan)}: #{autoscaling_group.properties.location}"
       end
 
@@ -467,7 +470,7 @@ class Chef
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{autoscaling_group_server.id}"
         puts "#{ui.color('Datacenter Server', :cyan)}: #{autoscaling_group_server.properties.datacenter_server.id}"
-        puts "#{ui.color('Name', :cyan)}: #{autoscaling_group_server.properties.name}"
+        puts "#{ui.color('Server Name', :cyan)}: #{autoscaling_group_server.properties.name}"
       end
 
       def print_autoscaling_action (autoscaling_group_action)

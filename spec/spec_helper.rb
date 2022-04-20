@@ -970,8 +970,7 @@ def vm_autoscaling_group_mock(opts = {})
         ),],
       ),
       datacenter: opts[:datacenter] || IonoscloudVmAutoscaling::Resource.new(
-        id: opts[:id] || 'group_resource_id',
-        type: opts[:type] || 'group_resource_type',
+        id: opts[:datacenter_id] || SecureRandom.uuid,
       ),
       location: opts[:location] || 'us/las',
     )
@@ -999,9 +998,14 @@ def vm_autoscaling_action_mock(opts = {})
 end
 
 def vm_autoscaling_action_resource_mock(opts = {})
-  IonoscloudVmAutoscaling::ActionResource.new(
+  IonoscloudVmAutoscaling::Action.new(
     id: opts[:id] || SecureRandom.uuid,
-    type: opts[:type] || 'datacenter',
+    type: opts[:type] || 'action',
+    properties: IonoscloudVmAutoscaling::ActionProperties.new(
+      action_status: opts[:action_status] || 'SUCCESSFUL',
+      action_type: opts[:action_type] || 'SCALE_IN',
+      target_replica_count: opts[:targetReplicaCount] || 2,
+    ),
   )
 end
 
@@ -1027,9 +1031,15 @@ def vm_autoscaling_group_server_mock(opts = {})
 end
 
 def vm_autoscaling_server_resource_mock(opts = {})
-  IonoscloudVmAutoscaling::ActionResource.new(
+  IonoscloudVmAutoscaling::Server.new(
     id: opts[:id] || SecureRandom.uuid,
     type: opts[:type] || 'server',
+    properties: IonoscloudVmAutoscaling::ServerProperties.new(
+      datacenter_server: IonoscloudVmAutoscaling::DatacenterServer.new(
+        id: opts[:datacenter_server_id] || SecureRandom.uuid,
+      ),
+      name: opts[:name] || 'test_' + SecureRandom.uuid.to_s,
+    )
   )
 end
 
