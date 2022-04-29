@@ -17,7 +17,9 @@ class Chef
 
       option :target_replica_count,
               long: '--target-replica-count TARGET_REPLICA_COUNT',
-              description: 'The target number of VMs in this Group. Depending on the scaling policy, this number will be adjusted automatically. VMs will be created or destroyed automatically in order to adjust the actual number of VMs to this number. If targetReplicaCount is given in the request body then it must be >= minReplicaCount and <= maxReplicaCount.'
+              description: 'The target number of VMs in this Group. Depending on the scaling policy, this number will be adjusted '\
+              'automatically. VMs will be created or destroyed automatically in order to adjust the actual number of VMs to this '\
+              'number. If targetReplicaCount is given in the request body then it must be >= minReplicaCount and <= maxReplicaCount.'
 
       option :name,
               short: '-N NAME',
@@ -104,6 +106,8 @@ class Chef
               user_data: volume['user_data'],
               bus: volume['bus'],
               image_password: volume['image_password'],
+              image_alias: volume['image_alias'],
+              backupunit_id: volume['backupunit_id'],
             )
           end,
         )
