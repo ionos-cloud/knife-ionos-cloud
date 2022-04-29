@@ -55,6 +55,8 @@ describe Chef::Knife::IonoscloudVmAutoscalingGroupCreate do
             'type' => volume.type,
             'user_data' => volume.user_data,
             'image_password' => volume.image_password,
+            'image_alias' => volume.image_alias,
+            'backupunit_id' => volume.backupunit_id,
           }
         end,
       }

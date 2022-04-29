@@ -961,12 +961,14 @@ def vm_autoscaling_group_mock(opts = {})
         ram: opts[:cores] || 4096,
         volumes: opts[:nics] || [IonoscloudVmAutoscaling::ReplicaVolumePost.new(
           image: opts[:image] || SecureRandom.uuid,
+          image_alias: opts[:image_alias] || 'ubuntu:latest',
           name: opts[:name] || 'volume name',
           size: opts[:size] || 2048,
           ssh_keys: opts[:ssh_keys] || ['ssh_key_1'],
           type: opts[:name] || 'SSD',
           user_data: opts[:user_data] || 'user data',
           image_password: opts[:image_password] || 'image passw',
+          backupunit_id: opts[:backupunit_id] || SecureRandom.uuid,
         ),],
       ),
       datacenter: opts[:datacenter] || IonoscloudVmAutoscaling::Resource.new(
