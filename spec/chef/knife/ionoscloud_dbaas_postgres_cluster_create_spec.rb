@@ -21,6 +21,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterCreate do
         display_name: cluster.properties.display_name,
         postgres_version: cluster.properties.postgres_version,
         location: cluster.properties.location,
+        backup_location: cluster.properties.backup_location,
         instances: cluster.properties.instances,
         ram: cluster.properties.ram,
         cores: cluster.properties.cores,
@@ -47,6 +48,7 @@ describe Chef::Knife::IonoscloudDbaasPostgresClusterCreate do
       expect(subject).to receive(:puts).with("Display Name: #{cluster.properties.display_name}")
       expect(subject).to receive(:puts).with("Postgres Version: #{cluster.properties.postgres_version}")
       expect(subject).to receive(:puts).with("Location: #{cluster.properties.location}")
+      expect(subject).to receive(:puts).with("Backup location: #{cluster.properties.backup_location}")
       expect(subject).to receive(:puts).with("Instances: #{cluster.properties.instances}")
       expect(subject).to receive(:puts).with("RAM Size: #{cluster.properties.ram}")
       expect(subject).to receive(:puts).with("Cores: #{cluster.properties.cores}")

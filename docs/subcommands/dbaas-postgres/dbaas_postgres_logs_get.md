@@ -26,10 +26,13 @@ knife ionoscloud dbaas postgres logs get
         the maximal number of log lines to return.
 
     start: --start START
-        the start time for the query in RFC3339 format.
+        the start time for the query in RFC3339 format. Can also be specified as a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. Only hours and minutes ar supported, and not at the same time.
 
     end: --end END
-        the end time for the query in RFC3339 format.
+        the end time for the query in RFC3339 format. Can also be specified as a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. Only hours and minutes ar supported, and not at the same time.
+
+    direction: --direction DIRECTION
+        the direction in which to scan through the logs. The logs are returned in order of the direction. One of ["BACKWARD", "FORWARD"]
 
     ionoscloud_username: --username USERNAME, -u USERNAME
         your Ionoscloud username
@@ -44,5 +47,5 @@ knife ionoscloud dbaas postgres logs get
 ## Example
 
 ```text
-knife ionoscloud dbaas postgres logs get--url URL --extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --limit LIMIT --start START --end END --username USERNAME --password PASSWORD --token PASSWORD
+knife ionoscloud dbaas postgres logs get--extra-config EXTRA_CONFIG_FILE_PATH --cluster-id CLUSTER_ID --limit LIMIT --start START --end END --direction DIRECTION --username USERNAME --password PASSWORD --url URL
 ```

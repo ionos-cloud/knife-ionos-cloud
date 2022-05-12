@@ -24,6 +24,7 @@ class Chef
           ui.color('Display Name', :bold),
           ui.color('Postgres Version', :bold),
           ui.color('Location', :bold),
+          ui.color('Backup location', :bold),
           ui.color('Instances', :bold),
           ui.color('Datacenter ID', :bold),
           ui.color('Lan ID', :bold),
@@ -38,6 +39,7 @@ class Chef
           dbaas_cluster_list << cluster.properties.display_name
           dbaas_cluster_list << cluster.properties.postgres_version
           dbaas_cluster_list << cluster.properties.location
+          dbaas_cluster_list << cluster.properties.backup_location
           dbaas_cluster_list << cluster.properties.instances
           dbaas_cluster_list << cluster.properties.connections.first.datacenter_id
           dbaas_cluster_list << cluster.properties.connections.first.lan_id
@@ -45,7 +47,7 @@ class Chef
           dbaas_cluster_list << cluster.metadata.state
         end
 
-        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 9)
+        puts ui.list(dbaas_cluster_list, :uneven_columns_across, 10)
       end
     end
   end

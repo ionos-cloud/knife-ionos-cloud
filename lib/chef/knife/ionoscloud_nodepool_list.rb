@@ -30,6 +30,7 @@ class Chef
           ui.color('Name', :bold),
           ui.color('K8s Version', :bold),
           ui.color('Datacenter ID', :bold),
+          ui.color('Gateway IP', :bold),
           ui.color('Node Count', :bold),
           ui.color('Lan Count', :bold),
           ui.color('State', :bold),
@@ -42,11 +43,12 @@ class Chef
           nodepool_list << nodepool.properties.name
           nodepool_list << nodepool.properties.k8s_version
           nodepool_list << nodepool.properties.datacenter_id
+          nodepool_list << nodepool.properties.gateway_ip
           nodepool_list << nodepool.properties.node_count.to_s
           nodepool_list << nodepool.properties.lans.length
           nodepool_list << nodepool.metadata.state
         end
-        puts ui.list(nodepool_list, :uneven_columns_across, 7)
+        puts ui.list(nodepool_list, :uneven_columns_across, 8)
       end
     end
   end

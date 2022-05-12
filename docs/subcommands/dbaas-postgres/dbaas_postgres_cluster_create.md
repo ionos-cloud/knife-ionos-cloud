@@ -56,6 +56,9 @@ knife ionoscloud dbaas postgres cluster create (options)
                             be where all of your instances live. Property cannot be modified
                             after datacenter creation (disallowed in update requests) (required)
 
+    backup_location: --backup-location BACKUP_LOCATION
+        the S3 location where the backups will be stored.
+
     display_name: --name DISPLAY_NAME, -n DISPLAY_NAME
         the friendly name of your cluster. (required)
 
@@ -69,7 +72,7 @@ knife ionoscloud dbaas postgres cluster create (options)
         day Of the week when to perform the maintenance.
 
     synchronization_mode: --synchronization-mode SYNCHRONIZATION_MODE, -s SYNCHRONIZATION_MODE
-        represents different modes of replication (required)
+        represents different modes of replication. One of [ASYNCHRONOUS, SYNCHRONOUS, STRICTLY_SYNCHRONOUS] (required)
 
     username: --db-user DB_USERNAME
         the username for the initial postgres user.
@@ -97,5 +100,5 @@ knife ionoscloud dbaas postgres cluster create (options)
 ## Example
 
 ```text
-knife ionoscloud dbaas postgres cluster create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --token PASSWORD
+knife ionoscloud dbaas postgres cluster create --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --backup-location BACKUP_LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --url URL
 ```
