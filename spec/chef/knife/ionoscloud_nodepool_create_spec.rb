@@ -57,7 +57,6 @@ describe Chef::Knife::IonoscloudNodepoolCreate do
       expect(subject).to receive(:puts).with("RAM: #{nodepool.properties.ram_size}")
       expect(subject).to receive(:puts).with("Storage Type: #{nodepool.properties.storage_type}")
       expect(subject).to receive(:puts).with("Storage Size: #{nodepool.properties.storage_size}")
-      expect(subject).to receive(:puts).with("Gateway IP: #{nodepool.properties.gateway_ip}")
       expect(subject).to receive(:puts).with("Public IPs: #{nodepool.properties.public_ips}")
       expect(subject).to receive(:puts).with("Labels: #{nodepool.properties.labels}")
       expect(subject).to receive(:puts).with("Annotations: #{nodepool.properties.annotations}")

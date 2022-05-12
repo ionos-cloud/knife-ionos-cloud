@@ -81,10 +81,6 @@ class Chef
               long: '--lans LAN_ID [LAN_ID]',
               description: 'An array of additional private LANs attached to worker nodes'
 
-      option :gateway_ip,
-              long: '--gateway GATEWAY_IP',
-              description: "Public IP address for the gateway performing source NAT for the node pool's nodes belonging to a private cluster. Required only if the node pool belongs to a private cluster."
-
       option :public_ips,
               long: '--ips PUBLIC_IP [PUBLIC_IP]',
               description: 'Optional array of reserved public IP addresses to be used by the nodes. '\
@@ -138,7 +134,6 @@ class Chef
           availability_zone: config[:availability_zone],
           storage_type: config[:storage_type],
           storage_size: config[:storage_size],
-          gateway_ip: config[:gateway_ip],
           public_ips: config[:public_ips],
           labels: config[:labels],
           annotations: config[:annotations],
