@@ -100,5 +100,5 @@ knife ionoscloud dbaas postgres cluster create (options)
 ## Example
 
 ```text
-knife ionoscloud dbaas postgres cluster create --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --backup-location BACKUP_LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --url URL
+knife ionoscloud dbaas postgres cluster create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --backup-location BACKUP_LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --token PASSWORD
 ```

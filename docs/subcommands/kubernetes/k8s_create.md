@@ -53,5 +53,5 @@ knife ionoscloud k8s create (options)
 ## Example
 
 ```text
-knife ionoscloud k8s create --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --version VERSION --private --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET [SUBNET] --buckets S3_BUCKET [S3_BUCKET] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud k8s create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --version VERSION --private --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET [SUBNET] --buckets S3_BUCKET [S3_BUCKET] --username USERNAME --password PASSWORD --token PASSWORD
 ```
