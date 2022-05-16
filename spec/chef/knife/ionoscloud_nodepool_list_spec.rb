@@ -27,7 +27,6 @@ describe Chef::Knife::IonoscloudNodepoolList do
         subject.ui.color('Name', :bold),
         subject.ui.color('K8s Version', :bold),
         subject.ui.color('Datacenter ID', :bold),
-        subject.ui.color('Gateway IP', :bold),
         subject.ui.color('Node Count', :bold),
         subject.ui.color('Lan Count', :bold),
         subject.ui.color('State', :bold),
@@ -35,13 +34,12 @@ describe Chef::Knife::IonoscloudNodepoolList do
         k8s_nodepools.items.first.properties.name,
         k8s_nodepools.items.first.properties.k8s_version,
         k8s_nodepools.items.first.properties.datacenter_id,
-        k8s_nodepools.items.first.properties.gateway_ip,
         k8s_nodepools.items.first.properties.node_count.to_s,
         k8s_nodepools.items.first.properties.lans.length,
         k8s_nodepools.items.first.metadata.state,
       ]
 
-      expect(subject.ui).to receive(:list).with(nodepool_list, :uneven_columns_across, 8)
+      expect(subject.ui).to receive(:list).with(nodepool_list, :uneven_columns_across, 7)
 
       mock_call_api(
         subject,

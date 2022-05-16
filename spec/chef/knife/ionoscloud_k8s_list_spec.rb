@@ -24,19 +24,17 @@ describe Chef::Knife::IonoscloudK8sList do
       cluster_list = [
         subject.ui.color('ID', :bold),
         subject.ui.color('Name', :bold),
-        subject.ui.color('Public', :bold),
         subject.ui.color('Version', :bold),
         subject.ui.color('Maintenance Window', :bold),
         subject.ui.color('State', :bold),
         k8s_clusters.items.first.id,
         k8s_clusters.items.first.properties.name,
-        k8s_clusters.items.first.properties.public,
         k8s_clusters.items.first.properties.k8s_version,
         "#{k8s_clusters.items.first.properties.maintenance_window.day_of_the_week}, #{k8s_clusters.items.first.properties.maintenance_window.time}",
         k8s_clusters.items.first.metadata.state,
       ]
 
-      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 6)
+      expect(subject.ui).to receive(:list).with(cluster_list, :uneven_columns_across, 5)
 
       mock_call_api(
         subject,
