@@ -19,7 +19,7 @@ class Chef
         'a backup unit, you can access the GUI with a Single Sign On \(SSO\) URL that can be '\
         'retrieved from the Cloud API using this request.'
         @directory = 'backup'
-        @required_options = [:backupunit_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:backupunit_id]
       end
 
       def run

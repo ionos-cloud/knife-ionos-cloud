@@ -43,7 +43,7 @@ class Chef
         'here cannot be updated through the API currently. It is recommended that a new user '\
         'log into the DCD and change their password.'
         @directory = 'user'
-        @required_options = [:firstname, :lastname, :email, :password, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:firstname, :lastname, :email, :password]
       end
 
       def run

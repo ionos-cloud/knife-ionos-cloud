@@ -17,7 +17,7 @@ class Chef
         @description =
         'This will resume a suspended server. The operation can only be applied to suspended Cube servers. No billing event will be generated.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

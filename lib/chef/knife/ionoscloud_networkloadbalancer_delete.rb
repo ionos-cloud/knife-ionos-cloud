@@ -17,7 +17,7 @@ class Chef
         @description =
         'Removes the specified Network Load Balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

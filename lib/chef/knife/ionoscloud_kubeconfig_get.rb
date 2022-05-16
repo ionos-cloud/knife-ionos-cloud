@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieve the kubeconfig file for a given Kubernetes cluster.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run

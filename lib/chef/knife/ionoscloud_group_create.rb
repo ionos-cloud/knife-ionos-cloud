@@ -71,7 +71,7 @@ class Chef
         @description =
         'Use this operation to create a new group and set group privileges.'
         @directory = 'user'
-        @required_options = [:name, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:name]
       end
 
       def run

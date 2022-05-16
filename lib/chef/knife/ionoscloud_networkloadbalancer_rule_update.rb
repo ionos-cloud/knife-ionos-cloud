@@ -76,7 +76,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Network Load Balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :network_loadbalancer_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :network_loadbalancer_id]
         @updatable_fields = [
           :name, :algorithm, :protocol, :listener_ip, :listener_port, :targets,
           :client_timeout, :connect_timeout, :target_timeout, :retries,

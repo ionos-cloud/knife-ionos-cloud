@@ -22,7 +22,7 @@ class Chef
         @description =
         'Retrieve a list of Kubernetes Nodes in a Nodepool.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
       end
 
       def run

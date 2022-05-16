@@ -101,7 +101,7 @@ class Chef
         @directory = 'dbaas-postgres'
         @required_options = [
           :postgres_version, :instances, :cores, :ram, :storage_size, :storage_type,
-          :connections, :location, :display_name, :synchronization_mode, :username, :password, :ionoscloud_username, :ionoscloud_password,
+          :connections, :location, :display_name, :synchronization_mode, :username, :password,
         ]
       end
 

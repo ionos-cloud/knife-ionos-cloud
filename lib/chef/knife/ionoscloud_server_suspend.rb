@@ -18,7 +18,7 @@ class Chef
         'This will suspend a server. The operation can only be applied to Cube servers. '\
         'Note: The virtual machine will not be deleted, and the consumed resources will continue to be billed.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

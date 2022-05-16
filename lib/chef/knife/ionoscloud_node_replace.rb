@@ -27,7 +27,7 @@ class Chef
         'and migrates all the pods from the faulty node, deleting it once empty. '\
         'While this operation occurs, the nodepool will have an extra billable "ACTIVE" node.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
       end
 
       def run

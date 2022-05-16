@@ -14,7 +14,6 @@ class Chef
         'all objects contained within that data center -- servers, volumes, snapshots, and so on. '\
         'The objects -- once removed -- will be unrecoverable.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

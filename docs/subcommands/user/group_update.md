@@ -11,10 +11,11 @@ knife ionoscloud group update (options)
 ### Required options:
 
 * group\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -61,17 +62,17 @@ knife ionoscloud group update (options)
         privilege for a group to access and manage certificates.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud group update --extra-config EXTRA_CONFIG_FILE_PATH --group-id GROUP_ID --name NAME --create-datacenter CREATE_DATACENTER --create-snapshot CREATE_SNAPSHOT --reserve-ip RESERVE_IP --access-log ACCESS_ACTIVITY_LOG --s3 S3_PRIVILEGE --create-backupunit CREATE_BACKUPUNIT --create-k8s-cluster CREATE_K8S_CLUSTER --create-pcc CREATE_PCC --create-internet-access CREATE_INTERNET_ACCESS --create-flow-log CREATE_FLOW_LOG --manage-monitoring ACCESS_AND_MANAGE_MONITORING --manage-certificates ACCESS_AND_MANAGE_CERTIFICATES --username USERNAME --password PASSWORD --url URL
+knife ionoscloud group update --url URL --extra-config EXTRA_CONFIG_FILE_PATH --group-id GROUP_ID --name NAME --create-datacenter CREATE_DATACENTER --create-snapshot CREATE_SNAPSHOT --reserve-ip RESERVE_IP --access-log ACCESS_ACTIVITY_LOG --s3 S3_PRIVILEGE --create-backupunit CREATE_BACKUPUNIT --create-k8s-cluster CREATE_K8S_CLUSTER --create-pcc CREATE_PCC --create-internet-access CREATE_INTERNET_ACCESS --create-flow-log CREATE_FLOW_LOG --manage-monitoring ACCESS_AND_MANAGE_MONITORING --manage-certificates ACCESS_AND_MANAGE_CERTIFICATES --username USERNAME --password PASSWORD --token PASSWORD
 ```

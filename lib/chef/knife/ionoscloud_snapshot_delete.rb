@@ -12,7 +12,6 @@ class Chef
         @description =
         'Deletes the specified snapshot.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

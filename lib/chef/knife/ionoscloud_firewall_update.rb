@@ -80,7 +80,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Firewall Rule.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
         @updatable_fields = [
           :name, :protocol, :source_mac, :source_ip, :target_ip,
           :port_range_start, :port_range_end, :icmp_type, :icmp_code,

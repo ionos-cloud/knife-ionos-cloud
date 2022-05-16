@@ -22,7 +22,7 @@ class Chef
         @description =
         'Updates information about an IP Block.'
         @directory = 'compute-engine'
-        @required_options = [:ipblock_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:ipblock_id]
         @updatable_fields = [:name]
       end
 

@@ -15,10 +15,11 @@ knife ionoscloud networkloadbalancer rule add (options)
 * name
 * listener\_ip
 * listener\_port
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -59,17 +60,17 @@ knife ionoscloud networkloadbalancer rule add (options)
         array of targets
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud networkloadbalancer rule add --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --targets TARGETS --username USERNAME --password PASSWORD --url URL
+knife ionoscloud networkloadbalancer rule add --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --network-loadbalancer NETWORK_LOADBALANCER_ID --name NAME --algorithm ALGORITHM --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --connect-timeout CONNECT_TIMEOUT --terget-timeout TARGET_TIMEOUT --retries RETRIES --targets TARGETS --username USERNAME --password PASSWORD --token PASSWORD
 ```

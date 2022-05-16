@@ -48,7 +48,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud User.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
         @updatable_fields = [:firstname, :lastname, :email, :administrator, :force_sec_auth, :sec_auth_active, :active]
       end
 

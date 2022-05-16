@@ -36,7 +36,7 @@ class Chef
         @description =
         'Add a Label to a Resource.'
         @directory = 'compute-engine'
-        @required_options = [:type, :resource_id, :key, :value, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:type, :resource_id, :key, :value]
       end
 
       def run

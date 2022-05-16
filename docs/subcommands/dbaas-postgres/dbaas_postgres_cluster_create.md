@@ -22,10 +22,11 @@ knife ionoscloud dbaas postgres cluster create (options)
 * synchronization\_mode
 * username
 * password
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -87,17 +88,17 @@ knife ionoscloud dbaas postgres cluster create (options)
         recovery target time
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud dbaas postgres cluster create --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --backup-location BACKUP_LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --url URL
+knife ionoscloud dbaas postgres cluster create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --postgres-version POSTGRES_VERSION --instances INSTANCES --cores CORES --ram RAM --size STORAGE_SIZE --type STORAGE_TYPE --connections CONNECTIONS --location LOCATION --backup-location BACKUP_LOCATION --name DISPLAY_NAME --from-backup FROM_BACKUP --time TIME --day-of-the-week DAY_OF_THE_WEEK --synchronization-mode SYNCHRONIZATION_MODE --db-user DB_USERNAME --db-password DB_PASSWORD --backup-id BACKUP_ID --recovery-target-time RECOVERY_TARGET_TIME --username USERNAME --password PASSWORD --token PASSWORD
 ```

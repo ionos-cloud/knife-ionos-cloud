@@ -27,7 +27,7 @@ class Chef
         @description =
         'Creates a new Nat Gateway under a data center.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

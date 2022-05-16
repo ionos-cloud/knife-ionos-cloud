@@ -13,10 +13,11 @@ knife ionoscloud nic update (options)
 * datacenter\_id
 * server\_id
 * nic\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -45,17 +46,17 @@ knife ionoscloud nic update (options)
         the type of firewall rules that will be allowed on the NIC. If it is not specified it will take the default value INGRESS
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud nic update --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --ips IP[,IP,...] --dhcp DHCP --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --url URL
+knife ionoscloud nic update --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --server-id SERVER_ID --nic-id NIC_ID --name NAME --ips IP[,IP,...] --dhcp DHCP --lan ID --firewall-type FIREWALL_TYPE --username USERNAME --password PASSWORD --token PASSWORD
 ```

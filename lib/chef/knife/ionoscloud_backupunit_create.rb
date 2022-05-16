@@ -27,7 +27,7 @@ class Chef
         @description =
         'Create a new backup unit.'
         @directory = 'backup'
-        @required_options = [:name, :password, :email, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:name, :password, :email]
       end
 
       def run

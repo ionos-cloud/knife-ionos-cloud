@@ -12,7 +12,6 @@ class Chef
         @description =
         'Retrieve a list of all the backup units the supplied credentials have access to.'
         @directory = 'backup'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

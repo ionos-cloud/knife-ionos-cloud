@@ -41,7 +41,7 @@ class Chef
         'Creates a snapshot of a volume within the virtual data center. '\
         'You can use a snapshot to create a new storage volume or to restore a storage volume.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :volume_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :volume_id]
       end
 
       def run

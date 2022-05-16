@@ -22,7 +22,7 @@ class Chef
         @description =
         'Returns the server json web token to be used for login operations (ex: accessing the server console).'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id]
       end
 
       def run

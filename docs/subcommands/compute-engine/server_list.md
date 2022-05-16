@@ -11,10 +11,11 @@ knife ionoscloud server list (options)
 ### Required options:
 
 * datacenter\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -25,17 +26,17 @@ knife ionoscloud server list (options)
         it can be used to filter which servers can be upgraded
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud server list --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --upgrade-needed --username USERNAME --password PASSWORD --url URL
+knife ionoscloud server list --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --upgrade-needed --username USERNAME --password PASSWORD --token PASSWORD
 ```

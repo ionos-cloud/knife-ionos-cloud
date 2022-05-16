@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieve S3 object storage single signon URL for the given user.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
       end
 
       def run

@@ -11,10 +11,11 @@ knife ionoscloud group create (options)
 ### Required options:
 
 * name
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -58,17 +59,17 @@ knife ionoscloud group create (options)
         privilege for a group to access and manage certificates.
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud group create --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --create-flow-log --manage-monitoring --manage-certificates --username USERNAME --password PASSWORD --url URL
+knife ionoscloud group create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --create-datacenter --create-snapshot --reserve-ip --access-log --s3 --create-backupunit --create-k8s-cluster --create-pcc --create-internet-access --create-flow-log --manage-monitoring --manage-certificates --username USERNAME --password PASSWORD --token PASSWORD
 ```

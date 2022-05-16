@@ -45,7 +45,7 @@ class Chef
         @description =
         'Retrieves PostgreSQL logs based on the given parameters.'
         @directory = 'dbaas-postgres'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run

@@ -62,7 +62,7 @@ class Chef
         @description =
         'Adds a Rule to a Nat Gateway under a data center.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :natgateway_id, :name, :source_subnet, :public_ip, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :natgateway_id, :name, :source_subnet, :public_ip]
       end
 
       def run

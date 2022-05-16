@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given Ionoscloud User.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
       end
 
       def run

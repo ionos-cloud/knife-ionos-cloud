@@ -133,6 +133,7 @@ describe Chef::Knife::IonoscloudBaseTest do
     it 'should do nothing when all required params are in params' do
       required_params = [:param1, :param2]
       params = {
+        ionoscloud_token: 'token',
         param1: 'value',
         param2: 'value',
       }
@@ -143,10 +144,58 @@ describe Chef::Knife::IonoscloudBaseTest do
     it 'should raise an exception and output the missing params when there are missing params' do
       required_params = [:param1, :param2]
       params = {
+        ionoscloud_token: 'token',
         param1: 'value',
       }
 
       expect(subject).to receive(:puts).with("Missing required parameters #{[:param2]}")
+
+      expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+    end
+
+    it 'should raise an exception when no auth method is supplied' do
+      required_params = []
+      params = {
+        param1: 'value',
+      }
+
+      expect(subject).to receive(:puts).with(
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
+      )
+
+      expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+    end
+
+    it 'should raise an exception when no auth method is supplied correctly' do
+      required_params = []
+      params = {
+        param1: 'value',
+        ionoscloud_user: 'value',
+      }
+
+      expect(subject).to receive(:puts).with(
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
+      )
+
+      expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+    end
+
+    it 'should raise an exception when no auth method is supplied correctly 2' do
+      required_params = []
+      params = {
+        param1: 'value',
+        ionoscloud_password: 'value',
+      }
+
+      expect(subject).to receive(:puts).with(
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
+      )
 
       expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
         expect(error.status).to eq(1)

@@ -60,7 +60,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Volume.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :volume_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :volume_id]
         @updatable_fields = [
           :name, :size, :bus, :cpu_hot_plug, :ram_hot_plug, :nic_hot_plug, :nic_hot_unplug, :disc_virtio_hot_plug, :disc_virtio_hot_unplug,
         ]

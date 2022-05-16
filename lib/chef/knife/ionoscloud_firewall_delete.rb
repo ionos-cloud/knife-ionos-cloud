@@ -27,7 +27,7 @@ class Chef
         @description =
         'Deletes a firewall rule from an existing NIC.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id, :nic_id]
       end
 
       def run

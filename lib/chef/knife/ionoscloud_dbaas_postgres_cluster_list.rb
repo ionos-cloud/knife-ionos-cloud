@@ -12,7 +12,6 @@ class Chef
         @description =
         'Retrieves a list of PostgreSQL clusters.'
         @directory = 'dbaas-postgres'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

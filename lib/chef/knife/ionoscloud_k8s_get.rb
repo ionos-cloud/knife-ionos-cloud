@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieves information about a K8s Cluster.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run

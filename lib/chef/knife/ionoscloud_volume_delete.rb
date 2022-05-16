@@ -18,7 +18,7 @@ class Chef
         'Deletes the specified volume. This will result in the volume being '\
         'removed from your virtual data center. Please use this with caution!'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

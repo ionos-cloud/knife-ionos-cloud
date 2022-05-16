@@ -37,6 +37,10 @@ class Chef
                   long: '--password PASSWORD',
                   description: 'Your Ionoscloud password'
 
+          option :ionoscloud_token,
+                  long: '--token PASSWORD',
+                  description: 'Your Ionoscloud access token'
+
           option :ionoscloud_url,
                   long: '--url URL',
                   description: 'The Ionoscloud API URL'
@@ -55,6 +59,11 @@ class Chef
       end
 
       def validate_required_params(required_params, params)
+        if !params[:ionoscloud_token] && !(params[:ionoscloud_username] && params[:ionoscloud_password])
+          puts 'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.'
+          exit(1)
+        end
+
         missing_params = required_params.select do |param|
           params[param].nil?
         end
@@ -87,8 +96,12 @@ class Chef
 
         api_config = Ionoscloud::Configuration.new()
 
-        api_config.username = config[:ionoscloud_username]
-        api_config.password = config[:ionoscloud_password]
+        if config[:ionoscloud_token]
+          api_config.token = config[:ionoscloud_token]
+        else
+          api_config.username = config[:ionoscloud_username]
+          api_config.password = config[:ionoscloud_password]
+        end
 
         if config[:ionoscloud_url]
           uri = URI.parse(config[:ionoscloud_url])
@@ -117,8 +130,12 @@ class Chef
 
         api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
 
-        api_config_dbaas.username = config[:ionoscloud_username]
-        api_config_dbaas.password = config[:ionoscloud_password]
+        if config[:ionoscloud_token]
+          api_config_dbaas.token = config[:ionoscloud_token]
+        else
+          api_config_dbaas.username = config[:ionoscloud_username]
+          api_config_dbaas.password = config[:ionoscloud_password]
+        end
 
         api_config_dbaas.debugging = config[:ionoscloud_debug] || false
 

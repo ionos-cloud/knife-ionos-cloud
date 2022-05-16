@@ -19,7 +19,6 @@ class Chef
         'available for a cluster including the current version, '\
         'otherwise retrieves a list of all available PostgreSQL versions.'
         @directory = 'dbaas-postgres'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

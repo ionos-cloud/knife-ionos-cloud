@@ -71,7 +71,7 @@ class Chef
         @description =
         'Adds a Forwarding Rule to a Network Load Balancer under a data center.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :network_loadbalancer_id, :name, :listener_ip, :listener_port, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :network_loadbalancer_id, :name, :listener_ip, :listener_port]
       end
 
       def run

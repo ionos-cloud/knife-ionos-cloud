@@ -17,7 +17,6 @@ class Chef
         @description =
         'This retrieves a full list of all groups.'
         @directory = 'user'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

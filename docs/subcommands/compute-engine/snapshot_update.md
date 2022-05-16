@@ -11,10 +11,11 @@ knife ionoscloud snapshot update (options)
 ### Required options:
 
 * snapshot\_id
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -64,17 +65,17 @@ knife ionoscloud snapshot update (options)
         the licence type of the snapshot (LINUX, WINDOWS, UNKNOWN, OTHER)
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud snapshot update --extra-config EXTRA_CONFIG_FILE_PATH --snapshot-id SNAPSHOT_ID --name NAME --description DESCRIPTION --sec-auth-protection SEC_AUTH_PROTECTION --licence-type LICENCE --cpu-hot-plug CPU_HOT_PLUG --cpu-hot-unplug CPU_HOT_UNPLUG --ram-hot-plug RAM_HOT_PLUG --ram-hot-unplug RAM_HOT_UNPLUG --nic-hot-plug NIC_HOT_PLUG --nic-hot-unplug NIC_HOT_UNPLUG --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG --disc-scsi-hot-plug DISC_SCSI_HOT_PLUG --disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG --username USERNAME --password PASSWORD --url URL
+knife ionoscloud snapshot update --url URL --extra-config EXTRA_CONFIG_FILE_PATH --snapshot-id SNAPSHOT_ID --name NAME --description DESCRIPTION --sec-auth-protection SEC_AUTH_PROTECTION --licence-type LICENCE --cpu-hot-plug CPU_HOT_PLUG --cpu-hot-unplug CPU_HOT_UNPLUG --ram-hot-plug RAM_HOT_PLUG --ram-hot-unplug RAM_HOT_UNPLUG --nic-hot-plug NIC_HOT_PLUG --nic-hot-unplug NIC_HOT_UNPLUG --disc-virtio-hot_plug DISC_VIRTIO_HOT_PLUG --disc-virtio-hot_unplug DISC_VIRTIO_HOT_UNPLUG --disc-scsi-hot-plug DISC_SCSI_HOT_PLUG --disc-scsi-hot-unplug DISC_SCSI_HOT_UNPLUG --username USERNAME --password PASSWORD --token PASSWORD
 ```

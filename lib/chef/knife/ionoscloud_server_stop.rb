@@ -18,7 +18,7 @@ class Chef
         'This will stop a server. The machine will be forcefully powered off, '\
         'billing will cease, and the public IP, if one is allocated, will be deallocated.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run
