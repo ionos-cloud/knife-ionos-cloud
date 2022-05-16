@@ -19,3 +19,11 @@
 * added direction, since and until arguments to logs get command
 * added private argument to k8s cluster create
 * added gateway_ip argument to nodepool create
+
+## 6.1.2
+
+### Enhancements:
+
+* added token authentication
+* removed private argument from k8s create
+* removed gateway_ip argument from nodepool create
