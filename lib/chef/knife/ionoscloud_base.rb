@@ -221,7 +221,6 @@ class Chef
         s3_buckets = (cluster.properties.s3_buckets.nil? ? [] : cluster.properties.s3_buckets.map { |el| el.name })
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
         puts "#{ui.color('Name', :cyan)}: #{cluster.properties.name}"
-        puts "#{ui.color('Public', :cyan)}: #{cluster.properties.public}"
         puts "#{ui.color('k8s Version', :cyan)}: #{cluster.properties.k8s_version}"
         puts "#{ui.color('Maintenance Window', :cyan)}: #{maintenance_window}"
         puts "#{ui.color('State', :cyan)}: #{cluster.metadata.state}"
@@ -288,7 +287,6 @@ class Chef
         puts "#{ui.color('RAM', :cyan)}: #{nodepool.properties.ram_size}"
         puts "#{ui.color('Storage Type', :cyan)}: #{nodepool.properties.storage_type}"
         puts "#{ui.color('Storage Size', :cyan)}: #{nodepool.properties.storage_size}"
-        puts "#{ui.color('Gateway IP', :cyan)}: #{nodepool.properties.gateway_ip}"
         puts "#{ui.color('Public IPs', :cyan)}: #{nodepool.properties.public_ips}"
         puts "#{ui.color('Labels', :cyan)}: #{nodepool.properties.labels}"
         puts "#{ui.color('Annotations', :cyan)}: #{nodepool.properties.annotations}"
