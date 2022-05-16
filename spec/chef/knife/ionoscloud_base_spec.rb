@@ -162,7 +162,7 @@ describe Chef::Knife::IonoscloudBaseTest do
       }
 
       expect(subject).to receive(:puts).with(
-        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API',
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
       )
 
       expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
@@ -178,7 +178,7 @@ describe Chef::Knife::IonoscloudBaseTest do
       }
 
       expect(subject).to receive(:puts).with(
-        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API',
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
       )
 
       expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
@@ -194,7 +194,7 @@ describe Chef::Knife::IonoscloudBaseTest do
       }
 
       expect(subject).to receive(:puts).with(
-        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API',
+        'Either ionoscloud_token or ionoscloud_username and ionoscloud_password must be provided to access the Ionoscloud API.',
       )
 
       expect { subject.validate_required_params(required_params, params) }.to raise_error(SystemExit) do |error|
