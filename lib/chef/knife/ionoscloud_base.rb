@@ -24,6 +24,7 @@ class Chef
             $VERBOSE = nil
             require 'ionoscloud'
             require 'ionoscloud-dbaas-postgres'
+            require 'ionoscloud-container-registry'
             $VERBOSE = warn_level
           end
 
@@ -91,10 +92,15 @@ class Chef
         ui.warn "The following options #{ignored_options} from the specified JSON file will be ignored." unless ignored_options.empty?
       end
 
-      def api_client
-        return @api_client if @api_client
+      def api_client_generic(sdk_module)
+        calling_sdk_client = caller[0][/`([^']*)'/, 1]
 
-        api_config = Ionoscloud::Configuration.new()
+        begin
+          return instance_variable_get("@#{calling_sdk_client}") if instance_variable_get("@#{calling_sdk_client}")
+        rescue NameError
+        end
+
+        api_config = sdk_module::Configuration.new()
 
         if config[:ionoscloud_token]
           api_config.token = config[:ionoscloud_token]
@@ -102,6 +108,8 @@ class Chef
           api_config.username = config[:ionoscloud_username]
           api_config.password = config[:ionoscloud_password]
         end
+
+        api_config.verify_ssl = false
 
         if config[:ionoscloud_url]
           uri = URI.parse(config[:ionoscloud_url])
@@ -114,40 +122,27 @@ class Chef
 
         api_config.debugging = config[:ionoscloud_debug] || false
 
-        @api_client = Ionoscloud::ApiClient.new(api_config)
+        instance_variable_set("@#{calling_sdk_client}", sdk_module::ApiClient.new(api_config))
 
-        @api_client.user_agent =  [
+        instance_variable_get("@#{calling_sdk_client}").user_agent =  [
           'knife/v' + MODULE_VERSION,
-          @api_client.default_headers['User-Agent'],
-          'chef/' + Chef::VERSION,
+          instance_variable_get("@#{calling_sdk_client}").default_headers['User-Agent'],
+          'chef/v' + Chef::VERSION,
         ].join('_')
 
-        @api_client
+        instance_variable_get("@#{calling_sdk_client}")
       end
 
-      def api_client_dbaas
-        return @api_client_dbaas if @api_client_dbaas
+      def api_client
+        api_client_generic(Ionoscloud)
+      end
 
-        api_config_dbaas = IonoscloudDbaasPostgres::Configuration.new()
+      def api_client_dbaas_postgres
+        api_client_generic(IonoscloudDbaasPostgres)
+      end
 
-        if config[:ionoscloud_token]
-          api_config_dbaas.token = config[:ionoscloud_token]
-        else
-          api_config_dbaas.username = config[:ionoscloud_username]
-          api_config_dbaas.password = config[:ionoscloud_password]
-        end
-
-        api_config_dbaas.debugging = config[:ionoscloud_debug] || false
-
-        @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
-
-        @api_client_dbaas.user_agent =  [
-          'knife/v' + MODULE_VERSION,
-          @api_client_dbaas.default_headers['User-Agent'],
-          'chef/' + Chef::VERSION,
-        ].join('_')
-
-        @api_client_dbaas
+      def api_client_container_registry
+        api_client_generic(IonoscloudContainerRegistry)
       end
 
       def get_request_id(headers)
@@ -497,6 +492,17 @@ class Chef
         puts "#{ui.color('Is Active', :cyan)}: #{backup.properties.is_active}"
         puts "#{ui.color('Earliest Recovery Target Time', :cyan)}: #{backup.properties.earliest_recovery_target_time}"
         puts "#{ui.color('Created Date', :cyan)}: #{backup.metadata.created_date}"
+      end
+
+      def print_registry(registry)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{registry.id}"
+        puts "#{ui.color('Name', :cyan)}: #{registry.properties.name}"
+        puts "#{ui.color('Hostname', :cyan)}: #{registry.properties.hostname}"
+        puts "#{ui.color('Location', :cyan)}: #{registry.properties.location}"
+        puts "#{ui.color('Storage Used', :cyan)}: #{registry.properties.storage_usage}"
+        puts "#{ui.color('Maintenance Window', :cyan)}: #{registry.properties.maintenance_window}"
+        puts "#{ui.color('Garbage Collection Schedule', :cyan)}: #{registry.properties.garbage_collection_schedule}"
       end
     end
   end
