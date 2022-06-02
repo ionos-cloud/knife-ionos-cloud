@@ -504,6 +504,15 @@ class Chef
         puts "#{ui.color('Maintenance Window', :cyan)}: #{registry.properties.maintenance_window}"
         puts "#{ui.color('Garbage Collection Schedule', :cyan)}: #{registry.properties.garbage_collection_schedule}"
       end
+
+      def print_registry_token(registry_token)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{registry_token.id}"
+        puts "#{ui.color('Name', :cyan)}: #{registry_token.properties.name}"
+        puts "#{ui.color('Scopes', :cyan)}: #{registry_token.properties.scopes}"
+        puts "#{ui.color('Expiry Date', :cyan)}: #{registry_token.properties.expiry_date}"
+        puts "#{ui.color('Status', :cyan)}: #{registry_token.properties.status}"
+      end
     end
   end
 end
