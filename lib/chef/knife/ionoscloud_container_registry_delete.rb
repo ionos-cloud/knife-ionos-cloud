@@ -5,7 +5,7 @@ class Chef
     class IonoscloudContainerRegistryDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud container registry delete REGISTRY_ID [REGISTRY_ID]'
+      banner 'knife ionoscloud container registry delete (options) REGISTRY_ID [REGISTRY_ID]'
 
       option :wait_name_available,
               long: '--wait',

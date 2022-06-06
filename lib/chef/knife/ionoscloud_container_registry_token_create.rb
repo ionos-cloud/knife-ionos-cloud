@@ -62,7 +62,7 @@ class Chef
             properties: IonoscloudContainerRegistry::PostTokenProperties.new(
               name: config[:name],
               expiry_date: config[:expiry_date],
-              status: nil,
+              status: config[:status],
               scopes: config[:scopes],
             ),
           ),
