@@ -55,7 +55,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Server.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id]
         @updatable_fields = [:name, :cores, :cpu_family, :ram, :availability_zone, :boot_volume, :boot_cdrom]
       end
 

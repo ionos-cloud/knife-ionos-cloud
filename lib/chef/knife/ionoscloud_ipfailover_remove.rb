@@ -32,7 +32,7 @@ class Chef
         @description =
         'Remove IP Failover from LAN'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :lan_id, :ip, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :lan_id, :ip, :nic_id]
       end
 
       def run

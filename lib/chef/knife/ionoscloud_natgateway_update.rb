@@ -36,7 +36,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud NAT Gateway.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :natgateway_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :natgateway_id]
         @updatable_fields = [:name, :ips, :lans]
       end
 

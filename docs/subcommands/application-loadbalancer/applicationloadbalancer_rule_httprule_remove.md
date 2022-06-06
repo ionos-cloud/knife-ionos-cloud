@@ -17,6 +17,9 @@ knife ionoscloud applicationloadbalancer rule httprule remove HTTP_RULE_NAME [HT
 * ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -35,8 +38,8 @@ knife ionoscloud applicationloadbalancer rule httprule remove HTTP_RULE_NAME [HT
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example

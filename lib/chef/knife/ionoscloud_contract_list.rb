@@ -12,7 +12,6 @@ class Chef
         @description =
         'Lists information about available contract resources.'
         @directory = 'user'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

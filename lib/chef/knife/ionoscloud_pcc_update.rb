@@ -27,7 +27,7 @@ class Chef
         'Updates information about a Ionoscloud Private Cross Connect. In order to add LANs to the Private Cross Connect one should'\
         'update the LAN and change the pcc property using the ```text\knife ionscloud lan update\n``` command.'
         @directory = 'compute-engine'
-        @required_options = [:pcc_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:pcc_id]
         @updatable_fields = [:name, :description]
       end
 

@@ -22,7 +22,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given Group Share.'
         @directory = 'user'
-        @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id, :resource_id]
       end
 
       def run

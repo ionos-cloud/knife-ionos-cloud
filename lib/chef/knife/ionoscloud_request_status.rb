@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieves the status of a specific request based on the supplied request id.'
         @directory = 'compute-engine'
-        @required_options = [:request_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:request_id]
       end
 
       def run

@@ -17,7 +17,7 @@ class Chef
         @description =
         'Creates a new S3 key for a particular user.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
       end
 
       def run

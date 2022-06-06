@@ -22,7 +22,7 @@ class Chef
         @description =
         'Retrieves the properties of an S3 Key.'
         @directory = 'user'
-        @required_options = [:user_id, :s3_key_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id, :s3_key_id]
       end
 
       def run

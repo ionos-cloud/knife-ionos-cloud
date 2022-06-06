@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieves the attributes of a given Snapshot.'
         @directory = 'compute-engine'
-        @required_options = [:snapshot_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:snapshot_id]
       end
 
       def run

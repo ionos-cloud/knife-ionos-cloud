@@ -47,7 +47,7 @@ class Chef
         @description =
         'Retrieves information about a Ionoscloud Flow Log.'
         @directory = 'compute-engine'
-        @required_options = [:flowlog_id, :datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:flowlog_id, :datacenter_id, :type]
       end
 
       def run

@@ -35,7 +35,7 @@ class Chef
         @description =
         'Creates a load balancer within the VDC. Load balancers can be used for public or private IP traffic.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :name, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :name]
       end
 
       def run

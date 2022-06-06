@@ -12,7 +12,6 @@ class Chef
         @description =
         'Retrieve a list of Kubernetes clusters.'
         @directory = 'kubernetes'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

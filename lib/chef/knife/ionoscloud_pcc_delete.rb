@@ -12,7 +12,6 @@ class Chef
         @description =
         'Deletes a Private Cross-Connect.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

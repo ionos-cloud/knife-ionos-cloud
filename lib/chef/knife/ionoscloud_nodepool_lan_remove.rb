@@ -22,7 +22,7 @@ class Chef
         @description =
         'Adds or updates a LAN within a Nodepool.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
       end
 
       def run

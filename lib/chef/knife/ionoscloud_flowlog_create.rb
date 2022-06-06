@@ -61,7 +61,7 @@ class Chef
         @description =
         'This will add a Flow Log to the network interface, NAT Gateway or Network Load Balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :type]
       end
 
       def run

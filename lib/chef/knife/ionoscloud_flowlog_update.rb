@@ -66,7 +66,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Flow Log.'
         @directory = 'compute-engine'
-        @required_options = [:flowlog_id, :datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:flowlog_id, :datacenter_id, :type]
         @updatable_fields = [:name, :action, :direction, :bucket]
       end
 

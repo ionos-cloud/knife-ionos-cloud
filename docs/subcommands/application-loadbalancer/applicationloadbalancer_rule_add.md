@@ -19,6 +19,9 @@ knife ionoscloud applicationloadbalancer rule add (options)
 * ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -55,12 +58,12 @@ knife ionoscloud applicationloadbalancer rule add (options)
     ionoscloud_password: --password PASSWORD, -p PASSWORD
         your Ionoscloud password (required)
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud applicationloadbalancer rule add --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --application-loadbalancer APPLICATION_LOADBALANCER_ID --name NAME --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --certificates SERVER_CERTIFICATES --http-rules HTTP_RULES --username USERNAME --password PASSWORD --url URL
+knife ionoscloud applicationloadbalancer rule add --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --application-loadbalancer APPLICATION_LOADBALANCER_ID --name NAME --protocol PROTOCOL --ip LISTENER_IP --port LISTENER_PORT --client-timeout CLIENT_TIMEOUT --certificates SERVER_CERTIFICATES --http-rules HTTP_RULES --username USERNAME --password PASSWORD --token PASSWORD
 ```

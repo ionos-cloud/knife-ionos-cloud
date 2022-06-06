@@ -50,7 +50,7 @@ class Chef
         'Creates a NIC on the specified server. The Ionoscloud platform supports adding multiple NICs to a server. These NICs '\
         'can be used to create different, segmented networks on the platform.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :lan, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id, :lan]
       end
 
       def run

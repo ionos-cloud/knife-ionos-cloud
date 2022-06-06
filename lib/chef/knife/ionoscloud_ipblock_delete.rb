@@ -12,7 +12,6 @@ class Chef
         @description =
         'Releases a currently assigned IP block.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

@@ -76,7 +76,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Group.'
         @directory = 'user'
-        @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id]
         @updatable_fields = [
           :name, :create_data_center, :create_snapshot, :reserve_ip, :access_activity_log, :s3_privilege,
           :create_backup_unit, :create_k8s_cluster, :create_pcc, :create_internet_access,

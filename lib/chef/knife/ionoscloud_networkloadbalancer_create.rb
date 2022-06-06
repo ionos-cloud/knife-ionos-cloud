@@ -45,7 +45,7 @@ class Chef
         @description =
         'Creates an Network Load Balancer within the datacenter.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :name, :listener_lan, :target_lan, :ips, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :name, :listener_lan, :target_lan, :ips]
       end
 
       def run

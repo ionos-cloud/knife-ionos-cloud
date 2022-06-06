@@ -42,7 +42,7 @@ class Chef
         @description =
         'Lists all available flow logs assigned to a NIC, NAT Gateway or Network Load Balancer.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :type, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :type]
       end
 
       def run

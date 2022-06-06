@@ -27,7 +27,7 @@ class Chef
         @description =
         'Triggers an in-place restore of the given PostgreSQL.'
         @directory = 'dbaas-postgres'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run

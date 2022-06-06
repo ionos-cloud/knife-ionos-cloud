@@ -31,7 +31,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Group Share.'
         @directory = 'user'
-        @required_options = [:group_id, :resource_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id, :resource_id]
         @updatable_fields = [:edit_privilege, :share_privilege]
       end
 

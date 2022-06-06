@@ -510,6 +510,7 @@ def cluster_mock(opts = {})
       display_name: opts[:display_name] || 'dbaas_Cluster',
       postgres_version: opts[:postgres_version] || '10',
       location: opts[:location] || 'us/las',
+      backup_location: opts[:backup_location] || 'eu-central-2',
       instances: opts[:instances] || 2,
       ram: opts[:ram] || 8192,
       cores: opts[:cores] || 4,

@@ -75,7 +75,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Snapshot.'
         @directory = 'compute-engine'
-        @required_options = [:snapshot_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:snapshot_id]
         @updatable_fields = [
           :name, :description, :sec_auth_protection, :licence_type, :cpu_hot_plug, :cpu_hot_unplug, :ram_hot_plug, :ram_hot_unplug,
           :nic_hot_plug, :nic_hot_unplug, :disc_virtio_hot_plug, :disc_virtio_hot_unplug, :disc_scsi_hot_plug, :disc_scsi_hot_unplug,

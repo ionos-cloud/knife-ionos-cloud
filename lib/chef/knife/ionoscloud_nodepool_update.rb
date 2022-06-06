@@ -68,7 +68,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud K8s Nodepool.'
         @directory = 'kubernetes'
-        @required_options = [:cluster_id, :nodepool_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id, :nodepool_id]
         @updatable_fields = [
           :k8s_version, :node_count, :public_ips, :lans, :maintenance_day, :maintenance_time,
           :min_node_count, :max_node_count, :labels, :annotations,

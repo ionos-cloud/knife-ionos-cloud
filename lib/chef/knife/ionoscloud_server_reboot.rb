@@ -19,7 +19,7 @@ class Chef
         'if you want to gracefully reboot the machine. This is the equivalent '\
         'of powering off the machine and turning it back on.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

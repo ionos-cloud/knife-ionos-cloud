@@ -12,7 +12,6 @@ class Chef
         @description =
         'Deletes a Kubernetes cluster. The cluster cannot contain any node pools when deleting.'
         @directory = 'kubernetes'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

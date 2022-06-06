@@ -12,10 +12,11 @@ knife ionoscloud flowlog create (options)
 
 * datacenter\_id
 * type
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -50,17 +51,17 @@ knife ionoscloud flowlog create (options)
         s3 bucket name of an existing IONOS Cloud S3 bucket. Ex. bucketName/key
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud flowlog create --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --type FLOWLOG_TYPE --server-id SERVER_ID --nic-id NIC_ID --natgateway NAT_GATEWAY_ID --network-loadbalancer NETWORK_LOADBALANCER --name NAME --action ACTION --direction DIRECTION --bucket BUCKET --username USERNAME --password PASSWORD --url URL
+knife ionoscloud flowlog create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --datacenter-id DATACENTER_ID --type FLOWLOG_TYPE --server-id SERVER_ID --nic-id NIC_ID --natgateway NAT_GATEWAY_ID --network-loadbalancer NETWORK_LOADBALANCER --name NAME --action ACTION --direction DIRECTION --bucket BUCKET --username USERNAME --password PASSWORD --token PASSWORD
 ```

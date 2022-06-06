@@ -19,18 +19,33 @@ class Chef
 
       option :start,
               long: '--start START',
-              description: 'The start time for the query in RFC3339 format.'
+              description: 'The start time for the query in RFC3339 format. If both start and since are set, start will be used.'
+
+      option :since,
+              long: '--since SINCE',
+              description: 'The start time for the query using a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
+              'Only hours and minutes ar supported, and not at the same time. If both start and since are set, start will be used.'
 
       option :end,
               long: '--end END',
-              description: 'The end time for the query in RFC3339 format.'
+              description: 'The end time for the query in RFC3339 format. If both end and until are set, end will be used.'
+
+      option :until,
+              long: '--until UNTIL',
+              description: 'The end time for the query using a time delta since the current moment: 2h - 2 hours ago, 20m - 20 minutes ago. '\
+              'Only hours and minutes ar supported, and not at the same time. If both end and until are set, end will be used.'
+
+      option :direction,
+              long: '--direction DIRECTION',
+              description: 'The direction in which to scan through the logs. '\
+                           'The logs are returned in order of the direction. One of ["BACKWARD", "FORWARD"]'
 
       def initialize(args = [])
         super(args)
         @description =
         'Retrieves PostgreSQL logs based on the given parameters.'
         @directory = 'dbaas-postgres'
-        @required_options = [:cluster_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:cluster_id]
       end
 
       def run
@@ -38,12 +53,28 @@ class Chef
         handle_extra_config
         validate_required_params(@required_options, config)
 
+        def delta_to_date(delta)
+          return nil if delta.nil?
+
+          unit = delta[-1]
+          unless ['h', 'm'].include? unit
+            ui.error('Time delta may only be specified in hours(h) or minutes(m)!')
+            exit(1)
+          end
+
+          minute_count = Integer(delta[0..-2])
+          minute_count *= 60 if unit == 'h'
+
+          (Time.now - minute_count * 60).iso8601
+        end
+
         logs = IonoscloudDbaasPostgres::LogsApi.new(api_client_dbaas).cluster_logs_get(
           config[:cluster_id],
           {
             limit: (config[:limit] != nil ? Integer(config[:limit]) : nil),
-            start: config[:start],
-            end: config[:end],
+            start: config[:start].nil? ? delta_to_date(config[:since]) : config[:start],
+            _end: config[:end].nil? ? delta_to_date(config[:until]) : config[:end],
+            direction: config[:direction],
           },
         )
 

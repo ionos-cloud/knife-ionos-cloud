@@ -17,7 +17,7 @@ class Chef
         @description =
         'Use this operation to remove a user from a group.'
         @directory = 'user'
-        @required_options = [:group_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:group_id]
       end
 
       def run

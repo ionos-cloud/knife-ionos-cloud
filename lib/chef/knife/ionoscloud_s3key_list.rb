@@ -17,7 +17,7 @@ class Chef
         @description =
         'Retrieve a list of all the S3 keys for a specific user.'
         @directory = 'user'
-        @required_options = [:user_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:user_id]
       end
 
       def run

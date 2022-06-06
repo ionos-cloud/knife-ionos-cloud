@@ -12,7 +12,6 @@ class Chef
         @description =
         'Lists all available IP blocks.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

@@ -45,6 +45,10 @@ class Chef
                             be where all of your instances live. Property cannot be modified
                             after datacenter creation (disallowed in update requests)'
 
+      option :backup_location,
+              long: '--backup-location BACKUP_LOCATION',
+              description: 'The S3 location where the backups will be stored.'
+
       option :display_name,
               short: '-n DISPLAY_NAME',
               long: '--name DISPLAY_NAME',
@@ -67,7 +71,7 @@ class Chef
       option  :synchronization_mode,
                short: '-s SYNCHRONIZATION_MODE',
                long: '--synchronization-mode SYNCHRONIZATION_MODE',
-               description: 'Represents different modes of replication'
+               description: 'Represents different modes of replication. One of [ASYNCHRONOUS, SYNCHRONOUS, STRICTLY_SYNCHRONOUS]'
 
       option :username,
               long: '--db-user DB_USERNAME',
@@ -97,7 +101,7 @@ class Chef
         @directory = 'dbaas-postgres'
         @required_options = [
           :postgres_version, :instances, :cores, :ram, :storage_size, :storage_type,
-          :connections, :location, :display_name, :synchronization_mode, :username, :password, :ionoscloud_username, :ionoscloud_password,
+          :connections, :location, :display_name, :synchronization_mode, :username, :password,
         ]
       end
 
@@ -129,6 +133,7 @@ class Chef
           storage_type: config[:storage_type],
           connections: config[:connections],
           location: config[:location],
+          backup_location: config[:backup_location],
           display_name: config[:display_name],
           maintenance_window: (config[:time] && config[:day_of_the_week]) ? IonoscloudDbaasPostgres::MaintenanceWindow.new(
             time: config[:time],

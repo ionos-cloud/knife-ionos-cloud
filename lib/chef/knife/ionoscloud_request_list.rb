@@ -36,7 +36,6 @@ class Chef
         'return an array of request items. Each returned request item will have an id that can be '\
         'used to get additional information as described in the Get Request and Get Request Status sections.'
         @directory = 'compute-engine'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

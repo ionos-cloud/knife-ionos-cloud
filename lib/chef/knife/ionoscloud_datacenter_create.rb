@@ -31,7 +31,7 @@ class Chef
         "```text\nknife ionoscloud location list\n```\n\n"\
         "Make a note of the desired location ID and now the data center can be created.\n"
         @directory = 'compute-engine'
-        @required_options = [:location, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:location]
       end
 
       def run

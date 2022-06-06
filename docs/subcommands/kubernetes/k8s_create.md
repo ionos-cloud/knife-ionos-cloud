@@ -11,10 +11,11 @@ knife ionoscloud k8s create (options)
 ### Required options:
 
 * name
-* ionoscloud\_username
-* ionoscloud\_password
 
 ```text
+    ionoscloud_url: --url URL
+        the Ionoscloud API URL
+
     extra_config_file: --extra-config EXTRA_CONFIG_FILE_PATH, -e EXTRA_CONFIG_FILE_PATH
         path to the additional config file
 
@@ -37,17 +38,17 @@ knife ionoscloud k8s create (options)
         list of S3 bucket configured for K8s usage. For now it contains only an S3 bucket used to store K8s API audit logs
 
     ionoscloud_username: --username USERNAME, -u USERNAME
-        your Ionoscloud username (required)
+        your Ionoscloud username
 
     ionoscloud_password: --password PASSWORD, -p PASSWORD
-        your Ionoscloud password (required)
+        your Ionoscloud password
 
-    ionoscloud_url: --url URL
-        the Ionoscloud API URL
+    ionoscloud_token: --token PASSWORD
+        your Ionoscloud access token
 
 ```
 ## Example
 
 ```text
-knife ionoscloud k8s create --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET [SUBNET] --buckets S3_BUCKET [S3_BUCKET] --username USERNAME --password PASSWORD --url URL
+knife ionoscloud k8s create --url URL --extra-config EXTRA_CONFIG_FILE_PATH --name NAME --version VERSION --maintenance-day MAINTENANCE_DAY --maintenance-time MAINTENANCE_TIME --subnets SUBNET [SUBNET] --buckets S3_BUCKET [S3_BUCKET] --username USERNAME --password PASSWORD --token PASSWORD
 ```

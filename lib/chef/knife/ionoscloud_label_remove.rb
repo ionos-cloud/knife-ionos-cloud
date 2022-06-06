@@ -27,7 +27,7 @@ class Chef
         @description =
         'Remove a Label from a Resource.'
         @directory = 'compute-engine'
-        @required_options = [:type, :resource_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:type, :resource_id]
       end
 
       def run

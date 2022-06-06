@@ -14,7 +14,6 @@ class Chef
         'therefore if you anticipate needing to create a user with the same name '\
         'in the future, we suggest renaming the user before you delete it.'
         @directory = 'user'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

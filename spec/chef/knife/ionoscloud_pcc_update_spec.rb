@@ -65,17 +65,20 @@ describe Chef::Knife::IonoscloudPccUpdate do
     it 'should not make any call if any required option is missing' do
       required_options = subject.instance_variable_get(:@required_options)
 
-      arrays_without_one_element(required_options).each do |test_case|
-        test_case[:array].each { |value| subject.config[value] = 'test' }
+      if required_options.length > 0
+        arrays_without_one_element(required_options).each do |test_case|
+          subject.config[:ionoscloud_token] = 'token'
+          test_case[:array].each { |value| subject.config[value] = 'test' }
 
-        expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
-        expect(subject.api_client).not_to receive(:call_api)
+          expect(subject).to receive(:puts).with("Missing required parameters #{test_case[:removed]}")
+          expect(subject.api_client).not_to receive(:call_api)
 
-        expect { subject.run }.to raise_error(SystemExit) do |error|
-          expect(error.status).to eq(1)
+          expect { subject.run }.to raise_error(SystemExit) do |error|
+            expect(error.status).to eq(1)
+          end
+
+          required_options.each { |value| subject.config[value] = nil }
         end
-
-        required_options.each { |value| subject.config[value] = nil }
       end
     end
   end

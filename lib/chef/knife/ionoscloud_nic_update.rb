@@ -53,7 +53,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud NIC.'
         @directory = 'compute-engine'
-        @required_options = [:datacenter_id, :server_id, :nic_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id, :server_id, :nic_id]
         @updatable_fields = [:name, :ips, :dhcp, :lan, :nat]
       end
 
