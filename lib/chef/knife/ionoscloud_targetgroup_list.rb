@@ -13,7 +13,6 @@ class Chef
         super(args)
         @description = 'Lists all available Target Groups.'
         @directory = 'application-loadbalancer'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

@@ -28,7 +28,7 @@ class Chef
         @description =
         'Removes a Target from a Target Group if it exists.'
         @directory = 'application-loadbalancer'
-        @required_options = [:target_group_id, :ip, :port, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:target_group_id, :ip, :port]
       end
 
       def run

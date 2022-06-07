@@ -19,7 +19,7 @@ class Chef
         @description =
         'Removes the specified Application Load Balancer.'
         @directory = 'application-loadbalancer'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

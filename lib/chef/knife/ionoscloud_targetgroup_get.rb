@@ -19,7 +19,7 @@ class Chef
         @description =
         'Gets information about a Target Group.'
         @directory = 'application-loadbalancer'
-        @required_options = [:target_group_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:target_group_id]
       end
 
       def run

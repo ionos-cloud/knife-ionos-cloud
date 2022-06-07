@@ -14,7 +14,6 @@ class Chef
         @description =
         'Deletes a Target Group'
         @directory = 'application-loadbalancer'
-        @required_options = [:ionoscloud_username, :ionoscloud_password]
       end
 
       def run

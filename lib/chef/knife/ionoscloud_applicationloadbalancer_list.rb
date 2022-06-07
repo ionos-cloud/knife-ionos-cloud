@@ -19,7 +19,7 @@ class Chef
         @description =
         'Retrieve a list of Application Load Balancers within the datacenter.'
         @directory = 'application-loadbalancer'
-        @required_options = [:datacenter_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:datacenter_id]
       end
 
       def run

@@ -80,7 +80,7 @@ class Chef
         @description =
         'Updates information about a Ionoscloud Application LoadBalancer.'
         @directory = 'application-loadbalancer'
-        @required_options = [:target_group_id, :ionoscloud_username, :ionoscloud_password]
+        @required_options = [:target_group_id]
         @updatable_fields = [
           :name, :algorithm, :protocol, :check_timeout, :connect_timeout, :target_timeout,
           :retries, :path, :method, :match_type, :response, :regex, :negate, :targets,

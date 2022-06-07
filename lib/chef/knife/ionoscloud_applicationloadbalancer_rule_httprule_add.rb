@@ -72,7 +72,7 @@ class Chef
         'Adds a Http Rule to a Application Load Balancer Forwarding Rule under a data center or updates it if one already exists.'
         @directory = 'application-loadbalancer'
         @required_options = [
-          :datacenter_id, :application_loadbalancer_id, :forwarding_rule_id, :name, :type, :ionoscloud_username, :ionoscloud_password,
+          :datacenter_id, :application_loadbalancer_id, :forwarding_rule_id, :name, :type,
         ]
       end
 
