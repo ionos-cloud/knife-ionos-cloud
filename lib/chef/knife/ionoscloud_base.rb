@@ -53,9 +53,7 @@ class Chef
       end
 
       def msg_pair(label, value, color = :cyan)
-        if !value.nil? && !value.to_s.empty?
-          puts "#{ui.color(label, color)}: #{value}"
-        end
+        puts "#{ui.color(label, color)}: #{value}" if !value.nil? && !value.to_s.empty?
       end
 
       def validate_required_params(required_params, params)
@@ -84,7 +82,7 @@ class Chef
           if config.key?(key) || !ionoscloud_options.include?(key)
             ignored_options << key
           else
-            config[key] = value 
+            config[key] = value
           end
         end
 
@@ -116,7 +114,7 @@ class Chef
 
         @api_client = Ionoscloud::ApiClient.new(api_config)
 
-        @api_client.user_agent =  [
+        @api_client.user_agent = [
           'knife/v' + MODULE_VERSION,
           @api_client.default_headers['User-Agent'],
           'chef/' + Chef::VERSION,
@@ -141,7 +139,7 @@ class Chef
 
         @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
 
-        @api_client_dbaas.user_agent =  [
+        @api_client_dbaas.user_agent = [
           'knife/v' + MODULE_VERSION,
           @api_client_dbaas.default_headers['User-Agent'],
           'chef/' + Chef::VERSION,
@@ -182,8 +180,7 @@ class Chef
           regex: target_group.properties.http_health_check.regex,
           negate: target_group.properties.http_health_check.negate,
         }
-        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do
-          |target|
+        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do |target|
           {
             ip: target.ip,
             port: target.port,
@@ -544,9 +541,9 @@ class Chef
                     key: condition.key,
                     value: condition.value,
                   }
-                end
+                end,
               }
-            end
+            end,
           }
         end
       end
@@ -578,8 +575,7 @@ class Chef
           regex: target_group.properties.http_health_check.regex,
           negate: target_group.properties.http_health_check.negate,
         }
-        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do
-          |target|
+        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do |target|
           {
             ip: target.ip,
             port: target.port,
@@ -607,7 +603,7 @@ class Chef
 
       def print_cluster(cluster)
         connections = cluster.properties.connections.map { |connection| connection.to_hash }
-        
+
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
         puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"

@@ -111,7 +111,7 @@ def server_mock(opts = {})
     entities: Ionoscloud::ServerEntities.new(
       volumes: opts[:volumes] || [],
       nics: opts[:nics] || [],
-    )
+    ),
   )
 end
 
@@ -125,13 +125,13 @@ end
 
 def token_mock
   Ionoscloud::Token.new(
-    token: 'test_token'
+    token: 'test_token',
   )
 end
 
 def console_mock
   Ionoscloud::RemoteConsoleUrl.new(
-    url: 'test_url'
+    url: 'test_url',
   )
 end
 
@@ -250,7 +250,7 @@ def nic_mock(opts = {})
     ),
     entities: Ionoscloud::NicEntities.new(
       firewallrules: opts[:firewallrules] || [],
-    )
+    ),
   )
 end
 
@@ -298,7 +298,7 @@ def load_balancer_mock(opts = {})
     ),
     entities: Ionoscloud::LoadbalancerEntities.new(
       balancednics: opts[:nics] || nics_mock,
-    )
+    ),
   )
 end
 
@@ -383,7 +383,7 @@ def k8s_cluster_mock(opts = {})
         Ionoscloud::S3Bucket.new(name: 'test_name2'),
       ],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
-      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2']
+      viable_node_pool_versions: opts[:viable_node_pool_versions] || ['1.17.7', '1.18.2'],
     ),
     metadata: Ionoscloud::DatacenterElementMetadata.new(
       state: opts[:state] || 'ACTIVE',
@@ -435,8 +435,8 @@ def k8s_nodepool_mock(opts = {})
       lans: opts[:lans] || [nodepool_lan_mock(id: 12), nodepool_lan_mock(id: 15)],
       public_ips: opts[:public_ips] || ['127.173.1.2', '127.231.2.5', '127.221.2.4'],
       available_upgrade_versions: opts[:available_upgrade_versions] || ['1.16.4', '1.17.7'],
-      labels: opts[:labels] || { "test_labels": "test_labels" },
-      annotations: opts[:annotations] || { "test_annotations": "test_annotations" },
+      labels: opts[:labels] || { "test_labels": 'test_labels' },
+      annotations: opts[:annotations] || { "test_annotations": 'test_annotations' },
     ),
     metadata: Ionoscloud::KubernetesNodeMetadata.new(
       state: 'READY',
@@ -520,10 +520,10 @@ def cluster_mock(opts = {})
         datacenter_id: opts[:datacenter_id] || SecureRandom.uuid,
         lan_id: opts[:lan_id] || '1',
         cidr: opts[:cidr] || '127.0.0.3/24',
-      ),],
+      )],
       maintenance_window: opts[:maintenance_window] || IonoscloudDbaasPostgres::MaintenanceWindow.new(
-        time: opts[:time] || "00:29:15", 
-        day_of_the_week: opts[:day_of_the_week] || "Monday", 
+        time: opts[:time] || '00:29:15',
+        day_of_the_week: opts[:day_of_the_week] || 'Monday',
       ),
       synchronization_mode: opts[:synchronization_mode] || 'ASYNCHRONOUS',
     ),
@@ -702,9 +702,9 @@ def user_mock(opts = {})
     ),
     entities: Ionoscloud::UsersEntities.new(
       groups: Ionoscloud::Groups.new(
-        items: opts[:groups] || []
-      )
-    )
+        items: opts[:groups] || [],
+      ),
+    ),
   )
 end
 
@@ -722,7 +722,7 @@ def request_status_mock(opts = {})
     metadata: Ionoscloud::RequestStatusMetadata.new(
       status: opts[:status] || 'DONE',
       message: opts[:message] || 'Message',
-      targets: opts[:targets] || []
+      targets: opts[:targets] || [],
     ),
   )
 end
@@ -741,8 +741,8 @@ def request_mock(opts = {})
       method: opts[:method] || 'POST',
     ),
     metadata: Ionoscloud::RequestMetadata.new(
-      request_status: request_status_mock(opts)
-    )
+      request_status: request_status_mock(opts),
+    ),
   )
 end
 
@@ -871,7 +871,7 @@ def network_loadbalancer_mock(opts = {})
         type: 'collection',
         items: [],
       ),
-    })
+    }),
   )
 end
 
@@ -958,8 +958,8 @@ def application_loadbalancer_rule_mock(opts = {})
       listener_port: opts[:listener_port] || '22',
       client_timeout: opts[:client_timeout] || 2000,
       server_certificates: opts[:server_certificates] || [],
-      http_rules: opts.key?(:http_rules) ? opts[:http_rules] : [application_loadbalancer_rule_httprule_mock]
-    )
+      http_rules: opts.key?(:http_rules) ? opts[:http_rules] : [application_loadbalancer_rule_httprule_mock],
+    ),
   )
 end
 
@@ -983,7 +983,7 @@ def application_loadbalancer_mock(opts = {})
     }),
     entities: Ionoscloud::ApplicationLoadBalancerEntities.new({
       forwardingrules: opts.key?(:rules) ? opts[:rules] : application_loadbalancer_rules_mock,
-    })
+    }),
   )
 end
 
@@ -1064,7 +1064,7 @@ def cluster_backup_mock(opts = {})
       cluster_id: SecureRandom.uuid.to_s,
       is_active: true,
       version: opts[:version] || '10',
-      earliest_recovery_target_time: Time.now
+      earliest_recovery_target_time: Time.now,
     ),
     metadata: IonoscloudDbaasPostgres::Metadata.new(
       created_date: Time.now,
@@ -1097,7 +1097,6 @@ end
 def mock_dbaas_call_api(subject, rules)
   rules.each do |rule|
     expect(subject.api_client_dbaas).to receive(:call_api).once do |method, path, opts|
-      result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
 
       expect(method.to_s).to eq(rule[:method])
@@ -1108,9 +1107,7 @@ def mock_dbaas_call_api(subject, rules)
       expect(received_body).to eq(rule[:body] || nil)
       expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
 
-      if rule[:exception]
-        raise rule[:exception]
-      end
+      raise rule[:exception] if rule[:exception]
 
       rule[:result]
     end
@@ -1121,7 +1118,6 @@ end
 def mock_call_api(subject, rules)
   rules.each do |rule|
     expect(subject.api_client).to receive(:call_api).once do |method, path, opts|
-      result = nil
       received_body = opts[:body].nil? ? opts[:body] : JSON.parse(opts[:body], symbolize_names: true)
 
       expect(method.to_s).to eq(rule[:method])
@@ -1132,9 +1128,7 @@ def mock_call_api(subject, rules)
       expect(received_body).to eq(rule[:body] || nil)
       expect(opts.slice(*(rule[:options] || {}).keys)).to eql((rule[:options] || {}))
 
-      if rule[:exception]
-        raise rule[:exception]
-      end
+      raise rule[:exception] if rule[:exception]
 
       rule[:result]
     end
