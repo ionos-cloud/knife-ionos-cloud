@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetAdd do
   describe '#run' do
     it 'should call TargetGroupsApi.targetgroups_patch and add a new target when needed' do
       target_group = target_group_mock
-      target = target_group_target_mock(ip: '2.2.2.2', port: 22)
+      target = target_group_target_mock(ip: '127.0.0.2', port: 22)
 
       subject_config = {
         ionoscloud_username: 'email',

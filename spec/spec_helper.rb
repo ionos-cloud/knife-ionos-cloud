@@ -954,7 +954,7 @@ def application_loadbalancer_rule_mock(opts = {})
     properties: Ionoscloud::ApplicationLoadBalancerForwardingRuleProperties.new(
       name: opts[:name] || 'application_loadbalancer_rule_name',
       protocol: opts[:protocol] || 'HTTP',
-      listener_ip: opts[:listener_ip] || '1.1.1.1',
+      listener_ip: opts[:listener_ip] || '127.0.0.1',
       listener_port: opts[:listener_port] || '22',
       client_timeout: opts[:client_timeout] || 2000,
       server_certificates: opts[:server_certificates] || [],
@@ -976,10 +976,10 @@ def application_loadbalancer_mock(opts = {})
     id: opts[:id] || SecureRandom.uuid,
     properties: Ionoscloud::ApplicationLoadBalancerProperties.new({
       name: opts[:name] || 'application_loadbalancer_name',
-      ips: opts[:ips] || ['123.123.123.123'],
+      ips: opts[:ips] || ['127.0.0.123'],
       listener_lan: opts[:listener_lan] || 1,
       target_lan: opts[:target_lan] || 2,
-      lb_private_ips: opts[:lb_private_ips] || ['12.12.12.12'],
+      lb_private_ips: opts[:lb_private_ips] || ['127.0.0.12'],
     }),
     entities: Ionoscloud::ApplicationLoadBalancerEntities.new({
       forwardingrules: opts.key?(:rules) ? opts[:rules] : application_loadbalancer_rules_mock,
@@ -997,7 +997,7 @@ end
 
 def target_group_target_mock(opts = {})
   Ionoscloud::TargetGroupTarget.new(
-    ip: opts[:ip] || '1.1.1.1',
+    ip: opts[:ip] || '127.0.0.1',
     port: opts[:port] || 20,
     weight: opts[:weight] || 15,
     health_check_enabled: opts[:health_check_enabled] || true,

@@ -14,7 +14,7 @@ describe Chef::Knife::IonoscloudTargetgroupTargetRemove do
   describe '#run' do
     it 'should not call TargetGroupsApi.targetgroups_patch when the specified target does not exist in the Target Group' do
       target_group = target_group_mock
-      target = target_group_target_mock(ip: '2.2.2.2', port: 22)
+      target = target_group_target_mock(ip: '127.0.0.2', port: 22)
 
       subject_config = {
         ionoscloud_username: 'email',
