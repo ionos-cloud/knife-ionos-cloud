@@ -5,7 +5,7 @@ class Chef
     class IonoscloudContainerRegistryTokenDelete < Knife
       include Knife::IonoscloudBase
 
-      banner 'knife ionoscloud container registry delete (options) REGISTRY_ID [REGISTRY_ID]'
+      banner 'knife ionoscloud container registry token delete (options) TOKEN_ID [TOKEN_ID]'
 
       option :registry_id,
               short: '-R REGISTRY_ID',
