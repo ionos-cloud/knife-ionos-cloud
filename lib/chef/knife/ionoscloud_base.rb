@@ -53,9 +53,7 @@ class Chef
       end
 
       def msg_pair(label, value, color = :cyan)
-        if !value.nil? && !value.to_s.empty?
-          puts "#{ui.color(label, color)}: #{value}"
-        end
+        puts "#{ui.color(label, color)}: #{value}" if !value.nil? && !value.to_s.empty?
       end
 
       def validate_required_params(required_params, params)
@@ -84,7 +82,7 @@ class Chef
           if config.key?(key) || !ionoscloud_options.include?(key)
             ignored_options << key
           else
-            config[key] = value 
+            config[key] = value
           end
         end
 
@@ -116,7 +114,7 @@ class Chef
 
         @api_client = Ionoscloud::ApiClient.new(api_config)
 
-        @api_client.user_agent =  [
+        @api_client.user_agent = [
           'knife/v' + MODULE_VERSION,
           @api_client.default_headers['User-Agent'],
           'chef/' + Chef::VERSION,
@@ -141,7 +139,7 @@ class Chef
 
         @api_client_dbaas = IonoscloudDbaasPostgres::ApiClient.new(api_config_dbaas)
 
-        @api_client_dbaas.user_agent =  [
+        @api_client_dbaas.user_agent = [
           'knife/v' + MODULE_VERSION,
           @api_client_dbaas.default_headers['User-Agent'],
           'chef/' + Chef::VERSION,
@@ -165,6 +163,51 @@ class Chef
           exit(1)
         end
         response.metadata.status == 'DONE'
+      end
+
+      def get_target_group_extended_properties(target_group)
+        health_check = target_group.properties.health_check.nil? ? nil : {
+          check_timeout: target_group.properties.health_check.check_timeout,
+          connect_timeout: target_group.properties.health_check.connect_timeout,
+          target_timeout: target_group.properties.health_check.target_timeout,
+          retries: target_group.properties.health_check.retries,
+        }
+        http_health_check = target_group.properties.http_health_check.nil? ? nil : {
+          path: target_group.properties.http_health_check.path,
+          method: target_group.properties.http_health_check.method,
+          match_type: target_group.properties.http_health_check.match_type,
+          response: target_group.properties.http_health_check.response,
+          regex: target_group.properties.http_health_check.regex,
+          negate: target_group.properties.http_health_check.negate,
+        }
+        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do |target|
+          {
+            ip: target.ip,
+            port: target.port,
+            weight: target.weight,
+            health_check: target.health_check.nil? ? nil : {
+              check: target.health_check.check,
+              check_interval: target.health_check.check_interval,
+              maintenance: target.health_check.maintenance,
+            },
+          }
+        end
+
+        return health_check, http_health_check, targets
+      end
+
+      def print_target_group(target_group)
+        health_check, http_health_check, targets = get_target_group_extended_properties(target_group)
+
+        puts "\n"
+        puts "#{ui.color('ID', :cyan)}: #{target_group.id}"
+        puts "#{ui.color('Name', :cyan)}: #{target_group.properties.name}"
+        puts "#{ui.color('Algorithm', :cyan)}: #{target_group.properties.algorithm}"
+        puts "#{ui.color('Protocol', :cyan)}: #{target_group.properties.protocol}"
+        puts "#{ui.color('Health Check', :cyan)}: #{health_check}"
+        puts "#{ui.color('HTTP Health Check', :cyan)}: #{http_health_check}"
+        puts "#{ui.color('Targets', :cyan)}: #{targets}"
+        puts 'done'
       end
 
       def print_datacenter(datacenter)
@@ -469,9 +512,98 @@ class Chef
         puts "#{ui.color('Flowlogs', :cyan)}: #{natgateway.entities.flowlogs.items.map { |flowlog| flowlog.id }}"
       end
 
+      def get_application_loadbalancer_extended_properties(application_loadbalancer)
+        fw_rules = application_loadbalancer.entities.forwardingrules.items
+        fw_rules.nil? ? [] : fw_rules.map do |rule|
+          {
+            id: rule.id,
+            name: rule.properties.name,
+            protocol: rule.properties.protocol,
+            listener_ip: rule.properties.listener_ip,
+            listener_port: rule.properties.listener_port,
+            client_timeout: rule.properties.client_timeout,
+            server_certificates: rule.properties.server_certificates,
+            http_rules: rule.properties.http_rules.nil? ? [] : rule.properties.http_rules.map do |http_rule|
+              {
+                name: http_rule.name,
+                type: http_rule.type,
+                target_group: http_rule.target_group,
+                drop_query: http_rule.drop_query,
+                location: http_rule.location,
+                status_code: http_rule.status_code,
+                response_message: http_rule.response_message,
+                content_type: http_rule.content_type,
+                conditions: http_rule.conditions.nil? ? [] : http_rule.conditions.map do |condition|
+                  {
+                    type: condition.type,
+                    condition: condition.condition,
+                    negate: condition.negate,
+                    key: condition.key,
+                    value: condition.value,
+                  }
+                end,
+              }
+            end,
+          }
+        end
+      end
+
+      def print_application_loadbalancer(application_loadbalancer)
+        rules = get_application_loadbalancer_extended_properties(application_loadbalancer)
+
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{application_loadbalancer.id}"
+        puts "#{ui.color('Name', :cyan)}: #{application_loadbalancer.properties.name}"
+        puts "#{ui.color('Listener LAN', :cyan)}: #{application_loadbalancer.properties.listener_lan}"
+        puts "#{ui.color('Target LAN', :cyan)}: #{application_loadbalancer.properties.target_lan}"
+        puts "#{ui.color('IPS', :cyan)}: #{application_loadbalancer.properties.ips}"
+        puts "#{ui.color('Lb Private IPS', :cyan)}: #{application_loadbalancer.properties.lb_private_ips}"
+        puts "#{ui.color('Rules', :cyan)}: #{rules}"
+      end
+
+      def get_target_group_extended_properties(target_group)
+        health_check = target_group.properties.health_check.nil? ? nil : {
+          check_timeout: target_group.properties.health_check.check_timeout,
+          check_interval: target_group.properties.health_check.check_interval,
+          retries: target_group.properties.health_check.retries,
+        }
+        http_health_check = target_group.properties.http_health_check.nil? ? nil : {
+          path: target_group.properties.http_health_check.path,
+          method: target_group.properties.http_health_check.method,
+          match_type: target_group.properties.http_health_check.match_type,
+          response: target_group.properties.http_health_check.response,
+          regex: target_group.properties.http_health_check.regex,
+          negate: target_group.properties.http_health_check.negate,
+        }
+        targets = target_group.properties.targets.nil? ? [] : target_group.properties.targets.map do |target|
+          {
+            ip: target.ip,
+            port: target.port,
+            weight: target.weight,
+            health_check_enabled: target.health_check_enabled,
+            maintenance_enabled: target.maintenance_enabled,
+          }
+        end
+
+        return health_check, http_health_check, targets
+      end
+
+      def print_target_group(target_group)
+        health_check, http_health_check, targets = get_target_group_extended_properties(target_group)
+        print "\n"
+        puts "#{ui.color('ID', :cyan)}: #{target_group.id}"
+        puts "#{ui.color('Name', :cyan)}: #{target_group.properties.name}"
+        puts "#{ui.color('Algorithm', :cyan)}: #{target_group.properties.algorithm}"
+        puts "#{ui.color('Protocol', :cyan)}: #{target_group.properties.protocol}"
+        puts "#{ui.color('Health Check', :cyan)}: #{health_check}"
+        puts "#{ui.color('HTTP Health Check', :cyan)}: #{http_health_check}"
+        puts "#{ui.color('Targets', :cyan)}: #{targets}"
+        puts 'done'
+      end
+
       def print_cluster(cluster)
         connections = cluster.properties.connections.map { |connection| connection.to_hash }
-        
+
         print "\n"
         puts "#{ui.color('ID', :cyan)}: #{cluster.id}"
         puts "#{ui.color('Display Name', :cyan)}: #{cluster.properties.display_name}"
