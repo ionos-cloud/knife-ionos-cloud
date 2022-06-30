@@ -27,3 +27,9 @@
 * added token authentication
 * removed private argument from k8s create
 * removed gateway_ip argument from nodepool create
+
+## 6.2.0
+
+### Enhancements:
+
+* add commands for application load balancers and target groups
