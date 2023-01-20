@@ -37,7 +37,7 @@ describe Chef::Knife::IonoscloudCubeServerCreate do
         type: server.entities.volumes.items.first.properties.type,
         bus: server.entities.volumes.items.first.properties.bus,
         image: SecureRandom.uuid,
-        image_password: 'K3tTj8G14a3EgKyNeeiY',
+        image_password: [*'a'..'z', *0..9, *'A'..'Z'].shuffle[0..10].join,
         backupunit_id: server.entities.volumes.items.first.properties.backupunit_id,
         user_data: server.entities.volumes.items.first.properties.user_data,
 

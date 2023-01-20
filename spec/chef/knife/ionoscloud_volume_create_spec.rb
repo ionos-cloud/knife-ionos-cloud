@@ -23,7 +23,7 @@ describe Chef::Knife::IonoscloudVolumeCreate do
         type: volume.properties.type,
         bus: volume.properties.bus,
         availability_zone: volume.properties.availability_zone,
-        image_password: 'K3tTj8G14a3EgKyNeeiY',
+        image_password: [*'a'..'z', *0..9, *'A'..'Z'].shuffle[0..10].join,
         image: volume.properties.image,
         backupunit_id: volume.properties.backupunit_id,
         user_data: volume.properties.user_data,
