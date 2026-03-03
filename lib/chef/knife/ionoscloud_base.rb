@@ -74,16 +74,28 @@ class Chef
       def handle_extra_config
         return if config[:extra_config_file].nil?
 
+        path = config[:extra_config_file]
+
+        unless File.exist?(path)
+          ui.fatal "Extra config file '#{path}' does not exist."
+          exit(1)
+        end
+
         available_options = options.map { |key, _| key }
         ionoscloud_options = available_options[available_options.find_index(:ionoscloud_username)..]
         ignored_options = []
 
-        JSON[File.read(config[:extra_config_file])].transform_keys(&:to_sym).each do |key, value|
-          if config.key?(key) || !ionoscloud_options.include?(key)
-            ignored_options << key
-          else
-            config[key] = value
+        begin
+          JSON[File.read(path)].transform_keys(&:to_sym).each do |key, value|
+            if config.key?(key) || !ionoscloud_options.include?(key)
+              ignored_options << key
+            else
+              config[key] = value
+            end
           end
+        rescue Errno::EACCES, JSON::ParserError => e
+          ui.fatal "Failed to read or parse extra config file '#{path}': #{e.message}"
+          exit(1)
         end
 
         ui.warn "The following options #{ignored_options} from the specified JSON file will be ignored." unless ignored_options.empty?

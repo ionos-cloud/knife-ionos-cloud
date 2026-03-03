@@ -129,6 +129,34 @@ describe Chef::Knife::IonoscloudBaseTest do
     end
   end
 
+  describe '#handle_extra_config' do
+    it 'should do nothing when extra_config_file is not set' do
+      subject.config[:extra_config_file] = nil
+      expect { subject.handle_extra_config }.not_to raise_error
+    end
+
+    it 'should raise SystemExit when the config file does not exist' do
+      subject.config[:extra_config_file] = '/nonexistent/path.json'
+      allow(File).to receive(:exist?).with('/nonexistent/path.json').and_return(false)
+      expect(subject.ui).to receive(:fatal)
+
+      expect { subject.handle_extra_config }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+    end
+
+    it 'should raise SystemExit when the config file contains invalid JSON' do
+      subject.config[:extra_config_file] = '/valid/path.json'
+      allow(File).to receive(:exist?).with('/valid/path.json').and_return(true)
+      allow(File).to receive(:read).with('/valid/path.json').and_return('not: valid: json: {{{')
+      expect(subject.ui).to receive(:fatal)
+
+      expect { subject.handle_extra_config }.to raise_error(SystemExit) do |error|
+        expect(error.status).to eq(1)
+      end
+    end
+  end
+
   describe '#validate_required_params' do
     it 'should do nothing when all required params are in params' do
       required_params = [:param1, :param2]
